@@ -355,6 +355,12 @@ export default function Home() {
             icon: "pen",
           },
           {
+            label: "galdr",
+            href: "https://galdr.aaenz.no",
+            description: "呪文歌",
+            icon: "globe",
+          },
+          {
             label: "retro",
             href: "https://myawesomecoolwebsite.aaenz.no/",
             description: "懐かしい",
