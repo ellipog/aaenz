@@ -1,0 +1,22 @@
+Tagline:
+Map the terrain before you build.
+
+About:
+Aaen Studios is an independent software and game development shop. We build digital tools, interactive experiences, and open-source software — from Japanese language learning platforms to developer utilities.
+
+We sit between practical utility and interactive entertainment. Every project starts the same way: survey the terrain, understand the contours, then lay the path. That means scoping honestly, prototyping early, and shipping when it's ready — not when the calendar says so. We don't build on ground we haven't walked.
+
+Current work spans three areas:
+
+EdTech & Interactive — Modern language learning applications for Japanese, built as interactive web systems with recurring subscription models. Curriculum is mapped like terrain — each concept placed where it builds naturally on the last, nothing taught before it can be understood. The path is gradual, but it goes somewhere.
+
+Open-Source — Repositories and system utilities that solve real problems for other developers. Clean, minimal surface area. No abandoned repos, no half-documented APIs. If we publish it, we use it — and we maintain it.
+
+Game Development — Custom gameplay loops, mods, and curated multiplayer environments. We manage and monetise Minecraft modpacks and server integrations with consistent community-backed revenue. Every mechanic is tested against real play before it reaches players. We don't ship what we haven't watched people use.
+
+Clean code, player-focused mechanics, full-stack architecture. We turn creative concepts into scalable digital realities — but we take the time to read the map first.
+
+Est. 2024.
+
+Specialties:
+Software development, game development, Minecraft modding, edtech, Japanese language learning, open-source development, full-stack architecture, UI engineering, design systems

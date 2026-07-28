@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <!-- thematic bg: contour field. two summits, low opacity, tileable feel.
+       use behind hero sections at 8-15% opacity over paper. -->
+  <rect width="800" height="600" fill="#F1EAD9"/>
+  <g fill="none" stroke="#3A5A3E" stroke-width="1.1">
+    <!-- summit A, upper-left -->
+    <g transform="translate(200,200)">
+      <ellipse cx="0" cy="0" rx="40" ry="32" opacity=".35"/>
+      <ellipse cx="0" cy="0" rx="80" ry="64" opacity=".28"/>
+      <ellipse cx="0" cy="0" rx="120" ry="96" opacity=".22"/>
+      <ellipse cx="0" cy="0" rx="160" ry="128" opacity=".16"/>
+      <ellipse cx="0" cy="0" rx="200" ry="160" opacity=".10"/>
+    </g>
+    <!-- summit B, lower-right -->
+    <g transform="translate(600,420)">
+      <ellipse cx="0" cy="0" rx="30" ry="24" opacity=".35"/>
+      <ellipse cx="0" cy="0" rx="60" ry="48" opacity=".28"/>
+      <ellipse cx="0" cy="0" rx="90" ry="72" opacity=".22"/>
+      <ellipse cx="0" cy="0" rx="120" ry="96" opacity=".16"/>
+      <ellipse cx="0" cy="0" rx="150" ry="120" opacity=".10"/>
+    </g>
+  </g>
+  <!-- summit markers -->
+  <g stroke="#C8782A" stroke-width="1.2" fill="none">
+    <g transform="translate(200,200)"><path d="M-6 0 L6 0 M0 -6 L0 6"/></g>
+  </g>
+  <!-- coordinate labels -->
+  <g font-family="JetBrains Mono, monospace" font-size="10" fill="#3A5A3E" opacity=".5" letter-spacing="1">
+    <text x="210" y="195">▲ 1240m</text>
+    <text x="610" y="415">▲ 980m</text>
+  </g>
+</svg>

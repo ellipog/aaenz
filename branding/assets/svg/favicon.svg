@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 48 48" fill="none">
+  <!-- favicon: the summit mark, simplified for 16px legibility -->
+  <rect width="48" height="48" rx="8" fill="#2A3327"/>
+  <path d="M24 10 C31 10 37 16 37 24 C37 31 31 35 24 35 C17 35 11 31 11 24 C11 16 17 10 24 10 Z" stroke="#9EC09E" stroke-width="1.6" opacity=".4"/>
+  <path d="M24 14 C29 14 33 18 33 24 C33 29 29 32 24 32 C19 32 15 29 15 24 C15 18 19 14 24 14 Z" stroke="#9EC09E" stroke-width="1.6" opacity=".7"/>
+  <ellipse cx="24" cy="24" rx="5" ry="4.5" fill="#9EC09E"/>
+</svg>

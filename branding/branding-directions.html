@@ -1,0 +1,2412 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>aaen studios — branding directions</title>
+  <link rel="icon" type="image/svg+xml" href="assets/svg/favicon.svg">
+  <link rel="alternate icon" type="image/png" href="assets/png/favicon-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Archivo+Black&family=VT323&family=Press+Start+2P&family=Anton&family=Caveat:wght@500;700&family=Oswald:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ============================================================
+     GALLERY SHELL — a museum wall, not a design. Deliberately
+     neutral so it never competes with the directions it exhibits.
+     ============================================================ */
+    :root {
+      --wall: #E9E7E2;
+      --plaque: #1b1b1b;
+      --plaque-soft: #6b6760;
+      --rule: #d6d2c9;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0
+    }
+
+    body {
+      background: var(--wall);
+      color: #1b1b1b;
+      font-family: "Inter", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+
+    .shell {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 64px 28px 120px
+    }
+
+    .top {
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 32px
+    }
+
+    .top .kicker {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--plaque-soft);
+      margin: 0 0 14px
+    }
+
+    .top h1 {
+      font-family: "Fraunces", serif;
+      font-weight: 500;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.02;
+      margin: 0 0 14px;
+      letter-spacing: -.01em
+    }
+
+    .top p {
+      max-width: 62ch;
+      margin: 0;
+      color: #3a3833;
+      font-size: 16px
+    }
+
+    .section-label {
+      grid-column: 1/-1;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin: 18px 0 6px
+    }
+
+    .section-label h2 {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--plaque-soft);
+      margin: 0;
+      font-weight: 500
+    }
+
+    .section-label .ln {
+      flex: 1;
+      height: 1px;
+      background: var(--rule)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 44px 28px
+    }
+
+    .cell {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .plaque {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 13px;
+      flex-wrap: wrap
+    }
+
+    .plaque .n {
+      font-family: "JetBrains Mono", monospace;
+      color: var(--plaque-soft);
+      font-weight: 500
+    }
+
+    .plaque .t {
+      font-weight: 600;
+      letter-spacing: -.005em
+    }
+
+    .plaque .e {
+      color: var(--plaque-soft);
+      font-weight: 400;
+      font-style: italic
+    }
+
+    .world {
+      position: relative;
+      overflow: hidden;
+      min-height: 440px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 34px;
+      transition: transform .25s ease, box-shadow .25s ease
+    }
+
+    .world:hover {
+      transform: translateY(-4px)
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .world {
+        transition: none
+      }
+
+      .world:hover {
+        transform: none
+      }
+    }
+
+    /* shared lockup: logo mark + wordmark */
+    .lk {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .lk svg {
+      display: block;
+      flex: none
+    }
+
+    .wm {
+      line-height: 1
+    }
+
+    .foot {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      letter-spacing: .04em;
+      color: var(--plaque-soft);
+      line-height: 1.7
+    }
+
+    .foot strong {
+      color: var(--plaque);
+      font-weight: 700
+    }
+
+    /* ============================================================
+     01 — BAREBONES DARK SKELETON
+     honest wireframe. monospace, hairline bones, corner ticks.
+     ============================================================ */
+    .d-skeleton {
+      background: #0a0a0a;
+      color: #e7e7e7;
+      font-family: "JetBrains Mono", monospace
+    }
+
+    .d-skeleton::before,
+    .d-skeleton::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 1px solid #3a3a3a
+    }
+
+    .d-skeleton::before {
+      top: 14px;
+      left: 14px;
+      border-right: 0;
+      border-bottom: 0
+    }
+
+    .d-skeleton::after {
+      bottom: 14px;
+      right: 14px;
+      border-left: 0;
+      border-top: 0
+    }
+
+    .d-skeleton .wm {
+      font-size: 34px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      color: #e7e7e7
+    }
+
+    .d-skeleton .wm b {
+      color: #5a5a5a;
+      font-weight: 500
+    }
+
+    .d-skeleton .sk-h {
+      font-size: 15px;
+      color: #cfcfcf;
+      margin: 0 0 6px;
+      max-width: 30ch
+    }
+
+    .d-skeleton .sk-s {
+      font-size: 12px;
+      color: #6b6b6b;
+      margin: 0 0 26px
+    }
+
+    .d-skeleton .sk-btn {
+      align-self: flex-start;
+      border: 1px solid #3a3a3a;
+      color: #e7e7e7;
+      background: transparent;
+      padding: 9px 14px;
+      font-family: inherit;
+      font-size: 12px;
+      letter-spacing: .04em;
+      cursor: pointer
+    }
+
+    .d-skeleton .sk-btn:hover {
+      border-color: #e7e7e7
+    }
+
+    .d-skeleton .sk-row {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      font-size: 10px;
+      color: #4a4a4a;
+      letter-spacing: .12em
+    }
+
+    /* ============================================================
+     02 — SOFT WARM WHITE
+     cream, Fraunces italic accent, soft shadows, rounded.
+     ============================================================ */
+    .d-warm {
+      background: #faf7f1;
+      color: #2b2724;
+      box-shadow: 0 1px 0 #efe9df inset
+    }
+
+    .d-warm .wm {
+      font-family: "Fraunces", serif;
+      font-weight: 500;
+      font-size: 46px;
+      letter-spacing: -.02em;
+      color: #2b2724
+    }
+
+    .d-warm .wm i {
+      font-style: italic;
+      color: #c08453;
+      font-weight: 400
+    }
+
+    .d-warm .w-h {
+      font-family: "Fraunces", serif;
+      font-weight: 400;
+      font-size: 21px;
+      line-height: 1.25;
+      margin: 0 0 8px;
+      max-width: 18ch;
+      letter-spacing: -.01em
+    }
+
+    .d-warm .w-s {
+      font-size: 14px;
+      color: #6b5d4f;
+      margin: 0 0 28px;
+      max-width: 32ch
+    }
+
+    .d-warm .w-btn {
+      align-self: flex-start;
+      background: #2b2724;
+      color: #faf7f1;
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 22px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 8px 20px -10px rgba(43, 39, 36, .6)
+    }
+
+    .d-warm .w-pill {
+      position: absolute;
+      top: 26px;
+      right: 26px;
+      background: #f0e7d6;
+      color: #9a7b4f;
+      font-size: 11px;
+      font-family: "JetBrains Mono", monospace;
+      padding: 5px 11px;
+      border-radius: 999px;
+      letter-spacing: .04em
+    }
+
+    /* ============================================================
+     03 — BRUTALIST CONCRETE
+     Archivo Black, thick rules, exposed baseline grid, zero radius.
+     ============================================================ */
+    .d-brut {
+      background: #b9b6af;
+      color: #141414;
+      border: 3px solid #141414;
+      background-image: linear-gradient(#141414 1px, transparent 1px);
+      background-size: 100% 26px;
+      background-position: 0 -1px
+    }
+
+    .d-brut .wm {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 60px;
+      line-height: .82;
+      letter-spacing: -.03em;
+      text-transform: uppercase;
+      color: #141414
+    }
+
+    .d-brut .b-h {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 20px;
+      line-height: .95;
+      text-transform: uppercase;
+      margin: 14px 0 6px;
+      max-width: 14ch
+    }
+
+    .d-brut .b-s {
+      font-size: 13px;
+      font-weight: 500;
+      margin: 0 0 24px;
+      max-width: 30ch
+    }
+
+    .d-brut .b-btn {
+      align-self: flex-start;
+      background: #141414;
+      color: #e8e6e1;
+      border: 3px solid #141414;
+      padding: 11px 18px;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 13px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      cursor: pointer
+    }
+
+    .d-brut .b-idx {
+      position: absolute;
+      top: 6px;
+      right: 14px;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 64px;
+      color: #141414;
+      opacity: .1;
+      line-height: 1
+    }
+
+    /* ============================================================
+     04 — EDITORIAL BROADSHEET
+     masthead, hairline columns, drop cap, small-caps dateline.
+     ============================================================ */
+    .d-edit {
+      background: #f6f2ea;
+      color: #171513;
+      font-family: "Playfair Display", serif
+    }
+
+    .d-edit .e-mast {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #171513;
+      border-top: 3px double #171513;
+      padding: 7px 0;
+      font-family: "Inter", sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase
+    }
+
+    .d-edit .e-mark {
+      font-family: "Playfair Display", serif;
+      font-weight: 900;
+      font-size: 30px;
+      letter-spacing: .01em;
+      margin: 10px 0 12px;
+      text-align: center;
+      text-transform: uppercase
+    }
+
+    .d-edit .e-cols {
+      column-count: 2;
+      column-gap: 18px;
+      column-rule: 1px solid #c9c2b5;
+      font-size: 12.5px;
+      line-height: 1.5
+    }
+
+    .d-edit .e-cols p {
+      margin: 0
+    }
+
+    .d-edit .e-cols .drop {
+      float: left;
+      font-family: "Playfair Display", serif;
+      font-weight: 900;
+      font-size: 42px;
+      line-height: .8;
+      padding: 4px 6px 0 0
+    }
+
+    .d-edit .e-lead {
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.3;
+      margin: 0 0 10px;
+      text-align: center;
+      border-bottom: 1px solid #c9c2b5;
+      padding-bottom: 10px
+    }
+
+    .d-edit .e-more {
+      margin-top: 12px;
+      font-family: "Inter", sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #8b1a1a
+    }
+
+    /* ============================================================
+     05 — ACID TERMINAL / CRT
+     phosphor green, scanlines, boot prompt, glow.
+     ============================================================ */
+    .d-crt {
+      background: #0a0f08;
+      color: #7dff8a;
+      font-family: "JetBrains Mono", monospace
+    }
+
+    .d-crt::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, .35) 3px);
+      pointer-events: none;
+      mix-blend-mode: multiply
+    }
+
+    .d-crt .glow {
+      text-shadow: 0 0 6px rgba(125, 255, 138, .55), 0 0 2px rgba(125, 255, 138, .8)
+    }
+
+    .d-crt .c-boot {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #46a052;
+      margin: 0 0 18px;
+      white-space: pre
+    }
+
+    .d-crt .c-boot .ok {
+      color: #7dff8a
+    }
+
+    .d-crt .wm {
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: .02em;
+      color: #7dff8a
+    }
+
+    .d-crt .c-h {
+      font-size: 18px;
+      font-weight: 500;
+      margin: 6px 0 14px
+    }
+
+    .d-crt .c-prompt {
+      font-size: 14px;
+      margin-top: auto
+    }
+
+    .d-crt .cursor {
+      display: inline-block;
+      width: 9px;
+      height: 16px;
+      background: #7dff8a;
+      vertical-align: -3px;
+      animation: blink 1.05s steps(1) infinite
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .d-crt .cursor {
+        animation: none
+      }
+    }
+
+    /* ============================================================
+     06 — TECHNICAL BLUEPRINT
+     navy + cyan grid, dimension lines, measured annotations.
+     ============================================================ */
+    .d-blue {
+      background: #0d2a3f;
+      color: #bfdceb;
+      font-family: "JetBrains Mono", monospace;
+      background-image: linear-gradient(rgba(127, 179, 213, .12) 1px, transparent 1px), linear-gradient(90deg, rgba(127, 179, 213, .12) 1px, transparent 1px);
+      background-size: 24px 24px
+    }
+
+    .d-blue .bl-title {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      letter-spacing: .14em;
+      color: #7fb3d5;
+      border-bottom: 1px solid rgba(127, 179, 213, .4);
+      padding-bottom: 8px;
+      margin: 0 0 22px;
+      text-transform: uppercase
+    }
+
+    .d-blue .wm {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: #e6f2fa
+    }
+
+    .d-blue .bl-h {
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 22px 0 8px;
+      max-width: 26ch
+    }
+
+    .d-blue .bl-s {
+      font-size: 11px;
+      color: #7fb3d5;
+      margin: 0 0 26px;
+      max-width: 34ch
+    }
+
+    .d-blue .bl-schem {
+      position: relative;
+      height: 40px;
+      border: 1px solid #7fb3d5;
+      margin: 6px 0 10px
+    }
+
+    .d-blue .bl-schem::before {
+      content: "⟵ 420 px ⟶";
+      position: absolute;
+      bottom: -15px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 9px;
+      color: #7fb3d5;
+      letter-spacing: .1em
+    }
+
+    .d-blue .bl-schem .node {
+      position: absolute;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border: 1px solid #7fb3d5;
+      transform: translate(-50%, -50%) rotate(45deg);
+      background: #0d2a3f
+    }
+
+    .d-blue .bl-note {
+      font-size: 10px;
+      color: #5f93b3;
+      letter-spacing: .06em;
+      margin-top: 24px
+    }
+
+    /* ============================================================
+     07 — SWISS MODERNIST GRID
+     strict grid, Inter, huge numeral, single red, flush-left.
+     ============================================================ */
+    .d-swiss {
+      background: #fff;
+      color: #111;
+      font-family: "Inter", sans-serif;
+      padding: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto
+    }
+
+    .d-swiss .s-top {
+      display: flex;
+      justify-content: space-between;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #111;
+      border-bottom: 1px solid #111;
+      padding: 12px 30px
+    }
+
+    .d-swiss .s-mid {
+      padding: 26px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center
+    }
+
+    .d-swiss .wm {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: .95;
+      margin: 8px 0 10px
+    }
+
+    .d-swiss .s-s {
+      font-size: 13px;
+      max-width: 24ch;
+      color: #444;
+      margin: 0
+    }
+
+    .d-swiss .s-bot {
+      border-top: 1px solid #111;
+      padding: 12px 30px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-family: "JetBrains Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase
+    }
+
+    /* ============================================================
+     08 — ORGANIC BIOMORPHIC
+     sage/clay gradients, blobs, rounded, lowercase, gentle.
+     ============================================================ */
+    .d-organic {
+      background: radial-gradient(120% 120% at 80% 10%, #e7d6bf 0%, #dce3d5 55%, #cdd8c9 100%);
+      color: #33402f;
+      font-family: "Fraunces", serif
+    }
+
+    .d-organic .blob {
+      position: absolute;
+      border-radius: 46% 54% 60% 40% / 50% 44% 56% 50%;
+      filter: blur(2px)
+    }
+
+    .d-organic .blob.b1 {
+      width: 170px;
+      height: 170px;
+      background: #b5895a;
+      top: -50px;
+      right: -40px;
+      opacity: .5
+    }
+
+    .d-organic .blob.b2 {
+      width: 130px;
+      height: 130px;
+      background: #7e9a6a;
+      bottom: -40px;
+      left: -30px;
+      opacity: .4
+    }
+
+    .d-organic .wm {
+      font-size: 46px;
+      font-weight: 500;
+      line-height: .92;
+      letter-spacing: -.02em;
+      color: #33402f
+    }
+
+    .d-organic .wm i {
+      font-style: italic;
+      color: #9a6b3c
+    }
+
+    .d-organic .o-h {
+      font-size: 19px;
+      line-height: 1.3;
+      margin: 0 0 8px;
+      max-width: 18ch;
+      position: relative
+    }
+
+    .d-organic .o-s {
+      font-family: "Inter", sans-serif;
+      font-size: 13.5px;
+      color: #5c6a4b;
+      margin: 0 0 26px;
+      max-width: 30ch;
+      position: relative
+    }
+
+    .d-organic .o-btn {
+      align-self: flex-start;
+      background: #33402f;
+      color: #f3efe6;
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 22px;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative
+    }
+
+    /* ============================================================
+     09 — LIQUID CHROME / HOLOGRAPHIC
+     glossy, iridescent, y2k-revival. dark base, holo accents.
+     ============================================================ */
+    .d-chrome {
+      background: radial-gradient(120% 120% at 20% 10%, #161018 0%, #0a0a0f 60%);
+      color: #e9e6f0;
+      font-family: "Inter", sans-serif
+    }
+
+    .d-chrome .holo {
+      background: linear-gradient(100deg, #9ea7b4, #e8c9f0, #7fb3d5, #c9f0e0, #9ea7b4);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: slide 6s linear infinite
+    }
+
+    @keyframes slide {
+      to {
+        background-position: 200% 0
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .d-chrome .holo {
+        animation: none
+      }
+    }
+
+    .d-chrome .wm {
+      font-size: 44px;
+      font-weight: 600;
+      letter-spacing: -.03em
+    }
+
+    .d-chrome .c9-h {
+      font-size: 20px;
+      font-weight: 500;
+      margin: 0 0 8px;
+      max-width: 18ch
+    }
+
+    .d-chrome .c9-s {
+      font-size: 13.5px;
+      color: #9a96aa;
+      margin: 0 0 26px;
+      max-width: 30ch
+    }
+
+    .d-chrome .c9-btn {
+      align-self: flex-start;
+      border: 1px solid rgba(233, 230, 240, .3);
+      background: rgba(255, 255, 255, .04);
+      color: #e9e6f0;
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      backdrop-filter: blur(6px)
+    }
+
+    /* ============================================================
+     10 — RISOGRAPH ZINE
+     off-register fluorescent duotone, grain, hand-printed.
+     ============================================================ */
+    .d-riso {
+      background: #f3efe2;
+      color: #171513;
+      font-family: "Inter", sans-serif;
+      position: relative
+    }
+
+    .d-riso::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      opacity: .5;
+      pointer-events: none;
+      mix-blend-mode: multiply
+    }
+
+    .d-riso .pink {
+      color: #ff2d8a
+    }
+
+    .d-riso .blue {
+      color: #1f3df5
+    }
+
+    .d-riso .wm {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 54px;
+      line-height: .85;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      position: relative
+    }
+
+    .d-riso .r-shadow {
+      position: relative
+    }
+
+    .d-riso .r-shadow::before,
+    .d-riso .r-shadow::after {
+      position: absolute;
+      inset: 0;
+      z-index: -1
+    }
+
+    .d-riso .r-h {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 18px 0 6px;
+      max-width: 18ch;
+      position: relative
+    }
+
+    .d-riso .r-s {
+      font-size: 13px;
+      color: #3a3833;
+      margin: 0 0 26px;
+      max-width: 30ch;
+      position: relative
+    }
+
+    .d-riso .r-btn {
+      align-self: flex-start;
+      background: #171513;
+      color: #f3efe2;
+      border: 0;
+      padding: 11px 18px;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 13px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative
+    }
+
+    /* ============================================================
+     11 — CONSTRUCTIVIST
+     cream + red + black, heavy diagonal, manifesto tone, Anton.
+     ============================================================ */
+    .d-con {
+      background: #e9e3d2;
+      color: #141414;
+      font-family: "Anton", sans-serif;
+      overflow: hidden
+    }
+
+    .d-con .con-diag {
+      position: absolute;
+      inset: -20% -40% -20% 40%;
+      background: #141414;
+      transform: rotate(-18deg);
+      transform-origin: center
+    }
+
+    .d-con .con-sun {
+      position: absolute;
+      top: 18px;
+      right: -30px;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: #c8281d
+    }
+
+    .d-con .con-star {
+      position: absolute;
+      left: 22px;
+      bottom: 18px;
+      color: #e9e3d2;
+      font-size: 26px
+    }
+
+    .d-con .wm {
+      font-size: 50px;
+      line-height: .85;
+      text-transform: uppercase;
+      color: #141414;
+      position: relative;
+      letter-spacing: .01em
+    }
+
+    .d-con .con-h {
+      font-size: 26px;
+      line-height: .95;
+      text-transform: uppercase;
+      color: #e9e3d2;
+      margin: 14px 0 6px;
+      max-width: 12ch;
+      position: relative
+    }
+
+    .d-con .con-s {
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #141414;
+      margin: 0 0 22px;
+      max-width: 26ch;
+      position: relative
+    }
+
+    .d-con .con-btn {
+      align-self: flex-start;
+      background: #c8281d;
+      color: #fff;
+      border: 0;
+      padding: 11px 18px;
+      font-family: "Anton", sans-serif;
+      font-size: 14px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative
+    }
+
+    /* ============================================================
+     12 — HAND-DRAWN MARKER
+     notebook warm, wobbly ink, self-aware, human.
+     ============================================================ */
+    .d-hand {
+      background: #fbf7ec;
+      color: #1b1b1b;
+      font-family: "Inter", sans-serif;
+      background-image: linear-gradient(rgba(27, 27, 27, .05) 1px, transparent 1px);
+      background-size: 100% 24px
+    }
+
+    .d-hand .wm {
+      font-family: "Caveat", cursive;
+      font-size: 60px;
+      line-height: .8;
+      color: #1b1b1b;
+      transform: rotate(-2deg)
+    }
+
+    .d-hand .h-h {
+      font-family: "Caveat", cursive;
+      font-size: 30px;
+      line-height: 1;
+      margin: 16px 0 4px;
+      color: #1b1b1b
+    }
+
+    .d-hand .h-h .hl {
+      background: #ffe066;
+      padding: 0 4px
+    }
+
+    .d-hand .h-s {
+      font-size: 13px;
+      color: #555;
+      margin: 0 0 24px;
+      max-width: 30ch;
+      transform: rotate(-.5deg)
+    }
+
+    .d-hand .h-btn {
+      align-self: flex-start;
+      background: #1b1b1b;
+      color: #fbf7ec;
+      border: 2px solid #1b1b1b;
+      padding: 9px 18px;
+      font-family: "Caveat", cursive;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 6px 4px 7px 3px;
+      transform: rotate(-1deg)
+    }
+
+    .d-hand .h-arrow {
+      position: absolute;
+      right: 24px;
+      top: 70px;
+      font-family: "Caveat", cursive;
+      font-size: 22px;
+      color: #c8281d;
+      transform: rotate(12deg)
+    }
+
+    /* ============================================================
+     13 — TOPOGRAPHIC CONTOUR
+     warm paper, contour lines, earthy green, exploratory.
+     ============================================================ */
+    .d-topo {
+      background: #f1ead9;
+      color: #2a3327;
+      font-family: "Inter", sans-serif
+    }
+
+    .d-topo .topo-bg {
+      position: absolute;
+      inset: 0;
+      opacity: .5;
+      background-image:
+        radial-gradient(60% 50% at 30% 60%, transparent 38%, #3a5a3e 38.5%, transparent 39.2%),
+        radial-gradient(60% 50% at 30% 60%, transparent 48%, #3a5a3e 48.5%, transparent 49.2%),
+        radial-gradient(60% 50% at 30% 60%, transparent 58%, #3a5a3e 58.5%, transparent 59.2%),
+        radial-gradient(60% 50% at 30% 60%, transparent 68%, #3a5a3e 68.5%, transparent 69.2%);
+      pointer-events: none
+    }
+
+    .d-topo .wm {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      color: #2a3327
+    }
+
+    .d-topo .t-h {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.25;
+      margin: 0 0 8px;
+      max-width: 18ch;
+      position: relative
+    }
+
+    .d-topo .t-s {
+      font-size: 13px;
+      color: #5a6647;
+      margin: 0 0 26px;
+      max-width: 30ch;
+      position: relative
+    }
+
+    .d-topo .t-btn {
+      align-self: flex-start;
+      border: 1px solid #2a3327;
+      background: transparent;
+      color: #2a3327;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 2px;
+      position: relative
+    }
+
+    .d-topo .t-crd {
+      position: absolute;
+      bottom: 14px;
+      right: 16px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      color: #5a6647;
+      letter-spacing: .08em
+    }
+
+    /* ============================================================
+     14 — PIXEL / 8-BIT ARCADE
+     deep purple, chunky pixels, coin-op, playful.
+     ============================================================ */
+    .d-pix {
+      background: #1a1230;
+      color: #fff;
+      font-family: "Press Start 2P", monospace;
+      image-rendering: pixelated
+    }
+
+    .d-pix .wm {
+      font-size: 26px;
+      line-height: 1;
+      color: #ff5c8a;
+      letter-spacing: 0;
+      text-shadow: 3px 3px 0 #2d5bff
+    }
+
+    .d-pix .p-h {
+      font-size: 11px;
+      line-height: 1.6;
+      margin: 18px 0 8px;
+      max-width: 24ch;
+      color: #ffe066
+    }
+
+    .d-pix .p-s {
+      font-size: 9px;
+      line-height: 1.7;
+      color: #9a8fb8;
+      margin: 0 0 26px;
+      max-width: 30ch
+    }
+
+    .d-pix .p-btn {
+      align-self: flex-start;
+      background: #ff5c8a;
+      color: #1a1230;
+      border: 0;
+      padding: 11px 14px;
+      font-family: "Press Start 2P", monospace;
+      font-size: 10px;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #2d5bff
+    }
+
+    .d-pix .p-coins {
+      position: absolute;
+      bottom: 16px;
+      right: 18px;
+      font-size: 8px;
+      color: #9a8fb8
+    }
+
+    /* ============================================================
+     15 — RUBBER STAMP / POSTAL
+     manila, ink, distressed, authoritative, analog.
+     ============================================================ */
+    .d-stamp {
+      background: #ddcca6;
+      color: #241f15;
+      font-family: "Inter", sans-serif
+    }
+
+    .d-stamp .s-ink {
+      filter: url(#rough)
+    }
+
+    .d-stamp .wm {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 42px;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: #241f15;
+      line-height: .9
+    }
+
+    .d-stamp .st-h {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 16px 0 6px;
+      max-width: 16ch
+    }
+
+    .d-stamp .st-s {
+      font-size: 12.5px;
+      color: #4a4030;
+      margin: 0 0 24px;
+      max-width: 30ch
+    }
+
+    .d-stamp .st-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      position: relative
+    }
+
+    .d-stamp .st-mark {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      border: 2px solid #8b1a1a;
+      color: #8b1a1a;
+      padding: 4px 8px;
+      text-transform: uppercase;
+      transform: rotate(-6deg)
+    }
+
+    .d-stamp .st-date {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      color: #4a4030;
+      border: 1px dashed #4a4030;
+      padding: 4px 8px;
+      transform: rotate(3deg)
+    }
+
+    /* ============================================================
+     16 — GOLD FOIL LUXURY
+     near-black, gold, huge negative space, restrained, premium.
+     ============================================================ */
+    .d-gold {
+      background: #0c0c0c;
+      color: #e9e2cf;
+      font-family: "Playfair Display", serif;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 30px
+    }
+
+    .d-gold .g-fade {
+      background: linear-gradient(160deg, #f4e3a1, #d4af37, #9c7c2a, #f4e3a1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .d-gold .wm {
+      font-size: 42px;
+      font-weight: 400;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin: 18px 0 0
+    }
+
+    .d-gold .g-h {
+      font-style: italic;
+      font-size: 16px;
+      margin: 24px 0 8px;
+      font-weight: 400;
+      max-width: 20ch
+    }
+
+    .d-gold .g-s {
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #8a8270;
+      margin: 0 0 30px
+    }
+
+    .d-gold .g-btn {
+      border: 1px solid #d4af37;
+      color: #d4af37;
+      background: transparent;
+      padding: 12px 26px;
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      cursor: pointer
+    }
+
+    .d-gold .g-rule {
+      width: 40px;
+      height: 1px;
+      background: #d4af37;
+      margin: 0 auto;
+      opacity: .6
+    }
+
+    /* ============================================================
+     17 — LINOCUT BLOCK PRINT
+     carved gouges, ink bleed, bold flat shapes, single warm accent.
+     ============================================================ */
+    .d-lino {
+      background: #ece3cf;
+      color: #1a1410;
+      font-family: "Playfair Display", serif
+    }
+
+    .d-lino::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      opacity: .45;
+      pointer-events: none;
+      mix-blend-mode: multiply
+    }
+
+    .d-lino .wm {
+      font-weight: 900;
+      font-size: 46px;
+      line-height: .85;
+      text-transform: uppercase;
+      letter-spacing: -.01em
+    }
+
+    .d-lino .li-h {
+      font-weight: 900;
+      font-size: 22px;
+      line-height: .95;
+      text-transform: uppercase;
+      margin: 14px 0 6px;
+      max-width: 13ch;
+      color: #a83232
+    }
+
+    .d-lino .li-s {
+      font-size: 13px;
+      color: #3a2e22;
+      margin: 0 0 24px;
+      max-width: 30ch;
+      font-style: italic;
+      font-weight: 400
+    }
+
+    .d-lino .li-btn {
+      align-self: flex-start;
+      background: #1a1410;
+      color: #ece3cf;
+      border: 0;
+      padding: 11px 18px;
+      font-family: "Playfair Display", serif;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer
+    }
+
+    /* ============================================================
+     18 — FIELD JOURNAL / NATURALIST
+     aged paper, sepia sketches, dated entries, specimen tags.
+     ============================================================ */
+    .d-journal {
+      background: #f0e9d4;
+      color: #4a3826;
+      font-family: "Playfair Display", serif;
+      background-image: linear-gradient(rgba(74, 56, 38, .06) 1px, transparent 1px);
+      background-size: 100% 26px
+    }
+
+    .d-journal .wm {
+      font-weight: 700;
+      font-size: 42px;
+      line-height: .9;
+      letter-spacing: -.01em;
+      color: #4a3826
+    }
+
+    .d-journal .wm i {
+      font-style: italic;
+      font-weight: 400
+    }
+
+    .d-journal .j-meta {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #8a6f4d;
+      border-bottom: 1px solid rgba(74, 56, 38, .3);
+      padding-bottom: 6px;
+      margin: 0 0 16px;
+      display: flex;
+      justify-content: space-between
+    }
+
+    .d-journal .j-h {
+      font-style: italic;
+      font-size: 19px;
+      line-height: 1.25;
+      margin: 0 0 8px;
+      max-width: 20ch
+    }
+
+    .d-journal .j-s {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #6a5436;
+      margin: 0 0 24px;
+      max-width: 32ch
+    }
+
+    .d-journal .j-tag {
+      align-self: flex-start;
+      border: 1px solid #4a3826;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .08em;
+      padding: 5px 10px;
+      color: #4a3826;
+      text-transform: uppercase
+    }
+
+    /* ============================================================
+     19 — WABI-SABI CERAMIC
+     asymmetric, crackle-glaze texture, muted earth, the honored flaw.
+     ============================================================ */
+    .d-wabi {
+      background: #cdbfa6;
+      color: #3a3328;
+      font-family: "Fraunces", serif
+    }
+
+    .d-wabi::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .18  0 0 0 0 .15  0 0 0 .25 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      opacity: .5;
+      pointer-events: none;
+      mix-blend-mode: multiply
+    }
+
+    .d-wabi .wm {
+      font-weight: 300;
+      font-size: 46px;
+      line-height: .9;
+      letter-spacing: .02em;
+      color: #3a3328
+    }
+
+    .d-wabi .wa-h {
+      font-style: italic;
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 1.3;
+      margin: 0 0 8px;
+      max-width: 18ch;
+      color: #5a4f3e
+    }
+
+    .d-wabi .wa-s {
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      color: #6a5f4d;
+      margin: 0 0 28px;
+      max-width: 30ch;
+      line-height: 1.6
+    }
+
+    .d-wabi .wa-btn {
+      align-self: flex-start;
+      border-bottom: 1px solid #3a3328;
+      background: transparent;
+      color: #3a3328;
+      padding: 0 0 4px;
+      font-family: "Fraunces", serif;
+      font-style: italic;
+      font-size: 15px;
+      cursor: pointer
+    }
+
+    /* ============================================================
+     20 — RETRO TRAVEL POSTER (WPA)
+     1930s flat color, silkscreen-bold, optimistic departure.
+     ============================================================ */
+    .d-travel {
+      background: #c25b2a;
+      color: #f4ead2;
+      font-family: "Oswald", sans-serif;
+      overflow: hidden
+    }
+
+    .d-travel .tr-sun {
+      position: absolute;
+      top: -60px;
+      left: -30px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: #e8a838
+    }
+
+    .d-travel .tr-hills {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: #5a3a1e
+    }
+
+    .d-travel .tr-hills::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: #3a2410
+    }
+
+    .d-travel .wm {
+      font-size: 50px;
+      line-height: .85;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: #f4ead2;
+      position: relative
+    }
+
+    .d-travel .tr-h {
+      font-size: 24px;
+      line-height: .95;
+      text-transform: uppercase;
+      margin: 12px 0 6px;
+      max-width: 12ch;
+      color: #f4ead2;
+      position: relative;
+      font-weight: 500
+    }
+
+    .d-travel .tr-s {
+      font-size: 13px;
+      margin: 0 0 26px;
+      max-width: 28ch;
+      color: #f0d9b0;
+      position: relative
+    }
+
+    .d-travel .tr-btn {
+      align-self: flex-start;
+      background: #f4ead2;
+      color: #c25b2a;
+      border: 0;
+      padding: 10px 20px;
+      font-family: "Oswald", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative
+    }
+
+    /* ============================================================
+     21 — TAPE & KRAFT MAIL-ART
+     cardboard, masking tape, ballpoint, hand-stamped. distressed.
+     ============================================================ */
+    .d-kraft {
+      background: #c9a876;
+      color: #3a2a16;
+      font-family: "JetBrains Mono", monospace;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .15  0 0 0 0 .08  0 0 0 .3 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")
+    }
+
+    .d-kraft .tape {
+      position: absolute;
+      background: rgba(240, 230, 200, .55);
+      border: 1px solid rgba(120, 90, 40, .15);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .12)
+    }
+
+    .d-kraft .tape.t1 {
+      top: -8px;
+      left: 20px;
+      width: 90px;
+      height: 26px;
+      transform: rotate(-4deg)
+    }
+
+    .d-kraft .tape.t2 {
+      bottom: -8px;
+      right: 30px;
+      width: 70px;
+      height: 24px;
+      transform: rotate(3deg)
+    }
+
+    .d-kraft .wm {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: #3a2a16
+    }
+
+    .d-kraft .k-h {
+      font-family: "Caveat", cursive;
+      font-size: 30px;
+      line-height: .95;
+      margin: 12px 0 4px;
+      color: #3a2a16;
+      transform: rotate(-1deg)
+    }
+
+    .d-kraft .k-s {
+      font-size: 12px;
+      color: #5a4528;
+      margin: 0 0 26px;
+      max-width: 30ch;
+      line-height: 1.6
+    }
+
+    .d-kraft .k-stamp {
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+      width: 54px;
+      height: 64px;
+      border: 2px dashed #6a4a1e;
+      color: #6a4a1e;
+      font-size: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: .05em;
+      transform: rotate(6deg)
+    }
+
+    /* ============================================================
+     22 — MARBLED ENDPAPER
+     swirling ink, old-book, Venetian, scholarly, gilded.
+     ============================================================ */
+    .d-marble {
+      background-color: #1f3a5f;
+      color: #f0e8d8;
+      font-family: "Playfair Display", serif;
+      text-align: center;
+      align-items: center
+    }
+
+    .d-marble .mb-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, #7a2a4a 0, transparent 25%),
+        radial-gradient(circle at 75% 20%, #2a8a8a 0, transparent 30%),
+        radial-gradient(circle at 60% 75%, #c8782a 0, transparent 25%),
+        radial-gradient(circle at 30% 80%, #5a2a8a 0, transparent 28%),
+        radial-gradient(circle at 85% 60%, #d4af37 0, transparent 18%),
+        linear-gradient(135deg, #1f3a5f, #0f1f3a);
+      opacity: .92
+    }
+
+    .d-marble .mb-inner {
+      position: relative;
+      z-index: 1
+    }
+
+    .d-marble .wm {
+      font-weight: 400;
+      font-size: 44px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: #f0e8d8;
+      margin: 14px 0 0
+    }
+
+    .d-marble .mb-h {
+      font-style: italic;
+      font-size: 17px;
+      margin: 22px 0 6px;
+      font-weight: 400;
+      max-width: 20ch
+    }
+
+    .d-marble .mb-s {
+      font-family: "Inter", sans-serif;
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #c8b890;
+      margin: 0 0 26px
+    }
+
+    .d-marble .mb-rule {
+      width: 50px;
+      height: 1px;
+      background: #d4af37;
+      margin: 0 auto 22px;
+      opacity: .7
+    }
+
+    /* ============================================================
+     23 — ENGRAVING / INTAGLIO
+     fine crosshatching, currency density, institutional gravity.
+     ============================================================ */
+    .d-engrave {
+      background: #f5f0e4;
+      color: #1a1612;
+      font-family: "Playfair Display", serif
+    }
+
+    .d-engrave::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(135deg, rgba(26, 22, 18, .06) 0, rgba(26, 22, 18, .06) 1px, transparent 1px, transparent 4px);
+      pointer-events: none
+    }
+
+    .d-engrave .wm {
+      font-weight: 900;
+      font-size: 38px;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: #1a1612
+    }
+
+    .d-engrave .en-h {
+      font-style: italic;
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 1.3;
+      margin: 0 0 6px;
+      max-width: 18ch
+    }
+
+    .d-engrave .en-s {
+      font-size: 12px;
+      letter-spacing: .04em;
+      color: #4a4238;
+      margin: 0 0 24px;
+      max-width: 30ch;
+      line-height: 1.6
+    }
+
+    .d-engrave .en-btn {
+      align-self: flex-start;
+      border: 1px solid #1a1612;
+      background: transparent;
+      color: #1a1612;
+      padding: 9px 18px;
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer
+    }
+
+    /* ============================================================
+     24 — NATIONAL PARK / TRAIL
+     forest + campground, trail blazes, wayfinding, grounded.
+     ============================================================ */
+    .d-park {
+      background: #2d4a32;
+      color: #e8e4cf;
+      font-family: "Inter", sans-serif
+    }
+
+    .d-park .pk-blaze {
+      position: absolute;
+      top: 0;
+      left: 24px;
+      width: 18px;
+      height: 60px;
+      background: #e8e4cf
+    }
+
+    .d-park .pk-blaze.b2 {
+      left: auto;
+      right: 24px;
+      background: #c8281d
+    }
+
+    .d-park .wm {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      color: #e8e4cf
+    }
+
+    .d-park .pk-h {
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 0 0 8px;
+      max-width: 16ch
+    }
+
+    .d-park .pk-s {
+      font-size: 13px;
+      color: #b8c4a8;
+      margin: 0 0 26px;
+      max-width: 30ch
+    }
+
+    .d-park .pk-btn {
+      align-self: flex-start;
+      background: #c8281d;
+      color: #fff;
+      border: 0;
+      padding: 10px 18px;
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      cursor: pointer
+    }
+
+    .d-park .pk-badge {
+      position: absolute;
+      bottom: 16px;
+      right: 18px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 9px;
+      color: #b8c4a8;
+      letter-spacing: .12em;
+      border: 1px solid #5a7a4a;
+      padding: 4px 8px
+    }
+  </style>
+</head>
+
+<body>
+  <!-- shared SVG filter for the rubber-stamp distress -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" />
+      <feDisplacementMap in="SourceGraphic" scale="2.2" />
+    </filter>
+  </svg>
+
+  <div class="shell">
+
+    <header class="top">
+      <p class="kicker">aaen studios · brand exploration · v2</p>
+      <h1>Twenty-four directions. Each with a logo. One to choose.</h1>
+      <p>Small pieces only — a logo mark, a wordmark lockup, a line of voice, and one signature move per direction.
+        Browse all three sets, then give me a number (or mix-and-match: &ldquo;the logo from 13, the palette of
+        02&rdquo;) and I&rsquo;ll build that one out into a full page.</p>
+    </header>
+
+    <main class="grid">
+
+      <div class="section-label">
+        <h2>Set A — your starting points</h2><span class="ln"></span>
+      </div>
+
+      <!-- 01 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">01</span><span class="t">Barebones Dark Skeleton</span><span
+            class="e">logo: isometric wireframe cube</span></figcaption>
+        <article class="world d-skeleton">
+          <div class="lk">
+            <svg width="36" height="36" viewBox="0 0 40 40" fill="none" stroke="#7a7a7a" stroke-width="1">
+              <path d="M20 4 L34 12 L34 28 L20 36 L6 28 L6 12 Z" />
+              <path d="M20 4 L20 20 M6 12 L20 20 L34 12" />
+            </svg>
+            <span class="wm">aaen<b>.</b></span>
+          </div>
+          <p class="sk-h">We build the bones. Everything else is decoration.</p>
+          <p class="sk-s">software, stripped to what matters</p>
+          <button class="sk-btn">[ start a project ]</button>
+          <span class="sk-row">v0.1 · under construction</span>
+        </article>
+      </figure>
+
+      <!-- 02 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">02</span><span class="t">Soft Warm White</span><span class="e">logo:
+            soft sun bloom</span></figcaption>
+        <article class="world d-warm">
+          <span class="w-pill">est. 2024</span>
+          <div class="lk">
+            <svg width="38" height="38" viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="6.5" fill="#c08453" />
+              <g stroke="#c08453" stroke-width="2" stroke-linecap="round">
+                <path
+                  d="M20 3 V8 M20 32 V37 M3 20 H8 M32 20 H37 M8 8 L11.5 11.5 M28.5 28.5 L32 32 M32 8 L28.5 11.5 M11.5 28.5 L8 32" />
+              </g>
+            </svg>
+            <span class="wm">aaen<i>.</i></span>
+          </div>
+          <p class="w-h">Technology that feels like home.</p>
+          <p class="w-s">Calm software, made by people who&rsquo;d rather you sleep well than be impressed.</p>
+          <button class="w-btn">Say hello</button>
+        </article>
+      </figure>
+
+      <!-- 03 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">03</span><span class="t">Brutalist Concrete</span><span
+            class="e">logo: stacked slab tower</span></figcaption>
+        <article class="world d-brut">
+          <span class="b-idx">03</span>
+          <div class="lk">
+            <svg width="34" height="38" viewBox="0 0 34 38">
+              <rect x="2" y="22" width="30" height="14" fill="#141414" />
+              <rect x="8" y="10" width="18" height="12" fill="#141414" />
+              <rect x="11" y="13" width="3" height="3" fill="#b9b6af" />
+              <rect x="16" y="13" width="3" height="3" fill="#b9b6af" />
+              <rect x="21" y="13" width="3" height="3" fill="#b9b6af" />
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="b-h">Built to last.</p>
+          <p class="b-s">Heavy-duty software engineering. No trends, no trim.</p>
+          <button class="b-btn">Brief us →</button>
+        </article>
+      </figure>
+
+      <!-- 04 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">04</span><span class="t">Editorial Broadsheet</span><span
+            class="e">logo: printers' fleuron</span></figcaption>
+        <article class="world d-edit">
+          <div class="e-mast"><span>Vol. I · No. 1</span><span>Est. 2024</span></div>
+          <h2 class="e-mark">aaen studios</h2>
+          <p class="e-lead">The considered software studio.</p>
+          <div class="e-cols">
+            <p><span class="drop">I</span>n a field that prizes speed above all, we keep one slow habit: we think before
+              we type. The work outlasts the hype cycle, and the code reads like it was meant to be read.</p>
+          </div>
+          <p class="e-more">Read on →</p>
+        </article>
+      </figure>
+
+      <!-- 05 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">05</span><span class="t">Acid Terminal / CRT</span><span
+            class="e">logo: crt monitor glyph</span></figcaption>
+        <article class="world d-crt">
+          <div class="lk">
+            <svg width="38" height="34" viewBox="0 0 40 36" fill="none" stroke="#7dff8a" stroke-width="1.4">
+              <rect x="3" y="3" width="34" height="23" rx="3" />
+              <path d="M14 33 H26 M20 26 V33" />
+              <path d="M9 14 H15 M12 11 V17" />
+            </svg>
+            <span class="wm glow">aaen</span>
+          </div>
+          <pre class="c-boot">aaen os — booting
+&gt; mount /dev/studio   <span class="ok">[ ok ]</span>
+&gt; load engineers      <span class="ok">[ ok ]</span>
+&gt; ready.</pre>
+          <p class="c-h glow">&gt; we ship software.</p>
+          <p class="c-prompt glow">~$ <span class="cursor"></span></p>
+        </article>
+      </figure>
+
+      <!-- 06 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">06</span><span class="t">Technical Blueprint</span><span
+            class="e">logo: compass crosshair</span></figcaption>
+        <article class="world d-blue">
+          <div class="bl-title"><span>aaen studios</span><span>system · 1:1</span></div>
+          <div class="lk">
+            <svg width="38" height="38" viewBox="0 0 40 40" fill="none" stroke="#7fb3d5" stroke-width="1">
+              <circle cx="20" cy="20" r="13" />
+              <path d="M20 3 V10 M20 30 V37 M3 20 H10 M30 20 H37" />
+              <circle cx="20" cy="20" r="1.8" fill="#7fb3d5" stroke="none" />
+              <path d="M20 6 L22.5 13 L20 12 L17.5 13 Z" fill="#7fb3d5" stroke="none" />
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <div class="bl-schem"><span class="node" style="left:25%"></span><span class="node"
+              style="left:50%"></span><span class="node" style="left:75%"></span></div>
+          <p class="bl-h">Engineered, not decorated.</p>
+          <p class="bl-s">Every interface starts as a drawing — measured, load-bearing, accountable to the brief.</p>
+          <p class="bl-note">DRAWN BY: aaen · SHEET 01/01</p>
+        </article>
+      </figure>
+
+      <!-- 07 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">07</span><span class="t">Swiss Modernist</span><span class="e">logo:
+            the red dot</span></figcaption>
+        <article class="world d-swiss">
+          <div class="s-top"><span>aaen studios</span><span>01</span></div>
+          <div class="s-mid">
+            <svg width="34" height="34" viewBox="0 0 40 40">
+              <circle cx="20" cy="20" r="14" fill="#e63946" />
+            </svg>
+            <h2 class="wm">aaen</h2>
+            <p class="s-s">Software with discipline. Less, but better — set on a grid that doesn&rsquo;t budge.</p>
+          </div>
+          <div class="s-bot"><span>studios</span><span>2026</span></div>
+        </article>
+      </figure>
+
+      <!-- 08 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">08</span><span class="t">Organic Biomorphic</span><span
+            class="e">logo: clay blob</span></figcaption>
+        <article class="world d-organic">
+          <span class="blob b1"></span>
+          <span class="blob b2"></span>
+          <div class="lk">
+            <svg width="42" height="42" viewBox="0 0 44 44">
+              <path d="M22 4 C32 4 40 12 39 23 C38 33 29 40 19 38 C9 36 4 27 6 17 C8 7 14 4 22 4 Z" fill="#9a6b3c"
+                opacity=".85" />
+            </svg>
+            <span class="wm">aaen<i>.</i></span>
+          </div>
+          <p class="o-h">Software, grown gently.</p>
+          <p class="o-s">Tools that breathe with your day, not against it. Quiet by design.</p>
+          <button class="o-btn">Begin quietly</button>
+        </article>
+      </figure>
+
+      <div class="section-label">
+        <h2>Set B — further out</h2><span class="ln"></span>
+      </div>
+
+      <!-- 09 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">09</span><span class="t">Liquid Chrome / Holographic</span><span
+            class="e">logo: melted chrome droplet</span></figcaption>
+        <article class="world d-chrome">
+          <div class="lk">
+            <svg width="44" height="44" viewBox="0 0 44 44">
+              <defs>
+                <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#fff" />
+                  <stop offset=".25" stop-color="#9ea7b4" />
+                  <stop offset=".5" stop-color="#e8c9f0" />
+                  <stop offset=".75" stop-color="#7fb3d5" />
+                  <stop offset="1" stop-color="#3a3f4a" />
+                </linearGradient>
+              </defs>
+              <path d="M22 4 C31 4 41 14 39 25 C37 35 27 41 20 39 C11 37 5 28 7 18 C9 8 15 4 22 4 Z"
+                fill="url(#chrome)" />
+              <ellipse cx="16" cy="14" rx="5" ry="3" fill="#fff" opacity=".7" />
+            </svg>
+            <span class="wm holo">aaen</span>
+          </div>
+          <p class="c9-h">Studio of the future, rendered today.</p>
+          <p class="c9-s">Glossy, iridescent interfaces for products that want to feel a decade ahead.</p>
+          <button class="c9-btn">Enter →</button>
+        </article>
+      </figure>
+
+      <!-- 10 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">10</span><span class="t">Risograph Zine</span><span class="e">logo:
+            off-register pink+blue sun</span></figcaption>
+        <article class="world d-riso">
+          <div class="lk">
+            <svg width="44" height="44" viewBox="0 0 44 44">
+              <circle cx="25" cy="22" r="11" fill="#ff2d8a" opacity=".85" />
+              <circle cx="19" cy="22" r="11" fill="#1f3df5" opacity=".7" />
+            </svg>
+            <span class="wm"><span class="pink">aa</span><span class="blue">en</span></span>
+          </div>
+          <p class="r-h">Printed by hand. Shipped by code.</p>
+          <p class="r-s">An anti-digital digital studio — warm, grainy, a little off-register on purpose.</p>
+          <button class="r-btn">Grab a copy →</button>
+        </article>
+      </figure>
+
+      <!-- 11 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">11</span><span class="t">Constructivist</span><span class="e">logo:
+            red sun + black wedge</span></figcaption>
+        <article class="world d-con">
+          <span class="con-diag"></span>
+          <span class="con-sun"></span>
+          <span class="con-star">★</span>
+          <div class="lk"><span class="wm">aaen</span></div>
+          <p class="con-h">Software for the people.</p>
+          <p class="con-s">Bold, declarative, built for the many — not the few.</p>
+          <button class="con-btn">Join →</button>
+        </article>
+      </figure>
+
+      <!-- 12 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">12</span><span class="t">Hand-drawn Marker</span><span
+            class="e">logo: wobbly &ldquo;approved&rdquo; circle</span></figcaption>
+        <article class="world d-hand">
+          <div class="lk">
+            <svg width="40" height="40" viewBox="0 0 44 44" fill="none" stroke="#1b1b1b" stroke-width="2.6"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 7 C31 7 37 14 36 23 C35 31 28 37 19 36 C11 35 6 28 8 19" />
+              <path d="M15 20 L21 26 L31 14" />
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <span class="h-arrow">← us</span>
+          <p class="h-h">Made by <span class="hl">humans</span>. Obviously.</p>
+          <p class="h-s">Software with fingerprints on it. We left the wobble in.</p>
+          <button class="h-btn">say hi</button>
+        </article>
+      </figure>
+
+      <!-- 13 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">13</span><span class="t">Topographic Contour</span><span
+            class="e">logo: concentric contour rings</span></figcaption>
+        <article class="world d-topo">
+          <span class="topo-bg"></span>
+          <div class="lk">
+            <svg width="46" height="38" viewBox="0 0 48 40" fill="none" stroke="#3a5a3e" stroke-width="1.1">
+              <path d="M24 8 C32 8 40 16 40 24 C40 32 32 36 24 36 C16 36 8 32 8 24 C8 16 16 8 24 8 Z" opacity=".35" />
+              <path d="M24 12 C30 12 36 18 36 24 C36 30 30 33 24 33 C18 33 12 30 12 24 C12 18 18 12 24 12 Z"
+                opacity=".55" />
+              <path d="M24 16 C28 16 32 20 32 24 C32 28 28 30 24 30 C20 30 16 28 16 24 C16 20 20 16 24 16 Z"
+                opacity=".8" />
+              <ellipse cx="24" cy="24" rx="4" ry="3.5" fill="#3a5a3e" stroke="none" />
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="t-h">We map the terrain before we build.</p>
+          <p class="t-s">Methodical, exploratory software. We read the landscape, then we place the path.</p>
+          <button class="t-btn">Survey a project →</button>
+          <span class="t-crd">N 51.5° · contour 1:25000</span>
+        </article>
+      </figure>
+
+      <!-- 14 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">14</span><span class="t">Pixel / 8-bit Arcade</span><span
+            class="e">logo: pixel-art &lsquo;A&rsquo;</span></figcaption>
+        <article class="world d-pix">
+          <div class="lk">
+            <svg width="40" height="40" viewBox="0 0 40 40" shape-rendering="crispEdges">
+              <g fill="#ff5c8a">
+                <rect x="16" y="8" width="8" height="4" />
+                <rect x="12" y="12" width="16" height="4" />
+                <rect x="8" y="16" width="24" height="4" />
+                <rect x="8" y="20" width="4" height="4" />
+                <rect x="12" y="20" width="16" height="4" />
+                <rect x="28" y="20" width="4" height="4" />
+                <rect x="8" y="24" width="4" height="4" />
+                <rect x="28" y="24" width="4" height="4" />
+                <rect x="8" y="28" width="4" height="4" />
+                <rect x="28" y="28" width="4" height="4" />
+              </g>
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="p-h">PRESS START.</p>
+          <p class="p-s">Playful software with coin-op energy. Fun to use, serious under the hood.</p>
+          <button class="p-btn">INSERT COIN</button>
+          <span class="p-coins">CREDIT 00</span>
+        </article>
+      </figure>
+
+      <!-- 15 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">15</span><span class="t">Rubber Stamp / Postal</span><span
+            class="e">logo: circular ink seal</span></figcaption>
+        <article class="world d-stamp">
+          <div class="lk">
+            <svg class="s-ink" width="50" height="50" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="24" fill="none" stroke="#241f15" stroke-width="2.5" />
+              <circle cx="28" cy="28" r="19" fill="none" stroke="#241f15" stroke-width="1" />
+              <path d="M28 17 L35 28 L28 39 L21 28 Z" fill="#241f15" />
+              <path d="M28 22 L32 28 L28 34 L24 28 Z" fill="#ddcca6" />
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="st-h">Stamped. Sealed. Shipped.</p>
+          <p class="st-s">Authoritative, tactile, a little weathered. Software that arrives with a mark of approval.</p>
+          <div class="st-row">
+            <span class="st-mark">approved</span>
+            <span class="st-date">2026 · 01 · 01</span>
+          </div>
+        </article>
+      </figure>
+
+      <!-- 16 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">16</span><span class="t">Gold Foil Luxury</span><span class="e">logo:
+            thin gold compass star</span></figcaption>
+        <article class="world d-gold">
+          <svg width="46" height="46" viewBox="0 0 44 44" fill="none" stroke="#d4af37" stroke-width="1">
+            <circle cx="22" cy="22" r="6" />
+            <path d="M22 3 V11 M22 33 V41 M3 22 H11 M33 22 H41" />
+            <path d="M8.5 8.5 L13.5 13.5 M30.5 30.5 L35.5 35.5 M35.5 8.5 L30.5 13.5 M13.5 30.5 L8.5 35.5" />
+            <circle cx="22" cy="22" r="1.6" fill="#d4af37" stroke="none" />
+          </svg>
+          <span class="wm g-fade">aaen</span>
+          <p class="g-h g-fade">The studio for software worth keeping.</p>
+          <p class="g-s">aaen studios · est. 2024</p>
+          <div class="g-rule"></div>
+          <button class="g-btn">By appointment</button>
+        </article>
+      </figure>
+
+      <div class="section-label">
+        <h2>Set C — deeper into your taste</h2><span class="ln"></span>
+      </div>
+
+      <!-- 17 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">17</span><span class="t">Linocut Block Print</span><span
+            class="e">logo: carved sun</span></figcaption>
+        <article class="world d-lino">
+          <div class="lk">
+            <svg width="44" height="44" viewBox="0 0 44 44">
+              <path
+                d="M22 6 L26 14 L34 12 L30 20 L38 24 L30 28 L34 36 L26 34 L22 42 L18 34 L10 36 L14 28 L6 24 L14 20 L10 12 L18 14 Z"
+                fill="#1a1410" />
+              <circle cx="22" cy="24" r="6" fill="#ece3cf" />
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="li-h">Cut by hand.</p>
+          <p class="li-s">Bold, inked, a little raw — software with the gouge marks left in.</p>
+          <button class="li-btn">Press print &rarr;</button>
+        </article>
+      </figure>
+
+      <!-- 18 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">18</span><span class="t">Field Journal / Naturalist</span><span
+            class="e">logo: fern frond</span></figcaption>
+        <article class="world d-journal">
+          <div class="lk">
+            <svg width="34" height="44" viewBox="0 0 36 46" fill="none" stroke="#4a3826" stroke-width="1.2">
+              <path d="M18 44 C18 30 18 18 18 4" />
+              <path d="M18 10 C14 9 10 11 8 14 M18 10 C22 9 26 11 28 14" />
+              <path d="M18 18 C13 17 8 19 5 23 M18 18 C23 17 28 19 31 23" />
+              <path d="M18 26 C12 25 6 27 3 32 M18 26 C24 25 30 27 33 32" />
+              <path d="M18 34 C10 33 4 35 2 40" />
+            </svg>
+            <span class="wm">aaen<i>.</i></span>
+          </div>
+          <p class="j-meta"><span>Entry 01 &middot; 2026</span><span>observed &amp; built</span></p>
+          <p class="j-h">We observe the field before we build.</p>
+          <p class="j-s">Patient, methodical software. Sketch the specimen, note the habitat, then ship.</p>
+          <span class="j-tag">specimen no. aa-01</span>
+        </article>
+      </figure>
+
+      <!-- 19 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">19</span><span class="t">Wabi-sabi Ceramic</span><span
+            class="e">logo: open enso brushstroke</span></figcaption>
+        <article class="world d-wabi">
+          <div class="lk">
+            <svg width="50" height="50" viewBox="0 0 48 48" fill="none" stroke="#3a3328" stroke-width="5"
+              stroke-linecap="round">
+              <path d="M33 11 C20 6 9 14 8 26 C7 36 15 43 25 42 C33 41 39 35 40 27 C40 22 38 18 35 16" />
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="wa-h">Perfectly imperfect.</p>
+          <p class="wa-s">Restrained, earthy software that honors the flaw. Quiet, asymmetric, made to age well.</p>
+          <button class="wa-btn">consider it &rarr;</button>
+        </article>
+      </figure>
+
+      <!-- 20 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">20</span><span class="t">Retro Travel Poster</span><span
+            class="e">logo: peak medallion</span></figcaption>
+        <article class="world d-travel">
+          <span class="tr-sun"></span>
+          <span class="tr-hills"></span>
+          <div class="lk">
+            <svg width="46" height="46" viewBox="0 0 46 46">
+              <circle cx="23" cy="23" r="20" fill="#f4ead2" />
+              <path d="M8 30 L17 16 L23 24 L30 12 L38 30 Z" fill="#c25b2a" />
+              <path d="M8 30 L38 30" stroke="#5a3a1e" stroke-width="2" />
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="tr-h">Build for the journey.</p>
+          <p class="tr-s">Optimistic, flat-color, silkscreen-bold. Software with the energy of departure.</p>
+          <button class="tr-btn">Depart &rarr;</button>
+        </article>
+      </figure>
+
+      <!-- 21 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">21</span><span class="t">Tape &amp; Kraft Mail-art</span><span
+            class="e">logo: torn shipping tag</span></figcaption>
+        <article class="world d-kraft">
+          <span class="tape t1"></span>
+          <span class="tape t2"></span>
+          <div class="lk">
+            <svg width="50" height="40" viewBox="0 0 50 40">
+              <path d="M4 8 L40 6 L44 8 L46 34 L6 36 L4 34 Z" fill="#f0e6c8" stroke="#3a2a16" stroke-width="1.5"
+                stroke-dasharray="3 2" />
+              <circle cx="10" cy="12" r="2" fill="#3a2a16" /><text x="25" y="24" font-family="monospace" font-size="9"
+                fill="#3a2a16" text-anchor="middle" font-weight="700">AAEN</text>
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="k-h">shipped by hand</p>
+          <p class="k-s">Cardboard, masking tape, ballpoint. Software that arrives in a parcel, not a launch event.</p>
+          <span class="k-stamp">PAR<br>AVION</span>
+        </article>
+      </figure>
+
+      <!-- 22 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">22</span><span class="t">Marbled Endpaper</span><span class="e">logo:
+            gilded monogram</span></figcaption>
+        <article class="world d-marble">
+          <span class="mb-bg"></span>
+          <div class="mb-inner">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#d4af37" stroke-width="1.2">
+              <circle cx="24" cy="24" r="20" />
+              <circle cx="24" cy="24" r="16" /><text x="24" y="31" font-family="Playfair Display, serif" font-size="22"
+                fill="#d4af37" stroke="none" text-anchor="middle" font-style="italic" font-weight="700">a</text>
+            </svg>
+            <div class="wm">aaen</div>
+            <div class="mb-rule"></div>
+            <p class="mb-h">A studio bound in good cloth.</p>
+            <p class="mb-s">aaen studios &middot; est. 2024</p>
+          </div>
+        </article>
+      </figure>
+
+      <!-- 23 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">23</span><span class="t">Engraving / Intaglio</span><span
+            class="e">logo: wreath monogram</span></figcaption>
+        <article class="world d-engrave">
+          <div class="lk">
+            <svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="#1a1612" stroke-width="1">
+              <path d="M23 4 C12 4 6 13 6 23 C6 33 13 42 23 42 C33 42 40 33 40 23 C40 13 34 4 23 4" />
+              <path d="M10 14 C8 18 7 22 8 26 M36 14 C38 18 39 22 38 26" /><text x="23" y="29"
+                font-family="Playfair Display, serif" font-size="18" fill="#1a1612" stroke="none" text-anchor="middle"
+                font-weight="900">A</text>
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="en-h">Finely cut. Built to hold value.</p>
+          <p class="en-s">Dense, precise, the texture of old currency — software with the gravity of an institution.</p>
+          <button class="en-btn">Commission &rarr;</button>
+        </article>
+      </figure>
+
+      <!-- 24 -->
+      <figure class="cell">
+        <figcaption class="plaque"><span class="n">24</span><span class="t">National Park / Trail</span><span
+            class="e">logo: pine blaze</span></figcaption>
+        <article class="world d-park">
+          <span class="pk-blaze"></span>
+          <span class="pk-blaze b2"></span>
+          <div class="lk">
+            <svg width="34" height="44" viewBox="0 0 36 44">
+              <path d="M18 4 L26 18 L21 18 L28 30 L8 30 L15 18 L10 18 Z" fill="#e8e4cf" />
+              <rect x="15" y="30" width="6" height="8" fill="#c9a876" />
+            </svg>
+            <span class="wm">aaen</span>
+          </div>
+          <p class="pk-h">Stay on the trail.</p>
+          <p class="pk-s">Rugged, grounded, wayfinding software. We mark the path so the work lasts the season.</p>
+          <button class="pk-btn">Begin the trail &rarr;</button>
+          <span class="pk-badge">TRAIL &middot; EST 2026</span>
+        </article>
+      </figure>
+
+    </main>
+
+    <footer class="foot">
+      <strong>How to use this:</strong> it&rsquo;s live at
+      <strong>http://localhost:8000/branding-directions.html</strong> (a temp server is running in this session). Just
+      look, then tell me a number (01–24) and I&rsquo;ll build that one into a full page — real layout, type scale, nav,
+      a few sections, responsive. Mix-and-match works too: &ldquo;the logo from 13 with the palette of 19,&rdquo;
+      &ldquo;18 but warmer,&rdquo; &ldquo;17 meets 11.&rdquo; That kind of feedback is usually more useful than a clean
+      pick.
+    </footer>
+
+  </div>
+</body>
+
+</html>

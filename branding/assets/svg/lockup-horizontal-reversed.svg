@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="160" viewBox="0 0 520 160">
+  <!-- reversed horizontal lockup: for dark backgrounds -->
+  <rect width="520" height="160" fill="#2A3327"/>
+  <g transform="translate(40,52)">
+    <g transform="scale(1.6)">
+      <path d="M24 6 C32 6 40 14 40 22 C40 30 32 34 24 34 C16 34 8 30 8 22 C8 14 16 6 24 6 Z" stroke="#9EC09E" stroke-width="1.1" fill="none" opacity=".4"/>
+      <path d="M24 10 C30 10 36 16 36 22 C36 28 30 31 24 31 C18 31 12 28 12 22 C12 16 18 10 24 10 Z" stroke="#9EC09E" stroke-width="1.1" fill="none" opacity=".6"/>
+      <path d="M24 14 C28 14 32 18 32 22 C32 26 28 28 24 28 C20 28 16 26 16 22 C16 18 20 14 24 14 Z" stroke="#9EC09E" stroke-width="1.1" fill="none" opacity=".85"/>
+      <ellipse cx="24" cy="22" rx="4" ry="3.5" fill="#9EC09E"/>
+    </g>
+    <text x="90" y="48" font-family="Fraunces, Georgia, serif" font-size="48" font-weight="500" fill="#F1EAD9" letter-spacing="-0.5">aaen<tspan fill="#9EC09E" font-style="italic">.</tspan></text>
+  </g>
+</svg>

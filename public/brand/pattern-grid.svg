@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <!-- thematic bg: survey grid. the 12-col underlying grid made visible.
+       tileable. use for technical / blueprint surfaces at low opacity. -->
+  <rect width="400" height="400" fill="#F1EAD9"/>
+  <g stroke="#3A5A3E" stroke-width="0.5" opacity=".18">
+    <!-- minor grid: every 20px -->
+    <path d="M0 20 H400 M0 40 H400 M0 60 H400 M0 80 H400 M0 100 H400 M0 120 H400 M0 140 H400 M0 160 H400 M0 180 H400 M0 200 H400 M0 220 H400 M0 240 H400 M0 260 H400 M0 280 H400 M0 300 H400 M0 320 H400 M0 340 H400 M0 360 H400 M0 380 H400"/>
+    <path d="M20 0 V400 M40 0 V400 M60 0 V400 M80 0 V400 M100 0 V400 M120 0 V400 M140 0 V400 M160 0 V400 M180 0 V400 M200 0 V400 M220 0 V400 M240 0 V400 M260 0 V400 M280 0 V400 M300 0 V400 M320 0 V400 M340 0 V400 M360 0 V400 M380 0 V400"/>
+  </g>
+  <g stroke="#3A5A3E" stroke-width="0.8" opacity=".3">
+    <!-- major grid: every 100px -->
+    <path d="M0 100 H400 M0 200 H400 M0 300 H400"/>
+    <path d="M100 0 V400 M200 0 V400 M300 0 V400"/>
+  </g>
+  <!-- corner registration ticks -->
+  <g stroke="#2A3327" stroke-width="1.2" fill="none">
+    <path d="M8 8 L8 20 M8 8 L20 8"/>
+    <path d="M392 8 L392 20 M392 8 L380 8"/>
+    <path d="M8 392 L8 380 M8 392 L20 392"/>
+    <path d="M392 392 L392 380 M392 392 L380 392"/>
+  </g>
+</svg>

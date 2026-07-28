@@ -1,0 +1,215 @@
+{
+  "Meta": {
+    "siteName": "aaen studios",
+    "tagline": "Kartlegg terrenget før du bygger."
+  },
+  "Nav": {
+    "services": "Tjenester",
+    "work": "Arbeid",
+    "pricing": "Priser",
+    "about": "Om oss",
+    "contact": "Kontakt",
+    "language": "English",
+    "languageShort": "EN"
+  },
+  "Hero": {
+    "eyebrow": "AAEN STUDIOS · EST. 2024",
+    "titleLead": "Kartlegg terrenget",
+    "titleEmphasis": "før",
+    "titleTail": "du bygger.",
+    "lede": "Norsk byrå som bygger nettsider for bedrifter – små som store. Vi starter alltid med å lese terrenget – så bygger vi noe som faktisk står støtt.",
+    "ctaPrimary": "Start prosjektet",
+    "ctaSecondary": "Se prisene",
+    "meta": "Nettsider · Vedlikehold · Domene inkludert"
+  },
+  "TrustStrip": {
+    "norsk": {
+      "title": "Det norske valget",
+      "body": "Bygget i Gjøvik – ikke outsourcet."
+    },
+    "raskt": {
+      "title": "Raskt",
+      "body": "Live på uker, ikke måneder."
+    },
+    "nolockin": {
+      "title": "Ingen lock-in",
+      "body": "Du eier siden din – flytt når som helst."
+    },
+    "altinkludert": {
+      "title": "Alt inkludert",
+      "body": "Domene, hosting, SSL og vedlikehold."
+    }
+  },
+  "Process": {
+    "eyebrow": "Slik jobber vi",
+    "title": "Tre steg fra idé til nettside",
+    "lede": "Hvert prosjekt følger samme kart: les terrenget, tegn ruten, bygg stien.",
+    "step1": {
+      "n": "01",
+      "title": "Kartlegg",
+      "body": "Vi spør om bedriften din, hvem du snakker til, og hva som skal skje på siden. Ingen bygging før vi vet hvor vi går."
+    },
+    "step2": {
+      "n": "02",
+      "title": "Tegn kartet",
+      "body": "Vi skisserer struktur, design og innhold. Du ser formen før en eneste linje kode skrives."
+    },
+    "step3": {
+      "n": "03",
+      "title": "Bygg",
+      "body": "Vi bygger siden raskt og skikkelig – mobiltilpasset, rask og søkvennlig. Så legger vi den ut."
+    }
+  },
+  "Portfolio": {
+    "eyebrow": "Terreng gått",
+    "title": "Bevis, ikke løfter",
+    "lede": "Egne produkter vi drifter selv – det tydeligste beviset på at vi tenker som produktpersoner, ikke bare kodere.",
+    "productsLabel": "EGNE PRODUKTER",
+    "demosLabel": "DEMOER",
+    "demoTag": "Demo",
+    "comingSoon": "Kommende demo",
+    "visit": "Se produktet →",
+    "visitDemo": "Se demo →"
+  },
+  "Pricing": {
+    "eyebrow": "Priser",
+    "title": "Rett frem, ingen overraskelser",
+    "lede": "Abonnement med alt inkludert. Du vet hva du betaler for – og hva du får.",
+    "featured": "Anbefalt",
+    "cta": "Spør om dette nivået"
+  },
+  "Faq": {
+    "eyebrow": "Spørsmål",
+    "title": "Det folk lurer på",
+    "lede": "Vanlige spørsmål fra bedrifter. Fant du ikke svaret? Send en linje."
+  },
+  "ContactCTA": {
+    "eyebrow": "Neste steg",
+    "title": "Klar for å kartlegge terrenget?",
+    "lede": "Fortell oss litt om bedriften din, så tar vi det derfra. En første prat koster ingenting."
+  },
+  "ContactForm": {
+    "name": "Navn",
+    "namePlaceholder": "Ditt navn",
+    "email": "E-post",
+    "emailPlaceholder": "deg@bedrift.no",
+    "business": "Bedrift",
+    "businessPlaceholder": "Bedriftsnavn (valgfritt)",
+    "projectType": "Prosjekttype",
+    "projectTypes": {
+      "start": "Enkel nettside",
+      "vekst": "Nettside med blogg/skjema",
+      "custom": "Tilpasset prosjekt",
+      "unsure": "Vet ikke ennå"
+    },
+    "message": "Melding",
+    "messagePlaceholder": "Fortell litt om hva du trenger...",
+    "submit": "Send",
+    "submitting": "Sender...",
+    "success": "Takk! Vi svarer innen én arbeidsdag.",
+    "error": "Noe gikk galt. Prøv igjen om et øyeblikk – eller skriv direkte til {email}.",
+    "errors": {
+      "name": "Vi trenger et navn å svare på.",
+      "email": "Vi fant ikke den e-posten – sjekk en gang til.",
+      "message": "Skriv et par linjer om hva du trenger."
+    }
+  },
+  "Footer": {
+    "tagline": "Kartlegg terrenget før du bygger.",
+    "navTitle": "Navigasjon",
+    "contactTitle": "Kontakt",
+    "socialTitle": "Følg oss",
+    "location": "Gjøvik, Norge",
+    "established": "Est. 2024",
+    "rights": "Aaen Studios. Bygget på grunn vi har gått."
+  },
+  "AboutPage": {
+    "title": "Om Aaen Studios",
+    "lede": "Et uavhengig verksted for programvare og digitale produkter. Vi bygger alt fra nettsider for bedrifter til egne verktøy og plattformer – alltid med samme regel: les terrenget før du bygger.",
+    "story": "Vi befinner oss mellom praktisk nytte og interaktivitet. Hvert prosjekt starter det samme stedet: les terrenget, forstå konturene, legg stien. Det betyr ærlig scoping, tidlig prototyping, og rask levering. Vi bygger ikke på grunn vi ikke har gått.",
+    "areas": {
+      "web": {
+        "title": "Nettsider for bedrifter",
+        "body": "Moderne nettsider på abonnement – domene, hosting og vedlikehold inkludert. Bygget skikkelig fra første stund, ingen overraskelser i fakturaen."
+      },
+      "edtech": {
+        "title": "Interaktive plattformer",
+        "body": "Egne produkt vi drifter selv – som språklæringsplattformer med abonnement. Hvert konsekt plassert der det bygger naturlig på det forrige, læreplanen kartlagt som terreng."
+      },
+      "opensource": {
+        "title": "Åpen kildekode",
+        "body": "Verktøy og systemer som løser ekte problemer for andre utviklere. Ren, minimal overflate. Ingen forlatte repoer, ingen halvdokumenterte API-er. Hvis vi publiserer det, bruker vi det – og vedlikeholder det."
+      }
+    },
+    "founder": {
+      "eyebrow": "Bak selskapet",
+      "title": "Elliot Strand Aaen",
+      "role": "Grunnlegger & utvikler",
+      "body": "Programvareutvikler i Gjøvik. To år som fullstack-utvikler hos Skatteetaten, 16+ prosjekter levert, student ved NTNU. Bygger alt fra nettsider til skrivebordsapper i Rust — med en fast regel: les kartet før du bygger.",
+      "cta": "Si hei"
+    },
+    "contactCta": {
+      "title": "Vil du bygge noe sammen?",
+      "body": "Enten det gjelder en nettside, et verktøy eller noe helt annet — ta kontakt.",
+      "cta": "Start en prat"
+    }
+  },
+  "Wizard": {
+    "pageTitle": "Start et prosjekt",
+    "pageDescription": "Fortell oss om prosjektet – steg for steg.",
+    "cancel": "Lukk",
+    "back": "Tilbake",
+    "next": "Neste",
+    "skip": "Hopp over",
+    "submit": "Send",
+    "submitting": "Sender...",
+    "error": "Noe gikk galt. Prøv igjen, eller skriv direkte til {email}.",
+    "steps": {
+      "business": {
+        "title": "Om bedriften",
+        "subtitle": "Hva driver dere med? (Du kan hoppe over)",
+        "nameLabel": "Bedriftsnavn",
+        "namePlaceholder": "F.eks. Fjell Brekkestue AS",
+        "descLabel": "Hva gjør dere?",
+        "descPlaceholder": "Kort om hva bedriften driver med..."
+      },
+      "pages": {
+        "title": "Sider & funksjoner",
+        "subtitle": "Hva trenger dere på siden? (Velg flere – eller hopp over)"
+      },
+      "content": {
+        "title": "Innhold",
+        "subtitle": "Hvor langt kommet har dere? (Hopp over om usikker)"
+      },
+      "timeline": {
+        "title": "Tidslinje",
+        "subtitle": "Når vil dere ha det live? (Hopp over om fleksibelt)"
+      },
+      "contact": {
+        "title": "Snart i mål",
+        "subtitle": "Hvordan kan vi nå deg? Vi trenger bare navn og e-post.",
+        "tierLabel": "Hva ser du etter?",
+        "nameLabel": "Navn",
+        "namePlaceholder": "Ditt navn",
+        "emailLabel": "E-post",
+        "emailPlaceholder": "deg@bedrift.no",
+        "messageLabel": "Noe mer på hjertet? (valgfritt)",
+        "messagePlaceholder": "Andre ting du vil vi skal vite om...",
+        "errors": {
+          "name": "Vi trenger et navn å svare på.",
+          "email": "Sjekk e-posten – den ser ikke helt riktig ut."
+        }
+      }
+    },
+    "success": {
+      "title": "Takk! Vi svarer innen én arbeidsdag.",
+      "body": "Forespørselen din er sendt. Vi leser terrenget og kommer tilbake med neste steg.",
+      "close": "Lukk"
+    }
+  },
+  "NotFound": {
+    "title": "Terrenget her er ikke kartlagt",
+    "body": "Vi fant ikke denne siden. Kanskje stien er gammel, kanskje kartet er tatt ned.",
+    "cta": "Tilbake til starten"
+  }
+}

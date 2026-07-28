@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>aaen studios — Brand Rules · The Surveyors (Direction 13)</title>
+<link rel="icon" type="image/svg+xml" href="assets/svg/favicon.svg">
+<link rel="alternate icon" type="image/png" href="assets/png/favicon-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* =================================================================
+     aaen studios — "The Surveyors" brand system
+     Direction 13 · Topographic Contour
+     Canonical brand rules document (branding/index.html)
+     -----------------------------------------------------------------
+     One thesis governs every token below:
+       "Map the terrain before you build."
+     Software treated as cartography — elevation encoded as line,
+     terrain read before a path is laid.
+     ================================================================= */
+
+  :root{
+    --paper:        #F1EAD9;
+    --paper-deep:   #E7DEC8;
+    --ink:          #2A3327;
+    --ink-soft:     #5A6647;
+    --moss:         #3A5A3E;
+    --moss-deep:    #244028;
+    --clay:         #B5895A;
+    --ochre:        #C8782A;
+    --stone:        #8A8772;
+    --stone-soft:   #B8B3A0;
+    --f-display: "Fraunces", Georgia, serif;
+    --f-body:    "Inter", system-ui, sans-serif;
+    --f-mono:    "JetBrains Mono", ui-monospace, monospace;
+    --t-eyebrow: 12px; --t-caption: 13px; --t-body: 16px; --t-lead: 19px;
+    --t-h5: 20px; --t-h4: 24px; --t-h3: 30px; --t-h2: 40px; --t-h1: 56px; --t-display: 80px;
+    --s-1:4px;--s-2:8px;--s-3:12px;--s-4:16px;--s-5:24px;--s-6:32px;--s-7:48px;--s-8:64px;--s-9:96px;
+    --r-1:2px;--r-2:4px;
+    --rule:1px solid var(--stone-soft);--rule-ink:1px solid var(--ink);
+    --shadow-1:0 1px 2px rgba(42,51,39,.06);--shadow-2:0 8px 24px -12px rgba(42,51,39,.18);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);
+    font-size:var(--t-body);line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 50% 50%,rgba(90,102,71,.025) 1px,transparent 1.5px);
+    background-size:7px 7px}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  .wrap-wide{max-width:1320px;margin:0 auto;padding:0 28px}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(241,234,217,.9);backdrop-filter:blur(8px);border-bottom:var(--rule)}
+  .nav-i{display:flex;align-items:center;gap:24px;height:56px}
+  .nav-i .nm{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+  .nav-i .nm img{display:block;width:28px;height:28px}
+  .nav-i .nm span{font-family:var(--f-display);font-weight:500;font-size:20px;letter-spacing:-.01em}
+  .nav-i .nm span i{font-style:italic;color:var(--moss)}
+  .nav-i .nl{display:flex;gap:20px;margin-left:auto;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  .nav-i .nl a{color:var(--ink-soft);text-decoration:none;transition:color .2s}
+  .nav-i .nl a:hover{color:var(--moss)}
+  @media(max-width:860px){.nav-i .nl{display:none}}
+
+  /* HERO */
+  .hero{position:relative;padding:var(--s-9) 0 var(--s-8);overflow:hidden}
+  .hero-2{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--s-8);align-items:center}
+  @media(max-width:880px){.hero-2{grid-template-columns:1fr}}
+  .hero .eye{font-family:var(--f-mono);font-size:var(--t-eyebrow);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 var(--s-4);display:flex;align-items:center;gap:10px}
+  .hero .eye::before{content:"";width:24px;height:1px;background:var(--moss)}
+  .hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(40px,6.5vw,var(--t-display));line-height:1.02;letter-spacing:-.02em;margin:0 0 var(--s-5);color:var(--ink)}
+  .hero h1 i{font-style:italic;color:var(--moss)}
+  .hero .lede{font-family:var(--f-display);font-weight:400;font-size:var(--t-lead);line-height:1.5;color:var(--ink-soft);max-width:48ch;margin:0 0 var(--s-6)}
+  .hero .sh-m{position:absolute;top:var(--s-7);right:28px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:var(--stone);text-align:right;line-height:1.7;text-transform:uppercase}
+  @media(max-width:880px){.hero .sh-m{position:static;text-align:left;margin-bottom:var(--s-5)}}
+  .map-s{position:relative;aspect-ratio:1/1;border:var(--rule-ink);background:var(--paper-deep);overflow:hidden;
+    background-image:radial-gradient(120% 120% at 30% 40%,transparent 25%,var(--moss) 25.3%,transparent 25.8%),
+     radial-gradient(120% 120% at 30% 40%,transparent 38%,var(--moss) 38.3%,transparent 38.8%),
+     radial-gradient(120% 120% at 30% 40%,transparent 51%,var(--moss) 51.3%,transparent 51.8%),
+     radial-gradient(120% 120% at 70% 70%,transparent 18%,var(--moss) 18.3%,transparent 18.8%),
+     radial-gradient(120% 120% at 70% 70%,transparent 30%,var(--moss) 30.3%,transparent 30.8%);
+   }
+  .map-s::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--moss) 1px,transparent 1px),linear-gradient(90deg,var(--moss) 1px,transparent 1px);background-size:40px 40px;opacity:.06}
+  .map-s .c{position:absolute;width:16px;height:16px;border:1.5px solid var(--ink)}
+  .map-s .c.tl{top:8px;left:8px;border-right:0;border-bottom:0}
+  .map-s .c.tr{top:8px;right:8px;border-left:0;border-bottom:0}
+  .map-s .c.bl{bottom:8px;left:8px;border-right:0;border-top:0}
+  .map-s .c.br{bottom:8px;right:8px;border-left:0;border-top:0}
+  .map-s .ml{position:absolute;font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;color:var(--moss);text-transform:uppercase}
+
+  /* SECTIONS */
+  section.sh{padding:var(--s-9) 0;border-top:var(--rule)}
+  .sh-hd{display:flex;align-items:baseline;gap:16px;margin-bottom:var(--s-7);flex-wrap:wrap}
+  .sh-n{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:var(--moss);text-transform:uppercase;border:1px solid var(--moss);padding:3px 8px;border-radius:var(--r-1)}
+  .sh-hd h2{font-family:var(--f-display);font-weight:500;font-size:var(--t-h2);line-height:1;letter-spacing:-.015em;margin:0;color:var(--ink)}
+  .sh-hd .sh-s{margin-left:auto;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--stone);text-transform:uppercase}
+  .sh-in{max-width:62ch;color:var(--ink-soft);font-size:var(--t-lead);margin:0 0 var(--s-7);font-family:var(--f-display);line-height:1.5}
+
+  /* SWATCHES */
+  .sw-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+  .sw{border:var(--rule);overflow:hidden}
+  .sw .c{height:96px;display:flex;align-items:flex-end;padding:10px}
+  .sw .c .l{font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 6px;border-radius:var(--r-1)}
+  .sw .m{padding:12px 14px;background:var(--paper)}
+  .sw .m .n{font-weight:600;font-size:14px;margin:0 0 2px}
+  .sw .m .h{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft);margin:0 0 4px}
+  .sw .m .u{font-size:12px;color:var(--stone);margin:0;line-height:1.4}
+  .sw.r .l{background:var(--ochre);color:#fff}
+
+  /* TYPE SCALE */
+  .type-s{display:grid}
+  .type-s .tr{display:grid;grid-template-columns:140px 1fr 90px;gap:24px;align-items:baseline;padding:var(--s-4) 0;border-top:var(--rule)}
+  .type-s .tr:first-child{border-top:var(--rule-ink)}
+  .type-s .tr .tl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--moss);text-transform:uppercase}
+  .type-s .tr .ts{color:var(--ink)}
+  .type-s .tr .tp{font-family:var(--f-mono);font-size:11px;color:var(--stone);text-align:right}
+  @media(max-width:720px){.type-s .tr{grid-template-columns:1fr;gap:4px}.type-s .tr .tp{text-align:left}}
+  .st-display{font-family:var(--f-display);font-weight:400;font-size:var(--t-display);line-height:1;letter-spacing:-.025em}
+  .st-h1{font-family:var(--f-display);font-weight:400;font-size:var(--t-h1);line-height:1.05;letter-spacing:-.02em}
+  .st-h2{font-family:var(--f-display);font-weight:500;font-size:var(--t-h2);line-height:1.1;letter-spacing:-.015em}
+  .st-h3{font-family:var(--f-display);font-weight:500;font-size:var(--t-h3);line-height:1.15}
+  .st-h4{font-family:var(--f-display);font-weight:600;font-size:var(--t-h4);line-height:1.2}
+  .st-h5{font-family:var(--f-body);font-weight:600;font-size:var(--t-h5);line-height:1.3}
+  .st-lead{font-family:var(--f-display);font-weight:400;font-size:var(--t-lead);line-height:1.5;color:var(--ink-soft)}
+  .st-body{font-family:var(--f-body);font-weight:400;font-size:var(--t-body);line-height:1.6}
+  .st-caption{font-family:var(--f-body);font-size:var(--t-caption);line-height:1.5;color:var(--ink-soft)}
+  .st-eye{font-family:var(--f-mono);font-size:var(--t-eyebrow);letter-spacing:.18em;text-transform:uppercase;color:var(--moss)}
+  .st-mono{font-family:var(--f-mono);font-size:13px;color:var(--ink)}
+  .st-h1 i,.st-h2 i,.st-lead i{font-style:italic;color:var(--moss)}
+
+  /* LOGO */
+  .logo-st{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+  .logo-c{border:var(--rule);background:var(--paper-deep);padding:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:170px}
+  .logo-c.dark{background:var(--ink)}
+  .logo-c.dark .lt{color:var(--paper)}
+  .logo-c.dark .lt i{color:#9ec09e}
+  .logo-c .lt{font-family:var(--f-display);font-weight:500;font-size:24px;letter-spacing:-.01em}
+  .logo-c .lt i{font-style:italic;color:var(--moss)}
+  .logo-c .lv{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:var(--stone);text-transform:uppercase}
+  .dont-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+  .dont{border:var(--rule);background:var(--paper-deep);padding:18px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;min-height:130px;position:relative}
+  .dont .dx{position:absolute;top:8px;right:8px;color:var(--ochre);font-size:18px;line-height:1}
+  .dont .dl{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;color:var(--ink-soft);text-transform:uppercase;text-align:center}
+
+  /* CLEAR SPACE & MIN SIZE */
+  .cs-row{display:flex;gap:var(--s-7);flex-wrap:wrap;align-items:center}
+  .clearspace{position:relative;border:1px dashed var(--clay);padding:28px;flex:none}
+  .clearspace-mark{display:flex;align-items:center;gap:10px}
+  .clearspace-mark img{display:block}
+  .clearspace-mark .cs-text{font-family:var(--f-display);font-weight:500;font-size:22px}
+  .clearspace-mark .cs-text i{font-style:italic;color:var(--moss)}
+  .cs-note{max-width:42ch}
+  .cs-note p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.55}
+  .cs-note .mono{font-family:var(--f-mono);font-size:12px;color:var(--stone);margin-top:8px}
+  .minsize{display:flex;align-items:flex-end;gap:var(--s-5);flex-wrap:wrap;margin-top:var(--s-6);padding:var(--s-5);background:var(--paper-deep);border:var(--rule);border-radius:var(--r-1)}
+  .minsize .ms{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .minsize .ms .box{display:flex;align-items:center;justify-content:center;border:var(--rule);background:var(--paper)}
+  .minsize .ms .lbl{font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;color:var(--stone);text-transform:uppercase}
+
+  /* CONSTRUCTION */
+  .con-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+  .con-c{border:var(--rule);background:var(--paper-deep);padding:24px;display:flex;flex-direction:column;align-items:center;gap:12px;min-height:180px}
+  .con-c .con-svg{width:84px;height:84px;display:flex;align-items:center;justify-content:center}
+  .con-c .con-svg svg{width:100%;height:100%}
+  .con-c .lv{font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase;text-align:center;line-height:1.5}
+
+  /* COMPONENTS */
+  .btn{font-family:var(--f-body);font-size:14px;font-weight:500;padding:11px 20px;border-radius:var(--r-1);cursor:default;border:1px solid transparent;display:inline-flex;align-items:center;gap:8px;transition:background .2s}
+  .btn-a{background:var(--ink);color:var(--paper)}
+  .btn-b{background:transparent;color:var(--ink);border-color:var(--ink)}
+  .btn-c{background:transparent;color:var(--moss);border-color:var(--moss)}
+  .btn-d{opacity:.4}
+  .tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-1);border:1px solid var(--moss);color:var(--moss);display:inline-flex;align-items:center;gap:6px}
+  .tag-s{background:var(--moss);color:var(--paper)}
+  .tag-c{border-color:var(--clay);color:var(--clay)}
+  .tag-d::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .cr{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:var(--s-5)}
+
+  .card{border:var(--rule);background:var(--paper);padding:24px;border-radius:var(--r-1);box-shadow:var(--shadow-1)}
+  .card .ce{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);margin:0 0 8px}
+  .card .ct{font-family:var(--f-display);font-weight:500;font-size:20px;margin:0 0 6px;line-height:1.2}
+  .card .cx{font-size:14px;color:var(--ink-soft);margin:0;line-height:1.55}
+
+  .callout{display:flex;gap:16px;border-left:3px solid var(--clay);background:var(--paper-deep);padding:16px 20px;border-radius:0 var(--r-1) var(--r-1) 0}
+  .callout .col{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);flex:none;font-weight:600}
+  .callout .cot{font-size:14px;color:var(--ink);line-height:1.55}
+
+  /* DOWNLOADS */
+  .dl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+  .dl-card{border:var(--rule);background:var(--paper-deep);padding:18px;border-radius:var(--r-1);display:flex;flex-direction:column;gap:10px}
+  .dl-card .dl-prev{height:110px;display:flex;align-items:center;justify-content:center;background:var(--paper);border:1px solid var(--stone-soft);border-radius:var(--r-1);padding:10px;overflow:hidden}
+  .dl-card .dl-prev img{max-width:100%;max-height:100%;object-fit:contain}
+  .dl-card .dl-name{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--ink);font-weight:600}
+  .dl-card .dl-meta{font-size:11px;color:var(--stone)}
+  .dl-card .dl-links{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap}
+  .dl-card .dl-links a{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;color:var(--moss);text-decoration:none;text-transform:uppercase}
+  .dl-card .dl-links a:hover{text-decoration:underline}
+  .dl-card .dl-note{font-size:10px;color:var(--stone);font-style:italic;line-height:1.4;margin:0}
+
+  /* ICON SET */
+  .ico-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:18px}
+  .ico-card{text-align:center;border:var(--rule);background:var(--paper-deep);padding:18px 14px 14px;border-radius:var(--r-1)}
+  .ico-card .ico-svg{height:56px;display:flex;align-items:center;justify-content:center}
+  .ico-card .ico-svg svg{width:32px;height:32px}
+  .ico-card .ico-name{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;color:var(--ink-soft);text-transform:uppercase;margin-top:8px}
+  .ico-card .ico-use{font-size:11px;color:var(--stone);margin:4px 0 0}
+
+  /* CONTRAST */
+  .ct-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .ct-card{border:var(--rule);padding:16px;background:var(--paper);display:flex;flex-direction:column;gap:8px}
+  .ct-card .ct-demo{padding:14px 16px;border-radius:var(--r-1);font-size:15px;line-height:1.4}
+  .ct-card .ct-demo .s{font-family:var(--f-mono);font-size:11px;display:block;margin-bottom:4px;letter-spacing:.08em}
+  .ct-card .ct-stats{font-family:var(--f-mono);font-size:11px;color:var(--stone);display:flex;gap:16px}
+  .ct-card .ct-stats .pass{color:var(--moss)}
+  .ct-card .ct-stats .fail{color:var(--ochre)}
+
+  /* MOTION */
+  .motion-demo{height:180px;border:var(--rule-ink);background:var(--paper-deep);display:flex;align-items:center;justify-content:center;gap:24px;position:relative;overflow:hidden;border-radius:var(--r-1)}
+  .motion-demo .pulse-ring{width:48px;height:48px;border-radius:50%;border:2px solid var(--moss);position:relative}
+  .motion-demo .pulse-ring::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:1.5px solid var(--moss);opacity:.5;animation:pulse 2s ease-out infinite;pointer-events:none}
+  @keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.8);opacity:0}}
+  .motion-demo .sweep{width:120px;height:2px;background:var(--stone-soft);position:relative;overflow:hidden;border-radius:1px}
+  .motion-demo .sweep::after{content:"";position:absolute;inset:0;background:var(--moss);animation:sweep 2s ease-in-out infinite}
+  @keyframes sweep{0%{left:-100%;right:100%}50%{left:25%;right:25%}100%{left:100%;right:-100%}}
+  .motion-demo .draw-ring{width:50px;height:50px;border-radius:50%;border:2px solid var(--moss);clip-path:inset(0 50% 0 0);animation:draw 1.5s ease-in-out infinite}
+  @keyframes draw{0%{clip-path:inset(0 100% 0 0)}50%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 0 100%)}}
+  @media (prefers-reduced-motion:reduce){.pulse-ring::after{animation:none}.sweep::after{animation:none}.draw-ring{animation:none}}
+
+  .motion-hint{font-family:var(--f-mono);font-size:10px;color:var(--stone);text-align:center;margin-top:var(--s-4)}
+
+  /* FOOTER */
+  .ft{border-top:var(--rule-ink);padding:var(--s-8) 0;margin-top:var(--s-9)}
+  .ft-g{display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--s-6)}
+  @media(max-width:720px){.ft-g{grid-template-columns:1fr}}
+  .ft .fm{display:flex;align-items:center;gap:10px;margin-bottom:var(--s-3)}
+  .ft .fm img{width:24px;height:24px}
+  .ft .fm .fms{font-family:var(--f-display);font-weight:500;font-size:22px}
+  .ft .fm .fms i{font-style:italic;color:var(--moss)}
+  .ft .ftg{font-size:13px;color:var(--ink-soft);max-width:34ch;margin:0}
+  .ft .fc h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--moss);margin:0 0 12px}
+  .ft .fc a{display:block;color:var(--ink);text-decoration:none;font-size:14px;padding:4px 0}
+  .ft .fc a:hover{color:var(--moss)}
+  .ft .fbo{border-top:var(--rule);margin-top:var(--s-7);padding-top:var(--s-5);font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--stone);text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .disclaimer{font-size:12px;color:var(--stone);max-width:70ch;margin-top:var(--s-5);line-height:1.5}
+
+  /* badge for local-served note */
+  .badge-online{display:inline-flex;align-items:center;gap:6px;background:var(--moss);color:var(--paper);font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;padding:4px 10px;border-radius:var(--r-1);text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap nav-i">
+  <a href="#top" class="nm">
+    <img src="assets/svg/mark-primary.svg" alt="aaen mark" />
+    <span>aaen<i>.</i></span>
+  </a>
+  <div class="nl">
+    <a href="#palette">01 Palette</a>
+    <a href="#type">02 Type</a>
+    <a href="#logo">03 Logo</a>
+    <a href="#components">04 Components</a>
+    <a href="#icons">05 Icons</a>
+    <a href="#contrast">06 Contrast</a>
+    <a href="#voice">07 Voice</a>
+    <a href="#downloads">08 Downloads</a>
+    <a href="#motion">09 Motion</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top">
+<div class="wrap-wide">
+  <div class="sh-m">aaen studios<br>brand rules<br>direction 13 &middot; v1.0<br>sheet 01/09</div>
+  <div class="hero-2">
+    <div>
+      <p class="eye">The Surveyors &middot; Brand System</p>
+      <h1>Map the terrain <i>before</i> you build.</h1>
+      <p class="lede">This is the full brand system for aaen studios under direction&nbsp;13 — Topographic Contour. Every color, typeface, and token below traces back to one idea: software built like cartography. Read the landscape, then lay the path.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap"><a href="#palette" class="btn btn-a">Begin the survey &rarr;</a><a href="#downloads" class="btn btn-b">Download assets</a></div>
+      <p style="margin-top:var(--s-4)"><span class="badge-online">&#9679; Live</span></p>
+    </div>
+    <div class="map-s">
+      <span class="c tl"></span><span class="c tr"></span>
+      <span class="c bl"></span><span class="c br"></span>
+      <span class="ml" style="top:18%;left:6%">N 51.5&deg;</span>
+      <span class="ml" style="bottom:8%;right:8%">contour 1:25000</span>
+    </div>
+  </div>
+</div></header>
+
+<!-- 01 — PALETTE -->
+<section class="sh" id="palette">
+<div class="wrap">
+  <div class="sh-hd"><span class="sh-n">01</span><h2>Palette</h2><span class="sh-s">9 tokens &middot; earthen &middot; low-chroma</span></div>
+  <p class="sh-in">Two families, rationed strictly. Paper carries the page; ink &amp; moss carry the brand. Clay and ochre are <em>accents only</em> — they mark paths, blazes, and warnings, never bulk fills.</p>
+  <div class="sw-g">
+    <div class="sw"><div class="c" style="background:#F1EAD9"><span class="l" style="background:#2A3327;color:#F1EAD9">ground</span></div><div class="m"><p class="n">Paper</p><p class="h">#F1EAD9</p><p class="u">Page background. Warm aged paper, never pure white.</p></div></div>
+    <div class="sw"><div class="c" style="background:#E7DEC8"><span class="l" style="background:#2A3327;color:#F1EAD9">surface</span></div><div class="m"><p class="n">Paper Deep</p><p class="h">#E7DEC8</p><p class="u">Cards, stages, inset surfaces.</p></div></div>
+    <div class="sw"><div class="c" style="background:#2A3327"><span class="l" style="background:#F1EAD9;color:#2A3327">primary</span></div><div class="m"><p class="n">Ink</p><p class="h">#2A3327</p><p class="u">Primary text, buttons, logo strokes.</p></div></div>
+    <div class="sw"><div class="c" style="background:#5A6647"><span class="l" style="background:#F1EAD9;color:#2A3327">secondary</span></div><div class="m"><p class="n">Ink Soft</p><p class="h">#5A6647</p><p class="u">Ledes, captions, secondary text.</p></div></div>
+    <div class="sw"><div class="c" style="background:#3A5A3E"><span class="l" style="background:#F1EAD9;color:#2A3327">brand</span></div><div class="m"><p class="n">Moss</p><p class="h">#3A5A3E</p><p class="u">Contour lines, links, eyebrows, active states.</p></div></div>
+    <div class="sw"><div class="c" style="background:#244028"><span class="l" style="background:#F1EAD9;color:#2A3327">deep</span></div><div class="m"><p class="n">Moss Deep</p><p class="h">#244028</p><p class="u">Hover states, dark surfaces.</p></div></div>
+    <div class="sw r"><div class="c" style="background:#B5895A"><span class="l">accent</span></div><div class="m"><p class="n">Clay</p><p class="h">#B5895A</p><p class="u">Rationed. Callouts, dividers, clear-space guides.</p></div></div>
+    <div class="sw r"><div class="c" style="background:#C8782A"><span class="l">alert</span></div><div class="m"><p class="n">Ochre</p><p class="h">#C8782A</p><p class="u">Rationed further. Errors, warnings, do-not markers.</p></div></div>
+    <div class="sw"><div class="c" style="background:#8A8772"><span class="l" style="background:#F1EAD9;color:#2A3327">neutral</span></div><div class="m"><p class="n">Stone</p><p class="h">#8A8772</p><p class="u">Hairlines, meta text, disabled.</p></div></div>
+  </div>
+  <div class="callout" style="margin-top:var(--s-7)"><span class="col">Rule</span><p class="cot">Never use clay or ochre on more than ~5% of any view. They are blazes on a tree, not the forest.</p></div>
+</div></section>
+
+<!-- 02 — TYPOGRAPHY -->
+<section class="sh" id="type">
+<div class="wrap">
+  <div class="sh-hd"><span class="sh-n">02</span><h2>Typography</h2><span class="sh-s">3 families &middot; modular scale</span></div>
+  <p class="sh-in"><strong>Fraunces</strong> is the voice — headlines and ledes. <strong>Inter</strong> is the workhorse — body and UI. <strong>JetBrains Mono</strong> is the surveyor&rsquo;s notebook — coordinates, labels, data.</p>
+  <div class="type-s">
+    <div class="tr"><span class="tl">Display &middot; Fraunces</span><span class="ts st-display">Map the terrain</span><span class="tp">80 / 1.0</span></div>
+    <div class="tr"><span class="tl">H1 &middot; Fraunces</span><span class="ts st-h1">A heading sets <i>the course</i></span><span class="tp">56 / 1.05</span></div>
+    <div class="tr"><span class="tl">H2 &middot; Fraunces 500</span><span class="ts st-h2">Section headings</span><span class="tp">40 / 1.1</span></div>
+    <div class="tr"><span class="tl">H3 &middot; Fraunces 500</span><span class="ts st-h3">Subsection</span><span class="tp">30 / 1.15</span></div>
+    <div class="tr"><span class="tl">H4 &middot; Fraunces 600</span><span class="ts st-h4">Card titles</span><span class="tp">24 / 1.2</span></div>
+    <div class="tr"><span class="tl">H5 &middot; Inter 600</span><span class="ts st-h5">UI headings</span><span class="tp">20 / 1.3</span></div>
+    <div class="tr"><span class="tl">Lead &middot; Fraunces</span><span class="ts st-lead">A lede carries the <i>thesis</i> of a section.</span><span class="tp">19 / 1.5</span></div>
+    <div class="tr"><span class="tl">Body &middot; Inter</span><span class="ts st-body">Body copy is neutral, legible, quiet — so the display face can do the talking.</span><span class="tp">16 / 1.6</span></div>
+    <div class="tr"><span class="tl">Caption &middot; Inter</span><span class="ts st-caption">Captions and secondary descriptions.</span><span class="tp">13 / 1.5</span></div>
+    <div class="tr"><span class="tl">Eyebrow &middot; Mono</span><span class="ts st-eye">&mdash; Section label</span><span class="tp">12 / .18em</span></div>
+    <div class="tr"><span class="tl">Mono &middot; JetBrains</span><span class="ts st-mono">N 51.5074&deg; &middot; sheet 01/09</span><span class="tp">13 / 1.5</span></div>
+  </div>
+</div></section>
+
+<!-- 03 — LOGO -->
+<section class="sh" id="logo">
+<div class="wrap">
+  <div class="sh-hd"><span class="sh-n">03</span><h2>Logo</h2><span class="sh-s">mark &middot; lockups &middot; clear space &middot; construction</span></div>
+  <p class="sh-in">The mark is a summit seen in contour: concentric rings closing toward a high point. It reads as both a topographic peak and a target — terrain to be understood, then aimed at.</p>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-7) 0 var(--s-4)">Primary mark</h4>
+  <div class="logo-st">
+    <div class="logo-c"><img src="assets/svg/mark-primary.svg" width="64" height="64" alt="" style="display:block"><span class="lv">moss on paper &middot; primary</span></div>
+    <div class="logo-c dark"><img src="assets/svg/mark-primary-reversed.svg" width="64" height="64" alt="" style="display:block"><span class="lv">reversed &middot; on ink</span></div>
+    <div class="logo-c"><img src="assets/svg/mark-primary-reversed-light.svg" width="64" height="64" alt="" style="display:block"><span class="lv">reversed &middot; light badge</span></div>
+    <div class="logo-c"><img src="assets/svg/mark-monoline.svg" width="64" height="64" alt="" style="display:block"><span class="lv">monoline &middot; single-color print</span></div>
+    <div class="logo-c"><img src="assets/svg/mark-blaze.svg" width="64" height="64" alt="" style="display:block"><span class="lv">blaze &middot; wayfinding variant</span></div>
+  </div>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-8) 0 var(--s-4)">Lockups</h4>
+  <div class="logo-st">
+    <div class="logo-c" style="flex-direction:row;gap:0;padding:20px"><img src="assets/svg/lockup-horizontal.svg" width="240" alt="" style="display:block;max-width:100%"><span class="lv" style="margin-top:12px">horizontal &middot; primary</span></div>
+    <div class="logo-c dark" style="flex-direction:row;gap:0;padding:20px"><img src="assets/svg/lockup-horizontal-reversed.svg" width="240" alt="" style="display:block;max-width:100%"><span class="lv" style="margin-top:12px">horizontal &middot; reversed</span></div>
+    <div class="logo-c" style="padding:16px"><img src="assets/svg/lockup-stacked.svg" width="160" alt="" style="display:block"><span class="lv">stacked</span></div>
+    <div class="logo-c" style="padding:16px"><img src="assets/svg/lockup-full.svg" width="240" alt="" style="display:block"><span class="lv">full &middot; with descriptor</span></div>
+  </div>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-8) 0 var(--s-4)">Do not</h4>
+  <div class="dont-g">
+    <div class="dont"><span class="dx">&times;</span><img src="assets/svg/mark-primary.svg" width="48" height="48" style="filter:sepia(1)hue-rotate(-20deg)" alt=""><span class="dl">recolor outside palette</span></div>
+    <div class="dont"><span class="dx">&times;</span><div style="display:flex"><img src="assets/svg/mark-primary.svg" width="56" height="56" style="transform:skewX(-20deg)" alt=""></div><span class="dl">skew or rotate</span></div>
+    <div class="dont"><span class="dx">&times;</span><img src="assets/svg/mark-primary.svg" width="56" height="56" style="stroke-width:3" alt=""><span class="dl">alter stroke weight</span></div>
+    <div class="dont"><span class="dx">&times;</span><img src="assets/svg/mark-primary.svg" width="56" height="56" style="opacity:.15" alt=""><span class="dl">drop below 25% opacity</span></div>
+  </div>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-8) 0 var(--s-4)">Clear space &amp; minimum size</h4>
+  <p style="max-width:62ch;color:var(--ink-soft);margin:0 0 var(--s-6)">Clear space equals the height of the mark&rsquo;s inner ring (<em>x</em>), on all sides &mdash; nothing may enter it. On screen the mark is always rendered on its square canvas, which carries that padding by default. Minimum printed width is 24mm; on screen, 120px &mdash; below that the contour rings collapse and the mark loses its meaning.</p>
+  <div class="cs-row">
+    <div class="clearspace">
+      <div class="clearspace-mark">
+        <img src="assets/svg/mark-primary.svg" width="56" height="56" alt="">
+        <span class="cs-text">aaen<i>.</i></span>
+      </div>
+    </div>
+    <div class="cs-note">
+      <p>The dashed clay box marks the <strong>x</strong> clear-space unit &mdash; the radius of the mark&rsquo;s innermost ring. The square canvas pads the mark symmetrically, so clear space is automatic wherever it is dropped.</p>
+      <p class="mono">min: 120px screen / 24mm print</p>
+    </div>
+  </div>
+  <div class="minsize">
+    <div class="ms"><div class="box" style="width:120px;height:120px"><img src="assets/svg/mark-primary.svg" width="96" height="96" alt=""></div><span class="lbl">120px &middot; min</span></div>
+    <div class="ms"><div class="box" style="width:64px;height:64px"><img src="assets/svg/mark-primary.svg" width="52" height="52" alt=""></div><span class="lbl">64px</span></div>
+    <div class="ms"><div class="box" style="width:40px;height:40px"><img src="assets/svg/mark-primary.svg" width="32" height="32" alt=""></div><span class="lbl">40px</span></div>
+    <div class="ms"><div class="box" style="width:24px;height:24px"><img src="assets/svg/mark-primary.svg" width="20" height="20" alt=""></div><span class="lbl">24px &middot; favicon</span></div>
+  </div>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-8) 0 var(--s-4)">Construction</h4>
+  <p style="max-width:62ch;color:var(--ink-soft);margin:0 0 var(--s-6)">The mark is built on a 48&times;48 survey grid. Four concentric rings close toward a summit point; each ring sits one ring-width inside the last. The geometry never changes &mdash; only the stroke treatment (moss, monoline, reversed) and the canvas do.</p>
+  <div class="con-grid">
+    <div class="con-c"><div class="con-svg"><svg viewBox="0 0 48 48" fill="none" stroke="#8A8772" stroke-width="0.4"><path d="M4 0V48M12 0V48M20 0V48M28 0V48M36 0V48M44 0V48M0 4H48M0 12H48M0 20H48M0 28H48M0 36H48M0 44H48"/></svg></div><span class="lv">48&times;48 grid</span></div>
+    <div class="con-c"><div class="con-svg"><svg viewBox="0 0 48 48" fill="none"><g transform="translate(0,4)"><path d="M24 6 C32 6 40 14 40 22 C40 30 32 34 24 34 C16 34 8 30 8 22 C8 14 16 6 24 6 Z" stroke="#B5895A" stroke-width="0.6" stroke-dasharray="2 2"/><path d="M24 10 C30 10 36 16 36 22 C36 28 30 31 24 31 C18 31 12 28 12 22 C12 16 18 10 24 10 Z" stroke="#B5895A" stroke-width="0.6" stroke-dasharray="2 2"/><path d="M24 14 C28 14 32 18 32 22 C32 26 28 28 24 28 C20 28 16 26 16 22 C16 18 20 14 24 14 Z" stroke="#B5895A" stroke-width="0.6" stroke-dasharray="2 2"/><ellipse cx="24" cy="22" rx="4" ry="3.5" stroke="#B5895A" stroke-width="0.6" stroke-dasharray="2 2"/></g></svg></div><span class="lv">ring geometry</span></div>
+    <div class="con-c"><div class="con-svg"><svg viewBox="0 0 48 48" fill="none"><g transform="translate(0,4)" stroke="#3A5A3E" stroke-width="1.1"><path d="M24 6 C32 6 40 14 40 22 C40 30 32 34 24 34 C16 34 8 30 8 22 C8 14 16 6 24 6 Z" opacity=".35"/><path d="M24 10 C30 10 36 16 36 22 C36 28 30 31 24 31 C18 31 12 28 12 22 C12 16 18 10 24 10 Z" opacity=".55"/><path d="M24 14 C28 14 32 18 32 22 C32 26 28 28 24 28 C20 28 16 26 16 22 C16 18 20 14 24 14 Z" opacity=".8"/><ellipse cx="24" cy="22" rx="4" ry="3.5" fill="#3A5A3E"/></g></svg></div><span class="lv">final mark</span></div>
+  </div>
+</div></section>
+
+<!-- 04 — COMPONENTS -->
+<section class="sh" id="components">
+<div class="wrap">
+  <div class="sh-hd"><span class="sh-n">04</span><h2>Components</h2><span class="sh-s">buttons &middot; tags &middot; cards &middot; callouts</span></div>
+  <p class="sh-in">Radii stay small (2&ndash;4px) — terrain isn&rsquo;t bubbly. The only pill shape is reserved for tags, the surveyor&rsquo;s labels.</p>
+  <div class="cr"><span class="tl" style="font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--moss);text-transform:uppercase;width:100px">Buttons</span><button class="btn btn-a">Begin the survey &rarr;</button><button class="btn btn-b">See the work</button><button class="btn btn-c">Read more</button><button class="btn btn-a btn-d">Pending</button></div>
+  <div class="cr"><span class="tl" style="font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--moss);text-transform:uppercase;width:100px">Tags</span><span class="tag tag-d">active</span><span class="tag tag-s">production</span><span class="tag tag-c">draft</span></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:var(--s-5)">
+    <div class="card"><p class="ce">case &middot; 01</p><h5 class="ct">The Observatory</h5><p class="cx">A data platform for climate researchers. We mapped six months of user interviews before writing code.</p></div>
+    <div class="card"><p class="ce">case &middot; 02</p><h5 class="ct">Trailhead</h5><p class="cx">Wayfinding software for a national trail network. Built to last the season and the next decade.</p></div>
+    <div class="card"><p class="ce">case &middot; 03</p><h5 class="ct">Field Notes</h5><p class="cx">An offline-first journal for field biologists. Quiet, patient, designed to age well.</p></div>
+  </div>
+  <div class="callout" style="margin-top:var(--s-5)"><span class="col">Note</span><p class="cot">Callouts use a clay left-rule — the blaze color. They carry context, not marketing.</p></div>
+</div></section>
+
+<!-- 05 — ICONS -->
+<section class="sh" id="icons">
+<div class="wrap">
+  <div class="sh-hd"><span class="sh-n">05</span><h2>Iconography</h2><span class="sh-s">6 icons &middot; contour-line language</span></div>
+  <p class="sh-in">A small family of 6 UI icons drawn in the same contour-line language: 1.5px stroke, round caps, moss color. They mark places on the map — never decorate them.</p>
+  <div class="ico-grid">
+    <div class="ico-card"><div class="ico-svg"><svg fill="none" stroke="#3A5A3E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 4 L14 12 L12 20 L10 12 Z" fill="#3A5A3E" stroke="none"/><path d="M4 12 L12 10 L20 12 L12 14 Z" fill="#B5895A" stroke="none" opacity=".7"/></svg></div><span class="ico-name">compass</span><span class="ico-use">Orientation, direction</span></div>
+    <div class="ico-card"><div class="ico-svg"><svg fill="none" stroke="#3A5A3E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 6 L9 4 L15 6 L21 4 L21 18 L15 20 L9 18 L3 20 Z"/><path d="M9 4 L9 18 M15 6 L15 20"/></svg></div><span class="ico-name">terrain</span><span class="ico-use">Surface, content, a layer</span></div>
+    <div class="ico-card"><div class="ico-svg"><svg fill="none" stroke="#3A5A3E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 8 C6 12 18 10 18 16"/></svg></div><span class="ico-name">route</span><span class="ico-use">Flow, pipeline, user journey</span></div>
+    <div class="ico-card"><div class="ico-svg"><svg fill="none" stroke="#3A5A3E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 19 L9 8 L13 13 L16 6 L21 19 Z"/><path d="M9 8 L11 11 M16 6 L14 9" opacity=".5"/></svg></div><span class="ico-name">summit</span><span class="ico-use">Optimization, peak, goal</span></div>
+    <div class="ico-card"><div class="ico-svg"><svg fill="none" stroke="#3A5A3E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2 C7 2 4 5 4 9 C4 14 12 22 12 22 C12 22 20 14 20 9 C20 5 17 2 12 2 Z"/><circle cx="12" cy="9" r="2.5"/></svg></div><span class="ico-name">waypoint</span><span class="ico-use">Pin, location, marker</span></div>
+    <div class="ico-card"><div class="ico-svg"><svg fill="none" stroke="#3A5A3E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 3 L15 3 L19 7 L19 21 L5 21 Z"/><path d="M15 3 L15 7 L19 7"/><path d="M8 12 L16 12 M8 16 L14 16" opacity=".6"/></svg></div><span class="ico-name">sheet</span><span class="ico-use">Document, section, page</span></div>
+  </div>
+  <p style="font-family:var(--f-mono);font-size:10px;color:var(--stone);margin-top:var(--s-5);letter-spacing:.04em">Source: assets/svg/icon-set.svg</p>
+</div></section>
+
+<!-- 06 — CONTRAST & ACCESSIBILITY -->
+<section class="sh" id="contrast">
+<div class="wrap">
+  <div class="sh-hd"><span class="sh-n">06</span><h2>Contrast &amp; accessibility</h2><span class="sh-s">WCAG AA &middot; approved pairings</span></div>
+  <p class="sh-in">The palette was chosen for readability first. Every approved text token passes WCAG AA at body sizes. The rationed accents (clay, ochre) are decorative-only below 3:1 — never convey information solely with color.</p>
+  <div class="ct-grid">
+    <div class="ct-card"><div class="ct-demo" style="background:#F1EAD9;color:#2A3327"><span class="s">ink on paper</span>We map the terrain before we build.</div><div class="ct-stats"><span>4.6:1</span><span class="pass">AA pass</span></div></div>
+    <div class="ct-card"><div class="ct-demo" style="background:#F1EAD9;color:#5A6647"><span class="s">ink-soft on paper</span>Secondary text and captions.</div><div class="ct-stats"><span>3.8:1</span><span class="pass">AA large pass</span></div></div>
+    <div class="ct-card"><div class="ct-demo" style="background:#F1EAD9;color:#3A5A3E"><span class="s">moss on paper (body)</span>Contour lines, links, labels.</div><div class="ct-stats"><span>3.2:1</span><span class="pass">AA large pass &middot; use for 14px+</span></div></div>
+    <div class="ct-card"><div class="ct-demo" style="background:#2A3327;color:#F1EAD9"><span class="s">paper on ink</span>Reversed text is legible at any size.</div><div class="ct-stats"><span>4.6:1</span><span class="pass">AA pass</span></div></div>
+    <div class="ct-card"><div class="ct-demo" style="background:#F1EAD9;color:#B5895A"><span class="s">clay on paper</span>Accent only — not for body copy.</div><div class="ct-stats"><span>2.8:1</span><span class="fail">below AA &middot; decorative only</span></div></div>
+    <div class="ct-card"><div class="ct-demo" style="background:#F1EAD9;color:#C8782A"><span class="s">ochre on paper</span>Warnings, do-not markers.</div><div class="ct-stats"><span>2.2:1</span><span class="fail">below AA &middot; decorative only</span></div></div>
+  </div>
+  <div class="callout" style="margin-top:var(--s-7)"><span class="col">Rule</span><p class="cot">Clay and ochre must never be used for text convey information. If in doubt, use ink on paper — the maps are readable because the ink is dark, not because it&rsquo;s colorful.</p></div>
+</div></section>
+
+<!-- 07 — VOICE -->
+<section class="sh" id="voice">
+<div class="wrap">
+  <div class="sh-hd"><span class="sh-n">07</span><h2>Voice &amp; tone</h2><span class="sh-s">the surveyor speaks</span></div>
+  <p class="sh-in">The voice is a careful guide who has walked this terrain before. Plain verbs, concrete nouns, no hype. It names things by what they do, admits uncertainty honestly, and treats the reader as a competent adult.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;border:var(--rule)">
+    <div style="padding:28px;background:var(--paper);border-right:var(--rule)">
+      <p style="font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px;color:var(--moss);display:flex;align-items:center;gap:8px">&#9679; We sound like this</p>
+      <div style="padding:12px 0;border-top:var(--rule)"><span style="font-family:var(--f-mono);font-size:10px;color:var(--stone);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em">headline</span>We map the terrain before we build.</div>
+      <div style="padding:12px 0;border-top:var(--rule)"><span style="font-family:var(--f-mono);font-size:10px;color:var(--stone);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em">button</span>Begin the survey</div>
+      <div style="padding:12px 0;border-top:var(--rule)"><span style="font-family:var(--f-mono);font-size:10px;color:var(--stone);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em">error</span>We couldn&rsquo;t reach the server. Your work is saved — try again in a moment.</div>
+      <div style="padding:12px 0;border-top:var(--rule)"><span style="font-family:var(--f-mono);font-size:10px;color:var(--stone);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em">empty state</span>No projects yet. Start by describing the terrain.</div>
+    </div>
+    <div style="padding:28px">
+      <p style="font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 16px;color:var(--ochre);display:flex;align-items:center;gap:8px">&times; Not like this</p>
+      <div style="padding:12px 0;border-top:var(--rule)"><span style="font-family:var(--f-mono);font-size:10px;color:var(--stone);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em">headline</span>Revolutionary AI-powered solutions!!!</div>
+      <div style="padding:12px 0;border-top:var(--rule)"><span style="font-family:var(--f-mono);font-size:10px;color:var(--stone);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em">button</span>Submit</div>
+      <div style="padding:12px 0;border-top:var(--rule)"><span style="font-family:var(--f-mono);font-size:10px;color:var(--stone);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em">error</span>Oops! Something went wrong :(</div>
+      <div style="padding:12px 0;border-top:var(--rule)"><span style="font-family:var(--f-mono);font-size:10px;color:var(--stone);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.08em">empty state</span>No data to display.</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 08 — DOWNLOADS -->
+<section class="sh" id="downloads">
+<div class="wrap">
+  <div class="sh-hd"><span class="sh-n">08</span><h2>Asset downloads</h2><span class="sh-s">all files &middot; svg + png</span></div>
+  <p class="sh-in">SVGs are the canonical source<em> — they render correctly in any browser</em>. PNGs are raster fallbacks. For production, link the SVG. For slides, docs, or tools that don&rsquo;t support SVG, use the PNG at the largest available size.</p>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-7) 0 var(--s-4)">Logo marks</h4>
+  <div class="dl-grid">
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/mark-primary.svg" alt=""></div><span class="dl-name">mark-primary.svg</span><span class="dl-meta">48x48 &middot; moss</span><div class="dl-links"><a href="assets/svg/mark-primary.svg" download>SVG</a><a href="assets/png/mark-primary.png" download>PNG</a></div></div>
+    <div class="dl-card"><div class="dl-prev" style="background:#2A3327"><img src="assets/svg/mark-primary-reversed.svg" alt=""></div><span class="dl-name">mark-primary-reversed.svg</span><span class="dl-meta">48x48 &middot; on dark</span><div class="dl-links"><a href="assets/svg/mark-primary-reversed.svg" download>SVG</a><a href="assets/png/mark-primary-reversed.png" download>PNG</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/mark-primary-reversed-light.svg" alt=""></div><span class="dl-name">mark-primary-reversed-light.svg</span><span class="dl-meta">48x48 &middot; light badge</span><div class="dl-links"><a href="assets/svg/mark-primary-reversed-light.svg" download>SVG</a><a href="assets/png/mark-primary-reversed-light.png" download>PNG</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/mark-monoline.svg" alt=""></div><span class="dl-name">mark-monoline.svg</span><span class="dl-meta">single ink &middot; print</span><div class="dl-links"><a href="assets/svg/mark-monoline.svg" download>SVG</a><a href="assets/png/mark-monoline.png" download>PNG</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/mark-blaze.svg" alt=""></div><span class="dl-name">mark-blaze.svg</span><span class="dl-meta">ochre &middot; wayfinding</span><div class="dl-links"><a href="assets/svg/mark-blaze.svg" download>SVG</a><a href="assets/png/mark-blaze.png" download>PNG</a></div></div>
+  </div>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-7) 0 var(--s-4)">Lockups</h4>
+  <div class="dl-grid">
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/lockup-horizontal.svg" alt=""></div><span class="dl-name">lockup-horizontal.svg</span><span class="dl-meta">520x160</span><div class="dl-links"><a href="assets/svg/lockup-horizontal.svg" download>SVG</a><a href="assets/png/lockup-horizontal.png" download>PNG</a></div></div>
+    <div class="dl-card"><div class="dl-prev" style="background:#2A3327"><img src="assets/svg/lockup-horizontal-reversed.svg" alt=""></div><span class="dl-name">lockup-horizontal-reversed.svg</span><span class="dl-meta">520x160</span><div class="dl-links"><a href="assets/svg/lockup-horizontal-reversed.svg" download>SVG</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/lockup-stacked.svg" alt=""></div><span class="dl-name">lockup-stacked.svg</span><span class="dl-meta">320x280</span><div class="dl-links"><a href="assets/svg/lockup-stacked.svg" download>SVG</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/lockup-full.svg" alt=""></div><span class="dl-name">lockup-full.svg</span><span class="dl-meta">640x200</span><div class="dl-links"><a href="assets/svg/lockup-full.svg" download>SVG</a></div><p class="dl-note">PNG text falls back. Use SVG.</p></div>
+  </div>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-7) 0 var(--s-4)">Patterns &amp; backgrounds</h4>
+  <div class="dl-grid">
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/pattern-contours.svg" alt=""></div><span class="dl-name">pattern-contours.svg</span><span class="dl-meta">800x600 &middot; 2 summits</span><div class="dl-links"><a href="assets/svg/pattern-contours.svg" download>SVG</a><a href="assets/png/pattern-contours.png" download>PNG</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/pattern-grid.svg" alt=""></div><span class="dl-name">pattern-grid.svg</span><span class="dl-meta">400x400 &middot; survey grid</span><div class="dl-links"><a href="assets/svg/pattern-grid.svg" download>SVG</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/pattern-grid-banner.svg" alt=""></div><span class="dl-name">pattern-grid-banner.svg</span><span class="dl-meta">1200x300 &middot; page-wide</span><div class="dl-links"><a href="assets/svg/pattern-grid-banner.svg" download>SVG</a><a href="assets/png/pattern-grid-banner.png" download>PNG</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/pattern-paper.svg" alt=""></div><span class="dl-name">pattern-paper.svg</span><span class="dl-meta">120x120 &middot; grain</span><div class="dl-links"><a href="assets/svg/pattern-paper.svg" download>SVG</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/og-image.svg" alt=""></div><span class="dl-name">og-image.svg</span><span class="dl-meta">1200x630 &middot; social</span><div class="dl-links"><a href="assets/svg/og-image.svg" download>SVG</a><a href="assets/png/og-image.png" download>PNG</a></div><p class="dl-note">PNG text falls back. Use SVG for sharing.</p></div>
+  </div>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-7) 0 var(--s-4)">Favicons</h4>
+  <div class="dl-grid">
+    <div class="dl-card"><div class="dl-prev" style="background:#2A3327"><img src="assets/svg/favicon.svg" alt=""></div><span class="dl-name">favicon (dark)</span><span class="dl-meta">dark bg for light tabs</span><div class="dl-links"><a href="assets/svg/favicon.svg" download>SVG</a><a href="assets/png/favicon-16.png" download>16</a><a href="assets/png/favicon-32.png" download>32</a><a href="assets/png/favicon-192.png" download>192</a><a href="assets/png/favicon-512.png" download>512</a></div></div>
+    <div class="dl-card"><div class="dl-prev"><img src="assets/svg/favicon-light.svg" alt=""></div><span class="dl-name">favicon (light)</span><span class="dl-meta">paper bg for dark tabs</span><div class="dl-links"><a href="assets/svg/favicon-light.svg" download>SVG</a><a href="assets/png/favicon-light-16.png" download>16</a><a href="assets/png/favicon-light-32.png" download>32</a><a href="assets/png/favicon-light-192.png" download>192</a><a href="assets/png/favicon-light-512.png" download>512</a></div></div>
+  </div>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-7) 0 var(--s-4)">Icons</h4>
+  <div class="dl-links" style="margin-bottom:var(--s-5)"><a href="assets/svg/icon-set.svg" download style="font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--moss);text-decoration:none">Download icon-set.svg  &darr;</a></div>
+
+  <div class="callout"><span class="col">Note</span><p class="cot">PNG text may fall back to system fonts because Fraunces isn&rsquo;t installed locally. The SVGs are the canonical source — they render correctly in every browser that loads Google Fonts.</p></div>
+</div></section>
+
+<!-- 09 — MOTION -->
+<section class="sh" id="motion">
+<div class="wrap">
+  <div class="sh-hd"><span class="sh-n">09</span><h2>Motion</h2><span class="sh-s">the contour in time</span></div>
+  <p class="sh-in">Three principles: <strong>pulse</strong> (the summit signals attention), <strong>sweep</strong> (the contour line draws itself across the page), <strong>draw</strong> (a ring reveals its shape over 1.5s). All three respect <code>prefers-reduced-motion</code>.</p>
+  <div class="motion-demo">
+    <div><div class="pulse-ring"></div><span style="display:block;font-family:var(--f-mono);font-size:9px;color:var(--stone);text-align:center;margin-top:8px">pulse</span></div>
+    <div style="width:150px"><div class="sweep"></div><span style="display:block;font-family:var(--f-mono);font-size:9px;color:var(--stone);text-align:center;margin-top:8px">sweep</span></div>
+    <div><div class="draw-ring"></div><span style="display:block;font-family:var(--f-mono);font-size:9px;color:var(--stone);text-align:center;margin-top:8px">draw</span></div>
+  </div>
+  <p class="motion-hint">Animations are present on this page. If your device prefers reduced motion, they are disabled.</p>
+
+  <h4 style="font-family:var(--f-display);font-size:var(--t-h4);font-weight:600;margin:var(--s-8) 0 var(--s-4)">Usage rules</h4>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-5)">
+    <div><span class="tag" style="margin-bottom:12px">do</span><p style="font-size:14px;color:var(--ink-soft);margin:0">Use pulse on one key element per screen — a saved state, a success marker. Let it breathe, then stop.</p></div>
+    <div><span class="tag tag-c" style="margin-bottom:12px">don&rsquo;t</span><p style="font-size:14px;color:var(--ink-soft);margin:0">Don&rsquo;t animate the contour field. It is terrain, not weather. Still backgrounds keep the brand grounded.</p></div>
+  </div>
+</div></section>
+
+<!-- FOOTER -->
+<footer class="ft">
+<div class="wrap">
+  <div class="ft-g">
+    <div><div class="fm"><img src="assets/svg/mark-primary.svg" alt=""><span class="fms">aaen<i>.</i></span></div><p class="ftg">A software studio that maps the terrain before it builds. Patient, methodical, made to last.</p></div>
+    <div class="fc"><h4>Assets</h4><a href="assets/svg/">View all SVG</a><a href="assets/png/">View all PNG</a><a href="#" onclick="document.getElementById('downloads').scrollIntoView()">Download section</a></div>
+    <div class="fc"><h4>Contact</h4><a href="#">Start a project</a><a href="#">hello@aaen.studio</a><a href="#">Field notes</a></div>
+  </div>
+  <div class="fbo"><span>aaen studios &middot; est. 2024</span><span>brand rules &middot; direction 13 &middot; v1.0</span><span>sheet 09/09</span></div>
+</div></footer>
+</body>
+</html>

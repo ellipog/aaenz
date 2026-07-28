@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 48 48" fill="none">
+  <!-- the summit crosshair: wayfinding variant — ochre, for marked locations only -->
+  <circle cx="24" cy="24" r="16" stroke="#C8782A" stroke-width="1.2" opacity=".5"/>
+  <circle cx="24" cy="24" r="10" stroke="#C8782A" stroke-width="1.2" opacity=".8"/>
+  <path d="M24 4 V12 M24 36 V44 M4 24 H12 M36 24 H44" stroke="#C8782A" stroke-width="1.4"/>
+  <path d="M24 18 V30 M18 24 H30" stroke="#C8782A" stroke-width="1.4"/>
+  <circle cx="24" cy="24" r="2" fill="#C8782A"/>
+</svg>
