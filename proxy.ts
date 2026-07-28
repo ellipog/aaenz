@@ -64,6 +64,7 @@ export default function middleware(req: NextRequest) {
 export const config = {
   // Match all pathnames except:
   // - /api, /trpc, /_next, /_vercel (internals)
+  // - /demos (standalone fictional client sites — own identity, no i18n chrome)
   // - any path containing a dot (static files in /public)
-  matcher: ["/((?!api|trpc|_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api|trpc|_next|_vercel|demos|.*\\..*).*)"],
 };

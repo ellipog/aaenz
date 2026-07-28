@@ -17,7 +17,7 @@
     "titleLead": "Map the terrain",
     "titleEmphasis": "before",
     "titleTail": "you build.",
-    "lede": "A Norwegian studio building websites for businesses — small and large. We always start by reading the terrain — then build something that actually stands firm.",
+    "lede": "A Norwegian studio building websites for businesses - small and large. We always start by reading the terrain - then build something that actually stands firm.",
     "ctaPrimary": "Start a project",
     "ctaSecondary": "See pricing",
     "meta": "Websites · Maintenance · Domain included"
@@ -25,7 +25,7 @@
   "TrustStrip": {
     "norsk": {
       "title": "The Norwegian option",
-      "body": "Built in Gjøvik — not outsourced."
+      "body": "Built in Gjøvik - not outsourced."
     },
     "raskt": {
       "title": "Fast",
@@ -33,7 +33,7 @@
     },
     "nolockin": {
       "title": "No lock-in",
-      "body": "You own your site — move it anytime."
+      "body": "You own your site - move it anytime."
     },
     "altinkludert": {
       "title": "All included",
@@ -57,24 +57,28 @@
     "step3": {
       "n": "03",
       "title": "Build",
-      "body": "We build the site fast and properly — mobile-first, quick, and search-friendly. Then we ship it live."
+      "body": "We build the site fast and properly - mobile-first, quick, and search-friendly. Then we ship it live."
     }
   },
   "Portfolio": {
     "eyebrow": "Terrain walked",
     "title": "Proof, not promises",
-    "lede": "Our own products, which we run ourselves — the clearest proof we think like product people, not just coders.",
+    "lede": "Our own products, which we run ourselves - the clearest proof we think like product people, not just coders.",
     "productsLabel": "OUR PRODUCTS",
     "demosLabel": "DEMOS",
     "demoTag": "Demo",
     "comingSoon": "Coming demo",
     "visit": "See the product →",
-    "visitDemo": "View demo →"
+    "visitDemo": "View demo →",
+    "viewConcept": "View design concept →",
+    "pkgStart": "Start package",
+    "pkgVekst": "Vekst package",
+    "pkgTilpasset": "Custom package"
   },
   "Pricing": {
     "eyebrow": "Pricing",
     "title": "Straightforward, no surprises",
-    "lede": "Subscription with everything included. You know what you pay for — and what you get.",
+    "lede": "Subscription with everything included. You know what you pay for - and what you get.",
     "featured": "Recommended",
     "cta": "Ask about this tier"
   },
@@ -107,10 +111,10 @@
     "submit": "Send",
     "submitting": "Sending...",
     "success": "Thanks! We'll reply within one working day.",
-    "error": "Something went wrong. Try again in a moment — or write directly to {email}.",
+    "error": "Something went wrong. Try again in a moment - or write directly to {email}.",
     "errors": {
       "name": "We need a name to reply to.",
-      "email": "We couldn't find that email — check it once more.",
+      "email": "We couldn't find that email - check it once more.",
       "message": "Write a few lines about what you need."
     }
   },
@@ -125,38 +129,38 @@
   },
   "AboutPage": {
     "title": "About Aaen Studios",
-    "lede": "An independent software and digital products studio. We build everything from websites for businesses to our own tools and platforms — always with the same rule: read the terrain before you build.",
+    "lede": "An independent software and digital products studio. We build everything from websites for businesses to our own tools and platforms - always with the same rule: read the terrain before you build.",
     "story": "We sit between practical utility and interactivity. Every project starts the same way: survey the terrain, understand the contours, then lay the path. That means scoping honestly, prototyping early, and fast delivery. We don't build on ground we haven't walked.",
     "areas": {
       "web": {
         "title": "Websites for businesses",
-        "body": "Modern websites on subscription — domain, hosting, and maintenance included. Built properly from the first step, no surprises on the invoice."
+        "body": "Modern websites on subscription - domain, hosting, and maintenance included. Built properly from the first step, no surprises on the invoice."
       },
       "edtech": {
         "title": "Interactive platforms",
-        "body": "Our own products we run ourselves — like language learning platforms with subscriptions. Each piece placed where it builds naturally on the last, the curriculum mapped like terrain."
+        "body": "Our own products we run ourselves - like language learning platforms with subscriptions. Each piece placed where it builds naturally on the last, the curriculum mapped like terrain."
       },
       "opensource": {
         "title": "Open-Source",
-        "body": "Tools and systems that solve real problems for other developers. Clean, minimal surface area. No abandoned repos, no half-documented APIs. If we publish it, we use it — and we maintain it."
+        "body": "Tools and systems that solve real problems for other developers. Clean, minimal surface area. No abandoned repos, no half-documented APIs. If we publish it, we use it - and we maintain it."
       }
     },
     "founder": {
       "eyebrow": "Behind the company",
       "title": "Elliot Strand Aaen",
       "role": "Founder & developer",
-      "body": "Software developer in Gjøvik. Two years as a full-stack developer at the Norwegian Tax Administration, 16+ projects shipped, NTNU student. Builds everything from websites to Rust desktop apps — with one firm rule: read the map before you build.",
+      "body": "Software developer in Gjøvik. Two years as a full-stack developer at the Norwegian Tax Administration, 16+ projects shipped, NTNU student. Builds everything from websites to Rust desktop apps - with one firm rule: read the map before you build.",
       "cta": "Say hello"
     },
     "contactCta": {
       "title": "Want to build something together?",
-      "body": "Whether it's a website, a tool, or something else entirely — get in touch.",
+      "body": "Whether it's a website, a tool, or something else entirely - get in touch.",
       "cta": "Start a conversation"
     }
   },
   "Wizard": {
     "pageTitle": "Start a project",
-    "pageDescription": "Tell us about your project — step by step.",
+    "pageDescription": "Tell us about your project - step by step.",
     "cancel": "Close",
     "back": "Back",
     "next": "Next",
@@ -175,7 +179,7 @@
       },
       "pages": {
         "title": "Pages & features",
-        "subtitle": "What do you need on the site? (Pick several — or skip)"
+        "subtitle": "What do you need on the site? (Pick several - or skip)"
       },
       "content": {
         "title": "Content",
@@ -197,7 +201,7 @@
         "messagePlaceholder": "Other things you'd like us to know...",
         "errors": {
           "name": "We need a name to reply to.",
-          "email": "Check that email — it doesn't look quite right."
+          "email": "Check that email - it doesn't look quite right."
         }
       }
     },
@@ -211,5 +215,17 @@
     "title": "This terrain isn't mapped",
     "body": "We couldn't find this page. Maybe the path is old, maybe the map was taken down.",
     "cta": "Back to the start"
+  },
+  "FjellBrekkestue": {
+    "title": "Fjell Brekkestue - design concept",
+    "lede": "A fictional mountain café, six possible directions. Each has its own identity."
+  },
+  "GjovikFysioterapi": {
+    "title": "Gjøvik Fysiotherapy - design concept",
+    "lede": "A fictional physiotherapy clinic, six possible directions. Each has its own identity."
+  },
+  "StrandTreverk": {
+    "title": "Strand Treverk - design concept",
+    "lede": "A fictional coastal carpenter, six possible directions. Each has its own identity."
   }
 }

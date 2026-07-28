@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useIsMobile } from "@/lib/use-media-query";
 import { WizardModal } from "./WizardModal";
@@ -26,10 +26,6 @@ const variantCls = {
  * A pricing/service CTA that opens the wizard the right way:
  * - Mobile (< 768px): opens the iOS bottom-sheet modal
  * - Desktop: navigates to /start?tier=… (full-page wizard)
- *
- * Renders as a real <a href="/start?tier=X"> so it's keyboard/screen-reader
- * friendly and works without JS (progressive enhancement). On mobile the
- * click is intercepted to open the modal instead.
  */
 export function WizardTrigger({
   tier,
@@ -39,8 +35,8 @@ export function WizardTrigger({
   className = "",
 }: Props) {
   const isMobile = useIsMobile();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLAnchorElement>(null);
 
   const params = new URLSearchParams();
   if (tier) params.set("tier", tier);
@@ -52,12 +48,12 @@ export function WizardTrigger({
       e.preventDefault();
       setOpen(true);
     }
-    // Desktop: let the native <a> navigate to /start.
   }
 
   return (
     <>
       <a
+        ref={triggerRef}
         href={href}
         onClick={onClick}
         className={`inline-flex items-center justify-center rounded-sm px-5 py-2.5 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss ${variantCls[variant]} ${className}`}
@@ -70,6 +66,7 @@ export function WizardTrigger({
         onClose={() => setOpen(false)}
         initialTier={tier}
         initialService={service}
+        triggerRef={triggerRef}
       />
     </>
   );

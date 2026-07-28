@@ -39,6 +39,7 @@
   "exclude": [
     "node_modules",
     "branding",
-    ".playwright-mcp"
+    ".playwright-mcp",
+    "app/[locale]/fjell-brekkestue"
   ]
 }

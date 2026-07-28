@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { ContourLockup } from "@/components/ui/ContourMark";
 import { CONTACT_EMAIL } from "@/lib/site";
 
@@ -19,9 +19,12 @@ export function Footer() {
   const t = useTranslations("Nav");
   const tF = useTranslations("Footer");
   const pathname = usePathname();
+  const locale = useLocale();
   const withoutLocale = pathname.replace(/^\/(no|en)(?=\/|$)/, "");
   const isHome = withoutLocale === "" || withoutLocale === "/";
-  const anchorHref = (anchor: string) => (isHome ? `#${anchor}` : `/#${anchor}`);
+  const enPrefix = locale === "en" ? "/en" : "";
+  const anchorHref = (anchor: string) =>
+    isHome ? `#${anchor}` : `${enPrefix}/#${anchor}`;
 
   return (
     <footer className="border-t border-stone-soft/50 bg-paper-deep">

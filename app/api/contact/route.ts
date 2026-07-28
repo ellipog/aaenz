@@ -101,8 +101,8 @@ export async function POST(request: Request) {
   }
 
   const subject = isWizard
-    ? `Ny prosjektførespørsel frå ${d.name}`
-    : `Ny førespørsel fra ${d.name}`;
+    ? `Ny prosjektførespørsel fra ${d.name}`
+    : `Ny forespørsel fra ${d.name}`;
 
   // Plain text
   const textSections = sections

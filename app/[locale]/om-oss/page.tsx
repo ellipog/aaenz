@@ -16,7 +16,19 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "AboutPage" });
-  return { title: t("title"), description: t("lede") };
+  const path = "/om-oss";
+  return {
+    title: t("title"),
+    description: t("lede"),
+    alternates: {
+      canonical: locale === "en" ? `/en${path}` : path,
+      languages: {
+        no: path,
+        en: `/en${path}`,
+        "x-default": path,
+      },
+    },
+  };
 }
 
 /** Contour-line icons matching the brand icon-set vocabulary (no emoji). */

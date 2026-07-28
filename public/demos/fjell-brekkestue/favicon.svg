@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    Fjell Brekkestue favicon — the "Nedtur" peak mark.
+    A sharp ridge silhouette with a secondary, lighter peak behind. This is the
+    café's standalone identity (concept 02), so it intentionally uses the café's
+    own signal-orange rather than the host aaen moss palette.
+    Colors are hardcoded (favicons can't resolve CSS variables).
+  -->
+  <rect width="32" height="32" rx="6" fill="#1c2422"/>
+  <!-- main peak — signal-orange -->
+  <path d="M5 27 L16 6 L27 27 Z" fill="#e8552b"/>
+  <!-- secondary ridge behind, lighter -->
+  <path d="M12 27 L20 15 L27 27 Z" fill="#f08a63" opacity="0.55"/>
+  <!-- snow line notch on the main peak -->
+  <path d="M12.5 15 L16 10 L19.5 15" fill="none" stroke="#1c2422" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

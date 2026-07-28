@@ -52,7 +52,7 @@ export function StepContact({
             className={inputCls}
             aria-invalid={!!errors.name}
           />
-          {errors.name && <p className="mt-1 text-sm text-ochre">{errors.name}</p>}
+          {errors.name && <p role="alert" className="mt-1 text-sm text-ochre">{errors.name}</p>}
         </div>
         <div>
           <label htmlFor="w-email" className={labelCls}>
@@ -68,7 +68,7 @@ export function StepContact({
             className={inputCls}
             aria-invalid={!!errors.email}
           />
-          {errors.email && <p className="mt-1 text-sm text-ochre">{errors.email}</p>}
+          {errors.email && <p role="alert" className="mt-1 text-sm text-ochre">{errors.email}</p>}
         </div>
       </div>
 

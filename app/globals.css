@@ -32,6 +32,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Offset anchor jumps so headings don't hide behind the sticky header. */
+    scroll-padding-top: 5rem;
   }
 
   body {

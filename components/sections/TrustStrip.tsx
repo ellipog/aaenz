@@ -52,9 +52,9 @@ export function TrustStrip() {
             className="flex flex-col gap-2 py-8 lg:items-start lg:py-10"
           >
             <span className="text-moss">{icon}</span>
-            <h3 className="font-display text-lg font-medium text-ink">
+            <p className="font-display text-lg font-medium text-ink">
               {t(`${key}.title`)}
-            </h3>
+            </p>
             <p className="text-sm text-ink-soft">{t(`${key}.body`)}</p>
           </div>
         ))}

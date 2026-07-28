@@ -2,17 +2,17 @@ import type { Localized, LocalizedList } from "./types";
 
 /**
  * Subscription tiers + one-time services for website-building.
- * Single file — adjust prices and deliverables here and they update everywhere.
+ * Single file - adjust prices and deliverables here and they update everywhere.
  *
- * Market research (juli 2026) — Norwegian "nettside som abonnement" aktører:
- *   Smartbyrå 299, Webaro/Nettify 399, Uniweb Basis 472–559, Uniweb Standard 759,
- *   Webvia Enkel 690, Webvia Bedrift 990, Nettify Levert 800, Raskweb 990–1190.
- *   Tradisjonelle byrå: 20 000–50 000 kr engangs + fra 490 kr/mnd drift.
- *   .no-domene koster ~85–200 kr/år (Norid via registrar).
- *   Logo/visuell identitet: 5 000–15 000 kr (mellomklasse).
- *   Profilmanual: 4 900–15 000 kr.
+ * Market research (juli 2026) - Norwegian "nettside som abonnement" aktører:
+ *   Smartbyrå 299, Webaro/Nettify 399, Uniweb Basis 472-559, Uniweb Standard 759,
+ *   Webvia Enkel 690, Webvia Bedrift 990, Nettify Levert 800, Raskweb 990-1190.
+ *   Tradisjonelle byrå: 20 000-50 000 kr engangs + fra 490 kr/mnd drift.
+ *   .no-domene koster ~85-200 kr/år (Norid via registrar).
+ *   Logo/visuell identitet: 5 000-15 000 kr (mellomklasse).
+ *   Profilmanual: 4 900-15 000 kr.
  *
- * Vår posisjon: 0 kr oppstart (konkurrenter tar 6 999–19 990 kr),
+ * Vår posisjon: 0 kr oppstart (konkurrenter tar 6 999-19 990 kr),
  * alt inkludert, skreddersydd (ikke selvbygger).
  *
  * Currency is NOK, monthly, ex. VAT unless noted.
@@ -44,12 +44,12 @@ export const pricingTiers: PricingTier[] = [
     price: { no: "449 kr", en: "$45" },
     period: { no: "/ mnd", en: "/ mo" },
     summary: {
-      no: "For deg som trenger en enkel, profesjonell nettside – raskt.",
-      en: "For those who need a simple, professional website — fast.",
+      no: "For deg som trenger en enkel, profesjonell nettside - raskt.",
+      en: "For those who need a simple, professional website - fast.",
     },
     features: {
       no: [
-        "1–3 sider, mobiltilpasset",
+        "1-3 sider, mobiltilpasset",
         "Ett .no-domene inkludert",
         "Hosting og SSL inkludert",
         "Inntil 3 tekstendringer per måned",
@@ -57,7 +57,7 @@ export const pricingTiers: PricingTier[] = [
         "Norsk support",
       ],
       en: [
-        "1–3 pages, mobile-friendly",
+        "1-3 pages, mobile-friendly",
         "Hosting & SSL included",
         "Up to 3 text edits per month",
         "Live in weeks, not months",
@@ -113,8 +113,8 @@ export const pricingTiers: PricingTier[] = [
     price: { no: "Tilbud", en: "Quote" },
     period: { no: "etter en prat", en: "after a talk" },
     summary: {
-      no: "For prosjekter som trenger mer – e-handel, integrasjoner eller dedikert støtte.",
-      en: "For projects that need more — e-commerce, integrations, or dedicated support.",
+      no: "For prosjekter som trenger mer - e-handel, integrasjoner eller dedikert støtte.",
+      en: "For projects that need more - e-commerce, integrations, or dedicated support.",
     },
     features: {
       no: [
@@ -154,7 +154,7 @@ export interface OneTimeService {
 }
 
 /**
- * Engangstjenester — legges til ved oppstart eller når som helst.
+ * Engangstjenester - legges til ved oppstart eller når som helst.
  * Ikke gjentakende. Priser eks. mva.
  */
 export const oneTimeServices: OneTimeService[] = [
@@ -169,13 +169,13 @@ export const oneTimeServices: OneTimeService[] = [
     },
     features: {
       no: [
-        "2–6 konseptforslag",
+        "2-6 konseptforslag",
         "Logo i alle formater (SVG, PNG, farger/sort/hvitt)",
         "Fargepalett og typografi",
         "Enkel retningslinje for bruk",
       ],
       en: [
-        "2–6 concept proposals",
+        "2-6 concept proposals",
         "Logo in all formats (SVG, PNG, colour/black/white)",
         "Colour palette & typography",
         "Basic usage guidelines",
@@ -189,8 +189,8 @@ export const oneTimeServices: OneTimeService[] = [
     price: { no: "9 900 kr", en: "$990" },
     period: { no: "engangssum", en: "one-time" },
     summary: {
-      no: "Hele merkevaren samlet i ett dokument – trygt å delegere videre.",
-      en: "Your entire brand gathered in one document — safe to hand off.",
+      no: "Hele merkevaren samlet i ett dokument - trygt å delegere videre.",
+      en: "Your entire brand gathered in one document - safe to hand off.",
     },
     features: {
       no: [
@@ -217,14 +217,14 @@ export const oneTimeServices: OneTimeService[] = [
 export const pricingTrust: LocalizedList = {
   no: [
     "Ingen oppstartskostnad",
-    "Ingen lock-in – du eier siden din",
+    "Ingen lock-in - du eier siden din",
     "Andre domentyper (.com, .net) mot tillegg",
     "Oppsigelse når som helst",
     "Priser eks. mva",
   ],
   en: [
     "No setup fee",
-    "No lock-in — you own your site",
+    "No lock-in - you own your site",
     "Other domain types (.com, .net) available as add-on",
     "Cancel anytime",
     "Prices ex. VAT",

@@ -33,12 +33,14 @@ type Props = {
 export function Select({
   id,
   name,
+  label,
   options,
   defaultValue,
   required,
   triggerClassName = "",
 }: Props) {
   const resolvedId = id ?? useId();
+  const labelId = `${resolvedId}-label`;
   const listboxId = `${resolvedId}-listbox`;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(
@@ -142,6 +144,12 @@ export function Select({
 
   return (
     <div ref={rootRef} className="relative">
+      {/* Visually-hidden label for screen readers (the visible label is
+          rendered by the parent form; this provides the accessible name). */}
+      <span id={labelId} className="sr-only">
+        {label}
+      </span>
+
       {/* Hidden input keeps it forms-compatible (FormData picks this up). */}
       <input type="hidden" name={name} value={value} required={required} />
 
@@ -153,6 +161,7 @@ export function Select({
         role="combobox"
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-labelledby={labelId}
         aria-controls={listboxId}
         aria-activedescendant={
           open ? `${listboxId}-${activeIndex}` : undefined

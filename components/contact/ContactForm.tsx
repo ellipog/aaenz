@@ -92,7 +92,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
             aria-invalid={!!errors.name}
           />
           {errors.name && (
-            <p className="mt-1.5 text-sm text-ochre">{errors.name}</p>
+            <p role="alert" className="mt-1.5 text-sm text-ochre">{errors.name}</p>
           )}
         </div>
         <div>
@@ -109,7 +109,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
             aria-invalid={!!errors.email}
           />
           {errors.email && (
-            <p className="mt-1.5 text-sm text-ochre">{errors.email}</p>
+            <p role="alert" className="mt-1.5 text-sm text-ochre">{errors.email}</p>
           )}
         </div>
       </div>
@@ -153,18 +153,20 @@ export function ContactForm({ locale }: { locale: Locale }) {
           id="message"
           name="message"
           required
+          minLength={10}
+          maxLength={2000}
           rows={5}
           placeholder={t("messagePlaceholder")}
           className={`${inputCls} resize-none`}
           aria-invalid={!!errors.message}
         />
         {errors.message && (
-          <p className="mt-1.5 text-sm text-ochre">{errors.message}</p>
+          <p role="alert" className="mt-1.5 text-sm text-ochre">{errors.message}</p>
         )}
       </div>
 
       {status === "error" && (
-        <p className="rounded-sm border border-ochre bg-ochre/5 p-3 text-sm text-ink">
+        <p role="alert" className="rounded-sm border border-ochre bg-ochre/5 p-3 text-sm text-ink">
           {t("error", { email: CONTACT_EMAIL })}
         </p>
       )}

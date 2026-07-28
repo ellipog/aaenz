@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { ContourLockup } from "@/components/ui/ContourMark";
 import { LocaleSwitch } from "./LocaleSwitch";
 
@@ -24,21 +24,24 @@ export function Header() {
   const t = useTranslations("Nav");
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const locale = useLocale();
 
   // Strip the locale prefix so we know which page we're on.
-  // Pathname looks like "/no", "/en", "/no/om-oss", "/en/om-oss", "/".
   const withoutLocale = pathname.replace(/^\/(no|en)(?=\/|$)/, "");
   const isHome = withoutLocale === "" || withoutLocale === "/";
+  // English locale root path (Norwegian is unprefixed).
+  const enPrefix = locale === "en" ? "/en" : "";
 
-  /** Build a link that scrolls on the homepage, navigates from subpages. */
+  /** Build a link that scrolls on the homepage, navigates from subpages.
+   *  Preserves the locale prefix so EN visitors stay in EN. */
   function anchorHref(anchor: string): string {
-    return isHome ? `#${anchor}` : `/#${anchor}`;
+    return isHome ? `#${anchor}` : `${enPrefix}/#${anchor}`;
   }
 
   return (
     <header className="sticky top-0 z-50 border-b border-stone-soft/50 bg-paper/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
-        <Link href="/" className="shrink-0" aria-label="aaen studios — heim">
+        <Link href="/" className="shrink-0" aria-label="aaen studios - heim">
           <ContourLockup />
         </Link>
 

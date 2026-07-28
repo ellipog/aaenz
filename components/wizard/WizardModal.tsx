@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Wizard } from "./Wizard";
 
@@ -9,30 +9,71 @@ type Props = {
   onClose: () => void;
   initialTier?: string;
   initialService?: string;
+  /** The element that opened the modal — focus returns here on close. */
+  triggerRef?: React.RefObject<HTMLElement | null>;
 };
 
 /**
  * Mobile wizard — iOS-style bottom sheet.
  *
- * Slides up from the bottom (y: 100% → 0), dims the background, locks body
- * scroll, closes on Escape or backdrop click. The sheet takes ~92vh with
- * internal scrolling. Drag handle (moss) at the top.
+ * Slides up from the bottom, dims the background, locks body scroll, and
+ * traps focus inside the sheet (Tab/Shift+Tab cycle within, Escape closes,
+ * focus returns to the trigger on close).
  */
-export function WizardModal({ open, onClose, initialTier, initialService }: Props) {
-  // Lock body scroll while open; restore on close.
+export function WizardModal({ open, onClose, initialTier, initialService, triggerRef }: Props) {
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
+
+  // Lock body scroll, trap focus, handle Escape, restore focus on close.
   useEffect(() => {
     if (!open) return;
     const { overflow } = document.body.style;
     document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
+
+    // Remember what was focused before opening.
+    previouslyFocused.current = document.activeElement as HTMLElement;
+
+    // Move focus into the sheet.
+    const sheet = sheetRef.current;
+    if (sheet) {
+      const focusable = sheet.querySelector<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
+      focusable?.focus();
+    }
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key === "Tab" && sheetRef.current) {
+        // Trap Tab within the sheet.
+        const focusables = sheetRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+
     return () => {
       document.body.style.overflow = overflow;
-      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("keydown", onKeyDown);
+      // Return focus to the trigger (or whatever was focused before).
+      const target = triggerRef?.current ?? previouslyFocused.current;
+      target?.focus();
     };
-  }, [open, onClose]);
+  }, [open, onClose, triggerRef]);
 
   return (
     <AnimatePresence>
@@ -51,6 +92,7 @@ export function WizardModal({ open, onClose, initialTier, initialService }: Prop
 
           {/* Sheet */}
           <motion.div
+            ref={sheetRef}
             className="custom-scroll relative flex max-h-[92vh] w-full flex-col rounded-t-lg border-t border-stone-soft bg-paper px-5 pb-6 pt-3 shadow-2xl"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}

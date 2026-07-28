@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    Strand Treverk favicon — the "Verksted" carpenter's square (vinkelhake).
+    An L-shaped marking tool: graphite vertical leg + burnt-orange horizontal
+    leg with ruled ticks. This is the carpenter's standalone identity (concept
+    02), so it uses the workshop's own burnt-orange rather than the host aaen
+    moss palette. Colors are hardcoded (favicons can't resolve CSS variables).
+  -->
+  <rect width="32" height="32" rx="5" fill="#e8e3d6"/>
+  <!-- vertical leg — graphite -->
+  <rect x="6" y="5" width="4" height="22" fill="#26221b"/>
+  <!-- horizontal leg — burnt-orange (the red pencil mark) -->
+  <rect x="6" y="23" width="21" height="4" fill="#b8552b"/>
+  <!-- ruled ticks where the legs meet — the measuring notches -->
+  <rect x="12" y="23" width="1.4" height="4" fill="#e8e3d6"/>
+  <rect x="18" y="23" width="1.4" height="4" fill="#e8e3d6"/>
+</svg>

@@ -14,6 +14,19 @@ const statusTone = {
   "open-source": "neutral",
 } as const;
 
+/** Map each demo's package to a tag tone + message key. */
+const packageTone = {
+  start: "neutral",
+  vekst: "moss",
+  tilpasset: "clay",
+} as const;
+
+const packageKey = {
+  start: "pkgStart",
+  vekst: "pkgVekst",
+  tilpasset: "pkgTilpasset",
+} as const;
+
 export function Portfolio() {
   const t = useTranslations("Portfolio");
   const locale = useLocale() as "no" | "en";
@@ -33,7 +46,7 @@ export function Portfolio() {
               <Reveal key={d.slug} delay={i * 0.08} as="div">
                 <article
                   className={`flex h-full flex-col rounded-sm border p-6 ${
-                    d.demoUrl
+                    d.demoUrl || d.pickerPath
                       ? "border-stone-soft/60 bg-paper"
                       : "border-dashed border-stone-soft/60 bg-paper-deep/40"
                   }`}
@@ -47,17 +60,40 @@ export function Portfolio() {
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">
                     {tx(d.blurb, locale)}
                   </p>
-                  <span className="mt-5 inline-flex w-fit items-center gap-1 rounded-xs border border-stone-soft px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-stone">
-                    {tx(d.sector, locale)}
-                  </span>
+                  <div className="mt-5 flex flex-wrap items-center gap-1.5">
+                    <span className="inline-flex w-fit items-center gap-1 rounded-xs border border-stone-soft px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-stone">
+                      {tx(d.sector, locale)}
+                    </span>
+                    {d.package && (
+                      <Tag tone={packageTone[d.package]}>
+                        {t(packageKey[d.package])}
+                      </Tag>
+                    )}
+                  </div>
                   {d.demoUrl ? (
                     <a
-                      href={d.demoUrl}
+                      href={
+                        // In-app demos (under /demos) are bilingual via ?lang=;
+                        // pass the viewer's locale through so the demo lands in
+                        // their language. External URLs are used as-is.
+                        d.demoUrl.startsWith("/demos/")
+                          ? `${d.demoUrl}${d.demoUrl.includes("?") ? "&" : "?"}lang=${locale}`
+                          : d.demoUrl
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-moss"
                     >
                       {t("visitDemo")}
+                    </a>
+                  ) : d.pickerPath ? (
+                    // Concept picker is an in-app, locale-aware, same-tab page —
+                    // not a standalone client site yet. Prefix /en for English.
+                    <a
+                      href={locale === "en" ? `/en${d.pickerPath}` : d.pickerPath}
+                      className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-moss"
+                    >
+                      {t("viewConcept")}
                     </a>
                   ) : (
                     <span className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-stone-soft">

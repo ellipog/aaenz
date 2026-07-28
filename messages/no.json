@@ -17,7 +17,7 @@
     "titleLead": "Kartlegg terrenget",
     "titleEmphasis": "før",
     "titleTail": "du bygger.",
-    "lede": "Norsk byrå som bygger nettsider for bedrifter – små som store. Vi starter alltid med å lese terrenget – så bygger vi noe som faktisk står støtt.",
+    "lede": "Norsk byrå som bygger nettsider for bedrifter - små som store. Vi starter alltid med å lese terrenget - så bygger vi noe som faktisk står støtt.",
     "ctaPrimary": "Start prosjektet",
     "ctaSecondary": "Se prisene",
     "meta": "Nettsider · Vedlikehold · Domene inkludert"
@@ -25,7 +25,7 @@
   "TrustStrip": {
     "norsk": {
       "title": "Det norske valget",
-      "body": "Bygget i Gjøvik – ikke outsourcet."
+      "body": "Bygget i Gjøvik - ikke outsourcet."
     },
     "raskt": {
       "title": "Raskt",
@@ -33,7 +33,7 @@
     },
     "nolockin": {
       "title": "Ingen lock-in",
-      "body": "Du eier siden din – flytt når som helst."
+      "body": "Du eier siden din - flytt når som helst."
     },
     "altinkludert": {
       "title": "Alt inkludert",
@@ -57,24 +57,28 @@
     "step3": {
       "n": "03",
       "title": "Bygg",
-      "body": "Vi bygger siden raskt og skikkelig – mobiltilpasset, rask og søkvennlig. Så legger vi den ut."
+      "body": "Vi bygger siden raskt og skikkelig - mobiltilpasset, rask og søkvennlig. Så legger vi den ut."
     }
   },
   "Portfolio": {
     "eyebrow": "Terreng gått",
     "title": "Bevis, ikke løfter",
-    "lede": "Egne produkter vi drifter selv – det tydeligste beviset på at vi tenker som produktpersoner, ikke bare kodere.",
+    "lede": "Egne produkter vi drifter selv - det tydeligste beviset på at vi tenker som produktpersoner, ikke bare kodere.",
     "productsLabel": "EGNE PRODUKTER",
     "demosLabel": "DEMOER",
     "demoTag": "Demo",
     "comingSoon": "Kommende demo",
     "visit": "Se produktet →",
-    "visitDemo": "Se demo →"
+    "visitDemo": "Se demo →",
+    "viewConcept": "Se designkonsept →",
+    "pkgStart": "Start-pakke",
+    "pkgVekst": "Vekst-pakke",
+    "pkgTilpasset": "Tilpasset-pakke"
   },
   "Pricing": {
     "eyebrow": "Priser",
     "title": "Rett frem, ingen overraskelser",
-    "lede": "Abonnement med alt inkludert. Du vet hva du betaler for – og hva du får.",
+    "lede": "Abonnement med alt inkludert. Du vet hva du betaler for - og hva du får.",
     "featured": "Anbefalt",
     "cta": "Spør om dette nivået"
   },
@@ -107,10 +111,10 @@
     "submit": "Send",
     "submitting": "Sender...",
     "success": "Takk! Vi svarer innen én arbeidsdag.",
-    "error": "Noe gikk galt. Prøv igjen om et øyeblikk – eller skriv direkte til {email}.",
+    "error": "Noe gikk galt. Prøv igjen om et øyeblikk - eller skriv direkte til {email}.",
     "errors": {
       "name": "Vi trenger et navn å svare på.",
-      "email": "Vi fant ikke den e-posten – sjekk en gang til.",
+      "email": "Vi fant ikke den e-posten - sjekk en gang til.",
       "message": "Skriv et par linjer om hva du trenger."
     }
   },
@@ -125,38 +129,38 @@
   },
   "AboutPage": {
     "title": "Om Aaen Studios",
-    "lede": "Et uavhengig verksted for programvare og digitale produkter. Vi bygger alt fra nettsider for bedrifter til egne verktøy og plattformer – alltid med samme regel: les terrenget før du bygger.",
+    "lede": "Et uavhengig verksted for programvare og digitale produkter. Vi bygger alt fra nettsider for bedrifter til egne verktøy og plattformer - alltid med samme regel: les terrenget før du bygger.",
     "story": "Vi befinner oss mellom praktisk nytte og interaktivitet. Hvert prosjekt starter det samme stedet: les terrenget, forstå konturene, legg stien. Det betyr ærlig scoping, tidlig prototyping, og rask levering. Vi bygger ikke på grunn vi ikke har gått.",
     "areas": {
       "web": {
         "title": "Nettsider for bedrifter",
-        "body": "Moderne nettsider på abonnement – domene, hosting og vedlikehold inkludert. Bygget skikkelig fra første stund, ingen overraskelser i fakturaen."
+        "body": "Moderne nettsider på abonnement - domene, hosting og vedlikehold inkludert. Bygget skikkelig fra første stund, ingen overraskelser i fakturaen."
       },
       "edtech": {
         "title": "Interaktive plattformer",
-        "body": "Egne produkt vi drifter selv – som språklæringsplattformer med abonnement. Hvert konsekt plassert der det bygger naturlig på det forrige, læreplanen kartlagt som terreng."
+        "body": "Egne produkt vi drifter selv - som språklæringsplattformer med abonnement. Hvert konsekt plassert der det bygger naturlig på det forrige, læreplanen kartlagt som terreng."
       },
       "opensource": {
         "title": "Åpen kildekode",
-        "body": "Verktøy og systemer som løser ekte problemer for andre utviklere. Ren, minimal overflate. Ingen forlatte repoer, ingen halvdokumenterte API-er. Hvis vi publiserer det, bruker vi det – og vedlikeholder det."
+        "body": "Verktøy og systemer som løser ekte problemer for andre utviklere. Ren, minimal overflate. Ingen forlatte repoer, ingen halvdokumenterte API-er. Hvis vi publiserer det, bruker vi det - og vedlikeholder det."
       }
     },
     "founder": {
       "eyebrow": "Bak selskapet",
       "title": "Elliot Strand Aaen",
       "role": "Grunnlegger & utvikler",
-      "body": "Programvareutvikler i Gjøvik. To år som fullstack-utvikler hos Skatteetaten, 16+ prosjekter levert, student ved NTNU. Bygger alt fra nettsider til skrivebordsapper i Rust — med en fast regel: les kartet før du bygger.",
+      "body": "Programvareutvikler i Gjøvik. To år som fullstack-utvikler hos Skatteetaten, 16+ prosjekter levert, student ved NTNU. Bygger alt fra nettsider til skrivebordsapper i Rust - med en fast regel: les kartet før du bygger.",
       "cta": "Si hei"
     },
     "contactCta": {
       "title": "Vil du bygge noe sammen?",
-      "body": "Enten det gjelder en nettside, et verktøy eller noe helt annet — ta kontakt.",
+      "body": "Enten det gjelder en nettside, et verktøy eller noe helt annet - ta kontakt.",
       "cta": "Start en prat"
     }
   },
   "Wizard": {
     "pageTitle": "Start et prosjekt",
-    "pageDescription": "Fortell oss om prosjektet – steg for steg.",
+    "pageDescription": "Fortell oss om prosjektet - steg for steg.",
     "cancel": "Lukk",
     "back": "Tilbake",
     "next": "Neste",
@@ -175,7 +179,7 @@
       },
       "pages": {
         "title": "Sider & funksjoner",
-        "subtitle": "Hva trenger dere på siden? (Velg flere – eller hopp over)"
+        "subtitle": "Hva trenger dere på siden? (Velg flere - eller hopp over)"
       },
       "content": {
         "title": "Innhold",
@@ -197,7 +201,7 @@
         "messagePlaceholder": "Andre ting du vil vi skal vite om...",
         "errors": {
           "name": "Vi trenger et navn å svare på.",
-          "email": "Sjekk e-posten – den ser ikke helt riktig ut."
+          "email": "Sjekk e-posten - den ser ikke helt riktig ut."
         }
       }
     },
@@ -211,5 +215,17 @@
     "title": "Terrenget her er ikke kartlagt",
     "body": "Vi fant ikke denne siden. Kanskje stien er gammel, kanskje kartet er tatt ned.",
     "cta": "Tilbake til starten"
+  },
+  "FjellBrekkestue": {
+    "title": "Fjell Brekkestue - designkonsept",
+    "lede": "En fiktiv fjellkafé, seks mulige retninger. Hver har sin egen identitet."
+  },
+  "GjovikFysioterapi": {
+    "title": "Gjøvik Fysioterapi - designkonsept",
+    "lede": "En fiktiv fysioterapiklinikk, seks mulige retninger. Hver har sin egen identitet."
+  },
+  "StrandTreverk": {
+    "title": "Strand Treverk - designkonsept",
+    "lede": "En fiktiv kystsnekker, seks mulige retninger. Hver har sin egen identitet."
   }
 }
