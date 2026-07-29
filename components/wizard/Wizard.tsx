@@ -83,7 +83,7 @@ export function Wizard({ initialTier, initialService, onComplete, onCancel }: Pr
           pages: data.pages,
           contentStatus: data.contentStatus,
           timeline: data.timeline,
-          message: data.message.trim().length >= 10 ? data.message : undefined,
+          message: data.message.trim(),
           source: "wizard",
           locale,
         }),

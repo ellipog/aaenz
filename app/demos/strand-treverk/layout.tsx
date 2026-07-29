@@ -77,6 +77,10 @@ export default function WorkshopLayout({
             "--ws-on-dark": "#f3eee2",
             "--ws-on-dark-soft": "#a39e8c",
             "--ws-rule": "#26221b1a",
+            /* Drawing-sheet refinements: a faint graphite grid line for the
+               blueprint paper, and a deeper pencil tone for marginalia. */
+            "--ws-grid": "#26221b0d",
+            "--ws-graphite": "#3a352b",
             backgroundColor: "var(--ws-bg)",
             color: "var(--ws-text)",
             fontFamily: "var(--font-plex-sans), system-ui, sans-serif",

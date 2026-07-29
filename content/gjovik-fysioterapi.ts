@@ -22,307 +22,6 @@ export function tx(value: Localized, locale: Locale): string {
   return value[locale] ?? value.no;
 }
 
-// ─── The brief (what we're designing for) ────────────────────────────────────
-
-export const brief = {
-  client: {
-    name: "Gjøvik Fysioterapi",
-    kind: { no: "Fiktiv fysioterapiklinikk", en: "Fictional physiotherapy clinic" } as Localized,
-  },
-  location: {
-    place: { no: "Gjøvik, Innlandet", en: "Gjøvik, Innlandet" } as Localized,
-    detail: {
-      no: "Sentrum, nær sykehuset",
-      en: "Town centre, near the hospital",
-    } as Localized,
-  },
-  needs: {
-    headline: {
-      no: "Booking & profiler",
-      en: "Booking & profiles",
-    } as Localized,
-    detail: {
-      no: "Timebestilling, behandlerprofiler, priser",
-      en: "Appointment booking, staff profiles, pricing",
-    } as Localized,
-  },
-  feel: {
-    headline: { no: "Profesjonelt & trygt", en: "Professional & trustworthy" } as Localized,
-    detail: {
-      no: "Tillit fra første inntrykk",
-      en: "Trust from the first impression",
-    } as Localized,
-  },
-} as const;
-
-// ─── Concepts ────────────────────────────────────────────────────────────────
-
-export interface Palette {
-  bg: string;
-  surface: string;
-  accent: string;
-  accentSoft: string;
-  text: string;
-  textSoft: string;
-}
-
-export interface TypePairing {
-  /** Display font name, for the label. */
-  display: string;
-  /** Body font name, for the label. */
-  body: string;
-  /** CSS font-family stack for the display face. */
-  displayStack: string;
-  /** CSS font-family stack for the body face. */
-  bodyStack: string;
-  /** Optional Google Fonts stylesheet href for the preview (display only). */
-  fontsHref?: string;
-}
-
-export interface Concept {
-  /** Stable id, used by the ConceptCard to pick its hero composition. */
-  id: "klinikk" | "varme" | "kraft" | "salong" | "ro" | "sving";
-  /** Short internal codename shown on the card. */
-  codename: string;
-  /** Human name of the direction. */
-  name: Localized;
-  /** One-line italic tagline. */
-  tagline: Localized;
-  /** 2–3 sentences on the mood / who it suits. */
-  mood: Localized;
-  palette: Palette;
-  type: TypePairing;
-  /** The signature element that anchors the design. */
-  signature: Localized;
-  /** A logo idea for this direction. */
-  logoIdea: Localized;
-}
-
-export const concepts: Concept[] = [
-  {
-    id: "klinikk",
-    codename: "klinikk",
-    name: { no: "Klinisk", en: "Clinical" },
-    tagline: {
-      no: "Kald kompentanse, null støy.",
-      en: "Cool competence, zero noise.",
-    },
-    mood: {
-      no: "Hvitt, blått, rutenett. Det leses som sykehus, men pent — en klinkke man stoler på før man leser et ord. Perfekt for pasienter som vil ha faglig tyngde.",
-      en: "White, blue, grid. It reads as hospital, but handsome — a clinic you trust before reading a word. Perfect for patients who want clinical authority.",
-    },
-    palette: {
-      bg: "#ffffff",
-      surface: "#f4f7f9",
-      accent: "#1a6b8f",
-      accentSoft: "#5fa3c0",
-      text: "#0f2233",
-      textSoft: "#4a5b6b",
-    },
-    type: {
-      display: "Inter",
-      body: "Inter",
-      displayStack: "'Inter', system-ui, sans-serif",
-      bodyStack: "'Inter', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
-    },
-    signature: {
-      no: "Et rutenett av ledige timer — store, trykkbare, klinisk presise.",
-      en: "A grid of available slots — large, clickable, clinically precise.",
-    },
-    logoIdea: {
-      no: "Ordklassens navn i en tykk vekt, med en tynn horisontal strek under — som en journalhode.",
-      en: "The clinic name in a heavy weight, with a thin rule beneath — like a chart header.",
-    },
-  },
-  {
-    id: "varme",
-    codename: "varme",
-    name: { no: "Varme", en: "Warmth" },
-    tagline: {
-      no: "Omsorg, ikke venteværelse.",
-      en: "Care, not a waiting room.",
-    },
-    mood: {
-      no: "Krem, terrakotta, myke skråkanter. Det føles som en praksis drevet av mennesker, ikke en institusjon. Godt for en klinikk der relasjonen er poenget.",
-      en: "Cream, terracotta, soft corners. It feels like a practice run by people, not an institution. Good for a clinic where the relationship is the point.",
-    },
-    palette: {
-      bg: "#faf6f0",
-      surface: "#f1e9dc",
-      accent: "#c47a52",
-      accentSoft: "#dba787",
-      text: "#3a2e25",
-      textSoft: "#6b5b4d",
-    },
-    type: {
-      display: "Fraunces",
-      body: "Inter",
-      displayStack: "'Fraunces', Georgia, serif",
-      bodyStack: "'Inter', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap",
-    },
-    signature: {
-      no: "En håndtegnet kroppslineatur — ryggraden, skuldra, kneet — tegnet i én strek.",
-      en: "A hand-drawn body line — the spine, the shoulder, the knee — drawn in one stroke.",
-    },
-    logoIdea: {
-      no: "Navnet i en myk serif, med en buet strek over 'ø' som et smil eller en bue.",
-      en: "The name in a soft serif, with a curved stroke over the 'ø' like a smile or an arch.",
-    },
-  },
-  {
-    id: "kraft",
-    codename: "kraft",
-    name: { no: "Kraft", en: "Power" },
-    tagline: {
-      no: "Bevegelse, ytelse, resultater.",
-      en: "Movement, performance, results.",
-    },
-    mood: {
-      no: "Mørk, elektrisk, kondensert. Det leses som et prestasjonslaboratorium, ikke et sykehus. Sniker mot idrettsutøvere og de som vil tilbake i trening.",
-      en: "Dark, electric, condensed. It reads as a performance lab, not a hospital. Leans toward athletes and those who want to get back to training.",
-    },
-    palette: {
-      bg: "#0e1116",
-      surface: "#1a1f27",
-      accent: "#d6ff3a",
-      accentSoft: "#a8c92e",
-      text: "#f0f2f5",
-      textSoft: "#9aa3af",
-    },
-    type: {
-      display: "Archivo",
-      body: "Inter",
-      displayStack: "'Archivo', system-ui, sans-serif",
-      bodyStack: "'Inter', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap",
-    },
-    signature: {
-      no: "Fartsstreker — en pil som går fra 'skadet' til 'tilbake', med et tall på.",
-      en: "Velocity lines — an arrow running from 'injured' to 'back', with a number on it.",
-    },
-    logoIdea: {
-      no: "Blokkbokstaver i kondensert vekt, en elektrisk strek gjennom navnet som et kraftmerke.",
-      en: "Block letters in a condensed weight, an electric slash through the name like a power mark.",
-    },
-  },
-  {
-    id: "salong",
-    codename: "salong",
-    name: { no: "Salong", en: "Salon" },
-    tagline: {
-      no: "Privat, redigert, dyr.",
-      en: "Private, editorial, premium.",
-    },
-    mood: {
-      no: "Monokrom med én messing-accent, serif, mye luft. Det føles som en privatklinikk med høy timepris — rolig, selvsikkert, eksklusivt.",
-      en: "Monochrome with one brass accent, serif, lots of air. It feels like a private clinic with a high hourly rate — calm, confident, exclusive.",
-    },
-    palette: {
-      bg: "#f7f4ef",
-      surface: "#ede7dc",
-      accent: "#8b6b3d",
-      accentSoft: "#b89968",
-      text: "#1f1c18",
-      textSoft: "#5c544a",
-    },
-    type: {
-      display: "Playfair Display",
-      body: "Inter",
-      displayStack: "'Playfair Display', Georgia, serif",
-      bodyStack: "'Inter', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap",
-    },
-    signature: {
-      no: "Tynne redigeringslinjer — mellom priser, mellom avsnitt — som et magasin med bare én spalte.",
-      en: "Thin editorial rules — between prices, between paragraphs — like a single-column magazine.",
-    },
-    logoIdea: {
-      no: "Navnet i en klassisk serif, sentrert, med et lite 'EST.' og årstall i sporing under.",
-      en: "The name in a classic serif, centred, with a small 'EST.' and year in tracking beneath.",
-    },
-  },
-  {
-    id: "ro",
-    codename: "ro",
-    name: { no: "Ro", en: "Calm" },
-    tagline: {
-      no: "Pusterom, gjenoppretting, velvære.",
-      en: "Breathing room, recovery, wellness.",
-    },
-    mood: {
-      no: "Salviegrønt, dempet, runde former. Det føles mer som et spa enn en klinikk — for en praksis som snakker om hele mennesket, ikke bare skaden.",
-      en: "Sage green, muted, rounded forms. It feels more spa than clinic — for a practice that speaks to the whole person, not just the injury.",
-    },
-    palette: {
-      bg: "#f3f5f1",
-      surface: "#e6ebe3",
-      accent: "#5b7a5e",
-      accentSoft: "#8faa92",
-      text: "#2a352c",
-      textSoft: "#5e6b60",
-    },
-    type: {
-      display: "Cormorant",
-      body: "Inter",
-      displayStack: "'Cormorant', Georgia, serif",
-      bodyStack: "'Inter', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap",
-    },
-    signature: {
-      no: "En pustende sirkel — en myk puls som utvider seg og trekker seg sammen, som et langt pust.",
-      en: "A breathing circle — a soft pulse that expands and contracts, like a long breath.",
-    },
-    logoIdea: {
-      no: "En enkel ring med en åpen bue — som en solnedgang eller et pust — over et rolig navn.",
-      en: "A simple ring with an open arc — like a sunset or a breath — over a calm wordmark.",
-    },
-  },
-  {
-    id: "sving",
-    codename: "sving",
-    name: { no: "Sving", en: "Motion" },
-    tagline: {
-      no: "Selvsikker, moderne, i bevegelse.",
-      en: "Confident, modern, in motion.",
-    },
-    mood: {
-      no: "Lys, selvsikker, med én farge som dytter. Det føles som en klinikk for folk som forventer en moderne opplevelse — rask booking, tydelig pris, lite tull.",
-      en: "Bright, confident, with one colour pushing forward. It feels like a clinic for people who expect a modern experience — quick booking, clear price, little fuss.",
-    },
-    palette: {
-      bg: "#ffffff",
-      surface: "#f0eaff",
-      accent: "#6c4ee0",
-      accentSoft: "#9b85f0",
-      text: "#14121f",
-      textSoft: "#4a4660",
-    },
-    type: {
-      display: "Space Grotesk",
-      body: "Inter",
-      displayStack: "'Space Grotesk', system-ui, sans-serif",
-      bodyStack: "'Inter', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap",
-    },
-    signature: {
-      no: "En kurvet bevegelsesbane — en bue som svinger gjennom siden og knytter booking til pris.",
-      en: "A curved motion path — an arc swinging through the page, linking booking to price.",
-    },
-    logoIdea: {
-      no: "Navnet i en geometrisk grotesk, med en buet strek under som en sving eller en pil.",
-      en: "The name in a geometric grotesque, with a curved stroke beneath like a swing or an arrow.",
-    },
-  },
-];
-
 // ════════════════════════════════════════════════════════════════════════════
 // STANDALONE DEMO CONTENT
 //
@@ -1045,6 +744,138 @@ export const pageMeta = {
       no: "Vi er her. Kom nærmere.",
       en: "We're here. Come closer.",
     } as Localized,
+  },
+} as const;
+
+// ════════════════════════════════════════════════════════════════════════════
+// THE DASHBOARD — live-feeling performance-lab telemetry.
+//
+// Mock data shown in the MetricsDashboard widget. It's a demo, so the numbers
+// are static (the *animation* of them is what sells the performance-lab feel),
+// but they're written to feel plausible for a real clinic.
+// ════════════════════════════════════════════════════════════════════════════
+
+export const dashboard = {
+  eyebrow: { no: "Live", en: "Live" } as Localized,
+  title: {
+    no: "Klinikken, akkurat nå.",
+    en: "The clinic, right now.",
+  } as Localized,
+  intro: {
+    no: "Dette er hvordan en travel praksis ser ut fra innsiden — kapasitet, ventetid, og hvor raskt folk kommer seg tilbake.",
+    en: "This is what a busy practice looks like from the inside — capacity, wait time, and how fast people get back to action.",
+  } as Localized,
+
+  // Recovery / mobility — ties to the "tilbake i aksjon" tagline.
+  recovery: {
+    label: { no: "Tilbake til aktivitet", en: "Back to activity" } as Localized,
+    /** Median weeks from first visit to return-to-sport/work. */
+    medianWeeks: 7,
+    /** Mobility progress per body area, 0–100. */
+    areas: [
+      { area: { no: "Kne", en: "Knee" } as Localized, pct: 86 },
+      { area: { no: "Skulder", en: "Shoulder" } as Localized, pct: 72 },
+      { area: { no: "Rygg", en: "Back" } as Localized, pct: 64 },
+      { area: { no: "Hofte", en: "Hip" } as Localized, pct: 91 },
+    ] as { area: Localized; pct: number }[],
+  },
+
+  // Live clinic operations — real-time-feeling capacity.
+  ops: {
+    label: { no: "Drift i dag", en: "Operations today" } as Localized,
+    onShift: 4, // therapists in today
+    slotsLeft: 11, // open slots today
+    avgWaitMins: 38, // average wait for next available
+    treatmentsThisWeek: 146,
+  },
+
+  // Outcome / performance stats — social proof as data.
+  outcomes: {
+    label: { no: "Resultater", en: "Outcomes" } as Localized,
+    satisfaction: 97, // % would recommend
+    avgSessions: 5.4, // avg sessions to discharge
+    successRate: 94, // % return to full activity
+  },
+
+  // Personal assessment — interactive Q flow feeding a result.
+  assessment: {
+    label: { no: "Din sjekk", en: "Your check" } as Localized,
+    intro: {
+      no: "Tre spørsmål — se et estimat av hvor lang tid tilbake du er.",
+      en: "Three questions — see an estimate of how far back you are.",
+    } as Localized,
+    /** Each question maps answers to a 0–3 recovery-score contribution. */
+    questions: [
+      {
+        id: "pain",
+        q: { no: "Hvor vondt har du i hvile?", en: "How much pain at rest?" } as Localized,
+        options: [
+          { label: { no: "Ingen", en: "None" } as Localized, score: 3 },
+          { label: { no: "Litt", en: "A little" } as Localized, score: 2 },
+          { label: { no: "Mye", en: "A lot" } as Localized, score: 1 },
+          { label: { no: "Uutholdelig", en: "Unbearable" } as Localized, score: 0 },
+        ],
+      },
+      {
+        id: "movement",
+        q: { no: "Kan du bevege deg som før?", en: "Can you move like before?" } as Localized,
+        options: [
+          { label: { no: "Ja, fullt", en: "Yes, fully" } as Localized, score: 3 },
+          { label: { no: "Stort sett", en: "Mostly" } as Localized, score: 2 },
+          { label: { no: "Knapt", en: "Barely" } as Localized, score: 1 },
+          { label: { no: "Nei", en: "No" } as Localized, score: 0 },
+        ],
+      },
+      {
+        id: "activity",
+        q: { no: "Er du tilbake i aktivitet?", en: "Back to your activity?" } as Localized,
+        options: [
+          { label: { no: "Ja", en: "Yes" } as Localized, score: 3 },
+          { label: { no: "Delvis", en: "Partly" } as Localized, score: 2 },
+          { label: { no: "Ikke ennå", en: "Not yet" } as Localized, score: 1 },
+          { label: { no: "Nei", en: "No" } as Localized, score: 0 },
+        ],
+      },
+    ] as {
+      id: string;
+      q: Localized;
+      options: { label: Localized; score: number }[];
+    }[],
+    /** Result bands keyed by total score (0–9). */
+    results: [
+      {
+        min: 8,
+        weeksEstimate: "2–4",
+        verdict: {
+          no: "Du er nesten i mål — finjustering holder.",
+          en: "You're nearly there — fine-tuning is enough.",
+        } as Localized,
+      },
+      {
+        min: 5,
+        weeksEstimate: "4–8",
+        verdict: {
+          no: "På god vei. Målrettet trening gjør resten.",
+          en: "Well on your way. Targeted training does the rest.",
+        } as Localized,
+      },
+      {
+        min: 2,
+        weeksEstimate: "8–12",
+        verdict: {
+          no: "Tid å bygge grunnmur. Vi begynner rolig.",
+          en: "Time to build the foundation. We start gentle.",
+        } as Localized,
+      },
+      {
+        min: 0,
+        weeksEstimate: "12+",
+        verdict: {
+          no: "Start her. Første time kartlegger alt.",
+          en: "Start here. The first session maps everything.",
+        } as Localized,
+      },
+    ] as { min: number; weeksEstimate: string; verdict: Localized }[],
   },
 } as const;
 

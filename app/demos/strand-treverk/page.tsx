@@ -16,6 +16,8 @@ import { WorkshopHeader } from "@/components/strand-treverk/WorkshopHeader";
 import { WorkshopFooter } from "@/components/strand-treverk/WorkshopFooter";
 import { WorkshopMark } from "@/components/strand-treverk/WorkshopMark";
 import { WorkshopContactForm } from "@/components/strand-treverk/WorkshopContactForm";
+import { BlueprintGrid, DimensionCallout, RulerTicks, SpecRow } from "@/components/strand-treverk/Drawing";
+import { CaseStudyReader } from "@/components/strand-treverk/CaseStudyReader";
 
 /** Allowed ?lang= values; anything else falls back to "no". */
 function parseLocale(value: string | undefined): Locale {
@@ -40,122 +42,139 @@ export default async function WorkshopPage({
         langSwitchLabel={switchTo === "en" ? "English" : "Norsk"}
       />
 
-      {/* ============================================================ */}
-      {/* HERO — the workshop photo, with a dimension annotation overlaid */}
-      {/* ============================================================ */}
-      <section id="top" className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
-        <Image
-          src={hero.photo}
-          alt={tx(story.title, locale)}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        {/* Tonal grading — warm/darken so the kraft-graphite text reads */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(38,34,27,0.30) 0%, rgba(38,34,27,0.10) 30%, rgba(38,34,27,0.72) 100%)",
-          }}
-          aria-hidden
-        />
-
-        {/* The hero composition */}
-        <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-5 pb-20 sm:px-8 sm:pb-24">
-          {/* Eyebrow — mono caption, like a drawing title block */}
-          <p
-            className="mb-5 flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.24em]"
-            style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-on-dark-soft)" }}
-          >
-            <WorkshopMark markOnly className="h-4 w-4" />
-            {tx(hero.eyebrow, locale)}
-          </p>
-
-          {/* The name — mono, heavy, the strongest thing on screen */}
-          <h1
-            className="relative z-10 font-bold uppercase leading-[0.9] tracking-[-0.02em]"
-            style={{
-              fontFamily: "var(--font-plex-mono), monospace",
-              color: "var(--ws-on-dark)",
-              fontSize: "clamp(2.5rem, 10vw, 7.5rem)",
-            }}
-          >
-            Strand
-            <br />
-            Treverk
-          </h1>
-
-          {/* Accent rule — the burnt-orange dimension line */}
-          <span
-            className="relative z-10 mt-7 h-[3px] w-16"
-            style={{ backgroundColor: "var(--ws-accent)" }}
-            aria-hidden
-          />
-
-          <p
-            className="relative z-10 mt-6 max-w-xl text-base leading-relaxed sm:text-lg"
-            style={{ color: "var(--ws-on-dark-soft)" }}
-          >
-            {tx(hero.subtitle, locale)}
-          </p>
-
-          <div className="relative z-10 mt-8 flex flex-wrap gap-3">
-            <a
-              href="#prosjekter"
-              className="inline-flex items-center rounded-[2px] px-6 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.1em] transition-transform hover:-translate-y-0.5"
+      {/* ================================================================ */}
+      {/* HERO — a drawing sheet, not a photo backdrop. Asymmetric split:   */}
+      {/* the workshop photo on one side, a technical title-block sidebar   */}
+      {/* on the other. Reads like the title block of an architect's sheet. */}
+      {/* ================================================================ */}
+      <section id="top" className="relative w-full overflow-hidden">
+        <BlueprintGrid />
+        <div className="relative mx-auto grid min-h-[100svh] max-w-6xl grid-cols-1 px-5 pt-28 sm:px-8 lg:grid-cols-[1.35fr_1fr] lg:gap-12 lg:pt-20">
+          {/* LEFT — the photo pane, full height, slightly inset */}
+          <div className="relative order-2 mt-8 aspect-[4/5] w-full overflow-hidden sm:aspect-[5/4] lg:order-1 lg:mt-0 lg:h-[calc(100svh-7rem)] lg:aspect-auto">
+            <Image
+              src={hero.photo}
+              alt={tx(story.title, locale)}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 640px"
+              className="object-cover"
+            />
+            {/* a single dimension callout drawn onto the photo */}
+            <div className="absolute right-5 top-1/3 z-10 hidden -translate-y-1/2 sm:block">
+              <DimensionCallout
+                value="20"
+                unit={isNo ? "ÅR" : "YRS"}
+                label={isNo ? "MED TREVERK" : "IN TIMBER"}
+              />
+            </div>
+            {/* index stamp on the photo */}
+            <span
+              className="absolute left-3 top-3 z-10 font-mono text-[10px] uppercase tracking-[0.18em]"
               style={{
                 fontFamily: "var(--font-plex-mono), monospace",
-                backgroundColor: "var(--ws-accent)",
                 color: "var(--ws-on-dark)",
+                backgroundColor: "rgba(38,34,27,0.72)",
+                padding: "3px 7px",
               }}
             >
-              {tx(hero.primaryCta, locale)}
-            </a>
-            <a
-              href="#kontakt"
-              className="inline-flex items-center rounded-[2px] border px-6 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.1em] transition-colors"
-              style={{
-                fontFamily: "var(--font-plex-mono), monospace",
-                borderColor: "var(--ws-on-dark)",
-                color: "var(--ws-on-dark)",
-              }}
-            >
-              {tx(hero.secondaryCta, locale)}
-            </a>
+              {isNo ? "FIG 1 · VERKSTEDET" : "FIG 1 · THE WORKSHOP"}
+            </span>
           </div>
-        </div>
 
-        {/* Dimension callout on the photo — the workshop signature */}
-        <div
-          className="absolute right-6 top-1/3 z-10 hidden -translate-y-1/2 sm:block"
-          aria-hidden
-        >
-          <DimensionCallout
-            value="20"
-            unit={isNo ? "ÅR" : "YRS"}
-            label={isNo ? "MED TREVERK" : "IN TIMBER"}
-          />
+          {/* RIGHT — the title block, pinned, reads like a drawing's title block */}
+          <div className="order-1 flex flex-col justify-center py-8 lg:order-2 lg:py-0">
+            {/* Eyebrow — sheet index */}
+            <p
+              className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.24em]"
+              style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-text-soft)" }}
+            >
+              <WorkshopMark markOnly className="h-4 w-4" />
+              {tx(hero.eyebrow, locale)}
+            </p>
+
+            {/* The name — mono, heavy, the strongest thing on screen */}
+            <h1
+              className="mt-6 font-bold uppercase leading-[0.88] tracking-[-0.02em]"
+              style={{
+                fontFamily: "var(--font-plex-mono), monospace",
+                color: "var(--ws-text)",
+                fontSize: "clamp(2.75rem, 7vw, 6rem)",
+              }}
+            >
+              Strand
+              <br />
+              Treverk
+            </h1>
+
+            {/* Accent rule — the burnt-orange dimension line */}
+            <span
+              className="mt-6 h-[3px] w-16"
+              style={{ backgroundColor: "var(--ws-accent)" }}
+              aria-hidden
+            />
+
+            <p
+              className="mt-6 max-w-md text-base leading-relaxed sm:text-lg"
+              style={{ color: "var(--ws-text-soft)" }}
+            >
+              {tx(hero.subtitle, locale)}
+            </p>
+
+            {/* CTAs */}
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#prosjekter"
+                className="inline-flex items-center rounded-[2px] px-6 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.1em] transition-transform hover:-translate-y-0.5"
+                style={{
+                  fontFamily: "var(--font-plex-mono), monospace",
+                  backgroundColor: "var(--ws-accent)",
+                  color: "var(--ws-on-dark)",
+                }}
+              >
+                {tx(hero.primaryCta, locale)}
+              </a>
+              <a
+                href="#kontakt"
+                className="inline-flex items-center rounded-[2px] border px-6 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.1em] transition-colors"
+                style={{
+                  fontFamily: "var(--font-plex-mono), monospace",
+                  borderColor: "var(--ws-text)",
+                  color: "var(--ws-text)",
+                }}
+              >
+                {tx(hero.secondaryCta, locale)}
+              </a>
+            </div>
+
+            {/* Title-block metadata — like a drawing sheet's title block */}
+            <div className="mt-10 max-w-md border-t pt-5">
+              <RulerTicks count={20} className="mb-4 opacity-70" />
+              <div className="grid grid-cols-2 gap-x-6 gap-y-3">
+                <TitleBlockField label={isNo ? "Ark" : "Sheet"} value={tx(hero.titleBlock.sheet, locale)} />
+                <TitleBlockField label={isNo ? "Skala" : "Scale"} value={tx(hero.titleBlock.scale, locale)} />
+                <TitleBlockField label={isNo ? "Tegnet" : "Drawn"} value={tx(hero.titleBlock.drawn, locale)} />
+                <TitleBlockField label={isNo ? "År" : "Year"} value={hero.titleBlock.date} />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* scroll cue */}
         <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2" aria-hidden>
           <span
             className="block h-10 w-px animate-pulse"
-            style={{ backgroundColor: "var(--ws-on-dark-soft)" }}
+            style={{ backgroundColor: "var(--ws-text-soft)" }}
           />
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* STATS — dimension callouts (the workshop signature) */}
-      {/* ============================================================ */}
-      <section
-        className="border-b"
-        style={{ borderColor: "var(--ws-rule)" }}
-      >
-        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8">
+      {/* ================================================================ */}
+      {/* STATS — three dimension callouts on a rule (narrow band)         */}
+      {/* ================================================================ */}
+      <section className="border-b" style={{ borderColor: "var(--ws-rule)" }}>
+        <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8">
+          <RulerTicks count={32} className="mb-8 opacity-60" />
           <div className="grid grid-cols-3 gap-6">
             {hero.stats.map((stat, i) => (
               <div key={i} className="text-center sm:text-left">
@@ -184,14 +203,10 @@ export default async function WorkshopPage({
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* SERVICES — like a bill of materials */}
-      {/* ============================================================ */}
-      <section
-        id="tjenester"
-        className="border-b"
-        style={{ borderColor: "var(--ws-rule)" }}
-      >
+      {/* ================================================================ */}
+      {/* SERVICES — like a bill of materials (wider, grid of hairlines)   */}
+      {/* ================================================================ */}
+      <section id="tjenester" className="relative border-b" style={{ borderColor: "var(--ws-rule)" }}>
         <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <SectionEyebrow locale={locale} no="Tjenester" en="Services" />
           <h2 className={headingCls}>
@@ -199,8 +214,10 @@ export default async function WorkshopPage({
             <span style={{ color: "var(--ws-accent)" }}>{isNo ? "bygger" : "build"}</span>
           </h2>
 
-          <div className="mt-12 grid gap-px overflow-hidden rounded-[3px] border sm:grid-cols-2"
-            style={{ backgroundColor: "var(--ws-rule)", borderColor: "var(--ws-rule)" }}>
+          <div
+            className="mt-12 grid gap-px overflow-hidden rounded-[3px] border sm:grid-cols-2"
+            style={{ backgroundColor: "var(--ws-rule)", borderColor: "var(--ws-rule)" }}
+          >
             {services.map((s) => (
               <div key={s.id} className="p-7" style={{ backgroundColor: "var(--ws-bg)" }}>
                 <div className="flex items-baseline justify-between gap-3">
@@ -217,10 +234,7 @@ export default async function WorkshopPage({
                     {tx(s.spec, locale)}
                   </span>
                 </div>
-                <p
-                  className="mt-3 text-sm leading-relaxed"
-                  style={{ color: "var(--ws-text-soft)" }}
-                >
+                <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--ws-text-soft)" }}>
                   {tx(s.desc, locale)}
                 </p>
               </div>
@@ -229,19 +243,15 @@ export default async function WorkshopPage({
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* MATERIALS / DETAIL — the grain photo + copy */}
-      {/* ============================================================ */}
+      {/* ================================================================ */}
+      {/* MATERIALS / DETAIL — photo + copy, on a surfaced ground          */}
+      {/* ================================================================ */}
       <section
         id="materialer"
         className="border-b"
-        style={{
-          backgroundColor: "var(--ws-surface)",
-          borderColor: "var(--ws-rule)",
-        }}
+        style={{ backgroundColor: "var(--ws-surface)", borderColor: "var(--ws-rule)" }}
       >
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 sm:py-28 md:grid-cols-[1.1fr_1fr] md:items-center">
-          {/* Detail photo */}
           <div className="relative aspect-square w-full overflow-hidden rounded-[3px]">
             <Image
               src={detail.photo}
@@ -252,19 +262,12 @@ export default async function WorkshopPage({
             />
           </div>
 
-          {/* Copy */}
           <div>
             <SectionEyebrow locale={locale} no={detail.eyebrow.no} en={detail.eyebrow.en} />
-            <h2 className={`${headingCls} max-w-md`}>
-              {tx(detail.title, locale)}
-            </h2>
-            <p
-              className="mt-6 max-w-md text-base leading-relaxed"
-              style={{ color: "var(--ws-text-soft)" }}
-            >
+            <h2 className={`${headingCls} max-w-md`}>{tx(detail.title, locale)}</h2>
+            <p className="mt-6 max-w-md text-base leading-relaxed" style={{ color: "var(--ws-text-soft)" }}>
               {tx(detail.body, locale)}
             </p>
-            {/* wood-spec callouts */}
             <div className="mt-8 flex flex-wrap gap-2">
               {["Eik", "Ask", "Furu", "Lerk"].map((wood) => (
                 <span
@@ -284,122 +287,56 @@ export default async function WorkshopPage({
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* PORTFOLIO — the projects, each with a spec callout */}
-      {/* ============================================================ */}
-      <section
-        id="prosjekter"
-        className="border-b"
-        style={{ borderColor: "var(--ws-rule)" }}
-      >
-        <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+      {/* ================================================================ */}
+      {/* PORTFOLIO — the annotated case-study reader. Signature section.  */}
+      {/* Wider than the rest; each project is a full reader entry.        */}
+      {/* ================================================================ */}
+      <section id="prosjekter" className="relative border-b" style={{ borderColor: "var(--ws-rule)" }}>
+        <BlueprintGrid />
+        <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <SectionEyebrow locale={locale} no="Prosjekter" en="Work" />
-          <h2 className={headingCls}>
+          <h2 className={`${headingCls} max-w-2xl`}>
             {isNo ? "Noe av det" : "Some of"}{" "}
-            <span style={{ color: "var(--ws-accent)" }}>{isNo ? "jeg har bygget" : "what I've built"}</span>
+            <span style={{ color: "var(--ws-accent)" }}>
+              {isNo ? "jeg har bygget" : "what I've built"}
+            </span>
           </h2>
+          <p className="mt-5 max-w-xl text-sm leading-relaxed" style={{ color: "var(--ws-text-soft)" }}>
+            {isNo
+              ? "Hvert prosjekt er tegnet opp med mål og materialvalg. Bla gjennom — notatene tegner seg selv etter hvert som du ruller."
+              : "Each project is drawn up with dimensions and materials. Scroll through — the notes draw themselves in as you go."}
+          </p>
 
           <div className="mt-12 space-y-8">
             {projects.map((p, i) => (
-              <article
-                key={p.id}
-                className="grid gap-6 rounded-[3px] border p-5 sm:grid-cols-[1.4fr_1fr] sm:p-6"
-                style={{ borderColor: "var(--ws-rule)", backgroundColor: "var(--ws-bg)" }}
-              >
-                {/* Photo */}
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2px] sm:aspect-[16/10]">
-                  <Image
-                    src={p.photo}
-                    alt={tx(p.title, locale)}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 640px"
-                    className="object-cover"
-                  />
-                  {/* index stamp */}
-                  <span
-                    className="absolute left-3 top-3 font-mono text-[10px] uppercase tracking-[0.18em]"
-                    style={{
-                      fontFamily: "var(--font-plex-mono), monospace",
-                      color: "var(--ws-on-dark)",
-                      backgroundColor: "rgba(38,34,27,0.7)",
-                      padding: "2px 6px",
-                      borderRadius: "2px",
-                    }}
-                  >
-                    0{i + 1} / {p.year}
-                  </span>
-                </div>
-
-                {/* Copy */}
-                <div className="flex flex-col justify-center">
-                  <span
-                    className="font-mono text-[10px] uppercase tracking-[0.16em]"
-                    style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-accent)" }}
-                  >
-                    {tx(p.category, locale)}
-                  </span>
-                  <h3
-                    className="mt-2 text-2xl font-bold uppercase tracking-[0.01em]"
-                    style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-text)" }}
-                  >
-                    {tx(p.title, locale)}
-                  </h3>
-                  <p
-                    className="mt-3 text-sm leading-relaxed"
-                    style={{ color: "var(--ws-text-soft)" }}
-                  >
-                    {tx(p.blurb, locale)}
-                  </p>
-                  {/* spec row — place + dimension spec */}
-                  <div
-                    className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 border-t pt-4 font-mono text-[10px] uppercase tracking-[0.12em]"
-                    style={{
-                      fontFamily: "var(--font-plex-mono), monospace",
-                      borderColor: "var(--ws-rule)",
-                      color: "var(--ws-text-soft)",
-                    }}
-                  >
-                    <span>◷ {tx(p.place, locale)}</span>
-                    <span style={{ color: "var(--ws-accent)" }}>{tx(p.spec, locale)}</span>
-                  </div>
-                </div>
-              </article>
+              <CaseStudyReader key={p.id} project={p} index={i} locale={locale} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* PROCESS — numbered like a drawing revision log */}
-      {/* ============================================================ */}
+      {/* ================================================================ */}
+      {/* PROCESS — narrowed to a measured column, like a spec sheet        */}
+      {/* ================================================================ */}
       <section
         id="prosessen"
         className="border-b"
-        style={{
-          backgroundColor: "var(--ws-surface)",
-          borderColor: "var(--ws-rule)",
-        }}
+        style={{ backgroundColor: "var(--ws-surface)", borderColor: "var(--ws-rule)" }}
       >
-        <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+        <div className="mx-auto max-w-2xl px-5 py-20 sm:px-8 sm:py-28">
           <SectionEyebrow locale={locale} no={process.eyebrow.no} en={process.eyebrow.en} />
-          <h2 className={`${headingCls} max-w-2xl`}>
-            {tx(process.title, locale)}
-          </h2>
+          <h2 className={headingCls}>{tx(process.title, locale)}</h2>
 
-          <ol className="mt-12 grid gap-px overflow-hidden rounded-[3px] border sm:grid-cols-2 lg:grid-cols-4"
-            style={{ backgroundColor: "var(--ws-rule)", borderColor: "var(--ws-rule)" }}>
+          <ol className="mt-10 divide-y" style={{ borderColor: "var(--ws-rule)" }}>
             {process.steps.map((step, i) => (
-              <li key={i} className="p-7" style={{ backgroundColor: "var(--ws-bg)" }}>
+              <li key={i} className="flex gap-6 py-6">
                 <div
                   className="font-mono text-sm font-bold tabular-nums"
                   style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-accent)" }}
                 >
                   0{i + 1}
                 </div>
-                <p
-                  className="mt-4 text-sm leading-relaxed"
-                  style={{ color: "var(--ws-text-soft)" }}
-                >
+                <p className="text-sm leading-relaxed" style={{ color: "var(--ws-text-soft)" }}>
                   {tx(step, locale)}
                 </p>
               </li>
@@ -408,16 +345,11 @@ export default async function WorkshopPage({
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* ABOUT — the craftsman + portrait */}
-      {/* ============================================================ */}
-      <section
-        id="om-meg"
-        className="border-b"
-        style={{ borderColor: "var(--ws-rule)" }}
-      >
+      {/* ================================================================ */}
+      {/* ABOUT — the craftsman + portrait                                  */}
+      {/* ================================================================ */}
+      <section id="om-meg" className="border-b" style={{ borderColor: "var(--ws-rule)" }}>
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 sm:py-28 md:grid-cols-[1fr_1.1fr] md:items-center">
-          {/* Portrait */}
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[3px]">
             <Image
               src={story.photo}
@@ -428,37 +360,28 @@ export default async function WorkshopPage({
             />
           </div>
 
-          {/* Copy */}
           <div>
             <SectionEyebrow locale={locale} no={story.eyebrow.no} en={story.eyebrow.en} />
-            <h2 className={headingCls}>
-              {tx(story.title, locale)}
-            </h2>
+            <h2 className={headingCls}>{tx(story.title, locale)}</h2>
             <div className="mt-6 space-y-4">
               {story.body.map((para, i) => (
-                <p
-                  key={i}
-                  className="text-base leading-relaxed"
-                  style={{ color: "var(--ws-text-soft)" }}
-                >
+                <p key={i} className="text-base leading-relaxed" style={{ color: "var(--ws-text-soft)" }}>
                   {tx(para, locale)}
                 </p>
               ))}
             </div>
 
-            {/* Quote */}
             <blockquote
               className="mt-8 border-l-2 pl-4"
               style={{ borderColor: "var(--ws-accent)" }}
             >
-              <p
-                className="text-base font-medium italic leading-relaxed"
-                style={{ color: "var(--ws-text)" }}
-              >
+              <p className="text-base font-medium italic leading-relaxed" style={{ color: "var(--ws-text)" }}>
                 “{tx(story.person.quote, locale)}”
               </p>
-              <footer className="mt-2 font-mono text-[11px] uppercase tracking-[0.1em]"
-                style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-text-soft)" }}>
+              <footer
+                className="mt-2 font-mono text-[11px] uppercase tracking-[0.1em]"
+                style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-text-soft)" }}
+              >
                 {story.person.name} · {tx(story.person.role, locale)}
               </footer>
             </blockquote>
@@ -466,34 +389,39 @@ export default async function WorkshopPage({
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* CONTACT — the form + direct details */}
-      {/* ============================================================ */}
+      {/* ================================================================ */}
+      {/* CONTACT — the form + direct details                               */}
+      {/* ================================================================ */}
       <section id="kontakt">
         <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <div className="grid gap-12 md:grid-cols-[1fr_1.2fr]">
-            {/* Left — pitch + details */}
             <div>
               <SectionEyebrow locale={locale} no={contact.eyebrow.no} en={contact.eyebrow.en} />
-              <h2 className={headingCls}>
-                {tx(contact.title, locale)}
-              </h2>
-              <p
-                className="mt-6 max-w-md text-base leading-relaxed"
-                style={{ color: "var(--ws-text-soft)" }}
-              >
+              <h2 className={headingCls}>{tx(contact.title, locale)}</h2>
+              <p className="mt-6 max-w-md text-base leading-relaxed" style={{ color: "var(--ws-text-soft)" }}>
                 {tx(contact.intro, locale)}
               </p>
 
-              <div className="mt-8 space-y-3">
-                <ContactRow label={isNo ? "E-post" : "Email"} value={contact.details.email} href={`mailto:${contact.details.email}`} />
-                <ContactRow label={isNo ? "Telefon" : "Phone"} value={contact.details.phone} href={`tel:${contact.details.phone.replace(/\s/g, "")}`} />
-                <ContactRow label={isNo ? "Adresse" : "Address"} value={tx(contact.details.address, locale)} />
-                <ContactRow label={isNo ? "Timer" : "Hours"} value={tx(contact.details.hours, locale)} />
+              <div className="mt-8 space-y-2.5">
+                <SpecRow label={isNo ? "E-post" : "Email"}>
+                  <a href={`mailto:${contact.details.email}`} className="transition-colors hover:text-[var(--ws-accent)]">
+                    {contact.details.email}
+                  </a>
+                </SpecRow>
+                <SpecRow label={isNo ? "Telefon" : "Phone"}>
+                  <a href={`tel:${contact.details.phone.replace(/\s/g, "")}`} className="transition-colors hover:text-[var(--ws-accent)]">
+                    {contact.details.phone}
+                  </a>
+                </SpecRow>
+                <SpecRow label={isNo ? "Adresse" : "Address"}>
+                  {tx(contact.details.address, locale)}
+                </SpecRow>
+                <SpecRow label={isNo ? "Timer" : "Hours"} accent>
+                  {tx(contact.details.hours, locale)}
+                </SpecRow>
               </div>
             </div>
 
-            {/* Right — the form */}
             <div
               className="rounded-[3px] border p-6 sm:p-8"
               style={{ backgroundColor: "var(--ws-surface)", borderColor: "var(--ws-rule)" }}
@@ -513,8 +441,7 @@ export default async function WorkshopPage({
 /* Small building blocks — the workshop's shared voice                 */
 /* ------------------------------------------------------------------ */
 
-const headingCls =
-  "mt-4 font-bold uppercase leading-[0.95] tracking-[-0.015em]";
+const headingCls = "mt-4 font-bold uppercase leading-[0.95] tracking-[-0.015em]";
 
 /** Section eyebrow — mono caption with the square mark. */
 function SectionEyebrow({
@@ -539,79 +466,21 @@ function SectionEyebrow({
   );
 }
 
-/** A contact detail row — mono label + value, like a parts list. */
-function ContactRow({
-  label,
-  value,
-  href,
-}: {
-  label: string;
-  value: string;
-  href?: string;
-}) {
-  const content = (
-    <span style={{ color: "var(--ws-text)" }}>{value}</span>
-  );
+/** A title-block field — mono label + value, like a drawing sheet's metadata. */
+function TitleBlockField({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex gap-4 border-b pb-3" style={{ borderColor: "var(--ws-rule)" }}>
-      <span
-        className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-[0.12em]"
+    <div>
+      <div
+        className="font-mono text-[9px] uppercase tracking-[0.16em]"
         style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-text-soft)" }}
       >
         {label}
-      </span>
-      <span className="text-sm" style={{ color: href ? undefined : "var(--ws-text)" }}>
-        {href ? (
-          <a href={href} className="transition-colors hover:text-[var(--ws-accent)]">
-            {content}
-          </a>
-        ) : (
-          content
-        )}
-      </span>
-    </div>
-  );
-}
-
-/**
- * DimensionCallout — the workshop signature. A dimension line with extension
- * marks and a value, like an annotation on a working drawing. Drawn in the
- * accent (red pencil) so it reads as a markup, not a UI element.
- */
-function DimensionCallout({
-  value,
-  unit,
-  label,
-}: {
-  value: string;
-  unit: string;
-  label: string;
-}) {
-  return (
-    <div className="flex flex-col items-center" style={{ color: "var(--ws-accent)" }}>
-      <svg width="2" height="48" aria-hidden>
-        <line x1="1" y1="0" x2="1" y2="48" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
+      </div>
       <div
-        className="mt-1 border px-3 py-1.5 text-center"
-        style={{
-          borderColor: "currentColor",
-          backgroundColor: "rgba(38,34,27,0.55)",
-        }}
+        className="mt-1 font-mono text-[12px]"
+        style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-text)" }}
       >
-        <div
-          className="font-bold leading-none"
-          style={{ fontFamily: "var(--font-plex-mono), monospace", fontSize: "1.5rem" }}
-        >
-          {value}
-          <span className="ml-1 text-[10px] tracking-[0.1em]">{unit}</span>
-        </div>
-        <div
-          className="mt-1 font-mono text-[8px] uppercase tracking-[0.18em]"
-          style={{ fontFamily: "var(--font-plex-mono), monospace", color: "var(--ws-on-dark-soft)" }}
-        >
-          {label}
-        </div>
+        {value}
       </div>
     </div>
   );

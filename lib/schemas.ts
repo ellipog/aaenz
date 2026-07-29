@@ -28,7 +28,10 @@ export const contactSchema = z.object({
   contentStatus: z.string().max(50).optional().or(z.literal("")),
   timeline: z.string().max(50).optional().or(z.literal("")),
   source: z.string().max(50).optional().or(z.literal("")),
-  message: z.string().min(10).max(2000),
+  // Wizard leaves message optional (no required UI), so accept empty/missing.
+  // The plain contact form still enforces min length client-side via HTML
+  // required + minLength attributes; the looser server rule causes no regression.
+  message: z.string().max(2000).optional().or(z.literal("")),
   locale: z.enum(["no", "en"]).optional().default("no"),
   /** Honeypot — must be empty. */
   company: z.string().max(0).optional().or(z.literal("")),

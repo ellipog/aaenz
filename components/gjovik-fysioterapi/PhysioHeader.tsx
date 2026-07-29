@@ -6,6 +6,7 @@ import Link from "next/link";
 import type { Locale, Localized } from "@/content/gjovik-fysioterapi";
 import { nav, clinic, langSwitchTarget } from "@/content/gjovik-fysioterapi";
 import { PhysioLockup } from "./PhysioMark";
+import { StatusReadout } from "./StatusReadout";
 
 /**
  * Multi-page nav items for the clinic demo. Each links to a sub-page under
@@ -90,6 +91,7 @@ export function PhysioHeader({
         </nav>
 
         <div className="flex items-center gap-3">
+          <StatusReadout onlineLabel={locale === "no" ? "PÅLINJE" : "ONLINE"} />
           <Link
             href={`/demos/gjovik-fysioterapi?${qs({ lang: switchTo })}`}
             className="rounded-[3px] border px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.1em] transition-colors"

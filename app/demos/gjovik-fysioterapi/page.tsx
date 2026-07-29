@@ -14,6 +14,7 @@ import {
   clinic,
   articles,
   pageMeta,
+  dashboard,
 } from "@/content/gjovik-fysioterapi";
 import { PhysioShell } from "@/components/gjovik-fysioterapi/PhysioShell";
 import {
@@ -23,6 +24,8 @@ import {
 import { PhysioReveal, PhysioMotionPanel } from "@/components/gjovik-fysioterapi/PhysioReveal";
 import { PhysioMark } from "@/components/gjovik-fysioterapi/PhysioMark";
 import { BookingFlow } from "@/components/gjovik-fysioterapi/BookingFlow";
+import { MetricsDashboard } from "@/components/gjovik-fysioterapi/MetricsDashboard";
+import { VelocityField, CountUp, HUDGrid } from "@/components/gjovik-fysioterapi/HudPrimitives";
 
 export const dynamicParams = false;
 
@@ -55,44 +58,46 @@ export default async function PhysioPage({
   return (
     <PhysioShell locale={locale}>
       {/* ============================================================ */}
-      {/* HERO — dark, the cut word "tilbake/back" bleeding into photo */}
+      {/* HERO — kinetic. The photo is pushed to a panel on one side;    */}
+      {/* the headline sits over a moving velocity field with live       */}
+      {/* count-up stats overlaid as telemetry. No static bottom-left.   */}
       {/* ============================================================ */}
-      <section id="top" className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
-        <Image
-          src={hero.photo}
-          alt={tx(story.title, locale)}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        {/* Dark grade — the Kraft ground pulled over the photo. */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(14,17,22,0.55) 0%, rgba(14,17,22,0.35) 40%, rgba(14,17,22,0.92) 100%)",
-          }}
-          aria-hidden
-        />
-
-        {/* velocity streaks — the signature Kraft element */}
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          {[22, 40, 58].map((y, i) => (
-            <div
-              key={i}
-              className="absolute h-px"
-              style={{
-                top: `${y}%`,
-                left: `${8 + i * 6}%`,
-                width: `${34 - i * 4}%`,
-                background: `linear-gradient(90deg, transparent, var(--physio-accent)${i === 0 ? "" : "66"})`,
-              }}
-            />
-          ))}
+      <section id="top" className="relative min-h-[100svh] w-full overflow-hidden">
+        {/* The Kraft ground — a HUD grid instead of a photo backdrop. */}
+        <div className="absolute inset-0" aria-hidden>
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(120% 80% at 70% 20%, rgba(214,255,58,0.07), transparent 60%), linear-gradient(180deg, var(--physio-bg) 0%, var(--physio-surface-deep) 100%)",
+            }}
+          />
+          <HUDGrid />
         </div>
 
-        <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-5 pb-20 sm:px-8 sm:pb-24">
+        {/* Kinetic velocity streaks sweeping across the field */}
+        <VelocityField count={6} />
+
+        {/* The photo as an inset panel, not full-bleed */}
+        <div className="pointer-events-none absolute right-0 top-0 hidden h-full w-[42%] opacity-50 lg:block">
+          <Image
+            src={hero.photo}
+            alt={tx(story.title, locale)}
+            fill
+            priority
+            sizes="42vw"
+            className="object-cover"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(90deg, var(--physio-bg) 0%, transparent 55%), linear-gradient(180deg, rgba(14,17,22,0.4), rgba(14,17,22,0.85))",
+            }}
+          />
+        </div>
+
+        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-5 pt-28 sm:px-8">
           <PhysioReveal from="up">
             <p
               className="mb-4 text-xs font-bold uppercase tracking-[0.28em]"
@@ -108,7 +113,7 @@ export default async function PhysioPage({
           {/* The headline, with the cut word in accent. */}
           <PhysioReveal delay={0.1}>
             <h1
-              className="font-black uppercase leading-[0.88] tracking-[-0.03em]"
+              className="font-black uppercase leading-[0.86] tracking-[-0.03em]"
               style={{
                 fontFamily: "var(--font-archivo), sans-serif",
                 color: "var(--physio-text)",
@@ -146,7 +151,7 @@ export default async function PhysioPage({
                 {tx(hero.primaryCta, locale)}
               </a>
               <a
-                href="#priser"
+                href="#dashboard"
                 className="inline-flex items-center rounded-[3px] border px-6 py-3 text-sm font-bold uppercase tracking-[0.1em] transition-colors"
                 style={{
                   fontFamily: "var(--font-archivo), sans-serif",
@@ -159,32 +164,40 @@ export default async function PhysioPage({
             </div>
           </PhysioReveal>
 
-          {/* Stats strip */}
+          {/* Live stats overlay — count-up telemetry, not static numbers */}
           <PhysioReveal delay={0.4}>
-            <div className="mt-10 flex gap-8">
-              {[hero.stat1, hero.stat2, hero.stat3].map((stat, i) => (
-                <div key={i}>
-                  <div
-                    className="font-black leading-none tracking-[-0.02em]"
-                    style={{
-                      fontFamily: "var(--font-archivo), sans-serif",
-                      fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-                      color: i === 0 ? "var(--physio-accent)" : "var(--physio-text)",
-                    }}
-                  >
-                    {stat.value}
+            <div
+              className="mt-12 inline-flex flex-wrap gap-6 rounded-[4px] border p-5 backdrop-blur-sm sm:gap-8"
+              style={{ borderColor: "var(--physio-rule)", backgroundColor: "rgba(26,31,39,0.6)" }}
+            >
+              {[hero.stat1, hero.stat2, hero.stat3].map((stat, i) => {
+                const numeric = parseInt(String(stat.value).replace(/\D/g, ""), 10) || 0;
+                const suffix = String(stat.value).replace(/[0-9]/g, "");
+                const isNumeric = numeric > 0;
+                return (
+                  <div key={i}>
+                    <div
+                      className="font-black leading-none tracking-[-0.02em] tabular-nums"
+                      style={{
+                        fontFamily: "var(--font-jetbrains), monospace",
+                        fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+                        color: i === 0 ? "var(--physio-accent)" : "var(--physio-text)",
+                      }}
+                    >
+                      {isNumeric ? <CountUp value={numeric} suffix={suffix} /> : stat.value}
+                    </div>
+                    <div
+                      className="mt-1 text-[10px] font-bold uppercase tracking-[0.12em]"
+                      style={{
+                        fontFamily: "var(--font-archivo), sans-serif",
+                        color: "var(--physio-text-soft)",
+                      }}
+                    >
+                      {tx(stat.label, locale)}
+                    </div>
                   </div>
-                  <div
-                    className="mt-1 text-[10px] font-bold uppercase tracking-[0.12em]"
-                    style={{
-                      fontFamily: "var(--font-archivo), sans-serif",
-                      color: "var(--physio-text-soft)",
-                    }}
-                  >
-                    {tx(stat.label, locale)}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </PhysioReveal>
         </div>
@@ -197,6 +210,32 @@ export default async function PhysioPage({
           />
         </div>
       </section>
+
+      {/* ============================================================ */}
+      {/* DASHBOARD — the performance-lab centerpiece. Live telemetry    */}
+      {/* across recovery, operations, outcomes, and a personal check.  */}
+      {/* Dense and instrumented — the opposite of Strand's whitespace. */}
+      {/* ============================================================ */}
+      <PhysioSection id="dashboard">
+        <div className="mb-10 max-w-2xl">
+          <SectionEyebrow locale={locale} no={dashboard.eyebrow.no} en={dashboard.eyebrow.en} />
+          <h2
+            className="mt-4 font-black uppercase leading-[0.92] tracking-[-0.02em]"
+            style={{
+              fontFamily: "var(--font-archivo), sans-serif",
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            }}
+          >
+            {tx(dashboard.title, locale)}
+          </h2>
+          <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--physio-text-soft)" }}>
+            {tx(dashboard.intro, locale)}
+          </p>
+        </div>
+        <PhysioReveal>
+          <MetricsDashboard locale={locale} />
+        </PhysioReveal>
+      </PhysioSection>
 
       {/* ============================================================ */}
       {/* BOOKING — the mock flow */}

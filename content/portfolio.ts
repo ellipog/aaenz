@@ -66,8 +66,7 @@ export const demoSites: DemoSite[] = [
     },
     package: "vekst",
     // Standalone demo site (concept 02 "Verksted") — bilingual via ?lang=,
-    // opens in a new tab. The concept picker is still reachable at
-    // /strand-treverk | /en/strand-treverk for reference.
+    // opens in a new tab. The [locale] route redirects here.
     demoUrl: "/demos/strand-treverk",
   },
   {

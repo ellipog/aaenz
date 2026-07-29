@@ -41,6 +41,21 @@ export const nav = {
   contact: { no: "Kontakt", en: "Contact" } as Localized,
 } as const;
 
+/**
+ * Sections tracked by the left-edge scroll ruler. Each gets a "measurement"
+ * label like a drawing's revision index. Keys must match section `id`s on the
+ * page; `ruler` is the short mono tag shown on the rule.
+ */
+export const rulerSections = [
+  { id: "top", ruler: { no: "00 HERO", en: "00 HERO" } as Localized },
+  { id: "tjenester", ruler: { no: "01 TJENESTER", en: "01 SERVICES" } as Localized },
+  { id: "materialer", ruler: { no: "02 MATERIALER", en: "02 MATERIALS" } as Localized },
+  { id: "prosjekter", ruler: { no: "03 PROSJEKTER", en: "03 WORK" } as Localized },
+  { id: "prosessen", ruler: { no: "04 PROSESSEN", en: "04 PROCESS" } as Localized },
+  { id: "om-meg", ruler: { no: "05 OM MEG", en: "05 ABOUT" } as Localized },
+  { id: "kontakt", ruler: { no: "06 KONTAKT", en: "06 CONTACT" } as Localized },
+] as const;
+
 export const hero = {
   eyebrow: {
     no: "Snekker · fra 2004",
@@ -52,6 +67,15 @@ export const hero = {
     no: "håndverk",
     en: "craft",
   } as Localized,
+  // The technical title-block sidebar — reads like a drawing sheet's title
+  // block: what it is, at what scale, drawn by whom, dated.
+  titleBlock: {
+    sheet: { no: "ARK 01 · PORTFØLJE", en: "SHEET 01 · PORTFOLIO" } as Localized,
+    scale: { no: "Skala 1:50", en: "Scale 1:50" } as Localized,
+    drawn: { no: "Tegnet av E. Strand", en: "Drawn by E. Strand" } as Localized,
+    checked: { no: "Kontrollert: –", en: "Checked: –" } as Localized,
+    date: "2024",
+  } as const,
   subtitle: {
     no: "Tilpasset snekkerarbeid fra verkstedet ved sjøen. Kabinett, trapper, uterom og hele hytter — tegnet, bygget og montert av én person.",
     en: "Bespoke carpentry from the workshop by the sea. Cabinets, staircases, outdoor spaces and whole cabins — drawn, built, and fitted by one pair of hands.",
@@ -143,6 +167,27 @@ export type Project = {
   photo: string;
   /** "signature" highlights the lead project. */
   signature?: boolean;
+  /**
+   * Case-study spec sheet — shown in the sticky sidebar of the reader.
+   * All optional so projects can carry as much or as little detail as fits.
+   */
+  specs?: {
+    species: Localized;
+    finish: Localized;
+    joinery: Localized;
+    dimensions: Localized;
+    duration: Localized;
+  };
+  /** Scroll-driven annotations layered over the photo (dimension notes). */
+  annotations?: {
+    /** Value shown in the callout box. */
+    value: string;
+    /** Short mono label under the value. */
+    label: Localized;
+    /** Position over the photo, as % from left/top. */
+    left: string;
+    top: string;
+  }[];
 };
 
 export const projects: Project[] = [
@@ -159,6 +204,27 @@ export const projects: Project[] = [
     spec: { no: "92 m² · lerk · 2023", en: "92 m² · larch · 2023" },
     photo: "/demos/strand-treverk/project-cabin.jpg",
     signature: true,
+    specs: {
+      species: { no: "Sibirsk lerk", en: "Siberian larch" },
+      finish: { no: "Rå, ubehandlet — patinerer i sjøluft", en: "Raw, untreated — weathers in sea air" },
+      joinery: { no: "Fjørledd + tappskjøter", en: "Splined + mortise-and-tenon" },
+      dimensions: { no: "92 m² grunnflate · 4,2 m takhøyde", en: "92 m² footprint · 4.2 m ceiling" },
+      duration: { no: "11 måneder (høst–høst)", en: "11 months (autumn–autumn)" },
+    },
+    annotations: [
+      {
+        value: "4,2 m",
+        label: { no: "tak til bjelke", en: "ridge to beam" },
+        left: "72%",
+        top: "30%",
+      },
+      {
+        value: "92 m²",
+        label: { no: "grunnflate", en: "footprint" },
+        left: "32%",
+        top: "68%",
+      },
+    ],
   },
   {
     id: "hummer-kitchen",
@@ -173,6 +239,27 @@ export const projects: Project[] = [
     spec: { no: "massiv eik · 14 løpmetre", en: "solid oak · 14 linear metres" },
     photo: "/demos/strand-treverk/project-kitchen.jpg",
     signature: true,
+    specs: {
+      species: { no: "Massiv eik (FSC)", en: "Solid oak (FSC)" },
+      finish: { no: "Leddbeiset, to strøk olje", en: "Joint-stained, two coats of oil" },
+      joinery: { no: "Svanshals (dovetail) + tapp", en: "Dovetail + mortise-and-tenon" },
+      dimensions: { no: "14 løpmetre · 38 mm arbeidsplate", en: "14 linear m · 38 mm worktop" },
+      duration: { no: "9 uker i verkstedet", en: "9 weeks in the workshop" },
+    },
+    annotations: [
+      {
+        value: "14 lm",
+        label: { no: "løpmetre skap", en: "linear metres" },
+        left: "26%",
+        top: "55%",
+      },
+      {
+        value: "38 mm",
+        label: { no: "arbeidsplate", en: "worktop" },
+        left: "68%",
+        top: "44%",
+      },
+    ],
   },
   {
     id: "lofoten-stair",
@@ -187,6 +274,27 @@ export const projects: Project[] = [
     spec: { no: "ask · 17 trinn", en: "ash · 17 treads" },
     photo: "/demos/strand-treverk/project-stair.jpg",
     signature: true,
+    specs: {
+      species: { no: "Ask (lamellert for bue)", en: "Ash (veneered for the curve)" },
+      finish: { no: "Såpebehandlet — lyser med tiden", en: "Soap-finished — lightens with age" },
+      joinery: { no: "Limt tapp + stålklemmer", en: "Glued tenon + steel brackets" },
+      dimensions: { no: "17 trinn · 3,6 m stigehøyde", en: "17 treads · 3.6 m rise" },
+      duration: { no: "6 uker + 3 dager montering", en: "6 weeks + 3 days assembly" },
+    },
+    annotations: [
+      {
+        value: "17",
+        label: { no: "trinn totalt", en: "treads total" },
+        left: "58%",
+        top: "40%",
+      },
+      {
+        value: "3,6 m",
+        label: { no: "stigehøyde", en: "total rise" },
+        left: "30%",
+        top: "62%",
+      },
+    ],
   },
 ];
 
@@ -324,306 +432,4 @@ export const footer = {
 export function langSwitchTarget(current: Locale): Locale {
   return current === "no" ? "en" : "no";
 }
-
-// ============================================================================
-// CONCEPT-PICKER DATA
-// Used by the /strand-treverk concept-picker page (app/[locale]/strand-treverk)
-// and its ConceptCard. This is the six design directions the client picks from
-// before the standalone site (above) is built. Kept in this same module so both
-// the picker and the built site share one source of truth for the brand.
-// ============================================================================
-
-export const brief = {
-  client: {
-    name: "Strand Treverk",
-    kind: { no: "Fiktiv kystsnekker", en: "Fictional coastal carpenter" } as Localized,
-  },
-  location: {
-    place: { no: "Sør for Larvik", en: "South of Larvik" } as Localized,
-    detail: {
-      no: "Skjærgården, verksted ved sjøen",
-      en: "The skerries, workshop by the sea",
-    } as Localized,
-  },
-  needs: {
-    headline: { no: "Portefølje & kontaktskjema", en: "Portfolio & contact form" } as Localized,
-    detail: {
-      no: "Vise prosjektene, ta imot forespørsler",
-      en: "Show the projects, take enquiries",
-    } as Localized,
-  },
-  feel: {
-    headline: { no: "Håndverk, ikke brosjyre", en: "Craft, not a brochure" } as Localized,
-    detail: {
-      no: "Treet og sjøen skal kjennes i sidens første sekund",
-      en: "Timber and sea should be felt in the first second of the site",
-    } as Localized,
-  },
-} as const;
-
-export interface Palette {
-  bg: string;
-  surface: string;
-  accent: string;
-  accentSoft: string;
-  text: string;
-  textSoft: string;
-}
-
-export interface TypePairing {
-  /** Display font name, for the label. */
-  display: string;
-  /** Body font name, for the label. */
-  body: string;
-  /** CSS font-family stack for the display face. */
-  displayStack: string;
-  /** CSS font-family stack for the body face. */
-  bodyStack: string;
-  /** Optional Google Fonts stylesheet href for the preview (display only). */
-  fontsHref?: string;
-}
-
-export interface Concept {
-  /** Stable id, used by the ConceptCard to pick its hero composition. */
-  id: "drage" | "verksted" | "tre" | "havn" | "joiner" | "skogsjø";
-  /** Short internal codename shown on the card. */
-  codename: string;
-  /** Human name of the direction. */
-  name: Localized;
-  /** One-line italic tagline. */
-  tagline: Localized;
-  /** 2–3 sentences on the mood / who it suits. */
-  mood: Localized;
-  palette: Palette;
-  type: TypePairing;
-  /** The signature element that anchors the design. */
-  signature: Localized;
-  /** A logo idea for this direction. */
-  logoIdea: Localized;
-}
-
-export const concepts: Concept[] = [
-  {
-    id: "drage",
-    codename: "drage",
-    name: { no: "Drifttomt", en: "Driftwood" },
-    tagline: {
-      no: "Salt, vind og tid har gjort treverket vakkert.",
-      en: "Salt, wind and time made the wood beautiful.",
-    },
-    mood: {
-      no: "Lyn, rolig, kystnær. Som en sommerhytte åpnet for første gang på sesongen — solblekt, mykt, uten å prøve for hardt.",
-      en: "Light, calm, coastal. Like a summer cabin opened for the first time in the season — sun-bleached, soft, not trying too hard.",
-    },
-    palette: {
-      bg: "#f2ede3",
-      surface: "#e4dccb",
-      accent: "#5b8a8a",
-      accentSoft: "#8fb3b0",
-      text: "#2e2a23",
-      textSoft: "#6b6456",
-    },
-    type: {
-      display: "Lora",
-      body: "Inter",
-      displayStack: "'Lora', Georgia, serif",
-      bodyStack: "'Inter', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap",
-    },
-    signature: {
-      no: "Bjelker i horisont, med én flytende tidevannslinje gjennom layouten.",
-      en: "Horizontal planks, with one floating tide line running through the layout.",
-    },
-    logoIdea: {
-      no: "«Strand» i et mykt antikva, «Treverk» i lys kapitél under.",
-      en: "“Strand” in a soft old-style serif, “Treverk” in light caps below.",
-    },
-  },
-  {
-    id: "verksted",
-    codename: "verksted",
-    name: { no: "Verkstedet", en: "Workshop" },
-    tagline: {
-      no: "Snekkerens eget språk: millimeter og blyant.",
-      en: "The carpenter's own language: millimetres and pencil.",
-    },
-    mood: {
-      no: "Teknisk, nøktern, presis. Kraftpapir og grafittpenn. Siden leses som et arbeidsdokument — ikke salg, men håndverk dokumentert.",
-      en: "Technical, plain, precise. Kraft paper and a graphite pencil. The site reads like a working document — not sales, but craft documented.",
-    },
-    palette: {
-      bg: "#e8e3d6",
-      surface: "#d9d3c2",
-      accent: "#b8552b",
-      accentSoft: "#d18a64",
-      text: "#26221b",
-      textSoft: "#5c574a",
-    },
-    type: {
-      display: "IBM Plex Mono",
-      body: "IBM Plex Sans",
-      displayStack: "'IBM Plex Mono', ui-monospace, monospace",
-      bodyStack: "'IBM Plex Sans', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap",
-    },
-    signature: {
-      no: "Mållinjer og dimensjoner tegnet rett inn i layouten, som på en arbeidstegning.",
-      en: "Dimension lines and callouts drawn straight into the layout, like on a working drawing.",
-    },
-    logoIdea: {
-      no: "Monospasert stempel, som merket med sort blyant på en trestubb.",
-      en: "Monospace stamp, like a mark made in soft pencil on an offcut.",
-    },
-  },
-  {
-    id: "tre",
-    codename: "tre",
-    name: { no: "Treet", en: "Timber" },
-    tagline: {
-      no: "Treet selv er hovedpersonen. Alt annet trekker seg tilbake.",
-      en: "The wood itself is the main character. Everything else steps back.",
-    },
-    mood: {
-      no: "Varm, rund, hjemmefra. Amber og harpiks i ettermiddagslyset.",
-      en: "Warm, round, like home. Amber and resin in afternoon light.",
-    },
-    palette: {
-      bg: "#f3e9d8",
-      surface: "#e6d6bd",
-      accent: "#b5701f",
-      accentSoft: "#d29a52",
-      text: "#332619",
-      textSoft: "#7a6650",
-    },
-    type: {
-      display: "Spectral",
-      body: "Inter",
-      displayStack: "'Spectral', Georgia, serif",
-      bodyStack: "'Inter', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap",
-    },
-    signature: {
-      no: "Årringer i ende-korn som et tilbakevendende motiv.",
-      en: "End-grain growth rings as a recurring motif.",
-    },
-    logoIdea: {
-      no: "Et lesbart navn skåret inn i en årring-sirkel.",
-      en: "A legible name set inside a growth-ring circle.",
-    },
-  },
-  {
-    id: "havn",
-    codename: "havn",
-    name: { no: "Båtplass", en: "Boatyard" },
-    tagline: {
-      no: "Bygget som en sjøhytte: tjære, salt og en god knute.",
-      en: "Built like a boatshed: tar, salt, and a well-tied knot.",
-    },
-    mood: {
-      no: "Mørk, fysisk, sjømannsrapport. Lukten av kreosot og vått tau.",
-      en: "Dark, physical, nautical. The smell of creosote and wet rope.",
-    },
-    palette: {
-      bg: "#1f2624",
-      surface: "#2c3532",
-      accent: "#c89b3c",
-      accentSoft: "#e0bd6e",
-      text: "#ede7d8",
-      textSoft: "#a39e8c",
-    },
-    type: {
-      display: "Oswald",
-      body: "Source Sans 3",
-      displayStack: "'Oswald', 'Arial Narrow', sans-serif",
-      bodyStack: "'Source Sans 3', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap",
-    },
-    signature: {
-      no: "Tauarbeid og messing-øyer som fester layout-linjene gjennom sidene.",
-      en: "Rope work and brass eyes that tie the layout lines together across the site.",
-    },
-    logoIdea: {
-      no: "Kondensert skrift med en tjære-strek under, som en merkemast.",
-      en: "Condensed lettering with a tar-line beneath, like a marker post.",
-    },
-  },
-  {
-    id: "joiner",
-    codename: "joinér",
-    name: { no: "Joinér", en: "Joiner" },
-    tagline: {
-      no: "For prosjektene som fortjener et galleri, ikke en brosjyre.",
-      en: "For the work that deserves a gallery, not a brochure.",
-    },
-    mood: {
-      no: "Eksklusiv, stille, nøyaktig. Som et museumsmonter med ett objekt.",
-      en: "Exclusive, quiet, exact. Like a museum case holding a single object.",
-    },
-    palette: {
-      bg: "#171311",
-      surface: "#241e1a",
-      accent: "#b08d43",
-      accentSoft: "#cdb070",
-      text: "#ece3d2",
-      textSoft: "#9d937f",
-    },
-    type: {
-      display: "Bodoni Moda",
-      body: "Jost",
-      displayStack: "'Bodoni Moda', 'Didot', serif",
-      bodyStack: "'Jost', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;1,6..96,400&family=Jost:wght@300;400;500;600&display=swap",
-    },
-    signature: {
-      no: "Svanshals-skjøter (dovetail) tegnet som et stille teknisk utsmykning.",
-      en: "Dovetail joints drawn as a quiet technical flourish.",
-    },
-    logoIdea: {
-      no: "En stram didone-skrift, én tynn messinglinje under — bare navnet.",
-      en: "A tight didone, one thin brass line beneath — the name alone.",
-    },
-  },
-  {
-    id: "skogsjø",
-    codename: "skog & sjø",
-    name: { no: "Skog & Sjø", en: "Forest & Fjord" },
-    tagline: {
-      no: "Hvor tregrensen møter saltvannet.",
-      en: "Where the treeline meets saltwater.",
-    },
-    mood: {
-      no: "Nordisk, rolig, nytt. Som et kart over en kyststi en tåkete morgen.",
-      en: "Nordic, calm, new. Like a map of a coastal path on a foggy morning.",
-    },
-    palette: {
-      bg: "#eef0ea",
-      surface: "#dde2d7",
-      accent: "#1f5f63",
-      accentSoft: "#5a9b95",
-      text: "#1f2a26",
-      textSoft: "#56625c",
-    },
-    type: {
-      display: "Bricolage Grotesque",
-      body: "Inter",
-      displayStack: "'Bricolage Grotesque', 'Arial', sans-serif",
-      bodyStack: "'Inter', system-ui, sans-serif",
-      fontsHref:
-        "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@300;400;500;600;700&display=swap",
-    },
-    signature: {
-      no: "Topografiske kystlinjer lagvis med treverks-åre.",
-      en: "Topographic shoreline contours layered with wood grain.",
-    },
-    logoIdea: {
-      no: "Samtidig grotesk, &-tegnet tegnet som en årebue.",
-      en: "Contemporary grotesque, the ampersand drawn as a grain arc.",
-    },
-  },
-];
 

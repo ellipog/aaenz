@@ -18,9 +18,10 @@ export function getResend(): Resend {
   return client;
 }
 
+// Resend currently has yomion.com verified — use it as the sending domain.
+// Deliver to the aaenz.no inbox; send from the verified yomion.com address.
 export const CONTACT_TO_EMAIL =
   process.env.CONTACT_TO_EMAIL ?? "elliot@aaenz.no";
 
 export const CONTACT_FROM_EMAIL =
-  process.env.CONTACT_FROM_EMAIL ??
-  "aaenz.no <onboarding@resend.dev>";
+  process.env.CONTACT_FROM_EMAIL ?? "aaenz studios <aaenstudios@yomion.com>";
