@@ -29,7 +29,7 @@ export function PhysioReveal({
   const reduce = useReducedMotion();
   const MotionTag = motion[as];
 
-  const offset = 28;
+  const offset = 16;
   const travel = {
     up: { y: offset },
     down: { y: -offset },
@@ -48,7 +48,7 @@ export function PhysioReveal({
       initial={{ opacity: 0, ...travel }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </MotionTag>
@@ -84,9 +84,9 @@ export function PhysioEnergyBar({ className }: { className?: string }) {
 }
 
 /**
- * An ambient "video" panel built from CSS — animated velocity streaks crossing
- * a dark field, looping forever. Used where a real video would go; avoids any
- * external media dependency while keeping the premium, alive feel.
+ * A calm media panel — a rounded photo treatment with an optional soft play
+ * affordance. Replaces the old velocity-streak "video" panel. Used where a
+ * real photo/video would go; no moving streaks, no pulsing bolt.
  */
 export function PhysioMotionPanel({
   caption,
@@ -96,57 +96,42 @@ export function PhysioMotionPanel({
   const reduce = useReducedMotion();
   return (
     <div
-      className="relative aspect-[16/9] w-full overflow-hidden rounded-[6px] border"
-      style={{
-        backgroundColor: "var(--physio-bg)",
-        borderColor: "var(--physio-rule)",
-      }}
+      className="relative aspect-[16/9] w-full overflow-hidden rounded-[28px]"
+      style={{ backgroundColor: "var(--physio-mist)" }}
     >
-      {/* velocity streaks */}
-      <div className="absolute inset-0" aria-hidden>
-        {[16, 26, 36, 46, 56, 66, 76, 86].map((y, i) => {
-          const dur = 3 + (i % 4) * 0.8;
-          return (
-            <motion.div
-              key={i}
-              className="absolute h-px"
-              style={{
-                top: `${y}%`,
-                left: "-40%",
-                width: `${30 + (i % 3) * 12}%`,
-                background: `linear-gradient(90deg, transparent, var(--physio-accent)${i % 2 ? "88" : ""}, transparent)`,
-              }}
-              animate={reduce ? undefined : { x: ["0%", "380%"] }}
-              transition={
-                reduce
-                  ? undefined
-                  : { duration: dur, repeat: Infinity, ease: "linear", delay: i * 0.4 }
-              }
-            />
-          );
-        })}
-      </div>
-      {/* central bolt + play affordance */}
+      {/* soft sage radial wash instead of streaks */}
+      <div
+        className="absolute inset-0"
+        aria-hidden
+        style={{
+          background:
+            "radial-gradient(120% 90% at 30% 30%, rgba(169,190,160,0.45), transparent 60%), linear-gradient(160deg, var(--physio-sage) 0%, var(--physio-mist) 100%)",
+        }}
+      />
+      {/* central soft play affordance */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <motion.div
           className="flex h-16 w-16 items-center justify-center rounded-full"
           style={{
-            border: "2px solid var(--physio-accent)",
-            color: "var(--physio-accent)",
+            backgroundColor: "rgba(251,248,242,0.9)",
+            color: "var(--physio-moss)",
           }}
-          animate={reduce ? undefined : { scale: [1, 1.06, 1] }}
+          animate={reduce ? undefined : { scale: [1, 1.05, 1] }}
           transition={
-            reduce ? undefined : { duration: 2.4, repeat: Infinity, ease: "easeInOut" }
+            reduce ? undefined : { duration: 3.2, repeat: Infinity, ease: "easeInOut" }
           }
         >
-          <svg width="20" height="22" viewBox="0 0 20 22" fill="currentColor" aria-hidden>
-            <path d="M18 2 L2 11 H9 L7 20 L18 11 H11 Z" />
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="currentColor" aria-hidden>
+            <path d="M2 2 L16 10 L2 18 Z" />
           </svg>
         </motion.div>
         {caption && (
           <p
-            className="mt-4 font-mono text-[11px] uppercase tracking-[0.2em]"
-            style={{ color: "var(--physio-text-soft)" }}
+            className="mt-4 text-xs tracking-[0.18em]"
+            style={{
+              fontFamily: "var(--font-fraunces), serif",
+              color: "var(--physio-moss)",
+            }}
           >
             {caption}
           </p>

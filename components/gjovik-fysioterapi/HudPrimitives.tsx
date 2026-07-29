@@ -1,76 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
 
 /**
- * Gjøvik Fysioterapi — HUD / instrumented primitives.
+ * Gjøvik Fysioterapi — numeric primitives (Lindrig).
  *
- * The performance-lab aesthetic is built from these: a faint telemetry grid
- * behind panels, a kinetic velocity-streak field for the hero, and an animated
- * count-up for live stats. All gated behind prefers-reduced-motion.
+ * The old HUD / instrumented look (telemetry grid + velocity streaks) was
+ * removed with the healing redesign. What remains is the CountUp helper,
+ * retained in case any calm stat wants a gentle one-shot count.
  */
 
-/** A faint grid laid behind a panel — like instrumented graph paper. */
-export function HUDGrid() {
-  return (
-    <div
-      className="pointer-events-none absolute inset-0"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, var(--physio-grid) 1px, transparent 1px), linear-gradient(to bottom, var(--physio-grid) 1px, transparent 1px)",
-        backgroundSize: "40px 40px",
-      }}
-      aria-hidden
-    />
-  );
-}
-
 /**
- * Kinetic velocity streaks — animated horizontal energy lines that sweep
- * across the hero. The signature Kraft motif, now actually moving.
- */
-export function VelocityField({ count = 5 }: { count?: number }) {
-  const reduce = useReducedMotion();
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      {Array.from({ length: count }).map((_, i) => {
-        const top = 18 + i * 14;
-        const delay = i * 0.5;
-        const duration = 3.2 + (i % 3) * 0.8;
-        return (
-          <motion.div
-            key={i}
-            className="absolute h-px"
-            style={{
-              top: `${top}%`,
-              width: `${30 + (i % 4) * 8}%`,
-              background:
-                i % 2 === 0
-                  ? "linear-gradient(90deg, transparent, var(--physio-accent))"
-                  : "linear-gradient(90deg, transparent, var(--physio-accent-soft))",
-            }}
-            initial={reduce ? { x: "-10%" } : { x: "-60%", opacity: 0 }}
-            animate={
-              reduce
-                ? { x: "-10%" }
-                : { x: "120%", opacity: [0, 1, 1, 0] }
-            }
-            transition={
-              reduce
-                ? undefined
-                : { duration, delay, repeat: Infinity, ease: "easeIn" }
-            }
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-/**
- * An animated count-up number. Used in the hero's live stats overlay.
- * Counts from 0 to `value` once when it enters the viewport.
+ * An animated count-up number. Counts from 0 to `value` once when it enters
+ * the viewport. Respects prefers-reduced-motion (renders the final value).
  */
 export function CountUp({
   value,
@@ -81,18 +23,21 @@ export function CountUp({
   suffix?: string;
   duration?: number;
 }) {
-  const reduce = useReducedMotion();
-  const [display, setDisplay] = useState(reduce ? value : 0);
+  const [display, setDisplay] = useState(value);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setDisplay(value);
       return;
     }
-    const el = ref.current;
-    if (!el) return;
     const obs = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting && !started.current) {
@@ -112,7 +57,7 @@ export function CountUp({
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [value, duration, reduce]);
+  }, [value, duration]);
 
   return (
     <span ref={ref}>
