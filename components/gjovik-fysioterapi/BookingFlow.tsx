@@ -13,7 +13,7 @@ type Step = "treatment" | "slot" | "pay" | "done";
 type PayMethod = "card" | "vipps";
 
 /**
- * The mock booking + payment flow.
+ * The mock booking + payment flow (Lindrig styling).
  *
  * Step 1 — pick a treatment (cards).
  * Step 2 — pick a day + slot (grid).
@@ -87,9 +87,9 @@ export function BookingFlow({
 
   return (
     <div
-      className="rounded-[6px] border p-6 sm:p-8"
+      className="rounded-[22px] border p-7 sm:p-8"
       style={{
-        backgroundColor: "var(--physio-surface)",
+        backgroundColor: "var(--physio-paper)",
         borderColor: "var(--physio-rule)",
       }}
     >
@@ -99,13 +99,13 @@ export function BookingFlow({
           <div key={s} className="flex flex-1 items-center gap-2">
             <div className="flex items-center gap-2">
               <span
-                className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold tabular-nums"
+                className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-medium tabular-nums"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontFamily: "var(--font-fraunces), serif",
                   backgroundColor:
                     i <= currentIdx
-                      ? "var(--physio-accent)"
-                      : "var(--physio-surface-deep)",
+                      ? "var(--physio-moss)"
+                      : "var(--physio-mist)",
                   color:
                     i <= currentIdx
                       ? "var(--physio-on-accent)"
@@ -119,9 +119,9 @@ export function BookingFlow({
                 {i < currentIdx ? "✓" : i + 1}
               </span>
               <span
-                className="hidden text-[10px] font-bold uppercase tracking-[0.12em] sm:inline"
+                className="hidden text-[11px] font-medium tracking-[0.08em] sm:inline"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontFamily: "var(--font-fraunces), serif",
                   color:
                     i <= currentIdx
                       ? "var(--physio-text)"
@@ -137,7 +137,7 @@ export function BookingFlow({
                 style={{
                   backgroundColor:
                     i < currentIdx
-                      ? "var(--physio-accent)"
+                      ? "var(--physio-sage)"
                       : "var(--physio-rule)",
                 }}
               />
@@ -150,8 +150,8 @@ export function BookingFlow({
       {step === "treatment" && (
         <div>
           <h3
-            className="mb-1 text-xl font-bold uppercase tracking-tight"
-            style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+            className="mb-1 text-xl font-medium normal-case tracking-tight"
+            style={{ fontFamily: "var(--font-fraunces), serif", color: "var(--physio-text)" }}
           >
             {isNo ? "Hva trenger du?" : "What do you need?"}
           </h3>
@@ -171,21 +171,21 @@ export function BookingFlow({
                   setTreatment(t);
                   setStep("slot");
                 }}
-                className="group rounded-[4px] border p-4 text-left transition-all hover:-translate-y-0.5"
+                className="group rounded-[22px] border p-5 text-left transition-all hover:-translate-y-0.5"
                 style={{ borderColor: "var(--physio-rule)" }}
               >
                 <div className="flex items-start justify-between gap-2">
                   <span
-                    className="font-bold uppercase tracking-tight"
-                    style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                    className="font-medium normal-case tracking-tight"
+                    style={{ fontFamily: "var(--font-fraunces), serif", color: "var(--physio-text)" }}
                   >
                     {tx(t.name, locale)}
                   </span>
                   {t.flagship && (
                     <span
-                      className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.1em]"
+                      className="rounded-full px-2 py-0.5 text-[9px] font-medium tracking-[0.1em]"
                       style={{
-                        backgroundColor: "var(--physio-accent)",
+                        backgroundColor: "var(--physio-clay)",
                         color: "var(--physio-on-accent)",
                       }}
                     >
@@ -194,7 +194,7 @@ export function BookingFlow({
                   )}
                 </div>
                 <p
-                  className="mt-1 text-xs"
+                  className="mt-1 text-xs tabular-nums"
                   style={{ color: "var(--physio-text-soft)" }}
                 >
                   {t.duration} min · {t.price} kr
@@ -209,8 +209,8 @@ export function BookingFlow({
       {step === "slot" && treatment && (
         <div>
           <h3
-            className="mb-1 text-xl font-bold uppercase tracking-tight"
-            style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+            className="mb-1 text-xl font-medium normal-case tracking-tight"
+            style={{ fontFamily: "var(--font-fraunces), serif", color: "var(--physio-text)" }}
           >
             {isNo ? "Når passer det?" : "When suits?"}
           </h3>
@@ -227,13 +227,13 @@ export function BookingFlow({
               <div key={d.date}>
                 <div className="mb-2 flex items-baseline gap-3">
                   <span
-                    className="text-sm font-bold uppercase tracking-wide"
-                    style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                    className="text-sm font-medium normal-case tracking-wide"
+                    style={{ fontFamily: "var(--font-fraunces), serif", color: "var(--physio-text)" }}
                   >
                     {tx(d.day, locale)}
                   </span>
                   <span
-                    className="font-mono text-xs tabular-nums"
+                    className="text-xs tabular-nums"
                     style={{ color: "var(--physio-text-soft)" }}
                   >
                     {d.date}
@@ -249,13 +249,13 @@ export function BookingFlow({
                           setDayIndex(di);
                           setSlot(s);
                         }}
-                        className="rounded-[3px] border px-3 py-1.5 font-mono text-sm tabular-nums transition-all"
+                        className="rounded-full border px-4 py-2 text-sm tabular-nums transition-all"
                         style={{
                           borderColor: selected
-                            ? "var(--physio-accent)"
+                            ? "var(--physio-moss)"
                             : "var(--physio-rule)",
                           backgroundColor: selected
-                            ? "var(--physio-accent)"
+                            ? "var(--physio-moss)"
                             : "transparent",
                           color: selected
                             ? "var(--physio-on-accent)"
@@ -273,9 +273,9 @@ export function BookingFlow({
           <div className="mt-6 flex gap-3">
             <button
               onClick={() => setStep("treatment")}
-              className="rounded-[3px] border px-4 py-2 text-xs font-bold uppercase tracking-[0.1em]"
+              className="rounded-full border px-4 py-2 text-xs font-medium tracking-[0.08em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
                 borderColor: "var(--physio-rule)",
                 color: "var(--physio-text-soft)",
               }}
@@ -285,10 +285,10 @@ export function BookingFlow({
             <button
               disabled={!slot}
               onClick={() => setStep("pay")}
-              className="rounded-[3px] px-5 py-2 text-xs font-bold uppercase tracking-[0.1em] transition-transform enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full px-5 py-2 text-xs font-medium tracking-[0.08em] transition-transform enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
-                backgroundColor: "var(--physio-accent)",
+                fontFamily: "var(--font-fraunces), serif",
+                backgroundColor: "var(--physio-moss)",
                 color: "var(--physio-on-accent)",
               }}
             >
@@ -304,8 +304,8 @@ export function BookingFlow({
           {/* Form */}
           <form onSubmit={handlePay}>
             <h3
-              className="mb-1 text-xl font-bold uppercase tracking-tight"
-              style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+              className="mb-1 text-xl font-medium normal-case tracking-tight"
+              style={{ fontFamily: "var(--font-fraunces), serif", color: "var(--physio-text)" }}
             >
               {isNo ? "Dine opplysninger" : "Your details"}
             </h3>
@@ -338,9 +338,9 @@ export function BookingFlow({
             {/* Payment method picker */}
             <div className="mt-5">
               <span
-                className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.14em]"
+                className="mb-1.5 block text-[11px] font-medium tracking-[0.08em]"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontFamily: "var(--font-fraunces), serif",
                   color: "var(--physio-text-soft)",
                 }}
               >
@@ -377,10 +377,10 @@ export function BookingFlow({
               </div>
             ) : (
               <div
-                className="mt-3 flex items-start gap-3 rounded-[3px] border p-3"
+                className="mt-3 flex items-start gap-3 rounded-[14px] border p-4"
                 style={{ borderColor: "var(--physio-rule)" }}
               >
-                <span style={{ color: "var(--physio-accent)" }}>
+                <span style={{ color: "#ff5b2e" }}>
                   <VippsMark />
                 </span>
                 <p
@@ -398,9 +398,9 @@ export function BookingFlow({
               <button
                 type="button"
                 onClick={() => setStep("slot")}
-                className="rounded-[3px] border px-4 py-2 text-xs font-bold uppercase tracking-[0.1em]"
+                className="rounded-full border px-4 py-2 text-xs font-medium tracking-[0.08em]"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontFamily: "var(--font-fraunces), serif",
                   borderColor: "var(--physio-rule)",
                   color: "var(--physio-text-soft)",
                 }}
@@ -410,11 +410,11 @@ export function BookingFlow({
               <button
                 type="submit"
                 disabled={paying || !name || !email}
-                className="flex flex-1 items-center justify-center gap-2 rounded-[3px] px-5 py-2 text-xs font-bold uppercase tracking-[0.1em] transition-transform enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-2 text-xs font-medium tracking-[0.08em] transition-transform enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontFamily: "var(--font-fraunces), serif",
                   backgroundColor:
-                    payMethod === "vipps" ? "#ff5b2e" : "var(--physio-accent)",
+                    payMethod === "vipps" ? "#ff5b2e" : "var(--physio-moss)",
                   color: payMethod === "vipps" ? "#fff" : "var(--physio-on-accent)",
                 }}
               >
@@ -430,13 +430,16 @@ export function BookingFlow({
 
           {/* Summary */}
           <aside
-            className="rounded-[4px] border p-5"
-            style={{ borderColor: "var(--physio-rule)" }}
+            className="rounded-[22px] border p-5"
+            style={{
+              borderColor: "var(--physio-rule)",
+              backgroundColor: "var(--physio-bg)",
+            }}
           >
             <h4
-              className="mb-4 text-[10px] font-bold uppercase tracking-[0.14em]"
+              className="mb-4 text-[11px] font-medium tracking-[0.08em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
                 color: "var(--physio-text-soft)",
               }}
             >
@@ -461,16 +464,16 @@ export function BookingFlow({
                 style={{ borderColor: "var(--physio-rule)" }}
               >
                 <dt
-                  className="text-xs font-bold uppercase tracking-wide"
+                  className="text-xs font-medium tracking-wide"
                   style={{
-                    fontFamily: "var(--font-archivo), sans-serif",
+                    fontFamily: "var(--font-fraunces), serif",
                   }}
                 >
                   {isNo ? "Total" : "Total"}
                 </dt>
                 <dd
-                  className="font-mono text-xl font-bold tabular-nums"
-                  style={{ color: "var(--physio-accent)" }}
+                  className="text-xl font-semibold tabular-nums"
+                  style={{ color: "var(--physio-moss)" }}
                 >
                   {treatment.price} kr
                 </dd>
@@ -487,16 +490,16 @@ export function BookingFlow({
             <span
               className="flex h-14 w-14 items-center justify-center rounded-full"
               style={{
-                backgroundColor: "var(--physio-accent)",
+                backgroundColor: "var(--physio-moss)",
                 color: "var(--physio-on-accent)",
               }}
             >
-              <PhysioMark onDark={false} size={26} />
+              <PhysioMark onDark size={26} />
             </span>
           </div>
           <h3
-            className="text-2xl font-black uppercase tracking-tight"
-            style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+            className="text-2xl font-medium normal-case tracking-tight"
+            style={{ fontFamily: "var(--font-fraunces), serif", color: "var(--physio-text)" }}
           >
             {isNo ? "Du er booket." : "You're booked."}
           </h3>
@@ -510,27 +513,27 @@ export function BookingFlow({
           </p>
           <div className="mx-auto mt-6 flex max-w-xs flex-col items-center gap-4">
             <div
-              className="flex w-full flex-col gap-1 rounded-[4px] border px-6 py-3 text-center"
+              className="flex w-full flex-col gap-1 rounded-[22px] border px-6 py-3 text-center"
               style={{ borderColor: "var(--physio-rule)" }}
             >
               <span
-                className="font-mono text-[10px] uppercase tracking-[0.14em]"
+                className="text-[11px] tracking-[0.14em]"
                 style={{ color: "var(--physio-text-soft)" }}
               >
                 {isNo ? "referanse" : "reference"}
               </span>
               <span
-                className="font-mono text-lg font-bold tabular-nums"
-                style={{ color: "var(--physio-accent)" }}
+                className="text-lg font-semibold tabular-nums"
+                style={{ color: "var(--physio-moss)" }}
               >
                 {bookingRef}
               </span>
             </div>
             <button
               onClick={reset}
-              className="w-full rounded-[3px] border px-5 py-2.5 text-xs font-bold uppercase tracking-[0.1em] transition-colors hover:border-[var(--physio-text)]"
+              className="w-full rounded-full border px-5 py-2.5 text-xs font-medium tracking-[0.08em] transition-colors hover:border-[var(--physio-sage-deep)]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
                 borderColor: "var(--physio-rule)",
                 color: "var(--physio-text-soft)",
               }}
@@ -564,9 +567,9 @@ function Field({
   return (
     <label className="block">
       <span
-        className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.14em]"
+        className="mb-1.5 block text-[11px] font-medium tracking-[0.08em]"
         style={{
-          fontFamily: "var(--font-archivo), sans-serif",
+          fontFamily: "var(--font-fraunces), serif",
           color: "var(--physio-text-soft)",
         }}
       >
@@ -579,7 +582,7 @@ function Field({
         disabled={disabled}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-[3px] border bg-transparent px-3 py-2 text-sm outline-none transition-colors focus:border-[var(--physio-accent)]"
+        className="w-full rounded-[14px] border bg-transparent px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-[var(--physio-sage-deep)]"
         style={{
           borderColor: "var(--physio-rule)",
           color: "var(--physio-text)",
@@ -612,11 +615,11 @@ function PayOption({
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center justify-center gap-2 rounded-[3px] border px-3 py-2.5 text-sm font-semibold transition-all"
+      className="flex items-center justify-center gap-2 rounded-[14px] border px-3 py-2.5 text-sm font-medium transition-all"
       style={{
-        borderColor: active ? "var(--physio-accent)" : "var(--physio-rule)",
+        borderColor: active ? "var(--physio-moss)" : "var(--physio-rule)",
         backgroundColor: active
-          ? "rgba(214,255,58,0.08)"
+          ? "rgba(110,132,104,0.08)"
           : "transparent",
         color: active ? "var(--physio-text)" : "var(--physio-text-soft)",
       }}
