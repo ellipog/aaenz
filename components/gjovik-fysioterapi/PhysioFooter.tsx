@@ -38,7 +38,7 @@ export function PhysioFooter({ locale }: { locale: Locale }) {
         <div className="grid gap-10 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
           {/* Brand + colophon */}
           <div>
-            <PhysioLockup onDark showTagline={false} />
+            <PhysioLockup onDark={false} showTagline={false} />
             <p
               className="mt-4 max-w-xs text-sm leading-relaxed"
               style={{ color: "var(--physio-text-soft)" }}
@@ -46,7 +46,7 @@ export function PhysioFooter({ locale }: { locale: Locale }) {
               {tx(footer.colophon, locale)}
             </p>
             <p
-              className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em]"
+              className="mt-3 text-[10px] tracking-[0.14em]"
               style={{ color: "var(--physio-text-soft)" }}
             >
               est. {clinic.established} · {tx(clinic.addressLine, locale)}
@@ -56,8 +56,8 @@ export function PhysioFooter({ locale }: { locale: Locale }) {
           {/* Nav */}
           <div>
             <h4
-              className="mb-3 text-xs font-bold uppercase tracking-[0.14em]"
-              style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+              className="mb-3 text-xs font-medium tracking-[0.14em]"
+              style={{ fontFamily: "var(--font-fraunces), serif" }}
             >
               {locale === "no" ? "Meny" : "Menu"}
             </h4>
@@ -81,8 +81,8 @@ export function PhysioFooter({ locale }: { locale: Locale }) {
           {/* Contact */}
           <div>
             <h4
-              className="mb-3 text-xs font-bold uppercase tracking-[0.14em]"
-              style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+              className="mb-3 text-xs font-medium tracking-[0.14em]"
+              style={{ fontFamily: "var(--font-fraunces), serif" }}
             >
               {tx(contact.eyebrow, locale)}
             </h4>
@@ -113,8 +113,8 @@ export function PhysioFooter({ locale }: { locale: Locale }) {
           {/* Hours */}
           <div>
             <h4
-              className="mb-3 text-xs font-bold uppercase tracking-[0.14em]"
-              style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+              className="mb-3 text-xs font-medium tracking-[0.14em]"
+              style={{ fontFamily: "var(--font-fraunces), serif" }}
             >
               {locale === "no" ? "Åpningstider" : "Hours"}
             </h4>
@@ -126,7 +126,7 @@ export function PhysioFooter({ locale }: { locale: Locale }) {
                 <li key={h.time} className="flex justify-between gap-4">
                   <span>{tx(h.days, locale)}</span>
                   <span
-                    className="font-mono tabular-nums"
+                    className="tabular-nums"
                     style={{ color: "var(--physio-text)" }}
                   >
                     {h.time}
@@ -143,14 +143,14 @@ export function PhysioFooter({ locale }: { locale: Locale }) {
           style={{ borderColor: "var(--physio-rule)" }}
         >
           <p
-            className="font-mono text-[10px] uppercase tracking-[0.14em]"
+            className="text-[10px] tracking-[0.14em]"
             style={{ color: "var(--physio-text-soft)" }}
           >
             © {new Date().getFullYear()} {clinic.name}
           </p>
           <Link
             href="/"
-            className="font-mono text-[10px] uppercase tracking-[0.14em] transition-colors hover:text-[var(--physio-accent)]"
+            className="text-[10px] tracking-[0.14em] transition-colors hover:text-[var(--physio-sage-deep)]"
             style={{ color: "var(--physio-text-soft)" }}
           >
             ↑ {tx(footer.backToAaen, locale)}

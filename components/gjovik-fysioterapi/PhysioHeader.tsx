@@ -6,7 +6,6 @@ import Link from "next/link";
 import type { Locale, Localized } from "@/content/gjovik-fysioterapi";
 import { nav, clinic, langSwitchTarget } from "@/content/gjovik-fysioterapi";
 import { PhysioLockup } from "./PhysioMark";
-import { StatusReadout } from "./StatusReadout";
 
 /**
  * Multi-page nav items for the clinic demo. Each links to a sub-page under
@@ -58,7 +57,8 @@ export function PhysioHeader({
     <header
       className="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
       style={{
-        backgroundColor: scrolled ? "var(--physio-bg)" : "transparent",
+        backgroundColor: scrolled ? "rgba(246,241,233,0.82)" : "transparent",
+        backdropFilter: scrolled ? "blur(10px)" : "none",
         borderBottom: scrolled
           ? "1px solid var(--physio-rule)"
           : "1px solid transparent",
@@ -66,7 +66,7 @@ export function PhysioHeader({
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
         <Link href={homeHref} aria-label={clinic.name} className="flex items-center">
-          <PhysioLockup onDark />
+          <PhysioLockup onDark={false} />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
@@ -76,11 +76,11 @@ export function PhysioHeader({
               <Link
                 key={item.slug}
                 href={`/demos/gjovik-fysioterapi/${item.slug}?${qs()}`}
-                className="text-xs font-semibold uppercase tracking-[0.12em] transition-colors"
+                className="text-sm font-medium tracking-[0.08em] transition-colors"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontFamily: "var(--font-fraunces), serif",
                   color: active
-                    ? "var(--physio-accent)"
+                    ? "var(--physio-sage-deep)"
                     : "var(--physio-text-soft)",
                 }}
               >
@@ -91,12 +91,11 @@ export function PhysioHeader({
         </nav>
 
         <div className="flex items-center gap-3">
-          <StatusReadout onlineLabel={locale === "no" ? "PÅLINJE" : "ONLINE"} />
           <Link
             href={`/demos/gjovik-fysioterapi?${qs({ lang: switchTo })}`}
-            className="rounded-[3px] border px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.1em] transition-colors"
+            className="rounded-full border px-3 py-1.5 text-xs font-medium transition-colors"
             style={{
-              fontFamily: "var(--font-archivo), sans-serif",
+              fontFamily: "var(--font-fraunces), serif",
               borderColor: "var(--physio-text)",
               color: "var(--physio-text)",
             }}
@@ -105,10 +104,10 @@ export function PhysioHeader({
           </Link>
           <Link
             href={`${homeHref}#booking`}
-            className="hidden rounded-[3px] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.1em] transition-transform hover:-translate-y-0.5 sm:inline-flex"
+            className="hidden rounded-full px-5 py-2 text-sm font-medium transition-transform hover:-translate-y-0.5 sm:inline-flex"
             style={{
-              fontFamily: "var(--font-archivo), sans-serif",
-              backgroundColor: "var(--physio-accent)",
+              fontFamily: "var(--font-fraunces), serif",
+              backgroundColor: "var(--physio-moss)",
               color: "var(--physio-on-accent)",
             }}
           >
@@ -147,7 +146,8 @@ export function PhysioHeader({
         <nav
           className="border-t lg:hidden"
           style={{
-            backgroundColor: "var(--physio-bg)",
+            backgroundColor: "rgba(246,241,233,0.97)",
+            backdropFilter: "blur(10px)",
             borderColor: "var(--physio-rule)",
           }}
         >
@@ -155,10 +155,10 @@ export function PhysioHeader({
             <div className="flex flex-col gap-1">
               <Link
                 href={homeHref}
-                className="rounded-[3px] px-3 py-2.5 text-sm font-semibold uppercase tracking-[0.12em]"
+                className="rounded-full px-3 py-2.5 text-sm font-medium tracking-[0.08em]"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
-                  color: pathname === "/demos/gjovik-fysioterapi" ? "var(--physio-accent)" : "var(--physio-text-soft)",
+                  fontFamily: "var(--font-fraunces), serif",
+                  color: pathname === "/demos/gjovik-fysioterapi" ? "var(--physio-sage-deep)" : "var(--physio-text-soft)",
                 }}
               >
                 {locale === "no" ? "Hjem" : "Home"}
@@ -167,10 +167,10 @@ export function PhysioHeader({
                 <Link
                   key={item.slug}
                   href={`/demos/gjovik-fysioterapi/${item.slug}?${qs()}`}
-                  className="rounded-[3px] px-3 py-2.5 text-sm font-semibold uppercase tracking-[0.12em]"
+                  className="rounded-full px-3 py-2.5 text-sm font-medium tracking-[0.08em]"
                   style={{
-                    fontFamily: "var(--font-archivo), sans-serif",
-                    color: isActive(item.slug) ? "var(--physio-accent)" : "var(--physio-text-soft)",
+                    fontFamily: "var(--font-fraunces), serif",
+                    color: isActive(item.slug) ? "var(--physio-sage-deep)" : "var(--physio-text-soft)",
                   }}
                 >
                   {item.label[locale] ?? item.label.no}
@@ -178,10 +178,10 @@ export function PhysioHeader({
               ))}
               <Link
                 href={`${homeHref}#booking`}
-                className="mt-2 rounded-[3px] px-3 py-2.5 text-center text-sm font-bold uppercase tracking-[0.1em]"
+                className="mt-2 rounded-full px-3 py-2.5 text-center text-sm font-medium"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
-                  backgroundColor: "var(--physio-accent)",
+                  fontFamily: "var(--font-fraunces), serif",
+                  backgroundColor: "var(--physio-moss)",
                   color: "var(--physio-on-accent)",
                 }}
               >
