@@ -68,7 +68,7 @@ export default async function KunnskapPage({
             <PhysioReveal key={article.slug} delay={i * 0.06} as="article">
               <a
                 href="#"
-                className="group flex h-full flex-col overflow-hidden rounded-[4px] border transition-colors hover:border-[var(--physio-accent)]"
+                className="group flex h-full flex-col overflow-hidden rounded-[22px] border transition-colors hover:border-[var(--physio-accent)]"
                 style={{ borderColor: "var(--physio-rule)" }}
               >
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
@@ -83,13 +83,13 @@ export default async function KunnskapPage({
                 <div className="flex flex-1 flex-col p-5">
                   <div className="flex items-center gap-3">
                     <span
-                      className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]"
+                      className="text-[10px] font-medium tracking-[0.14em]"
                       style={{ color: "var(--physio-accent)" }}
                     >
                       {tx(article.category, locale)}
                     </span>
                     <span
-                      className="font-mono text-[10px] uppercase tracking-[0.14em]"
+                      className="text-[10px] tracking-[0.14em]"
                       style={{ color: "var(--physio-text-soft)" }}
                     >
                       {article.readMins} {isNo ? "min" : "min read"}
@@ -97,7 +97,7 @@ export default async function KunnskapPage({
                   </div>
                   <h3
                     className="mt-3 flex-1 font-bold leading-snug tracking-tight"
-                    style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                    style={{ fontFamily: "var(--font-fraunces), serif" }}
                   >
                     {tx(article.title, locale)}
                   </h3>
@@ -110,7 +110,7 @@ export default async function KunnskapPage({
                   <span
                     className="mt-4 text-xs font-bold uppercase tracking-[0.12em] transition-transform group-hover:translate-x-1"
                     style={{
-                      fontFamily: "var(--font-archivo), sans-serif",
+                      fontFamily: "var(--font-fraunces), serif",
                       color: "var(--physio-accent)",
                     }}
                   >
@@ -133,9 +133,9 @@ export default async function KunnskapPage({
               en={isNo ? "See how we work" : "See how we work"}
             />
             <h2
-              className="mt-4 font-black uppercase leading-[0.95] tracking-[-0.02em]"
+              className="mt-4 font-light normal-case leading-[1.02] tracking-[-0.02em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
                 fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
               }}
             >
@@ -172,9 +172,9 @@ export default async function KunnskapPage({
           <div className="md:sticky md:top-28 md:self-start">
             <SectionEyebrow locale={locale} no="FAQ" en="FAQ" />
             <h2
-              className="mt-4 font-black uppercase leading-[0.95] tracking-[-0.02em]"
+              className="mt-4 font-light normal-case leading-[1.02] tracking-[-0.02em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
                 fontSize: "clamp(2rem, 5vw, 3.5rem)",
               }}
             >
@@ -185,16 +185,16 @@ export default async function KunnskapPage({
             {faq.map((item, i) => (
               <PhysioReveal key={i} delay={i * 0.04}>
                 <details
-                  className="group rounded-[4px] border p-5"
+                  className="group rounded-[22px] border p-5"
                   style={{ borderColor: "var(--physio-rule)" }}
                 >
                   <summary
                     className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold"
-                    style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                    style={{ fontFamily: "var(--font-fraunces), serif" }}
                   >
                     {tx(item.q, locale)}
                     <span
-                      className="font-mono text-xl transition-transform group-open:rotate-45"
+                      className="text-xl font-medium transition-transform group-open:rotate-45"
                       style={{ color: "var(--physio-accent)" }}
                     >
                       +

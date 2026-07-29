@@ -61,13 +61,13 @@ export default async function BehandlingerPage({
           {treatments.map((t, i) => (
             <PhysioReveal key={t.id} delay={i * 0.05} as="article">
               <article
-                className="flex h-full flex-col rounded-[4px] border p-6"
+                className="flex h-full flex-col rounded-[22px] border p-6"
                 style={{ borderColor: "var(--physio-rule)" }}
               >
                 <div className="flex items-start justify-between gap-3">
                   <h3
-                    className="text-xl font-bold uppercase tracking-tight"
-                    style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                    className="text-xl font-medium normal-case tracking-tight"
+                    style={{ fontFamily: "var(--font-fraunces), serif" }}
                   >
                     {tx(t.name, locale)}
                   </h3>
@@ -100,12 +100,12 @@ export default async function BehandlingerPage({
                   style={{ borderColor: "var(--physio-rule)" }}
                 >
                   <span
-                    className="font-mono text-xs uppercase tracking-[0.14em]"
+                    className="text-xs tracking-[0.14em]"
                     style={{ color: "var(--physio-text-soft)" }}
                   >
                     {t.duration} min
                   </span>
-                  <span className="font-mono text-lg font-bold tabular-nums">
+                  <span className="text-lg font-semibold tabular-nums">
                     {t.price} kr
                   </span>
                 </div>
@@ -121,15 +121,15 @@ export default async function BehandlingerPage({
           <div className="md:sticky md:top-28">
             <SectionEyebrow locale={locale} no={approach.eyebrow.no} en={approach.eyebrow.en} />
             <h2
-              className="mt-4 font-black uppercase leading-[0.95] tracking-[-0.02em]"
+              className="mt-4 font-light normal-case leading-[1.02] tracking-[-0.02em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
                 fontSize: "clamp(2rem, 5vw, 3.5rem)",
               }}
             >
               {tx(approach.title, locale)}
             </h2>
-            <div className="relative mt-8 aspect-[4/3] w-full overflow-hidden rounded-[4px]">
+            <div className="relative mt-8 aspect-[4/3] w-full overflow-hidden rounded-[22px]">
               <Image
                 src={photos.manual}
                 alt={tx(approach.title, locale)}
@@ -144,20 +144,20 @@ export default async function BehandlingerPage({
             {approach.steps.map((step, i) => (
               <PhysioReveal key={step.n} delay={i * 0.06}>
                 <div
-                  className="rounded-[4px] border p-6"
+                  className="rounded-[22px] border p-6"
                   style={{ borderColor: "var(--physio-rule)" }}
                 >
                   <div className="flex items-baseline gap-4">
                     <span
-                      className="font-mono text-2xl font-black tabular-nums"
+                      className="text-2xl font-medium tabular-nums"
                       style={{ color: "var(--physio-accent)" }}
                     >
                       {step.n}
                     </span>
                     <div>
                       <h3
-                        className="text-lg font-bold uppercase tracking-tight"
-                        style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                        className="text-lg font-medium normal-case tracking-tight"
+                        style={{ fontFamily: "var(--font-fraunces), serif" }}
                       >
                         {tx(step.title, locale)}
                       </h3>
@@ -184,9 +184,9 @@ export default async function BehandlingerPage({
           en={isNo ? "Hvor gjør det vondt?" : "Where does it hurt?"}
         />
         <h2
-          className="mt-4 font-black uppercase leading-[0.95] tracking-[-0.02em]"
+          className="mt-4 font-light normal-case leading-[1.02] tracking-[-0.02em]"
           style={{
-            fontFamily: "var(--font-archivo), sans-serif",
+            fontFamily: "var(--font-fraunces), serif",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
           }}
         >
@@ -196,12 +196,12 @@ export default async function BehandlingerPage({
           {injuryAreas.map((area, i) => (
             <PhysioReveal key={area.id} delay={i * 0.05}>
               <article
-                className="h-full rounded-[4px] border p-6"
+                className="h-full rounded-[22px] border p-6"
                 style={{ borderColor: "var(--physio-rule)" }}
               >
                 <h3
-                  className="text-lg font-bold uppercase tracking-tight"
-                  style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                  className="text-lg font-medium normal-case tracking-tight"
+                  style={{ fontFamily: "var(--font-fraunces), serif" }}
                 >
                   {tx(area.name, locale)}
                 </h3>
@@ -227,16 +227,16 @@ export default async function BehandlingerPage({
       <PhysioSection surface id="priser">
         <SectionEyebrow locale={locale} no="Priser" en="Pricing" />
         <h2
-          className="mt-4 max-w-2xl font-black uppercase leading-[0.95] tracking-[-0.02em]"
+          className="mt-4 max-w-2xl font-light normal-case leading-[1.02] tracking-[-0.02em]"
           style={{
-            fontFamily: "var(--font-archivo), sans-serif",
+            fontFamily: "var(--font-fraunces), serif",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
           }}
         >
           {isNo ? "Tydelig pris" : "Clear price"}
         </h2>
         <div
-          className="mt-10 max-w-2xl overflow-hidden rounded-[4px] border"
+          className="mt-10 max-w-2xl overflow-hidden rounded-[22px] border"
           style={{ borderColor: "var(--physio-rule)" }}
         >
           {priceRows.map((row, i) => (
@@ -251,7 +251,7 @@ export default async function BehandlingerPage({
                 {tx(row.label, locale)}
               </span>
               <span
-                className="font-mono text-base font-bold tabular-nums"
+                className="text-base font-semibold tabular-nums"
                 style={{ color: "var(--physio-accent)" }}
               >
                 {row.price}
@@ -270,7 +270,7 @@ export default async function BehandlingerPage({
           href="/demos/gjovik-fysioterapi"
           className="mt-8 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-[0.12em] transition-transform hover:translate-x-1"
           style={{
-            fontFamily: "var(--font-archivo), sans-serif",
+            fontFamily: "var(--font-fraunces), serif",
             color: "var(--physio-accent)",
           }}
         >

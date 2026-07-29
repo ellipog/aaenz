@@ -70,9 +70,9 @@ export default async function KontaktPage({
               <div>
                 <SectionEyebrow locale={locale} no={contact.eyebrow.no} en={contact.eyebrow.en} />
                 <h3
-                  className="mt-4 font-black uppercase tracking-tight"
+                  className="mt-5 font-medium normal-case tracking-tight"
                   style={{
-                    fontFamily: "var(--font-archivo), sans-serif",
+                    fontFamily: "var(--font-fraunces), serif",
                     fontSize: "clamp(1.5rem, 3vw, 2rem)",
                   }}
                 >
@@ -83,7 +83,7 @@ export default async function KontaktPage({
                     <span
                       className="block text-[10px] font-bold uppercase tracking-[0.14em]"
                       style={{
-                        fontFamily: "var(--font-archivo), sans-serif",
+                        fontFamily: "var(--font-fraunces), serif",
                         color: "var(--physio-text-soft)",
                       }}
                     >
@@ -100,7 +100,7 @@ export default async function KontaktPage({
                     <span
                       className="block text-[10px] font-bold uppercase tracking-[0.14em]"
                       style={{
-                        fontFamily: "var(--font-archivo), sans-serif",
+                        fontFamily: "var(--font-fraunces), serif",
                         color: "var(--physio-text-soft)",
                       }}
                     >
@@ -117,7 +117,7 @@ export default async function KontaktPage({
                     <span
                       className="block text-[10px] font-bold uppercase tracking-[0.14em]"
                       style={{
-                        fontFamily: "var(--font-archivo), sans-serif",
+                        fontFamily: "var(--font-fraunces), serif",
                         color: "var(--physio-text-soft)",
                       }}
                     >
@@ -134,13 +134,13 @@ export default async function KontaktPage({
             {/* Hours */}
             <PhysioReveal>
               <div
-                className="rounded-[4px] border p-5"
+                className="rounded-[22px] border p-5"
                 style={{ borderColor: "var(--physio-rule)" }}
               >
                 <h4
                   className="mb-3 text-[10px] font-bold uppercase tracking-[0.14em]"
                   style={{
-                    fontFamily: "var(--font-archivo), sans-serif",
+                    fontFamily: "var(--font-fraunces), serif",
                     color: "var(--physio-text-soft)",
                   }}
                 >
@@ -153,7 +153,7 @@ export default async function KontaktPage({
                         {h.days[locale] ?? h.days.no}
                       </span>
                       <span
-                        className="font-mono tabular-nums"
+                        className="tabular-nums"
                         style={{ color: "var(--physio-text)" }}
                       >
                         {h.time}
@@ -167,14 +167,14 @@ export default async function KontaktPage({
             {/* Map embed */}
             <PhysioReveal>
               <div
-                className="overflow-hidden rounded-[4px] border"
+                className="overflow-hidden rounded-[22px] border"
                 style={{ borderColor: "var(--physio-rule)" }}
               >
                 <iframe
                   title="Gjøvik Fysioterapi — kart"
                   src="https://www.openstreetmap.org/export/embed.html?bbox=10.69%2C60.785%2C10.72%2C60.795&layer=mapnik&marker=60.790%2C10.705"
                   className="h-56 w-full"
-                  style={{ border: 0, filter: "invert(0.92) hue-rotate(180deg)" }}
+                  style={{ border: 0 }}
                   loading="lazy"
                 />
               </div>
@@ -182,7 +182,7 @@ export default async function KontaktPage({
                 href="/demos/gjovik-fysioterapi"
                 className="mt-4 inline-flex items-center gap-1 text-xs font-bold uppercase tracking-[0.12em] transition-transform hover:translate-x-1"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontFamily: "var(--font-fraunces), serif",
                   color: "var(--physio-accent)",
                 }}
               >

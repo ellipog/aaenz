@@ -60,7 +60,7 @@ export default async function BehandlerePage({
                 <article className="grid gap-10 md:grid-cols-2 md:items-center">
                   {/* Photo */}
                   <div
-                    className={`relative aspect-[4/5] w-full overflow-hidden rounded-[6px] ${
+                    className={`relative aspect-[4/5] w-full overflow-hidden rounded-[28px] ${
                       reversed ? "md:order-2" : ""
                     }`}
                   >
@@ -76,15 +76,15 @@ export default async function BehandlerePage({
                   {/* Content */}
                   <div className={reversed ? "md:order-1" : ""}>
                     <span
-                      className="font-mono text-xs uppercase tracking-[0.16em]"
+                      className="text-xs tracking-[0.16em]"
                       style={{ color: "var(--physio-accent)" }}
                     >
                       {tx(person.role, locale)}
                     </span>
                     <h3
-                      className="mt-2 font-black uppercase leading-[0.95] tracking-tight"
+                      className="mt-2 font-medium normal-case tracking-tight"
                       style={{
-                        fontFamily: "var(--font-archivo), sans-serif",
+                        fontFamily: "var(--font-fraunces), serif",
                         fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
                       }}
                     >
@@ -122,7 +122,7 @@ export default async function BehandlerePage({
                       <p
                         className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em]"
                         style={{
-                          fontFamily: "var(--font-archivo), sans-serif",
+                          fontFamily: "var(--font-fraunces), serif",
                           color: "var(--physio-text-soft)",
                         }}
                       >
@@ -136,7 +136,7 @@ export default async function BehandlerePage({
                             style={{ color: "var(--physio-text)" }}
                           >
                             <span
-                              className="font-mono text-[10px]"
+                              className="text-[10px]"
                               style={{ color: "var(--physio-accent)" }}
                             >
                               ▸
@@ -157,7 +157,7 @@ export default async function BehandlerePage({
       {/* The clinic — story recap */}
       <PhysioSection surface id="klinikken">
         <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-center">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[6px] md:order-2">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[28px] md:order-2">
             <Image
               src={story.photo}
               alt={tx(story.title, locale)}
@@ -169,9 +169,9 @@ export default async function BehandlerePage({
           <div className="md:order-1">
             <SectionEyebrow locale={locale} no={story.eyebrow.no} en={story.eyebrow.en} />
             <h2
-              className="mt-4 font-black leading-[1.0] tracking-[-0.02em]"
+              className="mt-4 font-light normal-case leading-[1.02] tracking-[-0.02em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
                 fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
               }}
             >
@@ -195,19 +195,18 @@ export default async function BehandlerePage({
               {story.stats.map((stat, i) => (
                 <div key={i}>
                   <div
-                    className="font-black leading-none tracking-[-0.02em]"
+                    className="font-medium leading-none tracking-[-0.02em]"
                     style={{
-                      fontFamily: "var(--font-archivo), sans-serif",
+                      fontFamily: "var(--font-fraunces), serif",
                       fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)",
-                      color: i === 0 ? "var(--physio-accent)" : "var(--physio-text)",
+                      color: i === 0 ? "var(--physio-sage-deep)" : "var(--physio-moss)",
                     }}
                   >
                     {stat.value}
                   </div>
                   <div
-                    className="mt-2 text-[10px] font-bold uppercase tracking-[0.12em]"
+                    className="mt-2 text-[10px] tracking-[0.12em]"
                     style={{
-                      fontFamily: "var(--font-archivo), sans-serif",
                       color: "var(--physio-text-soft)",
                     }}
                   >
