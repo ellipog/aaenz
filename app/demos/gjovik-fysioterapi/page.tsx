@@ -25,7 +25,6 @@ import { PhysioReveal, PhysioMotionPanel } from "@/components/gjovik-fysioterapi
 import { PhysioMark } from "@/components/gjovik-fysioterapi/PhysioMark";
 import { BookingFlow } from "@/components/gjovik-fysioterapi/BookingFlow";
 import { MetricsDashboard } from "@/components/gjovik-fysioterapi/MetricsDashboard";
-import { VelocityField, CountUp, HUDGrid } from "@/components/gjovik-fysioterapi/HudPrimitives";
 
 export const dynamicParams = false;
 
@@ -58,156 +57,137 @@ export default async function PhysioPage({
   return (
     <PhysioShell locale={locale}>
       {/* ============================================================ */}
-      {/* HERO — kinetic. The photo is pushed to a panel on one side;    */}
-      {/* the headline sits over a moving velocity field with live       */}
-      {/* count-up stats overlaid as telemetry. No static bottom-left.   */}
+      {/* HERO — calm. Soft sage/clay radial glows behind a copy +       */}
+      {/* photo two-column. The headline is a gentle Fraunces phrase;   */}
+      {/* no velocity streaks, no telemetry overlay.                    */}
       {/* ============================================================ */}
-      <section id="top" className="relative min-h-[100svh] w-full overflow-hidden">
-        {/* The Kraft ground — a HUD grid instead of a photo backdrop. */}
-        <div className="absolute inset-0" aria-hidden>
+      <section id="top" className="relative overflow-hidden">
+        {/* Soft sage + clay radial glows instead of HUD grid / velocity streaks */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
           <div
-            className="absolute inset-0"
+            className="absolute"
             style={{
+              width: "620px",
+              height: "620px",
+              top: "-180px",
+              right: "-160px",
+              borderRadius: "9999px",
               background:
-                "radial-gradient(120% 80% at 70% 20%, rgba(214,255,58,0.07), transparent 60%), linear-gradient(180deg, var(--physio-bg) 0%, var(--physio-surface-deep) 100%)",
+                "radial-gradient(circle, rgba(169,190,160,0.38), transparent 62%)",
             }}
           />
-          <HUDGrid />
-        </div>
-
-        {/* Kinetic velocity streaks sweeping across the field */}
-        <VelocityField count={6} />
-
-        {/* The photo as an inset panel, not full-bleed */}
-        <div className="pointer-events-none absolute right-0 top-0 hidden h-full w-[42%] opacity-50 lg:block">
-          <Image
-            src={hero.photo}
-            alt={tx(story.title, locale)}
-            fill
-            priority
-            sizes="42vw"
-            className="object-cover"
-          />
           <div
-            className="absolute inset-0"
+            className="absolute"
             style={{
+              width: "420px",
+              height: "420px",
+              bottom: "-160px",
+              left: "-120px",
+              borderRadius: "9999px",
               background:
-                "linear-gradient(90deg, var(--physio-bg) 0%, transparent 55%), linear-gradient(180deg, rgba(14,17,22,0.4), rgba(14,17,22,0.85))",
+                "radial-gradient(circle, rgba(194,135,98,0.20), transparent 62%)",
             }}
           />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-5 pt-28 sm:px-8">
-          <PhysioReveal from="up">
-            <p
-              className="mb-4 text-xs font-bold uppercase tracking-[0.28em]"
-              style={{
-                fontFamily: "var(--font-archivo), sans-serif",
-                color: "var(--physio-accent)",
-              }}
-            >
-              {tx(hero.eyebrow, locale)}
-            </p>
-          </PhysioReveal>
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 pb-24 pt-36 sm:px-8 md:grid-cols-[1.15fr_0.85fr]">
+          {/* Copy */}
+          <div>
+            <PhysioReveal from="up">
+              <p
+                className="mb-5 text-xs font-medium uppercase tracking-[0.22em]"
+                style={{
+                  fontFamily: "var(--font-fraunces), serif",
+                  color: "var(--physio-sage-deep)",
+                }}
+              >
+                {tx(hero.eyebrow, locale)}
+              </p>
+            </PhysioReveal>
 
-          {/* The headline, with the cut word in accent. */}
-          <PhysioReveal delay={0.1}>
-            <h1
-              className="font-black uppercase leading-[0.86] tracking-[-0.03em]"
-              style={{
-                fontFamily: "var(--font-archivo), sans-serif",
-                color: "var(--physio-text)",
-                fontSize: "clamp(3rem, 11vw, 9rem)",
-              }}
-            >
-              {isNo ? "Tilbake" : "Back"}
-              <br />
-              <span style={{ color: "var(--physio-accent)" }}>
-                {isNo ? "i aksjon" : "in action"}
-              </span>
-            </h1>
-          </PhysioReveal>
+            <PhysioReveal delay={0.1}>
+              <h1
+                className="font-light leading-[1.02] tracking-[-0.025em]"
+                style={{
+                  fontFamily: "var(--font-fraunces), serif",
+                  color: "var(--physio-moss)",
+                  fontSize: "clamp(2.6rem, 6vw, 4.6rem)",
+                }}
+              >
+                {isNo ? "Ro i kroppen." : "Calm in the body."}
+                <br />
+                <em
+                  style={{
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                    color: "var(--physio-sage-deep)",
+                  }}
+                >
+                  {isNo ? "Veien hjem til bevegelse." : "The way home to movement."}
+                </em>
+              </h1>
+            </PhysioReveal>
 
+            <PhysioReveal delay={0.2}>
+              <p
+                className="mt-7 max-w-xl text-lg leading-relaxed"
+                style={{ color: "var(--physio-text-soft)" }}
+              >
+                {tx(hero.subtitle, locale)}
+              </p>
+            </PhysioReveal>
+
+            <PhysioReveal delay={0.3}>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <a
+                  href="#booking"
+                  className="inline-flex items-center rounded-full px-6 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
+                  style={{
+                    fontFamily: "var(--font-fraunces), serif",
+                    backgroundColor: "var(--physio-moss)",
+                    color: "var(--physio-on-accent)",
+                  }}
+                >
+                  {tx(hero.primaryCta, locale)} →
+                </a>
+                <a
+                  href="#dashboard"
+                  className="inline-flex items-center rounded-full border px-6 py-3 text-sm font-medium transition-colors"
+                  style={{
+                    fontFamily: "var(--font-fraunces), serif",
+                    borderColor: "var(--physio-rule)",
+                    color: "var(--physio-text)",
+                  }}
+                >
+                  {tx(hero.secondaryCta, locale)}
+                </a>
+              </div>
+            </PhysioReveal>
+          </div>
+
+          {/* Photo panel */}
           <PhysioReveal delay={0.2}>
-            <p
-              className="mt-6 max-w-xl text-base leading-relaxed sm:text-lg"
-              style={{ color: "var(--physio-text-soft)" }}
-            >
-              {tx(hero.subtitle, locale)}
-            </p>
-          </PhysioReveal>
-
-          <PhysioReveal delay={0.3}>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#booking"
-                className="inline-flex items-center rounded-[3px] px-6 py-3 text-sm font-bold uppercase tracking-[0.1em] transition-transform hover:-translate-y-0.5"
-                style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
-                  backgroundColor: "var(--physio-accent)",
-                  color: "var(--physio-on-accent)",
-                }}
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[28px]">
+              <Image
+                src={hero.photo}
+                alt={tx(story.title, locale)}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 420px"
+                className="object-cover"
+              />
+              <div
+                className="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-2xl px-4 py-3 text-sm"
+                style={{ backgroundColor: "rgba(251,248,242,0.92)" }}
               >
-                {tx(hero.primaryCta, locale)}
-              </a>
-              <a
-                href="#dashboard"
-                className="inline-flex items-center rounded-[3px] border px-6 py-3 text-sm font-bold uppercase tracking-[0.1em] transition-colors"
-                style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
-                  borderColor: "var(--physio-text)",
-                  color: "var(--physio-text)",
-                }}
-              >
-                {tx(hero.secondaryCta, locale)}
-              </a>
+                <span
+                  className="block h-2 w-2 rounded-full"
+                  style={{ backgroundColor: "var(--physio-sage-deep)" }}
+                />
+                {isNo ? "Ledig time i morgen, kl. 10:30" : "Open slot tomorrow, 10:30"}
+              </div>
             </div>
           </PhysioReveal>
-
-          {/* Live stats overlay — count-up telemetry, not static numbers */}
-          <PhysioReveal delay={0.4}>
-            <div
-              className="mt-12 inline-flex flex-wrap gap-6 rounded-[4px] border p-5 backdrop-blur-sm sm:gap-8"
-              style={{ borderColor: "var(--physio-rule)", backgroundColor: "rgba(26,31,39,0.6)" }}
-            >
-              {[hero.stat1, hero.stat2, hero.stat3].map((stat, i) => {
-                const numeric = parseInt(String(stat.value).replace(/\D/g, ""), 10) || 0;
-                const suffix = String(stat.value).replace(/[0-9]/g, "");
-                const isNumeric = numeric > 0;
-                return (
-                  <div key={i}>
-                    <div
-                      className="font-black leading-none tracking-[-0.02em] tabular-nums"
-                      style={{
-                        fontFamily: "var(--font-jetbrains), monospace",
-                        fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-                        color: i === 0 ? "var(--physio-accent)" : "var(--physio-text)",
-                      }}
-                    >
-                      {isNumeric ? <CountUp value={numeric} suffix={suffix} /> : stat.value}
-                    </div>
-                    <div
-                      className="mt-1 text-[10px] font-bold uppercase tracking-[0.12em]"
-                      style={{
-                        fontFamily: "var(--font-archivo), sans-serif",
-                        color: "var(--physio-text-soft)",
-                      }}
-                    >
-                      {tx(stat.label, locale)}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </PhysioReveal>
-        </div>
-
-        {/* scroll cue */}
-        <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2" aria-hidden>
-          <span
-            className="block h-10 w-px animate-pulse"
-            style={{ backgroundColor: "var(--physio-accent-soft)" }}
-          />
         </div>
       </section>
 
@@ -220,9 +200,10 @@ export default async function PhysioPage({
         <div className="mb-10 max-w-2xl">
           <SectionEyebrow locale={locale} no={dashboard.eyebrow.no} en={dashboard.eyebrow.en} />
           <h2
-            className="mt-4 font-black uppercase leading-[0.92] tracking-[-0.02em]"
+            className="mt-5 font-light normal-case leading-[1.02] tracking-[-0.02em]"
             style={{
-              fontFamily: "var(--font-archivo), sans-serif",
+              fontFamily: "var(--font-fraunces), serif",
+              color: "var(--physio-moss)",
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
             }}
           >
@@ -246,21 +227,22 @@ export default async function PhysioPage({
             <PhysioReveal>
               <SectionEyebrow locale={locale} no="Bestill time" en="Booking" />
               <h2
-                className="mt-4 font-black uppercase leading-[0.92] tracking-[-0.02em]"
+                className="mt-5 font-light normal-case leading-[1.02] tracking-[-0.02em]"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontFamily: "var(--font-fraunces), serif",
+                  color: "var(--physio-moss)",
                   fontSize: "clamp(2rem, 5vw, 3.5rem)",
                 }}
               >
                 {isNo ? (
                   <>
                     Tre minutter,{" "}
-                    <span style={{ color: "var(--physio-accent)" }}>ferdig.</span>
+                    <span style={{ color: "var(--physio-sage-deep)" }}>ferdig.</span>
                   </>
                 ) : (
                   <>
                     Three minutes,{" "}
-                    <span style={{ color: "var(--physio-accent)" }}>done.</span>
+                    <span style={{ color: "var(--physio-sage-deep)" }}>done.</span>
                   </>
                 )}
               </h2>
@@ -293,9 +275,10 @@ export default async function PhysioPage({
           <div>
             <SectionEyebrow locale={locale} no="Behandling" en="Treatment" />
             <h2
-              className="mt-4 font-black uppercase leading-[0.95] tracking-[-0.02em]"
+              className="mt-5 font-light normal-case leading-[1.02] tracking-[-0.02em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
+                color: "var(--physio-moss)",
                 fontSize: "clamp(2rem, 5vw, 3.5rem)",
               }}
             >
@@ -308,7 +291,7 @@ export default async function PhysioPage({
               alt=""
               width={120}
               height={120}
-              className="h-20 w-20 rounded-[3px] object-cover sm:h-24 sm:w-24"
+              className="h-20 w-20 rounded-[22px] object-cover sm:h-24 sm:w-24"
             />
             <p
               className="max-w-[16rem] text-sm leading-relaxed"
@@ -325,21 +308,21 @@ export default async function PhysioPage({
           {treatments.map((t, i) => (
             <PhysioReveal key={t.id} delay={i * 0.06} as="article">
               <article
-                className="flex h-full flex-col rounded-[4px] border p-6"
+                className="flex h-full flex-col rounded-[22px] border p-7 transition-transform hover:-translate-y-1"
                 style={{ borderColor: "var(--physio-rule)" }}
               >
                 <div className="flex items-start justify-between gap-3">
                   <h3
-                    className="text-xl font-bold uppercase tracking-tight"
-                    style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                    className="text-xl font-medium normal-case tracking-tight"
+                    style={{ fontFamily: "var(--font-fraunces), serif", color: "var(--physio-text)" }}
                   >
                     {tx(t.name, locale)}
                   </h3>
                   {t.flagship && (
                     <span
-                      className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.1em]"
+                      className="rounded-full px-2.5 py-0.5 text-[9px] font-medium tracking-[0.1em]"
                       style={{
-                        backgroundColor: "var(--physio-accent)",
+                        backgroundColor: "var(--physio-clay)",
                         color: "var(--physio-on-accent)",
                       }}
                     >
@@ -349,7 +332,7 @@ export default async function PhysioPage({
                 </div>
                 <p
                   className="mt-1 text-sm font-medium"
-                  style={{ color: "var(--physio-accent)" }}
+                  style={{ color: "var(--physio-sage-deep)" }}
                 >
                   {tx(t.punch, locale)}
                 </p>
@@ -364,31 +347,31 @@ export default async function PhysioPage({
                   style={{ borderColor: "var(--physio-rule)" }}
                 >
                   <span
-                    className="font-mono text-xs uppercase tracking-[0.14em]"
+                    className="text-xs tracking-[0.14em]"
                     style={{ color: "var(--physio-text-soft)" }}
                   >
                     {t.duration} min
                   </span>
-                  <span className="font-mono text-lg font-bold tabular-nums">
+                  <span className="text-lg font-semibold tabular-nums" style={{ color: "var(--physio-moss)" }}>
                     {t.price} kr
                   </span>
                 </div>
                 <div className="mt-4 flex items-center gap-4">
                   <a
                     href="#booking"
-                    className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-[0.12em] transition-transform hover:translate-x-1"
+                    className="inline-flex items-center gap-1 text-xs font-medium tracking-[0.08em] transition-transform hover:translate-x-1"
                     style={{
-                      fontFamily: "var(--font-archivo), sans-serif",
-                      color: "var(--physio-accent)",
+                      fontFamily: "var(--font-fraunces), serif",
+                      color: "var(--physio-sage-deep)",
                     }}
                   >
                     {isNo ? "Bestill denne" : "Book this"} →
                   </a>
                   <a
                     href={pageHref("behandling", locale)}
-                    className="text-xs font-bold uppercase tracking-[0.12em] transition-colors hover:text-[var(--physio-text)]"
+                    className="text-xs font-medium tracking-[0.08em] transition-colors hover:text-[var(--physio-text)]"
                     style={{
-                      fontFamily: "var(--font-archivo), sans-serif",
+                      fontFamily: "var(--font-fraunces), serif",
                       color: "var(--physio-text-soft)",
                     }}
                   >
@@ -409,9 +392,9 @@ export default async function PhysioPage({
           <SectionEyebrow locale={locale} no="Behandlere" en="Therapists" />
           <a
             href={pageHref("behandlere", locale)}
-            className="hidden text-xs font-bold uppercase tracking-[0.12em] transition-colors hover:text-[var(--physio-accent)] sm:inline"
+            className="hidden text-xs font-medium tracking-[0.08em] transition-colors hover:text-[var(--physio-sage-deep)] sm:inline"
             style={{
-              fontFamily: "var(--font-archivo), sans-serif",
+              fontFamily: "var(--font-fraunces), serif",
               color: "var(--physio-text-soft)",
             }}
           >
@@ -419,9 +402,10 @@ export default async function PhysioPage({
           </a>
         </div>
         <h2
-          className="mt-4 font-black uppercase leading-[0.95] tracking-[-0.02em]"
+          className="mt-5 font-light normal-case leading-[1.02] tracking-[-0.02em]"
           style={{
-            fontFamily: "var(--font-archivo), sans-serif",
+            fontFamily: "var(--font-fraunces), serif",
+            color: "var(--physio-moss)",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
           }}
         >
@@ -434,7 +418,7 @@ export default async function PhysioPage({
                 href={pageHref("behandlere", locale)}
                 className="group block"
               >
-                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[4px]">
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[28px]">
                   <Image
                     src={p.photo}
                     alt={p.name}
@@ -444,23 +428,23 @@ export default async function PhysioPage({
                   />
                 </div>
                 <h3
-                  className="mt-4 text-lg font-bold uppercase tracking-tight"
-                  style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                  className="mt-4 text-lg font-medium normal-case tracking-tight"
+                  style={{ fontFamily: "var(--font-fraunces), serif", color: "var(--physio-text)" }}
                 >
                   {p.name}
                 </h3>
-                <p className="text-sm" style={{ color: "var(--physio-accent)" }}>
+                <p className="text-sm" style={{ color: "var(--physio-sage-deep)" }}>
                   {tx(p.role, locale)}
                 </p>
                 <p
-                  className="mt-1 font-mono text-[11px] uppercase tracking-[0.1em]"
+                  className="mt-1 text-[11px] tracking-[0.1em]"
                   style={{ color: "var(--physio-text-soft)" }}
                 >
                   {tx(p.specialty, locale)} · {p.years} {isNo ? "år" : "yrs"}
                 </p>
                 <blockquote
                   className="mt-4 border-l-2 pl-4"
-                  style={{ borderColor: "var(--physio-accent)" }}
+                  style={{ borderColor: "var(--physio-sage)" }}
                 >
                   <p
                     className="text-sm italic leading-relaxed"
@@ -487,21 +471,22 @@ export default async function PhysioPage({
               en={isNo ? "See how we work" : "See how we work"}
             />
             <h2
-              className="mt-4 font-black uppercase leading-[0.95] tracking-[-0.02em]"
+              className="mt-5 font-light normal-case leading-[1.02] tracking-[-0.02em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
+                color: "var(--physio-moss)",
                 fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
               }}
             >
               {isNo ? (
                 <>
-                  En runde i{" "}
-                  <span style={{ color: "var(--physio-accent)" }}>styrkerommet.</span>
+                  En pust i{" "}
+                  <span style={{ color: "var(--physio-sage-deep)" }}>bevegelsen.</span>
                 </>
               ) : (
                 <>
-                  A round in the{" "}
-                  <span style={{ color: "var(--physio-accent)" }}>strength room.</span>
+                  A breath in{" "}
+                  <span style={{ color: "var(--physio-sage-deep)" }}>movement.</span>
                 </>
               )}
             </h2>
@@ -530,9 +515,10 @@ export default async function PhysioPage({
           <div>
             <SectionEyebrow locale={locale} no="Priser" en="Pricing" />
             <h2
-              className="mt-4 font-black uppercase leading-[0.95] tracking-[-0.02em]"
+              className="mt-5 font-light normal-case leading-[1.02] tracking-[-0.02em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
+                color: "var(--physio-moss)",
                 fontSize: "clamp(2rem, 5vw, 3.5rem)",
               }}
             >
@@ -555,8 +541,8 @@ export default async function PhysioPage({
           </div>
           <PhysioReveal>
             <div
-              className="overflow-hidden rounded-[4px] border"
-              style={{ borderColor: "var(--physio-rule)" }}
+              className="overflow-hidden rounded-[22px] border"
+              style={{ borderColor: "var(--physio-rule)", backgroundColor: "var(--physio-paper)" }}
             >
               {priceRows.map((row, i) => (
                 <div
@@ -567,7 +553,7 @@ export default async function PhysioPage({
                   }}
                 >
                   <div>
-                    <span className="text-sm font-semibold sm:text-base">
+                    <span className="text-sm font-medium sm:text-base">
                       {tx(row.label, locale)}
                     </span>
                     {row.note && (
@@ -580,8 +566,8 @@ export default async function PhysioPage({
                     )}
                   </div>
                   <span
-                    className="font-mono text-base font-bold tabular-nums"
-                    style={{ color: "var(--physio-accent)" }}
+                    className="text-base font-semibold tabular-nums"
+                    style={{ color: "var(--physio-moss)" }}
                   >
                     {row.price}
                   </span>
@@ -597,7 +583,7 @@ export default async function PhysioPage({
       {/* ============================================================ */}
       <PhysioSection surface id="klinikken">
         <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-center">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[4px] md:order-2">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[28px] md:order-2">
             <Image
               src={story.photo}
               alt={tx(story.title, locale)}
@@ -609,9 +595,10 @@ export default async function PhysioPage({
           <div className="md:order-1">
             <SectionEyebrow locale={locale} no={story.eyebrow.no} en={story.eyebrow.en} />
             <h2
-              className="mt-4 font-black leading-[1.0] tracking-[-0.02em]"
+              className="mt-5 font-light normal-case leading-[1.02] tracking-[-0.02em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
+                color: "var(--physio-moss)",
                 fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
               }}
             >
@@ -635,19 +622,18 @@ export default async function PhysioPage({
               {story.stats.map((stat, i) => (
                 <div key={i}>
                   <div
-                    className="font-black leading-none tracking-[-0.02em]"
+                    className="font-medium leading-none tracking-[-0.02em]"
                     style={{
-                      fontFamily: "var(--font-archivo), sans-serif",
+                      fontFamily: "var(--font-fraunces), serif",
                       fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)",
-                      color: i === 0 ? "var(--physio-accent)" : "var(--physio-text)",
+                      color: i === 0 ? "var(--physio-sage-deep)" : "var(--physio-moss)",
                     }}
                   >
                     {stat.value}
                   </div>
                   <div
-                    className="mt-2 text-[10px] font-bold uppercase tracking-[0.12em]"
+                    className="mt-2 text-[10px] tracking-[0.12em]"
                     style={{
-                      fontFamily: "var(--font-archivo), sans-serif",
                       color: "var(--physio-text-soft)",
                     }}
                   >
@@ -668,9 +654,9 @@ export default async function PhysioPage({
           <SectionEyebrow locale={locale} no="Kunnskap" en="Knowledge" />
           <a
             href={pageHref("kunnskap", locale)}
-            className="hidden text-xs font-bold uppercase tracking-[0.12em] transition-colors hover:text-[var(--physio-accent)] sm:inline"
+            className="hidden text-xs font-medium tracking-[0.08em] transition-colors hover:text-[var(--physio-sage-deep)] sm:inline"
             style={{
-              fontFamily: "var(--font-archivo), sans-serif",
+              fontFamily: "var(--font-fraunces), serif",
               color: "var(--physio-text-soft)",
             }}
           >
@@ -678,9 +664,10 @@ export default async function PhysioPage({
           </a>
         </div>
         <h2
-          className="mt-4 font-black uppercase leading-[0.95] tracking-[-0.02em]"
+          className="mt-5 font-light normal-case leading-[1.02] tracking-[-0.02em]"
           style={{
-            fontFamily: "var(--font-archivo), sans-serif",
+            fontFamily: "var(--font-fraunces), serif",
+            color: "var(--physio-moss)",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
           }}
         >
@@ -691,8 +678,8 @@ export default async function PhysioPage({
             <PhysioReveal key={article.slug} delay={i * 0.07} as="article">
               <a
                 href={pageHref("kunnskap", locale)}
-                className="group flex h-full flex-col overflow-hidden rounded-[4px] border transition-colors hover:border-[var(--physio-accent)]"
-                style={{ borderColor: "var(--physio-rule)" }}
+                className="group flex h-full flex-col overflow-hidden rounded-[22px] border transition-colors hover:border-[var(--physio-sage-deep)]"
+                style={{ borderColor: "var(--physio-rule)", backgroundColor: "var(--physio-paper)" }}
               >
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <Image
@@ -705,15 +692,15 @@ export default async function PhysioPage({
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <span
-                    className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]"
-                    style={{ color: "var(--physio-accent)" }}
+                    className="text-[10px] font-medium tracking-[0.14em]"
+                    style={{ color: "var(--physio-sage-deep)" }}
                   >
                     {tx(article.category, locale)} · {article.readMins}{" "}
                     {isNo ? "min" : "min"}
                   </span>
                   <h3
-                    className="mt-3 flex-1 font-bold leading-snug tracking-tight"
-                    style={{ fontFamily: "var(--font-archivo), sans-serif" }}
+                    className="mt-3 flex-1 font-medium leading-snug tracking-tight"
+                    style={{ fontFamily: "var(--font-fraunces), serif", color: "var(--physio-text)" }}
                   >
                     {tx(article.title, locale)}
                   </h3>
@@ -734,17 +721,18 @@ export default async function PhysioPage({
               <span
                 className="flex h-14 w-14 items-center justify-center rounded-full"
                 style={{
-                  backgroundColor: "var(--physio-accent)",
+                  backgroundColor: "var(--physio-moss)",
                   color: "var(--physio-on-accent)",
                 }}
               >
-                <PhysioMark onDark={false} size={26} />
+                <PhysioMark onDark size={26} />
               </span>
             </div>
             <h2
-              className="font-black uppercase leading-[0.92] tracking-[-0.02em]"
+              className="font-light normal-case leading-[1.02] tracking-[-0.02em]"
               style={{
-                fontFamily: "var(--font-archivo), sans-serif",
+                fontFamily: "var(--font-fraunces), serif",
+                color: "var(--physio-moss)",
                 fontSize: "clamp(2rem, 5vw, 3.5rem)",
               }}
             >
@@ -759,10 +747,10 @@ export default async function PhysioPage({
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <a
                 href={pageHref("kontakt", locale)}
-                className="inline-flex items-center rounded-[3px] px-6 py-3 text-sm font-bold uppercase tracking-[0.1em] transition-transform hover:-translate-y-0.5"
+                className="inline-flex items-center rounded-full px-6 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
-                  backgroundColor: "var(--physio-accent)",
+                  fontFamily: "var(--font-fraunces), serif",
+                  backgroundColor: "var(--physio-moss)",
                   color: "var(--physio-on-accent)",
                 }}
               >
@@ -770,10 +758,10 @@ export default async function PhysioPage({
               </a>
               <a
                 href={`mailto:${contact.details.email}`}
-                className="inline-flex items-center rounded-[3px] border px-6 py-3 text-sm font-bold uppercase tracking-[0.1em] transition-colors"
+                className="inline-flex items-center rounded-full border px-6 py-3 text-sm font-medium transition-colors"
                 style={{
-                  fontFamily: "var(--font-archivo), sans-serif",
-                  borderColor: "var(--physio-text)",
+                  fontFamily: "var(--font-fraunces), serif",
+                  borderColor: "var(--physio-rule)",
                   color: "var(--physio-text)",
                 }}
               >

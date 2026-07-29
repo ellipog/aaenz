@@ -22,6 +22,16 @@ export function tx(value: Localized, locale: Locale): string {
   return value[locale] ?? value.no;
 }
 
+/** One calm recovery arc card (Lindrig dashboard). */
+export type RecoveryArc = {
+  /** 0–100 fill for the ring. 0 means "full ring, show ringText instead". */
+  pct: number;
+  /** Shown inside the ring when pct is 0 (e.g. "1–2"). */
+  ringText?: string;
+  headline: Localized;
+  body: Localized;
+};
+
 // ════════════════════════════════════════════════════════════════════════════
 // STANDALONE DEMO CONTENT
 //
@@ -770,6 +780,7 @@ export const dashboard = {
   arcs: [
     {
       pct: 92,
+      ringText: undefined,
       headline: { no: "Færre smertedager", en: "Fewer pain days" },
       body: {
         no: "etter åtte uker med oppfølging, rapportert av pasientene våre.",
@@ -788,13 +799,14 @@ export const dashboard = {
     },
     {
       pct: 85,
+      ringText: undefined,
       headline: { no: "Følger opp hele veien", en: "Followed all the way" },
       body: {
         no: "av pasientene fullfører programmet — ingen står alene i rehaben.",
         en: "of patients finish the programme — no one rehabs alone.",
       },
     },
-  ] as const,
+  ] satisfies RecoveryArc[],
 
   // Recovery / mobility — ties to the "tilbake i aksjon" tagline.
   recovery: {
