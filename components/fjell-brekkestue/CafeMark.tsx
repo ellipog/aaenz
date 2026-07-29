@@ -1,9 +1,10 @@
 /**
- * Fjell Brekkestue — logo / wordmark.
+ * Fjell Brekkestue — logo / wordmark (warm "Arv" revision).
  *
- * Concept 02 "Nedtur" logo idea: a wordmark in a tight heavy grotesque, with a
- * small triangular peak form standing in for the dot on the i. The peak is the
- * one signal-orange accent — it's the only color in the whole identity.
+ * Original "Nedtur" idea: a wordmark in a tight heavy grotesque, with a small
+ * triangular peak form. The warm revision keeps the peak mark (the one
+ * antique-gold accent) but sets the wordmark in the Allura script, so the
+ * header lockup reads like a hand-lettered sign instead of a modern logotype.
  *
  * Two variants: `lockup` (mark + wordmark, for headers/footers) and `mark`
  * (just the peak triangle, for favicons / small placements).
@@ -26,15 +27,16 @@ export function CafeMark({ markOnly = false, onDark = false, className }: Props)
 
   return (
     <span
-      className={`inline-flex items-center gap-2 ${className ?? ""}`}
+      className={`inline-flex items-center gap-2.5 ${className ?? ""}`}
       style={{ color: textColor }}
     >
-      <PeakMark className="h-[1em] w-auto" />
+      <PeakMark className="h-[0.9em] w-auto" />
       <span
-        className="text-[0.95em] font-extrabold uppercase leading-none"
+        className="leading-none"
         style={{
-          fontFamily: "var(--font-archivo), sans-serif",
-          letterSpacing: "-0.01em",
+          fontFamily: "var(--font-allura), cursive",
+          fontSize: "1.6em",
+          fontWeight: 400,
         }}
       >
         Fjell Brekkestue

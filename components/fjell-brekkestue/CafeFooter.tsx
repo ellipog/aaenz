@@ -17,12 +17,12 @@ export function CafeFooter({ locale }: { locale: Locale }) {
           <div>
             <CafeMark />
             <p
-              className="mt-4 max-w-xs text-sm leading-relaxed"
+              className="mt-4 max-w-xs text-base italic leading-relaxed"
               style={{ color: "var(--cafe-text-soft)" }}
             >
               {tx(footer.colophon, locale)}
             </p>
-            <p className="mt-3 text-xs uppercase tracking-[0.14em]">
+            <p className="mt-3 text-sm italic">
               <span style={{ color: "var(--cafe-text-soft)" }}>
                 {locale === "no" ? "est." : "est."} {business.established} ·{" "}
                 {business.elevation}
@@ -33,13 +33,13 @@ export function CafeFooter({ locale }: { locale: Locale }) {
           {/* Contact */}
           <div>
             <h4
-              className="mb-3 text-xs font-semibold uppercase tracking-[0.14em]"
+              className="mb-3 text-base italic"
               style={{ color: "var(--cafe-text)" }}
             >
               {locale === "no" ? "Kontakt" : "Contact"}
             </h4>
             <ul
-              className="space-y-2 text-sm"
+              className="space-y-2 text-base"
               style={{ color: "var(--cafe-text-soft)" }}
             >
               <li>
@@ -77,13 +77,13 @@ export function CafeFooter({ locale }: { locale: Locale }) {
           {/* Hours quick reference */}
           <div>
             <h4
-              className="mb-3 text-xs font-semibold uppercase tracking-[0.14em]"
+              className="mb-3 text-base italic"
               style={{ color: "var(--cafe-text)" }}
             >
               {locale === "no" ? "Åpent nå" : "Open now"}
             </h4>
             <p
-              className="text-sm leading-relaxed"
+              className="text-base leading-relaxed"
               style={{ color: "var(--cafe-text-soft)" }}
             >
               {locale === "no"
@@ -91,7 +91,7 @@ export function CafeFooter({ locale }: { locale: Locale }) {
                 : "Saturday–Sunday 09–17"}
             </p>
             <p
-              className="mt-1 text-xs italic"
+              className="mt-1 text-sm italic"
               style={{ color: "var(--cafe-text-soft)" }}
             >
               {locale === "no"
@@ -107,7 +107,7 @@ export function CafeFooter({ locale }: { locale: Locale }) {
           style={{ borderColor: "var(--cafe-rule)" }}
         >
           <p
-            className="text-xs"
+            className="text-sm italic"
             style={{ color: "var(--cafe-text-soft)" }}
           >
             © {new Date().getFullYear()} Fjell Brekkestue ·{" "}
@@ -115,7 +115,7 @@ export function CafeFooter({ locale }: { locale: Locale }) {
           </p>
           <a
             href="/"
-            className="text-xs font-medium uppercase tracking-[0.12em] transition-colors hover:text-[var(--cafe-accent)]"
+            className="text-sm italic underline-offset-4 transition-colors hover:text-[var(--cafe-accent)] hover:underline"
             style={{ color: "var(--cafe-text-soft)" }}
           >
             {tx(footer.backToAaen, locale)} →

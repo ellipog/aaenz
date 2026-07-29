@@ -48,12 +48,12 @@ export function CafeHeader({
           <CafeMark onDark={!scrolled} />
         </a>
 
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-xs font-medium uppercase tracking-[0.12em] transition-colors"
+              className="text-lg italic underline-offset-4 transition-colors hover:underline"
               style={{
                 color: scrolled ? "var(--cafe-text-soft)" : "var(--cafe-on-dark-soft)",
               }}
@@ -65,9 +65,9 @@ export function CafeHeader({
 
         <a
           href={langSwitchHref}
-          className="rounded-[3px] border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.1em] transition-colors"
+          className="rounded-[3px] border px-3.5 py-1.5 text-base italic transition-colors"
           style={{
-            borderColor: scrolled ? "var(--cafe-text)" : "var(--cafe-on-dark)",
+            borderColor: scrolled ? "var(--cafe-accent)" : "var(--cafe-accent-soft)",
             color: scrolled ? "var(--cafe-text)" : "var(--cafe-on-dark)",
           }}
         >

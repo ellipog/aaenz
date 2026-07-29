@@ -39,7 +39,7 @@ export default async function CafePage({
       />
 
       {/* ============================================================ */}
-      {/* HERO — the fog photo, with the café name cut as negative space */}
+      {/* HERO — the fog photo, with the café name in flowing script */}
       {/* ============================================================ */}
       <section id="top" className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
         <Image
@@ -50,61 +50,69 @@ export default async function CafePage({
           sizes="100vw"
           className="object-cover"
         />
-        {/* Tonal grading — keep the cabin visible up top, darken the bottom
-            foreground so the name + copy read against it. */}
+        {/* Tonal grading — warm-graded to match the Arv palette: keep the cabin
+            visible up top, deepen the bottom foreground toward forest-ink so
+            the script name + copy read against it. */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(28,36,34,0.10) 0%, rgba(28,36,34,0.00) 30%, rgba(28,36,34,0.55) 72%, rgba(28,36,34,0.82) 100%)",
+              "linear-gradient(180deg, rgba(20,26,18,0.08) 0%, rgba(20,26,18,0.00) 32%, rgba(18,22,16,0.55) 70%, rgba(16,20,14,0.86) 100%)",
           }}
           aria-hidden
         />
+        {/* Paper-grain overlay — the faint texture that gives the page its
+            "old" feel. Kept very subtle so it never competes with the photo. */}
+        <div className="cafe-grain absolute inset-0" aria-hidden />
 
         {/* The hero composition — name + subtitle over the cabin photo.
             The image carries the scene; we keep copy minimal and bottom-left
             where the foreground is darkest. */}
         <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-5 pb-20 sm:px-8 sm:pb-24">
           <p
-            className="mb-5 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.28em]"
-            style={{ color: "var(--cafe-on-dark-soft)" }}
+            className="mb-3 flex items-center gap-2.5 text-base italic"
+            style={{
+              color: "var(--cafe-on-dark-soft)",
+              letterSpacing: "0.01em",
+            }}
           >
             <CafeMark markOnly className="h-4 w-4" />
             {tx(hero.eyebrow, locale)} · {business.elevation}
           </p>
 
-          {/* The name — solid, legible, the strongest thing on screen. */}
+          {/* The name — the script is the star. Sized large with a soft shadow
+              so it lifts off the photograph like a hand-painted sign. */}
           <h1
-            className="relative z-10 font-black uppercase leading-[0.86] tracking-[-0.03em]"
+            className="relative z-10 leading-[0.82]"
             style={{
-              fontFamily: "var(--font-archivo), sans-serif",
+              fontFamily: "var(--font-allura), cursive",
+              fontWeight: 400,
               color: "var(--cafe-on-dark)",
-              fontSize: "clamp(2.75rem, 11vw, 8.5rem)",
+              fontSize: "clamp(4rem, 15vw, 11rem)",
+              textShadow: "0 2px 22px rgba(0,0,0,0.42)",
             }}
           >
-            Fjell
-            <br />
-            Brekkestue
+            Fjell Brekkestue
           </h1>
 
-          {/* Accent rule — the one signal-orange line, ties name to subtitle */}
+          {/* Accent rule — the antique-gold hairline tying name to subtitle */}
           <span
-            className="relative z-10 mt-7 h-[3px] w-16"
-            style={{ backgroundColor: "var(--cafe-accent)" }}
+            className="relative z-10 mt-8 h-[2px] w-16"
+            style={{ backgroundColor: "var(--cafe-accent-soft)" }}
             aria-hidden
           />
 
           <p
-            className="relative z-10 mt-6 max-w-xl text-base leading-relaxed sm:text-lg"
+            className="relative z-10 mt-6 max-w-xl text-xl leading-relaxed sm:text-2xl"
             style={{ color: "var(--cafe-on-dark-soft)" }}
           >
             {tx(hero.subtitle, locale)}
           </p>
 
-          <div className="relative z-10 mt-8 flex flex-wrap gap-3">
+          <div className="relative z-10 mt-9 flex flex-wrap gap-3">
             <a
               href="#meny"
-              className="inline-flex items-center rounded-[3px] px-6 py-3 text-sm font-bold uppercase tracking-[0.1em] transition-transform hover:-translate-y-0.5"
+              className="inline-flex items-center rounded-[3px] px-6 py-3 text-lg italic transition-transform hover:-translate-y-0.5"
               style={{
                 backgroundColor: "var(--cafe-accent)",
                 color: "var(--cafe-on-dark)",
@@ -114,9 +122,9 @@ export default async function CafePage({
             </a>
             <a
               href="#finne-oss"
-              className="inline-flex items-center rounded-[3px] border px-6 py-3 text-sm font-bold uppercase tracking-[0.1em] transition-colors"
+              className="inline-flex items-center rounded-[3px] border px-6 py-3 text-lg italic transition-colors"
               style={{
-                borderColor: "var(--cafe-on-dark)",
+                borderColor: "var(--cafe-accent-soft)",
                 color: "var(--cafe-on-dark)",
               }}
             >
@@ -149,8 +157,11 @@ export default async function CafePage({
           <div>
             <SectionEyebrow locale={locale} no="Åpningstider" en="Opening hours" />
             <h2
-              className="mt-4 font-bold uppercase leading-[0.95] tracking-[-0.02em]"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+              className="mt-3 leading-[0.95]"
+              style={{
+                fontFamily: "var(--font-allura), cursive",
+                fontSize: "clamp(2.75rem, 6vw, 4.5rem)",
+              }}
             >
               {locale === "no" ? "Når vi" : "When we're"}{" "}
               <span style={{ color: "var(--cafe-accent)" }}>
@@ -158,19 +169,22 @@ export default async function CafePage({
               </span>
             </h2>
             <p
-              className="mt-6 max-w-md text-base leading-relaxed"
+              className="mt-6 max-w-md text-lg italic leading-relaxed"
               style={{ color: "var(--cafe-text-soft)" }}
             >
               {tx(seasonNote, locale)}
             </p>
           </div>
 
-          {/* Hours table — editorial, ruled lines */}
-          <div className="rounded-[4px] border" style={{ borderColor: "var(--cafe-rule)" }}>
+          {/* Hours table — the ledger: ruled lines, tabular numerals */}
+          <div
+            className="rounded-[3px] border"
+            style={{ borderColor: "var(--cafe-rule)", backgroundColor: "var(--cafe-surface)" }}
+          >
             {hoursData.map((row, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between gap-4 px-6 py-5"
+                className="flex items-center justify-between gap-4 px-6 py-6"
                 style={{
                   borderTop: i === 0 ? "none" : "1px solid var(--cafe-rule)",
                 }}
@@ -178,7 +192,7 @@ export default async function CafePage({
                 <div className="flex items-center gap-3">
                   {row.current && (
                     <span
-                      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em]"
+                      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] uppercase tracking-[0.14em]"
                       style={{
                         backgroundColor: "var(--cafe-accent)",
                         color: "var(--cafe-on-dark)",
@@ -191,13 +205,13 @@ export default async function CafePage({
                       {locale === "no" ? "Nå" : "Now"}
                     </span>
                   )}
-                  <span className="text-sm font-semibold sm:text-base">
+                  <span className="text-lg" style={{ fontWeight: 500 }}>
                     {tx(row.days, locale)}
                   </span>
                 </div>
                 <span
-                  className="font-mono text-sm tabular-nums"
-                  style={{ color: "var(--cafe-text-soft)" }}
+                  className="text-lg tabular-nums"
+                  style={{ color: "var(--cafe-text-soft)", letterSpacing: "0.02em" }}
                 >
                   {tx(row.hours, locale)}
                 </span>
@@ -223,8 +237,11 @@ export default async function CafePage({
             <div>
               <SectionEyebrow locale={locale} no="Meny" en="Menu" />
               <h2
-                className="mt-4 font-bold uppercase leading-[0.95] tracking-[-0.02em]"
-                style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+                className="mt-3 leading-[0.95]"
+                style={{
+                  fontFamily: "var(--font-allura), cursive",
+                  fontSize: "clamp(2.75rem, 6vw, 4.5rem)",
+                }}
               >
                 {locale === "no" ? "Hva vi serverer" : "What we serve"}
               </h2>
@@ -238,7 +255,7 @@ export default async function CafePage({
                 className="h-20 w-20 rounded-[3px] object-cover sm:h-24 sm:w-24"
               />
               <p
-                className="max-w-[16rem] text-sm italic leading-relaxed"
+                className="max-w-[16rem] text-base italic leading-relaxed"
                 style={{ color: "var(--cafe-text-soft)" }}
               >
                 {locale === "no"
@@ -248,19 +265,25 @@ export default async function CafePage({
             </div>
           </div>
 
-          <div className="mt-12 grid gap-x-12 gap-y-14 md:grid-cols-2">
+          <div className="mt-12 grid gap-x-16 gap-y-14 md:grid-cols-2">
             {menu.map((category) => (
               <div key={category.id}>
                 <div
-                  className="flex items-baseline justify-between border-b pb-3"
+                  className="flex items-baseline justify-between border-b-[1.5px] pb-2"
                   style={{ borderColor: "var(--cafe-text)" }}
                 >
-                  <h3 className="text-lg font-bold uppercase tracking-[0.04em]">
+                  <h3
+                    className="leading-none"
+                    style={{
+                      fontFamily: "var(--font-allura), cursive",
+                      fontSize: "clamp(1.75rem, 3vw, 2.25rem)",
+                    }}
+                  >
                     {tx(category.title, locale)}
                   </h3>
                   {category.note && (
                     <span
-                      className="hidden text-xs italic sm:block"
+                      className="hidden text-sm italic sm:block"
                       style={{ color: "var(--cafe-text-soft)" }}
                     >
                       {tx(category.note, locale)}
@@ -269,7 +292,7 @@ export default async function CafePage({
                 </div>
                 {category.note && (
                   <p
-                    className="mt-2 text-xs italic sm:hidden"
+                    className="mt-2 text-sm italic sm:hidden"
                     style={{ color: "var(--cafe-text-soft)" }}
                   >
                     {tx(category.note, locale)}
@@ -280,12 +303,12 @@ export default async function CafePage({
                     <li key={tx(item.name, locale)} className="flex items-baseline gap-3">
                       <div className="flex-1">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-base font-semibold">
+                          <span className="text-lg" style={{ fontWeight: 600 }}>
                             {tx(item.name, locale)}
                           </span>
                           {item.signature && (
                             <span
-                              className="text-[10px] font-bold uppercase tracking-[0.1em]"
+                              className="text-sm"
                               style={{ color: "var(--cafe-accent)" }}
                             >
                               ★
@@ -294,7 +317,7 @@ export default async function CafePage({
                         </div>
                         {item.desc && (
                           <p
-                            className="mt-0.5 text-sm leading-relaxed"
+                            className="mt-0.5 text-sm italic leading-relaxed"
                             style={{ color: "var(--cafe-text-soft)" }}
                           >
                             {tx(item.desc, locale)}
@@ -310,7 +333,10 @@ export default async function CafePage({
                           opacity: 0.4,
                         }}
                       />
-                      <span className="font-mono text-base font-medium tabular-nums">
+                      <span
+                        className="text-lg tabular-nums"
+                        style={{ fontWeight: 600 }}
+                      >
                         {item.price},-
                       </span>
                     </li>
@@ -321,7 +347,7 @@ export default async function CafePage({
           </div>
 
           <p
-            className="mt-12 text-xs"
+            className="mt-12 text-sm italic"
             style={{ color: "var(--cafe-text-soft)" }}
           >
             {locale === "no"
@@ -342,20 +368,23 @@ export default async function CafePage({
         <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <SectionEyebrow locale={locale} no={view.eyebrow.no} en={view.eyebrow.en} />
           <h2
-            className="mt-4 max-w-3xl font-bold leading-[1.0] tracking-[-0.02em]"
-            style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
+            className="mt-3 max-w-3xl leading-[1.0]"
+            style={{
+              fontFamily: "var(--font-allura), cursive",
+              fontSize: "clamp(2.5rem, 6.5vw, 5rem)",
+            }}
           >
             {tx(view.title, locale)}
           </h2>
           <p
-            className="mt-6 max-w-2xl text-lg leading-relaxed"
+            className="mt-6 max-w-2xl text-xl leading-relaxed"
             style={{ color: "var(--cafe-text-soft)" }}
           >
             {tx(view.body, locale)}
           </p>
 
           {/* The panorama */}
-          <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-[4px]">
+          <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-[3px]">
             <Image
               src={view.photo}
               alt={tx(view.title, locale)}
@@ -370,16 +399,17 @@ export default async function CafePage({
             {view.stats.map((stat, i) => (
               <div key={i}>
                 <div
-                  className="font-black leading-none tracking-[-0.02em]"
+                  className="leading-none"
                   style={{
-                    fontSize: "clamp(1.75rem, 4vw, 3rem)",
+                    fontFamily: "var(--font-allura), cursive",
+                    fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
                     color: i === 0 ? "var(--cafe-accent)" : "var(--cafe-text)",
                   }}
                 >
                   {stat.value}
                 </div>
                 <div
-                  className="mt-2 text-xs uppercase tracking-[0.12em]"
+                  className="mt-3 text-sm italic"
                   style={{ color: "var(--cafe-text-soft)" }}
                 >
                   {tx(stat.label, locale)}
@@ -403,7 +433,7 @@ export default async function CafePage({
       >
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 sm:py-28 md:grid-cols-[1.1fr_1fr] md:items-center">
           {/* Photo */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[4px] md:order-2">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[3px] md:order-2">
             <Image
               src={story.photo}
               alt={tx(story.title, locale)}
@@ -417,8 +447,11 @@ export default async function CafePage({
           <div className="md:order-1">
             <SectionEyebrow locale={locale} no={story.eyebrow.no} en={story.eyebrow.en} />
             <h2
-              className="mt-4 font-bold leading-[1.05] tracking-[-0.02em]"
-              style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)" }}
+              className="mt-3 leading-[1.05]"
+              style={{
+                fontFamily: "var(--font-allura), cursive",
+                fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
+              }}
             >
               {tx(story.title, locale)}
             </h2>
@@ -426,7 +459,7 @@ export default async function CafePage({
               {story.body.map((para, i) => (
                 <p
                   key={i}
-                  className="text-base leading-relaxed"
+                  className="text-lg leading-relaxed"
                   style={{ color: "var(--cafe-text-soft)" }}
                 >
                   {tx(para, locale)}
@@ -435,23 +468,28 @@ export default async function CafePage({
             </div>
 
             {/* People / quotes */}
-            <div className="mt-8 space-y-5">
+            <div className="mt-8 space-y-6">
               {story.people.map((person) => (
                 <blockquote
                   key={person.name}
-                  className="border-l-2 pl-4"
-                  style={{ borderColor: "var(--cafe-accent)" }}
+                  className="border-l-2 pl-5"
+                  style={{ borderColor: "var(--cafe-accent-soft)" }}
                 >
                   <p
-                    className="text-base font-medium italic leading-relaxed"
+                    className="text-xl font-medium italic leading-relaxed"
                     style={{ color: "var(--cafe-text)" }}
                   >
                     “{tx(person.quote, locale)}”
                   </p>
-                  <footer className="mt-2">
-                    <span className="text-sm font-semibold">{person.name}</span>
+                  <footer className="mt-2 flex items-baseline gap-2">
                     <span
-                      className="ml-2 text-xs uppercase tracking-[0.1em]"
+                      className="text-base"
+                      style={{ fontWeight: 600 }}
+                    >
+                      {person.name}
+                    </span>
+                    <span
+                      className="text-sm italic"
                       style={{ color: "var(--cafe-text-soft)" }}
                     >
                       {tx(person.role, locale)}
@@ -471,13 +509,16 @@ export default async function CafePage({
         <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <SectionEyebrow locale={locale} no={findus.eyebrow.no} en={findus.eyebrow.en} />
           <h2
-            className="mt-4 max-w-3xl font-bold leading-[1.0] tracking-[-0.02em]"
-            style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
+            className="mt-3 max-w-3xl leading-[1.0]"
+            style={{
+              fontFamily: "var(--font-allura), cursive",
+              fontSize: "clamp(2.5rem, 6.5vw, 5rem)",
+            }}
           >
             {tx(findus.title, locale)}
           </h2>
           <p
-            className="mt-6 max-w-2xl text-lg leading-relaxed"
+            className="mt-6 max-w-2xl text-xl leading-relaxed"
             style={{ color: "var(--cafe-text-soft)" }}
           >
             {tx(findus.intro, locale)}
@@ -489,23 +530,30 @@ export default async function CafePage({
               {findus.steps.map((step, i) => (
                 <div
                   key={i}
-                  className="rounded-[4px] border p-6"
+                  className="rounded-[3px] border p-6"
                   style={{
                     backgroundColor: "var(--cafe-bg)",
                     borderColor: "var(--cafe-rule)",
                   }}
                 >
                   <div
-                    className="font-mono text-sm font-bold tabular-nums"
-                    style={{ color: "var(--cafe-accent)" }}
+                    className="text-2xl tabular-nums"
+                    style={{
+                      fontFamily: "var(--font-allura), cursive",
+                      color: "var(--cafe-accent)",
+                      lineHeight: 1,
+                    }}
                   >
-                    0{i + 1}
+                    {i + 1}
                   </div>
-                  <h3 className="mt-3 text-base font-bold uppercase tracking-[0.02em]">
+                  <h3
+                    className="mt-3 text-xl"
+                    style={{ fontWeight: 600 }}
+                  >
                     {tx(step.title, locale)}
                   </h3>
                   <p
-                    className="mt-2 text-sm leading-relaxed"
+                    className="mt-2 text-base leading-relaxed"
                     style={{ color: "var(--cafe-text-soft)" }}
                   >
                     {tx(step.body, locale)}
@@ -515,7 +563,7 @@ export default async function CafePage({
             </div>
 
             {/* Trail photo */}
-            <div className="relative aspect-square w-full overflow-hidden rounded-[4px]">
+            <div className="relative aspect-square w-full overflow-hidden rounded-[3px]">
               <Image
                 src={findus.photo}
                 alt={locale === "no" ? "Stien opp" : "The trail up"}
@@ -528,7 +576,7 @@ export default async function CafePage({
 
           {/* Contact CTA */}
           <div
-            className="mt-12 rounded-[4px] p-8 sm:p-10"
+            className="mt-12 rounded-[3px] p-8 sm:p-10"
             style={{
               backgroundColor: "var(--cafe-text)",
               color: "var(--cafe-on-dark)",
@@ -537,13 +585,16 @@ export default async function CafePage({
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3
-                  className="font-bold uppercase tracking-[-0.01em]"
-                  style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}
+                  className="leading-[1.0]"
+                  style={{
+                    fontFamily: "var(--font-allura), cursive",
+                    fontSize: "clamp(2rem, 4vw, 3rem)",
+                  }}
                 >
                   {locale === "no" ? "Spør oss direkte" : "Ask us directly"}
                 </h3>
                 <p
-                  className="mt-2 text-sm leading-relaxed"
+                  className="mt-3 text-base italic leading-relaxed"
                   style={{ color: "var(--cafe-on-dark-soft)" }}
                 >
                   {locale === "no"
@@ -554,13 +605,14 @@ export default async function CafePage({
               <div className="flex flex-col gap-2 sm:items-end">
                 <a
                   href={`mailto:${findus.contact.email}`}
-                  className="font-mono text-sm font-medium underline-offset-4 hover:underline"
+                  className="text-lg underline-offset-4 hover:underline"
+                  style={{ fontWeight: 500 }}
                 >
                   {findus.contact.email}
                 </a>
                 <a
                   href={`tel:${findus.contact.phone.replace(/\s/g, "")}`}
-                  className="font-mono text-sm font-medium underline-offset-4 hover:underline"
+                  className="text-lg tabular-nums underline-offset-4 hover:underline"
                   style={{ color: "var(--cafe-on-dark-soft)" }}
                 >
                   {findus.contact.phone}
@@ -576,7 +628,7 @@ export default async function CafePage({
   );
 }
 
-/** Small reusable section eyebrow — mono caps label with the peak mark. */
+/** Small reusable section eyebrow — italic serif label with the peak mark. */
 function SectionEyebrow({
   locale,
   no,
@@ -590,8 +642,8 @@ function SectionEyebrow({
     <div className="flex items-center gap-2.5">
       <CafeMark markOnly className="h-3.5 w-3.5" />
       <span
-        className="text-xs font-bold uppercase tracking-[0.2em]"
-        style={{ color: "var(--cafe-accent)" }}
+        className="text-sm italic"
+        style={{ color: "var(--cafe-accent)", letterSpacing: "0.02em" }}
       >
         {locale === "no" ? no : en}
       </span>
