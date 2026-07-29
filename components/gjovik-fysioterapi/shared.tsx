@@ -7,7 +7,7 @@ import { PhysioMark } from "./PhysioMark";
  * Pure server components (no client hooks) — safe to use on every page.
  */
 
-/** Section eyebrow — mono caps label with the bolt mark. */
+/** Section eyebrow — a small leaf + Fraunces label. */
 export function SectionEyebrow({
   locale,
   no,
@@ -19,12 +19,12 @@ export function SectionEyebrow({
 }) {
   return (
     <div className="flex items-center gap-2.5">
-      <PhysioMark onDark size={14} />
+      <PhysioMark onDark={false} size={14} />
       <span
-        className="text-xs font-bold uppercase tracking-[0.2em]"
+        className="text-xs font-medium uppercase tracking-[0.22em]"
         style={{
-          fontFamily: "var(--font-archivo), sans-serif",
-          color: "var(--physio-accent)",
+          fontFamily: "var(--font-fraunces), serif",
+          color: "var(--physio-sage-deep)",
         }}
       >
         {locale === "no" ? no : en}
@@ -44,7 +44,7 @@ export function LocalizedEyebrow({
   return <SectionEyebrow locale={locale} no={value.no} en={value.en} />;
 }
 
-/** Standard section wrapper with the Kraft border + max width. */
+/** Standard section wrapper — warm surface + generous breathing room. */
 export function PhysioSection({
   id,
   surface = false,
@@ -60,11 +60,11 @@ export function PhysioSection({
       id={id}
       className="border-b"
       style={{
-        backgroundColor: surface ? "var(--physio-surface)" : undefined,
+        backgroundColor: surface ? "var(--physio-paper)" : undefined,
         borderColor: "var(--physio-rule)",
       }}
     >
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
         {children}
       </div>
     </section>
@@ -90,7 +90,7 @@ export function physioHref(slug: string, locale: Locale): string {
 /** Resolve a Localized value (re-exported for page convenience). */
 export { tx };
 
-/** Page title block — eyebrow + big black display heading. */
+/** Page title block — leaf eyebrow + Fraunces light display heading. */
 export function PageTitle({
   locale,
   eyebrow,
@@ -104,10 +104,12 @@ export function PageTitle({
     <div className="mb-12">
       <LocalizedEyebrow locale={locale} value={eyebrow} />
       <h1
-        className="mt-4 font-black uppercase leading-[0.92] tracking-[-0.02em]"
+        className="mt-5 font-light normal-case tracking-[-0.02em]"
         style={{
-          fontFamily: "var(--font-archivo), sans-serif",
+          fontFamily: "var(--font-fraunces), serif",
+          color: "var(--physio-moss)",
           fontSize: "clamp(2.25rem, 6vw, 4.5rem)",
+          lineHeight: 1.02,
         }}
       >
         {tx(title, locale)}
