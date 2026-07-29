@@ -766,6 +766,36 @@ export const dashboard = {
     en: "This is what a busy practice looks like from the inside — capacity, wait time, and how fast people get back to action.",
   } as Localized,
 
+  /** The three calm recovery arcs (replaces the old telemetry panels). */
+  arcs: [
+    {
+      pct: 92,
+      headline: { no: "Færre smertedager", en: "Fewer pain days" },
+      body: {
+        no: "etter åtte uker med oppfølging, rapportert av pasientene våre.",
+        en: "after eight weeks of follow-up, reported by our patients.",
+      },
+    },
+    {
+      // Non-numeric headline shown inside the ring instead of a %.
+      pct: 0,
+      ringText: "1–2",
+      headline: { no: "Dager til time", en: "Days to appointment" },
+      body: {
+        no: "vi holder ventetiden kort, slik at du slipper å leve med smerten.",
+        en: "we keep wait times short, so you don't live with the pain.",
+      },
+    },
+    {
+      pct: 85,
+      headline: { no: "Følger opp hele veien", en: "Followed all the way" },
+      body: {
+        no: "av pasientene fullfører programmet — ingen står alene i rehaben.",
+        en: "of patients finish the programme — no one rehabs alone.",
+      },
+    },
+  ] as const,
+
   // Recovery / mobility — ties to the "tilbake i aksjon" tagline.
   recovery: {
     label: { no: "Tilbake til aktivitet", en: "Back to activity" } as Localized,
