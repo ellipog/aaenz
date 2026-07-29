@@ -43,8 +43,8 @@ export type RecoveryArc = {
 export const clinic = {
   name: "Gjøvik Fysioterapi",
   tagline: {
-    no: "Tilbake i aksjon.",
-    en: "Back in action.",
+    no: "Ro i kroppen.",
+    en: "Calm in the body.",
   } as Localized,
   established: "2014",
   addressLine: {
@@ -68,12 +68,12 @@ export const hero = {
     en: "Physiotherapy · Gjøvik · since 2014",
   } as Localized,
   cutWord: {
-    no: "tilbake",
-    en: "back",
+    no: "ro",
+    en: "calm",
   } as Localized,
   subtitle: {
-    no: "Vi fikser skaden, ikke unnskyldningen. Manuell terapi, trening og oppfølging — book i dag, kom i morgen.",
-    en: "We fix the injury, not the excuse. Manual therapy, training, and follow-up — book today, come tomorrow.",
+    no: "Manuell terapi, bevegelse og tett oppfølging — i et rom bygget for å roe ned. Vi hjelper deg hele veien, fra den første vondte morgenen til du er tilbake i deg selv.",
+    en: "Manual therapy, movement, and close follow-up — in a room built to calm. We're with you the whole way, from the first sore morning until you're back in yourself.",
   } as Localized,
   primaryCta: {
     no: "Bestill time",
@@ -111,8 +111,8 @@ export const treatments: Treatment[] = [
     id: "manuell",
     name: { no: "Manuell terapi", en: "Manual therapy" },
     punch: {
-      no: "Finn vrien, løs den.",
-      en: "Find the twist, release it.",
+      no: "Lettelse, hendene på kroppen.",
+      en: "Relief, hands-on.",
     },
     desc: {
       no: "En time med hendene på kroppen — ledd, muskler, nerver. Vi finner årsaken, ikke bare smerten. For nakke, rygg, skulder og kjele.",
@@ -766,14 +766,14 @@ export const pageMeta = {
 // ════════════════════════════════════════════════════════════════════════════
 
 export const dashboard = {
-  eyebrow: { no: "Live", en: "Live" } as Localized,
+  eyebrow: { no: "Hvordan det føles", en: "How it feels" } as Localized,
   title: {
-    no: "Klinikken, akkurat nå.",
-    en: "The clinic, right now.",
+    no: "Helbredelse i tall.",
+    en: "Healing in numbers.",
   } as Localized,
   intro: {
-    no: "Dette er hvordan en travel praksis ser ut fra innsiden — kapasitet, ventetid, og hvor raskt folk kommer seg tilbake.",
-    en: "This is what a busy practice looks like from the inside — capacity, wait time, and how fast people get back to action.",
+    no: "Helbredelse er ikke et tall — men her er likevel noen vi er stolte av.",
+    en: "Healing isn't a number — but here are a few we're proud of nonetheless.",
   } as Localized,
 
   /** The three calm recovery arcs (replaces the old telemetry panels). */

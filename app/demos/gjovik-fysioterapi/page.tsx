@@ -409,7 +409,7 @@ export default async function PhysioPage({
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
           }}
         >
-          {isNo ? "De som fikser deg" : "Who'll fix you"}
+          {isNo ? "De som følger deg" : "Who'll guide you"}
         </h2>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {therapists.map((p, i) => (
