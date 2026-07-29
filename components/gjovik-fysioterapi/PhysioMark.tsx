@@ -1,27 +1,25 @@
 /**
- * The Kraft logo for Gjøvik Fysioterapi.
+ * The Lindrig mark for Gjøvik Fysioterapi.
  *
- * A power mark: a lightning-bolt spine. The bolt's zig-zag doubles as a
- * stylised spine/vertebrae column — "kraft" (power) read through a body that
- * moves again. Set on the demo's own palette so it works on dark surfaces.
- *
- * The lockup pairs the mark with the wordmark "GJØVIK / FYSIO" stacked in a
- * condensed heavy face — read as a performance lab, not a hospital.
+ * A rounded leaf — calm, organic, "healing/growth" rather than the old
+ * lightning-bolt "power" mark. Reads as a body returning to ease. Picks its
+ * colour from the palette tokens so it works on bone or moss surfaces.
  */
+
 export function PhysioMark({
-  onDark = true,
+  onDark = false,
   className,
   size = 32,
 }: {
-  /** Whether the mark sits on a dark surface (controls default colour). */
+  /** Whether the mark sits on a deep/moss surface (inverts leaf colour). */
   onDark?: boolean;
   className?: string;
   /** Side length of the square mark, in px. */
   size?: number;
 }) {
-  const color = onDark
-    ? "var(--physio-accent)"
-    : "var(--physio-text)";
+  // On bone: sage-deep leaf. On moss: soft sage leaf.
+  const color = onDark ? "var(--physio-sage)" : "var(--physio-sage-deep)";
+  const vein = onDark ? "var(--physio-moss)" : "var(--physio-paper)";
   return (
     <svg
       width={size}
@@ -31,54 +29,55 @@ export function PhysioMark({
       aria-hidden
       className={className}
     >
-      {/* The bolt-spine: a lightning bolt whose zig-zag reads as vertebrae. */}
+      {/* A teardrop leaf, vein down the middle. */}
       <path
-        d="M17 2 L 7 17 H 14 L 13 30 L 25 13 H 18 Z"
+        d="M16 3 C 7 9, 6 20, 16 29 C 26 20, 25 9, 16 3 Z"
         fill={color}
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinejoin="round"
+      />
+      <path
+        d="M16 8 L 16 26"
+        stroke={vein}
+        strokeWidth="1.4"
+        strokeLinecap="round"
       />
     </svg>
   );
 }
 
 /**
- * Full lockup: mark + stacked wordmark. Used in the header and footer.
+ * Full lockup: leaf mark + Fraunces wordmark. Used in the header and footer.
  */
 export function PhysioLockup({
-  onDark = true,
+  onDark = false,
   showTagline = true,
 }: {
   onDark?: boolean;
   showTagline?: boolean;
 }) {
-  const textColor = onDark ? "var(--physio-text)" : "var(--physio-text)";
-  const softColor = onDark
-    ? "var(--physio-text-soft)"
-    : "var(--physio-text-soft)";
+  const textColor = onDark ? "var(--physio-paper)" : "var(--physio-moss)";
+  const softColor = onDark ? "var(--physio-paper)" : "var(--physio-text-soft)";
   return (
     <span className="flex items-center gap-2.5">
-      <PhysioMark onDark={onDark} size={30} />
+      <PhysioMark onDark={onDark} size={26} />
       <span className="flex flex-col leading-none">
         <span
-          className="font-black uppercase tracking-tight"
+          className="font-medium tracking-tight"
           style={{
-            fontFamily: "var(--font-archivo), sans-serif",
+            fontFamily: "var(--font-fraunces), serif",
             color: textColor,
-            fontSize: "1.05rem",
-            letterSpacing: "0.01em",
+            fontSize: "1.1rem",
+            letterSpacing: "-0.01em",
           }}
         >
           Gjøvik{" "}
-          <span style={{ color: "var(--physio-accent)" }}>Fysio</span>
+          <span style={{ color: "var(--physio-sage-deep)" }}>Fysio</span>
         </span>
         {showTagline && (
           <span
-            className="mt-1 font-mono text-[8px] uppercase tracking-[0.28em]"
+            className="mt-1 text-[9px] uppercase tracking-[0.24em]"
             style={{ color: softColor }}
           >
-            tilbake i aksjon
+            ro i kroppen
           </span>
         )}
       </span>
