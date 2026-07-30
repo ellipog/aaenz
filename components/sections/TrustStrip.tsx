@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { Ridgeline } from "@/components/ui/Ridgeline";
 
 type Item = {
   key: "norsk" | "raskt" | "nolockin" | "altinkludert";
@@ -44,7 +45,9 @@ export function TrustStrip() {
   const t = useTranslations("TrustStrip");
 
   return (
-    <section className="border-y border-stone-soft/50 bg-paper-deep/50">
+    <>
+      <Ridgeline seed={2} bg="var(--color-paper)" fill="color-mix(in srgb, var(--color-paper-deep) 50%, var(--color-paper))" className="-mb-px" />
+    <section className="bg-paper-deep/50">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px px-5 sm:px-8 lg:grid-cols-4">
         {items.map(({ key, icon }) => (
           <div
@@ -60,5 +63,6 @@ export function TrustStrip() {
         ))}
       </div>
     </section>
+    </>
   );
 }

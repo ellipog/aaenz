@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Ridgeline } from "@/components/ui/Ridgeline";
 import { faqItems } from "@/content/faq";
 import { tx } from "@/content/types";
 
@@ -12,7 +13,8 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="border-t border-stone-soft/50">
+    <section id="faq">
+      <Ridgeline seed={9} bg="var(--color-paper)" fill="var(--color-paper)" className="-mb-px" />
       <div className="mx-auto max-w-3xl px-5 py-24 sm:px-8 sm:py-32">
         <SectionHeading
           number={t("eyebrow")}

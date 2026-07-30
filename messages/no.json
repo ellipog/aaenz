@@ -214,6 +214,7 @@
   "NotFound": {
     "title": "Terrenget her er ikke kartlagt",
     "body": "Vi fant ikke denne siden. Kanskje stien er gammel, kanskje kartet er tatt ned.",
+    "whisper": "⚑ et uhyre skimtes i tåken",
     "cta": "Tilbake til starten"
   },
   "FjellBrekkestue": {

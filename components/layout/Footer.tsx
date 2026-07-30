@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { ContourLockup } from "@/components/ui/ContourMark";
+import { Ridgeline } from "@/components/ui/Ridgeline";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 const sections = [
@@ -27,7 +28,9 @@ export function Footer() {
     isHome ? `#${anchor}` : `${enPrefix}/#${anchor}`;
 
   return (
-    <footer className="border-t border-stone-soft/50 bg-paper-deep">
+    <>
+    <Ridgeline seed={13} bg="var(--color-moss-deep)" fill="var(--color-paper-deep)" tone="paper" className="-mb-px" />
+    <footer className="bg-paper-deep">
       <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
@@ -129,5 +132,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }

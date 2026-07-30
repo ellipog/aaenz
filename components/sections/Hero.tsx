@@ -3,8 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
-import { ContourMark } from "@/components/ui/ContourMark";
-import { ContourField } from "@/components/ui/ContourField";
+import { ContourFieldGL } from "@/components/ui/ContourFieldGL";
 
 /**
  * Hero — the surveyor's thesis. "Kartlegg terrenget før du bygger."
@@ -77,31 +76,20 @@ export function Hero() {
           </motion.p>
         </div>
 
-        {/* Right — the contour mark, drawing in */}
+        {/* Right — the relief terrain, full-bleed (no frame, no padding). */}
         <motion.div
-          className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-sm border border-ink bg-paper-deep p-12"
-          initial={reduce ? undefined : { opacity: 0, scale: 0.96 }}
+          className="relative mx-auto aspect-square w-full max-w-lg overflow-hidden rounded-sm shadow-[0_24px_60px_-30px_rgba(42,51,39,0.55)]"
+          initial={reduce ? undefined : { opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {/* Contour field backdrop — procedurally generated terrain. */}
-          <div className="pointer-events-none absolute inset-0" aria-hidden>
-            <ContourField
-              opacity={1}
-              levels={7}
-              showFootsteps={false}
-              showPeaks
-              className="h-full w-full"
-            />
-          </div>
-          {/* corner registration ticks — surveyor's marks */}
-          <span className="absolute left-3 top-3 h-2 w-2 border-l border-t border-ink" aria-hidden />
-          <span className="absolute right-3 top-3 h-2 w-2 border-r border-t border-ink" aria-hidden />
-          <span className="absolute bottom-3 left-3 h-2 w-2 border-b border-l border-ink" aria-hidden />
-          <span className="absolute bottom-3 right-3 h-2 w-2 border-b border-r border-ink" aria-hidden />
-          <span className="absolute bottom-3 left-1/2 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.1em] text-stone">
-            aaen · 2024
-          </span>
+          <ContourFieldGL
+            opacity={1}
+            levels={7}
+            showFootsteps={false}
+            showPeaks
+            className="absolute inset-0 h-full w-full"
+          />
         </motion.div>
       </div>
     </section>

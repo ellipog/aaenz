@@ -2,7 +2,8 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Reveal } from "@/components/ui/Reveal";
 import { ContourMark } from "@/components/ui/ContourMark";
-import { ContourField } from "@/components/ui/ContourField";
+import { ContourFieldGL } from "@/components/ui/ContourFieldGL";
+import { Ridgeline } from "@/components/ui/Ridgeline";
 import { PersonPortrait } from "@/components/ui/PersonPortrait";
 import { Button } from "@/components/ui/Button";
 import { CONTACT_EMAIL } from "@/lib/site";
@@ -89,7 +90,7 @@ export default async function AboutPage({ params }: Props) {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-stone-soft/50">
+      <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-contour-grid" aria-hidden />
         <div className="relative mx-auto max-w-4xl px-5 pb-20 pt-24 sm:px-8 sm:pb-28 sm:pt-32">
           <Reveal>
@@ -109,8 +110,10 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
+      <Ridgeline seed={21} bg="var(--color-paper)" fill="var(--color-paper)" className="-mb-px" />
+
       {/* Story — with animated footsteps across contour terrain */}
-      <section className="border-b border-stone-soft/50">
+      <section>
         <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <Reveal>
             <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:items-center">
@@ -130,31 +133,32 @@ export default async function AboutPage({ params }: Props) {
                 </p>
               </div>
 
-              {/* Visual — contour field with footprints tracing a valley path */}
-              <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-sm border border-ink bg-paper-deep">
-                <ContourField
-                  opacity={1}
-                  levels={7}
-                  showFootsteps
-                  showPeaks
-                  className="absolute inset-0 h-full w-full"
-                />
-                {/* Corner registration ticks — surveyor's marks */}
-                <span className="absolute left-2 top-2 z-10 h-2 w-2 border-l border-t border-ink" aria-hidden />
-                <span className="absolute right-2 top-2 z-10 h-2 w-2 border-r border-t border-ink" aria-hidden />
-                <span className="absolute bottom-2 left-2 z-10 h-2 w-2 border-b border-l border-ink" aria-hidden />
-                <span className="absolute bottom-2 right-2 z-10 h-2 w-2 border-b border-r border-ink" aria-hidden />
-                <span className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.1em] text-stone">
+              {/* Visual — relief-rendered contour field with footprints
+                  tracing a valley path. Full-bleed: the terrain fills the
+                  panel edge-to-edge, no frame. */}
+              <div className="mx-auto w-full max-w-lg">
+                <div className="relative aspect-square w-full overflow-hidden rounded-sm shadow-[0_24px_60px_-30px_rgba(42,51,39,0.55)]">
+                  <ContourFieldGL
+                    opacity={1}
+                    levels={7}
+                    showFootsteps
+                    showPeaks
+                    className="absolute inset-0 h-full w-full"
+                  />
+                </div>
+                <p className="mt-3 text-center font-mono text-[9px] uppercase tracking-[0.18em] text-stone">
                   {isNo ? "stien gått" : "path walked"}
-                </span>
+                </p>
               </div>
             </div>
           </Reveal>
         </div>
       </section>
 
+      <Ridgeline seed={23} bg="var(--color-paper)" fill="color-mix(in srgb, var(--color-paper-deep) 30%, var(--color-paper))" className="-mb-px" />
+
       {/* Founder */}
-      <section className="border-b border-stone-soft/50 bg-paper-deep/30">
+      <section className="bg-paper-deep/30">
         <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <Reveal>
             <div className="mb-8 flex items-center gap-2.5">
@@ -216,8 +220,10 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
+      <Ridgeline seed={27} bg="color-mix(in srgb, var(--color-paper-deep) 30%, var(--color-paper))" fill="var(--color-paper)" className="-mb-px" />
+
       {/* Three areas — contour icons */}
-      <section className="border-b border-stone-soft/50">
+      <section>
         <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <Reveal>
             <h2 className="font-display text-4xl font-medium tracking-tight text-ink sm:text-5xl">

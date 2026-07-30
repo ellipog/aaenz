@@ -10,7 +10,7 @@ export function ContactCTA() {
   const locale = useLocale() as "no" | "en";
 
   return (
-    <section id="kontakt" className="relative overflow-hidden border-t border-moss-deep bg-moss-deep text-paper">
+    <section id="kontakt" className="relative overflow-hidden bg-moss-deep text-paper">
       {/* faint contour grid */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.08]"

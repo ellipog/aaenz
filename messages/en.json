@@ -214,6 +214,7 @@
   "NotFound": {
     "title": "This terrain isn't mapped",
     "body": "We couldn't find this page. Maybe the path is old, maybe the map was taken down.",
+    "whisper": "⚑ a monster stirs in the fog",
     "cta": "Back to the start"
   },
   "FjellBrekkestue": {

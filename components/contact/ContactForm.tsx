@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import type { Locale } from "@/i18n/routing";
 import { CONTACT_EMAIL } from "@/lib/site";
 import { Select } from "@/components/ui/Select";
+import { SummitFlag } from "./SummitFlag";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -58,8 +59,11 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
   if (status === "success") {
     return (
-      <div className="rounded-sm border border-moss bg-moss/5 p-8 text-center">
-        <p className="font-display text-xl text-moss">{t("success")}</p>
+      <div className="overflow-hidden rounded-sm border border-moss bg-moss/5 text-center">
+        <div className="relative h-44 w-full">
+          <SummitFlag className="absolute inset-0 h-full w-full" />
+        </div>
+        <p className="px-6 py-6 font-display text-xl text-moss">{t("success")}</p>
       </div>
     );
   }

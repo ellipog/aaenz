@@ -88,52 +88,10 @@ export function ContourField({
   }, [seed, resolution, levels, width, height, showFootsteps, showPeaks]);
 
   // Distribute footprints along the valley path.
-  // Each footprint sits slightly off-center (alternating left/right, like a
-  // real stride) and is oriented along the direction of travel.
-  const footprints = useMemo(() => {
-    if (!valleyPath || valleyPath.length < 2) return [];
-    const spaced: { pt: Point; rot: number }[] = [];
-    const targetCount = 6;
-    const totalLen = pathLength(valleyPath);
-    const step = totalLen / (targetCount + 1);
-    // How far each footprint sits off the centerline (alternating).
-    const strideOffset = 6;
-
-    let accumulated = 0;
-    let nextAt = step;
-    let foot = 0; // alternates 0 (right), 1 (left)
-
-    for (let i = 1; i < valleyPath.length; i++) {
-      const a = valleyPath[i - 1];
-      const b = valleyPath[i];
-      const segLen = Math.hypot(b.x - a.x, b.y - a.y);
-      if (segLen < 1e-6) continue;
-      while (accumulated + segLen >= nextAt && spaced.length < targetCount) {
-        const t = (nextAt - accumulated) / segLen;
-        // Center point on the path.
-        const cx = a.x + (b.x - a.x) * t;
-        const cy = a.y + (b.y - a.y) * t;
-        // Travel direction in degrees (atan2: 0=east, 90=south in SVG).
-        const travelDeg = angle(a, b);
-        // Perpendicular to travel; alternate sides each step.
-        const side = foot % 2 === 0 ? 1 : -1;
-        const perpRad = ((travelDeg + 90) * Math.PI) / 180;
-        const offX = Math.cos(perpRad) * strideOffset * side;
-        const offY = Math.sin(perpRad) * strideOffset * side;
-        // The footprint SVG path is drawn pointing UP (negative Y = up).
-        // atan2 travel angle: 0°=east, 90°=south. To make the footprint's
-        // "up" point along the travel direction, add 90°.
-        spaced.push({
-          pt: { x: cx + offX, y: cy + offY },
-          rot: travelDeg + 90,
-        });
-        nextAt += step;
-        foot++;
-      }
-      accumulated += segLen;
-    }
-    return spaced;
-  }, [valleyPath]);
+  const footprints = useMemo(
+    () => distributeFootprints(valleyPath),
+    [valleyPath],
+  );
 
   return (
     <svg
@@ -148,7 +106,6 @@ export function ContourField({
     >
       {/* Paper fill so the field is self-contained. */}
       <rect width={width} height={height} fill="var(--color-paper-deep)" />
-
       {/* Contour lines — each level fades toward the outer (lower) rings. */}
       {contourPaths.map((p, i) => {
         // Inner levels (high elevation) are darker; outer are fainter.
@@ -272,7 +229,59 @@ export function ContourField({
   );
 }
 
-// ─── Path helpers ─────────────────────────────────────────────────────────
+// ─── Path helpers (shared with ContourFieldGL's overlay) ───────────────────
+
+/**
+ * Distribute bootprints along a valley path. Each footprint sits slightly
+ * off-center (alternating left/right, like a real stride) and is oriented
+ * along the direction of travel.
+ */
+export function distributeFootprints(
+  valleyPath: Point[] | null,
+): { pt: Point; rot: number }[] {
+  if (!valleyPath || valleyPath.length < 2) return [];
+  const spaced: { pt: Point; rot: number }[] = [];
+  const targetCount = 6;
+  const totalLen = pathLength(valleyPath);
+  const step = totalLen / (targetCount + 1);
+  // How far each footprint sits off the centerline (alternating).
+  const strideOffset = 6;
+
+  let accumulated = 0;
+  let nextAt = step;
+  let foot = 0; // alternates 0 (right), 1 (left)
+
+  for (let i = 1; i < valleyPath.length; i++) {
+    const a = valleyPath[i - 1];
+    const b = valleyPath[i];
+    const segLen = Math.hypot(b.x - a.x, b.y - a.y);
+    if (segLen < 1e-6) continue;
+    while (accumulated + segLen >= nextAt && spaced.length < targetCount) {
+      const t = (nextAt - accumulated) / segLen;
+      // Center point on the path.
+      const cx = a.x + (b.x - a.x) * t;
+      const cy = a.y + (b.y - a.y) * t;
+      // Travel direction in degrees (atan2: 0=east, 90=south in SVG).
+      const travelDeg = angle(a, b);
+      // Perpendicular to travel; alternate sides each step.
+      const side = foot % 2 === 0 ? 1 : -1;
+      const perpRad = ((travelDeg + 90) * Math.PI) / 180;
+      const offX = Math.cos(perpRad) * strideOffset * side;
+      const offY = Math.sin(perpRad) * strideOffset * side;
+      // The footprint SVG path is drawn pointing UP (negative Y = up).
+      // atan2 travel angle: 0°=east, 90°=south. To make the footprint's
+      // "up" point along the travel direction, add 90°.
+      spaced.push({
+        pt: { x: cx + offX, y: cy + offY },
+        rot: travelDeg + 90,
+      });
+      nextAt += step;
+      foot++;
+    }
+    accumulated += segLen;
+  }
+  return spaced;
+}
 
 function pathLength(pts: Point[]): number {
   let len = 0;
@@ -296,7 +305,7 @@ function angle(a: Point, b: Point): number {
  * which would produce a busy, jittery curve. Lower tension (0.3) avoids
  * overshoot on sharp turns.
  */
-function toSmoothPathData(pts: Point[]): string {
+export function toSmoothPathData(pts: Point[]): string {
   if (pts.length === 0) return "";
   // Decimate: keep every ~6th point, plus always first and last.
   const decimated: Point[] = [];

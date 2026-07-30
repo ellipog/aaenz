@@ -2,6 +2,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { WizardTrigger } from "@/components/wizard/WizardTrigger";
+import { Ridgeline } from "@/components/ui/Ridgeline";
 import { pricingTiers, pricingTrust, oneTimeServices } from "@/content/pricing";
 import { tx, txList } from "@/content/types";
 
@@ -10,7 +11,8 @@ export function Pricing() {
   const locale = useLocale() as "no" | "en";
 
   return (
-    <section id="priser" className="border-t border-stone-soft/50">
+    <section id="priser">
+      <Ridgeline seed={7} bg="color-mix(in srgb, var(--color-paper-deep) 30%, var(--color-paper))" fill="var(--color-paper)" className="-mb-px" />
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
         <SectionHeading number={t("eyebrow")} title={t("title")} lede={t("lede")} />
 

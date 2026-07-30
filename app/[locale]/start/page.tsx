@@ -1,7 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Wizard } from "@/components/wizard/Wizard";
-import { ContourField } from "@/components/ui/ContourField";
+import { ContourFieldGL } from "@/components/ui/ContourFieldGL";
 import { ContourMark } from "@/components/ui/ContourMark";
 import Link from "next/link";
 
@@ -31,9 +31,10 @@ export default async function StartPage({ params, searchParams }: Props) {
 
   return (
     <section className="relative min-h-[calc(100vh-4rem)] overflow-hidden">
-      {/* Subtle contour field backdrop */}
+      {/* Subtle contour relief backdrop — static light (it sits behind
+          the form, so it never gets pointer events). */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.06]" aria-hidden>
-        <ContourField
+        <ContourFieldGL
           levels={8}
           showPeaks={false}
           className="h-full w-full"

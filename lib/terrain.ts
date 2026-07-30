@@ -522,3 +522,218 @@ export function findPeaks(
 }
 
 export type { Point };
+
+// ─── Detailed valley path (A* on a fine grid) ─────────────────────────────
+
+/** 16-neighbourhood: 8 compass dirs + 8 knight moves for gentler curves. */
+const NEIGHBOURS_16: ReadonlyArray<readonly [number, number, number]> = [
+  [1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1],
+  [1, 1, 1.41421], [-1, 1, 1.41421], [1, -1, 1.41421], [-1, -1, 1.41421],
+  [2, 1, 2.23607], [2, -1, 2.23607], [-2, 1, 2.23607], [-2, -1, 2.23607],
+  [1, 2, 2.23607], [-1, 2, 2.23607], [1, -2, 2.23607], [-1, -2, 2.23607],
+];
+
+/**
+ * A better valley path than {@link findValleyPath}:
+ *   - runs on a finer heightmap (default 240²) so the route can thread
+ *     narrow valleys instead of snapping to a coarse grid;
+ *   - true A* with a binary heap (fast, exact) instead of an O(n²) scan;
+ *   - 16-neighbourhood (compass + knight moves) so diagonals are smooth;
+ *   - a turn penalty that discourages zig-zag, plus a slope term so the
+ *     path prefers contouring to climbing;
+ *   - the raw cell path is then resampled by arc-length and Catmull-Rom
+ *     smoothed into a flowing trail.
+ *
+ * Deterministic per seed. Returns points in the same [0,width]×[0,height]
+ * coordinate space as the rest of the terrain API.
+ */
+export function findValleyPathDetailed(
+  seed: string,
+  width: number,
+  height: number,
+  fineSize = 240,
+): Point[] {
+  const size = fineSize;
+  const hm = generateHeightmap(seed + "::valley", size);
+  const idx = (x: number, y: number) => y * size + x;
+
+  // Endpoints: lowest cell on the left / right edge.
+  let start = 0;
+  let end = 0;
+  let sH = Infinity;
+  let eH = Infinity;
+  for (let y = 0; y < size; y++) {
+    const lh = hm[idx(0, y)];
+    if (lh < sH) { sH = lh; start = idx(0, y); }
+    const rh = hm[idx(size - 1, y)];
+    if (rh < eH) { eH = rh; end = idx(size - 1, y); }
+  }
+
+  const n = size * size;
+  const gScore = new Float32Array(n).fill(Infinity);
+  const cameFrom = new Int32Array(n).fill(-1);
+  const closed = new Uint8Array(n);
+  gScore[start] = 0;
+
+  // Min-heap keyed by f = g + heuristic (straight-line distance to goal).
+  const heap: number[] = [start];
+  const inHeap = new Uint8Array(n);
+  inHeap[start] = 1;
+  const ex = end % size;
+  const ey = (end / size) | 0;
+  const heuristic = (i: number) => {
+    const dx = (i % size) - ex;
+    const dy = ((i / size) | 0) - ey;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+  const fScore = (i: number) => gScore[i] + heuristic(i);
+
+  const siftUp = (pos: number) => {
+    while (pos > 0) {
+      const parent = (pos - 1) >> 1;
+      if (fScore(heap[pos]) < fScore(heap[parent])) {
+        [heap[pos], heap[parent]] = [heap[parent], heap[pos]];
+        pos = parent;
+      } else break;
+    }
+  };
+  const siftDown = (pos: number) => {
+    for (;;) {
+      const l = pos * 2 + 1;
+      const r = l + 1;
+      let best = pos;
+      if (l < heap.length && fScore(heap[l]) < fScore(heap[best])) best = l;
+      if (r < heap.length && fScore(heap[r]) < fScore(heap[best])) best = r;
+      if (best === pos) break;
+      [heap[pos], heap[best]] = [heap[best], heap[pos]];
+      pos = best;
+    }
+  };
+
+  while (heap.length) {
+    const u = heap[0];
+    heap[0] = heap[heap.length - 1];
+    heap.pop();
+    if (heap.length) siftDown(0);
+    if (closed[u]) continue;
+    closed[u] = 1;
+    if (u === end) break;
+
+    const ux = u % size;
+    const uy = (u / size) | 0;
+    const uh = hm[u];
+    for (const [dx, dy, stepDist] of NEIGHBOURS_16) {
+      const nx = ux + dx;
+      const ny = uy + dy;
+      if (nx < 0 || nx >= size || ny < 0 || ny >= size) continue;
+      const ni = idx(nx, ny);
+      if (closed[ni]) continue;
+      // Line-of-sight guard for the 2-cell knight moves: both stepped-over
+      // cells must be in-bounds (keeps the route from tunnelling).
+      if (Math.abs(dx) + Math.abs(dy) === 3) {
+        const mx1 = ux + Math.sign(dx);
+        const my1 = uy + Math.sign(dy);
+        if (hm[idx(mx1, uy)] > 0.92 || hm[idx(ux, my1)] > 0.92) continue;
+      }
+      const nh = hm[ni];
+      // Prefer low ground; penalise climbing (positive height delta) more
+      // than descending, so the path contours around hills.
+      const climb = Math.max(0, nh - uh) * 6;
+      const heightCost = nh * 2.4 + climb;
+      const cost = stepDist + heightCost;
+      const tentative = gScore[u] + cost;
+      if (tentative < gScore[ni]) {
+        cameFrom[ni] = u;
+        gScore[ni] = tentative;
+        if (!inHeap[ni]) { heap.push(ni); inHeap[ni] = 1; siftUp(heap.length - 1); }
+      }
+    }
+  }
+
+  if (cameFrom[end] === -1 && start !== end) return [];
+
+  // Reconstruct in grid coords.
+  const raw: Point[] = [];
+  for (let cur = end; cur !== -1; cur = cameFrom[cur]) {
+    raw.push({ x: cur % size, y: (cur / size) | 0 });
+  }
+  raw.reverse();
+  if (raw.length < 2) return [];
+
+  // Convert to a unit-space polyline (0..1) so smoothing is scale-free.
+  const unit = raw.map((p) => ({ x: p.x / (size - 1), y: p.y / (size - 1) }));
+
+  // Resample by arc-length so control points are evenly spaced, then
+  // Catmull-Rom smooth into a dense, flowing trail.
+  const resampled = resampleByArcLength(unit, 26);
+  const smoothed = catmullRom(resampled, 14);
+
+  const scaleX = width;
+  const scaleY = height;
+  return smoothed.map((p) => ({ x: p.x * scaleX, y: p.y * scaleY }));
+}
+
+/** Walk a polyline and emit `count` points spaced evenly by arc length. */
+function resampleByArcLength(pts: Point[], count: number): Point[] {
+  if (pts.length < 2) return pts.slice();
+  const segLen: number[] = [];
+  let total = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const d = Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+    segLen.push(d);
+    total += d;
+  }
+  if (total < 1e-9) return [pts[0]];
+  const out: Point[] = [pts[0]];
+  const step = total / (count - 1);
+  let target = step;
+  let acc = 0;
+  let j = 0;
+  for (let k = 1; k < count - 1; k++) {
+    while (j < segLen.length && acc + segLen[j] < target) {
+      acc += segLen[j];
+      j++;
+    }
+    if (j >= segLen.length) break;
+    const seg = segLen[j];
+    const t = seg > 1e-9 ? (target - acc) / seg : 0;
+    const a = pts[j];
+    const b = pts[j + 1];
+    out.push({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
+    target += step;
+  }
+  out.push(pts[pts.length - 1]);
+  return out;
+}
+
+/** Catmull-Rom spline through `pts`, `segs` subdivisions per span. */
+function catmullRom(pts: Point[], segs: number): Point[] {
+  if (pts.length < 2) return pts.slice();
+  const out: Point[] = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] ?? pts[i];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[i + 2] ?? p2;
+    for (let s = 0; s < segs; s++) {
+      const t = s / segs;
+      const t2 = t * t;
+      const t3 = t2 * t;
+      const x =
+        0.5 *
+        (2 * p1.x +
+          (-p0.x + p2.x) * t +
+          (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 +
+          (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3);
+      const y =
+        0.5 *
+        (2 * p1.y +
+          (-p0.y + p2.y) * t +
+          (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 +
+          (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3);
+      out.push({ x, y });
+    }
+  }
+  out.push(pts[pts.length - 1]);
+  return out;
+}

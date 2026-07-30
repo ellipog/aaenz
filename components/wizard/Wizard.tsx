@@ -33,6 +33,8 @@ export function Wizard({ initialTier, initialService, onComplete, onCancel }: Pr
   const t = useTranslations("Wizard");
   const locale = useLocale() as Locale;
   const [step, setStep] = useState(0);
+  // Walk direction — forward slides uphill (+x), back slides down (−x).
+  const [direction, setDirection] = useState(1);
   const [data, setData] = useState<WizardData>({
     ...emptyWizardData,
     tier: initialTier ?? "unsure",
@@ -45,10 +47,16 @@ export function Wizard({ initialTier, initialService, onComplete, onCancel }: Pr
   }
 
   function next() {
-    if (step < TOTAL_STEPS - 1) setStep((s) => s + 1);
+    if (step < TOTAL_STEPS - 1) {
+      setDirection(1);
+      setStep((s) => s + 1);
+    }
   }
   function back() {
-    if (step > 0) setStep((s) => s - 1);
+    if (step > 0) {
+      setDirection(-1);
+      setStep((s) => s - 1);
+    }
   }
 
   async function submit() {
@@ -159,17 +167,19 @@ export function Wizard({ initialTier, initialService, onComplete, onCancel }: Pr
         )}
       </div>
 
-      {/* Step content — animated transitions.
-          overflow-x-hidden so the slide-in/out animation never triggers a
-          horizontal scrollbar while the panel is offset. */}
+      {/* Step content — direction-aware transitions: moving forward slides
+          the terrain past to the left (hiking uphill), moving back reverses.
+          overflow-x-hidden so the slide never triggers a horizontal scrollbar
+          while the panel is offset. */}
       <div className="custom-scroll flex-1 overflow-y-auto overflow-x-hidden pr-1">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={direction} initial={false}>
           <motion.div
             key={step}
-            initial={{ opacity: 0, x: 20 }}
+            custom={direction}
+            initial={{ opacity: 0, x: 24 * direction }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.2 }}
+            exit={{ opacity: 0, x: -24 * direction }}
+            transition={{ duration: 0.28, ease: "easeOut" }}
             className="grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-12"
           >
             {/* Left — heading (sticks on desktop, flows on mobile) */}

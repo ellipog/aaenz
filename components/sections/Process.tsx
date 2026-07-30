@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { Ridgeline } from "@/components/ui/Ridgeline";
 
 type Step = {
   n: string;
@@ -41,7 +42,8 @@ export function Process() {
   const t = useTranslations("Process");
 
   return (
-    <section id="prosess" className="border-t border-stone-soft/50">
+    <section id="prosess">
+      <Ridgeline seed={3} bg="color-mix(in srgb, var(--color-paper-deep) 50%, var(--color-paper))" fill="var(--color-paper)" className="-mb-px" />
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
         <SectionHeading
           number={t("eyebrow")}

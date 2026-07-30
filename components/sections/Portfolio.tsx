@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { Tag } from "@/components/ui/Tag";
+import { Ridgeline } from "@/components/ui/Ridgeline";
 import { products } from "@/content/products";
 import { demoSites } from "@/content/portfolio";
 import { tx } from "@/content/types";
@@ -32,7 +33,8 @@ export function Portfolio() {
   const locale = useLocale() as "no" | "en";
 
   return (
-    <section id="arbeid" className="border-t border-stone-soft/50 bg-paper-deep/30">
+    <section id="arbeid" className="bg-paper-deep/30">
+      <Ridgeline seed={5} bg="var(--color-paper)" fill="color-mix(in srgb, var(--color-paper-deep) 30%, var(--color-paper))" className="-mb-px" />
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
         <SectionHeading number={t("eyebrow")} title={t("title")} lede={t("lede")} />
 
