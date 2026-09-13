@@ -20,6 +20,7 @@ const works = [
     desc: "A desktop server manager for Windows, macOS and Linux. Register any project as a server instance, extend it with plugins, and command the whole fleet from one clean room.",
     meta: "OPEN SOURCE · TAURI · DESKTOP",
     href: "https://kern.aaenz.no",
+    fill: "bg-[url('/assets/gen-cable-descent.jpg')] bg-[size:100%_auto] bg-[position:50%_30%]",
   },
   {
     glyph: "詠",
@@ -27,6 +28,7 @@ const works = [
     desc: "A rune-encrusted GUI around FFmpeg. Raw media in, enchanted media out — convert, compress, transcribe and cut without memorising a single command-line incantation.",
     meta: "OPEN SOURCE · TAURI · DESKTOP",
     href: "https://github.com/aaen-studios/galdr",
+    fill: "bg-[url('/assets/gen-clouds-engraving.jpg'),linear-gradient(#999,#999)] bg-[size:220%_auto,100%_100%] bg-[position:24%_42%,0_0] [background-blend-mode:multiply]",
   },
   {
     glyph: "読",
@@ -34,7 +36,14 @@ const works = [
     desc: "A Japanese-learning app — typing trainer, FSRS flashcard engine, kanji path, and an AI conversation partner. Local-first, with cloud sync when you want it.",
     meta: "PRODUCT · WEB · LOCAL-FIRST",
     href: "https://yomion.com",
+    fill: "bg-[url('/assets/gen-flock-diagonal.jpg')] bg-[size:100%_auto] bg-[position:50%_46%]",
   },
+];
+
+const stationLayout = [
+  "md:absolute md:right-full md:top-1/2 md:-mr-[22px] md:w-[min(22vw,320px)] md:-translate-y-1/2 md:text-right",
+  "md:absolute md:left-full md:top-1/2 md:-ml-[22px] md:w-[min(22vw,320px)] md:-translate-y-1/2",
+  "md:absolute md:left-1/2 md:top-full md:mt-10 md:w-[min(52vw,480px)] md:-translate-x-1/2 md:text-center",
 ];
 
 const reveal =
@@ -292,57 +301,89 @@ export default function Home() {
       </section>
 
       <section
-        className={`mx-auto max-w-[1240px] px-6 pb-[120px] pt-[90px] ${reveal}`}
+        className={`relative overflow-x-clip bg-paper px-6 pb-[120px] pt-[110px] md:pb-[280px] ${reveal}`}
         data-reveal
         id="works"
       >
-        <span className="mono block text-faint">THE WORKS</span>
-        <h2 className="m-0 mt-5 max-w-[24ch] font-serif text-[clamp(36px,5vw,72px)] font-normal leading-[1.06]">
-          Three works, <em className="italic text-red">carried far</em>.
-        </h2>
-        <div className="relative mt-[64px] max-[760px]:mt-12">
-          <span
+        <div className="mx-auto max-w-[1240px] text-center">
+          <span className="mono block text-faint">THE WORKS</span>
+          <h2 className="mx-auto m-0 mt-5 max-w-[14ch] font-serif text-[clamp(36px,5vw,72px)] font-normal leading-[1.06]">
+            Three works, <em className="italic text-red">carried far</em>.
+          </h2>
+        </div>
+
+        <div className="relative mx-auto mt-10 flex aspect-square w-[min(48vw,680px)] flex-col items-center justify-center gap-16 max-md:w-[92vw] md:block">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+            <span className="absolute inset-0 rounded-full border border-ink/15" />
+            <span className="absolute inset-[12px] rounded-full border border-red/25" />
+          </div>
+          <div
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-[44px] left-[31px] top-[44px] w-px bg-red/35 max-[760px]:left-[23px]"
-          />
+            className={`pointer-events-none absolute inset-0 max-md:hidden ${parallax} supports-[animation-timeline:view()]:animate-dial`}
+          >
+            {Array.from({ length: 24 }).map((_, i) => {
+              const t = (i * 15 * Math.PI) / 180;
+              return (
+                <span
+                  key={i}
+                  className={`absolute h-[3px] w-[3px] -translate-x-1/2 -translate-y-1/2 rounded-full ${i % 3 === 0 ? "bg-ink/40" : "bg-ink/20"}`}
+                  style={{ left: `${50 + 50 * Math.cos(t)}%`, top: `${50 + 50 * Math.sin(t)}%` }}
+                />
+              );
+            })}
+            <span className="absolute left-1/2 top-0 h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red" />
+          </div>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 max-md:hidden">
+            <span className="absolute left-1/2 top-1/2 h-px w-1/2 origin-left rotate-0 bg-red/30" />
+            <span className="absolute left-1/2 top-1/2 h-px w-1/2 origin-left rotate-90 bg-red/30" />
+            <span className="absolute left-1/2 top-1/2 h-px w-1/2 origin-left rotate-180 bg-red/30" />
+            {works.map((w, i) => (
+              <span
+                key={w.name}
+                className={`jp absolute -translate-x-1/2 -translate-y-1/2 select-none text-[72px] leading-none text-transparent [-webkit-text-stroke:1px_rgba(16,16,16,.28)] ${["left-[25%] top-1/2", "left-[75%] top-1/2", "left-1/2 top-[75%]"][i]}`}
+              >
+                {w.glyph}
+              </span>
+            ))}
+          </div>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+            <span className="absolute left-0 top-1/2 h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red max-md:hidden" />
+            <span className="absolute right-0 top-1/2 h-[7px] w-[7px] translate-x-1/2 -translate-y-1/2 rounded-full bg-red max-md:hidden" />
+            <span className="absolute bottom-0 left-1/2 h-[7px] w-[7px] -translate-x-1/2 translate-y-1/2 rounded-full bg-red max-md:hidden" />
+          </div>
+
+          <div className="relative z-[1] grid h-[72px] w-[72px] place-items-center rounded-full bg-ink shadow-[0_0_0_1px_var(--color-red),0_0_0_8px_rgba(16,16,16,.05)] max-md:order-first md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+            <img alt="" className="w-12" src="/assets/logo-mark-light.png" />
+          </div>
+
           {works.map((w, i) => (
             <a
               key={w.name}
-              className="group grid grid-cols-[48px_1fr_40px] items-center gap-x-5 border-t border-line py-9 outline-offset-4 last:border-b md:grid-cols-[64px_1fr_fit-content] md:gap-x-8 md:py-12"
+              className={`group relative z-[1] block max-md:max-w-[min(78vw,460px)] max-md:text-center ${stationLayout[i]}`}
               href={w.href}
               rel="noreferrer"
               target="_blank"
             >
-              <span className="jp relative z-[1] grid h-[48px] w-[48px] place-items-center border border-red bg-paper text-[20px] leading-none text-red transition-colors group-hover:bg-red group-hover:text-paper md:h-[64px] md:w-[64px] md:text-[26px]">
-                {w.glyph}
-              </span>
-              <div>
-                <div className="flex items-baseline gap-4">
-                  <span className="mono text-faint">0{i + 1}</span>
-                  <h3 className="m-0 font-serif text-[clamp(38px,5.6vw,76px)] font-light leading-none tracking-[.02em] transition-colors group-hover:text-red">
-                    {w.name}
-                  </h3>
-                </div>
-                <p className="mt-3 max-w-[62ch] text-dim max-[760px]:text-[14px]">{w.desc}</p>
-                <span className="mono mt-3 block text-faint">{w.meta}</span>
-              </div>
-              <span
-                aria-hidden="true"
-                className="mono justify-self-end text-[15px] leading-none text-faint transition-all group-hover:translate-x-1 group-hover:text-red"
+              <span className="mono block text-faint">0{i + 1}</span>
+              <h3
+                className={`mt-2 bg-clip-text font-serif text-[clamp(44px,6vw,96px)] font-light leading-[.95] tracking-[.01em] text-transparent [filter:grayscale(1)_contrast(1.6)_brightness(.82)] transition-[filter] duration-500 group-hover:[filter:grayscale(1)_contrast(1.6)_brightness(.82)_invert(1)] supports-[animation-timeline:view()]:animate-fill-drift ${parallax} ${w.fill}`}
               >
-                ↗
-              </span>
+                {w.name}
+              </h3>
+              <p className="mt-3 text-[13px] leading-snug text-dim">{w.desc}</p>
+              <span className="mono mt-3 block text-faint">{w.meta} ↗</span>
             </a>
           ))}
+
+          <a
+            className="mono max-md:mx-auto max-md:mt-6 max-md:block max-md:text-center md:absolute md:bottom-[7%] md:left-[7%] inline-block text-faint transition-colors hover:text-red"
+            href="https://github.com/aaen-studios"
+            rel="noreferrer"
+            target="_blank"
+          >
+            GITHUB.COM/AAEN-STUDIOS ↗
+          </a>
         </div>
-        <a
-          className="mono mt-10 inline-block text-faint transition-colors hover:text-red"
-          href="https://github.com/aaen-studios"
-          rel="noreferrer"
-          target="_blank"
-        >
-          GITHUB.COM/AAEN-STUDIOS ↗
-        </a>
       </section>
 
       <div

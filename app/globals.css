@@ -26,6 +26,8 @@
   --animate-para-b: paraB linear both;
   --animate-para-c: paraC linear both;
   --animate-para-d: paraD linear both;
+  --animate-fill-drift: fillDrift linear both;
+  --animate-dial: dial linear both;
 }
 
 @utility mono {
@@ -177,5 +179,25 @@
 
   to {
     transform: translateY(24px);
+  }
+}
+
+@keyframes fillDrift {
+  from {
+    background-position-y: 8%;
+  }
+
+  to {
+    background-position-y: 66%;
+  }
+}
+
+@keyframes dial {
+  from {
+    transform: rotate(-14deg);
+  }
+
+  to {
+    transform: rotate(14deg);
   }
 }
