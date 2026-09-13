@@ -13,6 +13,30 @@ const strip = [
   "gen-winged-right-b",
 ];
 
+const works = [
+  {
+    glyph: "核",
+    name: "kern",
+    desc: "A desktop server manager for Windows, macOS and Linux. Register any project as a server instance, extend it with plugins, and command the whole fleet from one clean room.",
+    meta: "OPEN SOURCE · TAURI · DESKTOP",
+    href: "https://kern.aaenz.no",
+  },
+  {
+    glyph: "詠",
+    name: "galdr",
+    desc: "A rune-encrusted GUI around FFmpeg. Raw media in, enchanted media out — convert, compress, transcribe and cut without memorising a single command-line incantation.",
+    meta: "OPEN SOURCE · TAURI · DESKTOP",
+    href: "https://github.com/aaen-studios/galdr",
+  },
+  {
+    glyph: "読",
+    name: "yomion",
+    desc: "A Japanese-learning app — typing trainer, FSRS flashcard engine, kanji path, and an AI conversation partner. Local-first, with cloud sync when you want it.",
+    meta: "PRODUCT · WEB · LOCAL-FIRST",
+    href: "https://yomion.com",
+  },
+];
+
 const reveal =
   "opacity-0 translate-y-7 transition-[opacity,transform] duration-[1100ms] ease-[cubic-bezier(.22,.61,.36,1)] [&.in]:opacity-100 [&.in]:translate-y-0 motion-reduce:opacity-100 motion-reduce:translate-y-0 motion-reduce:transition-none";
 
@@ -265,6 +289,60 @@ export default function Home() {
           使者
         </span>
         <span className="mono mt-[30px] block text-faint">SHISHA · THE CARRIER OF THE WORD</span>
+      </section>
+
+      <section
+        className={`mx-auto max-w-[1240px] px-6 pb-[120px] pt-[90px] ${reveal}`}
+        data-reveal
+        id="works"
+      >
+        <span className="mono block text-faint">THE WORKS</span>
+        <h2 className="m-0 mt-5 max-w-[24ch] font-serif text-[clamp(36px,5vw,72px)] font-normal leading-[1.06]">
+          Three works, <em className="italic text-red">carried far</em>.
+        </h2>
+        <div className="relative mt-[64px] max-[760px]:mt-12">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[44px] left-[31px] top-[44px] w-px bg-red/35 max-[760px]:left-[23px]"
+          />
+          {works.map((w, i) => (
+            <a
+              key={w.name}
+              className="group grid grid-cols-[48px_1fr_40px] items-center gap-x-5 border-t border-line py-9 outline-offset-4 last:border-b md:grid-cols-[64px_1fr_fit-content] md:gap-x-8 md:py-12"
+              href={w.href}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span className="jp relative z-[1] grid h-[48px] w-[48px] place-items-center border border-red bg-paper text-[20px] leading-none text-red transition-colors group-hover:bg-red group-hover:text-paper md:h-[64px] md:w-[64px] md:text-[26px]">
+                {w.glyph}
+              </span>
+              <div>
+                <div className="flex items-baseline gap-4">
+                  <span className="mono text-faint">0{i + 1}</span>
+                  <h3 className="m-0 font-serif text-[clamp(38px,5.6vw,76px)] font-light leading-none tracking-[.02em] transition-colors group-hover:text-red">
+                    {w.name}
+                  </h3>
+                </div>
+                <p className="mt-3 max-w-[62ch] text-dim max-[760px]:text-[14px]">{w.desc}</p>
+                <span className="mono mt-3 block text-faint">{w.meta}</span>
+              </div>
+              <span
+                aria-hidden="true"
+                className="mono justify-self-end text-[15px] leading-none text-faint transition-all group-hover:translate-x-1 group-hover:text-red"
+              >
+                ↗
+              </span>
+            </a>
+          ))}
+        </div>
+        <a
+          className="mono mt-10 inline-block text-faint transition-colors hover:text-red"
+          href="https://github.com/aaen-studios"
+          rel="noreferrer"
+          target="_blank"
+        >
+          GITHUB.COM/AAEN-STUDIOS ↗
+        </a>
       </section>
 
       <div
