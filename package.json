@@ -3,38 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node ./node_modules/next/dist/bin/next dev",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start"
   },
   "dependencies": {
-    "motion": "^12.43.0",
     "next": "16.2.12",
-    "next-intl": "^4.13.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "resend": "^6.18.1",
-    "zod": "^3.24.1"
-  },
-  "optionalDependencies": {
-    "@img/sharp-libvips-linux-x64": "^1.2.4",
-    "@img/sharp-linux-x64": "^0.34.5",
-    "@next/swc-linux-x64-gnu": "^16.2.2",
-    "@parcel/watcher-linux-x64-glibc": "^2.6.0",
-    "@swc/core-linux-x64-gnu": "^1.15.0",
-    "@tailwindcss/oxide-linux-x64-gnu": "^4.3.3",
-    "@unrs/resolver-binding-linux-x64-gnu": "^1.12.2",
-    "lightningcss-linux-x64-gnu": "^1.32.0"
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.2",
-    "tailwindcss": "^4",
+    "playwright-core": "^1.63.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5"
   }
 }

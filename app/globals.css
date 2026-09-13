@@ -1,181 +1,181 @@
 @import "tailwindcss";
 
-/* ============================================================================
-   aaen studios — "The Surveyors / Topographic Contour" brand system
-   Tokens lifted from branding/index.html (v1.0).
-   ============================================================================ */
-
 @theme {
-  /* Palette — earthen, low-chroma */
-  --color-paper: #f1ead9;
-  --color-paper-deep: #e7dec8;
-  --color-ink: #2a3327;
-  --color-ink-soft: #5a6647;
-  --color-moss: #3a5a3e;
-  --color-moss-deep: #244028;
-  --color-clay: #b5895a;
-  --color-ochre: #c8782a;
-  --color-stone: #8a8772;
-  --color-stone-soft: #b8b3a0;
+  --color-paper: #f3f1ec;
+  --color-paper2: #e9e6df;
+  --color-ink: #101010;
+  --color-dim: #55534d;
+  --color-faint: #8b8880;
+  --color-line: #d4d0c7;
+  --color-red: #b31212;
 
-  /* Type families (wired to next/font CSS variables in app/layout) */
-  --font-display: var(--font-fraunces), Georgia, serif;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-jp: "Zen Old Mincho", serif;
 
-  /* Radii — small, by rule ("terrain isn't bubbly") */
-  --radius-xs: 2px;
-  --radius-sm: 4px;
+  --animate-rise: rise 1.1s cubic-bezier(.22, .61, .36, 1) both;
+  --animate-fade: fade 1.8s ease both;
+  --animate-cue: cue 2.8s ease-in-out infinite;
+  --animate-slide: slide 70s linear infinite;
+  --animate-orbit: orbit 26s linear infinite;
+  --animate-lens: lensPulse 20s ease-in-out infinite alternate;
+  --animate-hero-drift: heroDrift linear both;
+  --animate-para-a: paraA linear both;
+  --animate-para-b: paraB linear both;
+  --animate-para-c: paraC linear both;
+  --animate-para-d: paraD linear both;
 }
 
-/* Type scale helpers (use via className) */
+@utility mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+@utility jp {
+  font-family: var(--font-jp);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* Offset anchor jumps so headings don't hide behind the sticky header. */
-    scroll-padding-top: 5rem;
   }
 
   body {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    font-size: 16px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    @apply bg-paper font-body text-ink antialiased;
+    font-size: 15px;
+    line-height: 1.65;
+    overflow-x: hidden;
   }
 
-  /* Selection — moss on paper */
   ::selection {
-    background-color: var(--color-moss);
+    background: var(--color-red);
     color: var(--color-paper);
   }
 
-  /* Focus ring — moss, never clay/ochre */
-  :focus-visible {
-    outline: 2px solid var(--color-moss);
-    outline-offset: 2px;
-    border-radius: var(--radius-xs);
+  img {
+    display: block;
+    max-width: 100%;
   }
 
-  /* Scrollbar — fully custom (WebKit) + Firefox parity.
-     Sits on html so it styles the main viewport scrollbar. */
-  html {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-stone) var(--color-paper-deep);
+  a {
+    color: inherit;
   }
-  ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-paper-deep);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-stone);
-    border-radius: var(--radius-xs);
-    border: 3px solid var(--color-paper-deep);
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-moss);
-  }
-  ::-webkit-scrollbar-corner {
-    background: var(--color-paper-deep);
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
-@layer utilities {
-  /* Slimmer custom scrollbar for inner scrollable panels
-     (dropdown option lists, overflowing card grids, etc.). */
-  .custom-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-stone-soft) transparent;
-  }
-  .custom-scroll::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  .custom-scroll::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .custom-scroll::-webkit-scrollbar-thumb {
-    background: var(--color-stone-soft);
-    border-radius: var(--radius-xs);
-    border: 2px solid transparent;
-    background-clip: padding-box;
-  }
-  .custom-scroll::-webkit-scrollbar-thumb:hover {
-    background: var(--color-moss);
-    background-clip: padding-box;
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
   }
 
-  /* Brand voice text styles */
-  .t-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-ink-soft);
-  }
-  .t-eyebrow-moss {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-moss);
-  }
-  .t-mono-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  /* Contour grid background — subtle blueprint texture */
-  .bg-contour-grid {
-    background-image: linear-gradient(
-        var(--color-moss) 1px,
-        transparent 1px
-      ),
-      linear-gradient(90deg, var(--color-moss) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.05;
-  }
-}
-
-/* ============================================================================
-   Motion — brand primitives (pulse / sweep / draw-ring)
-   All respect prefers-reduced-motion (set in components via Motion).
-   ============================================================================ */
-
-@keyframes pulse-summit {
-  0%,
-  100% {
+  to {
     opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.12);
+    transform: none;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .animate-pulse-summit {
-    animation: pulse-summit 2.4s ease-in-out infinite;
-    transform-origin: center;
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 
-/* ============================================================================
-   Fjell Brekkestue — paper-grain texture (warm "Arv" revision)
-   Scoped to [data-cafe="arv"] so it never affects the host site. A faint
-   fractal-noise overlay rendered from inline SVG; blend: overlay keeps it
-   tonal rather than grey. Pointer-events disabled so it never traps clicks.
-   ============================================================================ */
-[data-cafe="arv"] .cafe-grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
-  pointer-events: none;
+@keyframes cue {
+  0% {
+    transform: scaleY(.15);
+    transform-origin: top;
+    opacity: 0;
+  }
+
+  35% {
+    transform: scaleY(1);
+    opacity: .9;
+  }
+
+  100% {
+    transform: scaleY(1) translateY(30px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes orbit {
+  to {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
+
+@keyframes lensPulse {
+  to {
+    transform: scale(1.035);
+  }
+}
+
+@keyframes heroDrift {
+  from {
+    transform: translateY(-3.5%) scale(1.1);
+  }
+
+  to {
+    transform: translateY(3.5%) scale(1.1);
+  }
+}
+
+@keyframes paraA {
+  from {
+    transform: translateY(-6%) scale(1.14);
+  }
+
+  to {
+    transform: translateY(6%) scale(1.14);
+  }
+}
+
+@keyframes paraB {
+  from {
+    transform: scaleX(-1) translateY(-6%) scale(1.14);
+  }
+
+  to {
+    transform: scaleX(-1) translateY(6%) scale(1.14);
+  }
+}
+
+@keyframes paraC {
+  from {
+    transform: translateY(-5%) scale(1.12);
+  }
+
+  to {
+    transform: translateY(5%) scale(1.12);
+  }
+}
+
+@keyframes paraD {
+  from {
+    transform: translateY(-24px);
+  }
+
+  to {
+    transform: translateY(24px);
+  }
 }

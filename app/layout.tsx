@@ -1,16 +1,34 @@
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-/**
- * Root layout — fonts and global CSS only.
- *
- * In next-intl's [locale] pattern, the <html>/<body> tags live in
- * app/[locale]/layout.tsx so the `lang` attribute can be dynamic per locale.
- * This root layout is required by Next.js but renders children unchanged.
- */
+export const metadata: Metadata = {
+  title: "aaen",
+  description: "A message between human and machine.",
+  icons: {
+    icon: "/favicon.svg",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#101010",
+};
+
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
-  return children;
+}>) {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Zen+Old+Mincho:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
 }
