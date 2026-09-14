@@ -119,7 +119,7 @@ export default function Home() {
               aaen
             </h1>
             <p className="mono relative z-[1] mt-[20px] animate-rise text-paper [animation-delay:.5s] motion-reduce:animate-none">
-              SOFTWARE STUDIO · GJØVIK, NORWAY
+              SOFTWARE STUDIO
             </p>
           </div>
         </div>
@@ -147,9 +147,9 @@ export default function Home() {
         />
         <div className="relative mx-auto max-w-[1240px]">
           <h2 className="m-0 font-serif text-[clamp(40px,6.6vw,98px)] font-normal leading-[1.05] tracking-[.005em]">
-            A software studio in Gjøvik, <em className="italic text-red">Norway</em>.
+            A software <em className="italic text-red">studio</em>.
             <br />
-            Software that lives on{" "}
+            Tools that live on{" "}
             <span className="bg-[url('/assets/gen-clouds-engraving.jpg')] bg-cover bg-clip-text text-transparent [background-position:50%_62%] [filter:grayscale(1)_contrast(1.3)]">
               your machine
             </span>
@@ -459,14 +459,14 @@ export default function Home() {
             send word
           </a>
           <span className="mono mt-[30px] block text-[#cfcbc2]">
-            ELLIOT@AAENZ.NO · GJØVIK · NORWAY
+            ELLIOT@AAENZ.NO
           </span>
         </div>
       </footer>
 
       <footer className="relative border-t border-white/10 bg-ink px-6 py-8 text-paper">
         <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-x-10 gap-y-4">
-          <span className="mono text-[#8f8b82]">AAEN STUDIOS · GJØVIK, NORWAY · © MMXXVI</span>
+          <span className="mono text-[#8f8b82]">AAEN STUDIOS · © MMXXVI</span>
           <nav className="mono flex flex-wrap gap-x-6 gap-y-2">
             <a className="text-[#cfcbc2] no-underline transition-colors hover:text-red" href="#works">
               WORKS
