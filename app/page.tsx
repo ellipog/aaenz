@@ -1,18 +1,5 @@
 import Reveal from "@/components/reveal";
 
-const strip = [
-  "gen-void-figure",
-  "gen-beam-city",
-  "gen-cube-city-a",
-  "gen-red-ring",
-  "gen-clouds-engraving",
-  "gen-sphere-ring",
-  "gen-flock-diagonal",
-  "gen-wings-close",
-  "gen-octagon-ring",
-  "gen-winged-right-b",
-];
-
 const works = [
   {
     glyph: "核",
@@ -405,25 +392,6 @@ export default function Home() {
           </a>
         </div>
       </section>
-
-      <div
-        aria-hidden="true"
-        className={`group relative overflow-hidden border-b border-line bg-paper py-4 ${reveal}`}
-        data-reveal
-        id="strip"
-      >
-        <span className="pointer-events-none absolute inset-0 bg-[url('/assets/gen-screentone-sky.jpg')] bg-cover opacity-[.07] mix-blend-multiply [background-position:50%_30%] [filter:grayscale(1)]" />
-        <div className="relative flex w-max animate-slide items-center group-hover:[animation-play-state:paused] motion-reduce:animate-none">
-          {[...strip, ...strip].map((name, i) => (
-            <img
-              key={`${name}-${i}`}
-              alt=""
-              className="-mr-[14px] h-[170px] w-auto [filter:grayscale(1)_contrast(1.06)] nth-[3n+2]:h-[146px] nth-[3n+2]:-translate-y-[7px] nth-[3n]:h-[118px] nth-[3n]:translate-y-[9px] max-[760px]:h-[100px] max-[760px]:nth-[3n+2]:h-[92px] max-[760px]:nth-[3n]:h-[78px]"
-              src={`/assets/${name}.jpg`}
-            />
-          ))}
-        </div>
-      </div>
 
       <footer
         className={`relative grid min-h-[82vh] place-items-center overflow-hidden bg-ink text-paper ${reveal}`}
