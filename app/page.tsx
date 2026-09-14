@@ -62,12 +62,30 @@ export default function Home() {
       />
 
       <header className="fixed inset-x-0 top-0 z-[60] p-[20px_28px] text-paper mix-blend-difference">
-        <a
-          className="font-serif text-[28px] leading-none tracking-[.16em] no-underline"
-          href="#top"
-        >
-          aaen
-        </a>
+        <div className="flex items-baseline justify-between gap-4">
+          <a
+            className="font-serif text-[28px] leading-none tracking-[.16em] no-underline"
+            href="#top"
+          >
+            aaen
+          </a>
+          <nav className="mono flex gap-x-5">
+            <a className="no-underline transition-opacity hover:opacity-50" href="#works">
+              WORKS
+            </a>
+            <a
+              className="no-underline transition-opacity hover:opacity-50"
+              href="https://github.com/aaen-studios"
+              rel="noreferrer"
+              target="_blank"
+            >
+              GITHUB
+            </a>
+            <a className="no-underline transition-opacity hover:opacity-50" href="mailto:elliot@aaenz.no">
+              CONTACT
+            </a>
+          </nav>
+        </div>
       </header>
 
       <section
@@ -101,7 +119,7 @@ export default function Home() {
               aaen
             </h1>
             <p className="mono relative z-[1] mt-[20px] animate-rise text-paper [animation-delay:.5s] motion-reduce:animate-none">
-              A MESSAGE BETWEEN HUMAN AND MACHINE
+              SOFTWARE STUDIO · GJØVIK, NORWAY
             </p>
           </div>
         </div>
@@ -110,12 +128,12 @@ export default function Home() {
           className="absolute bottom-[66px] left-1/2 z-[1] h-[46px] w-px animate-cue bg-gradient-to-b from-paper/90 to-transparent motion-reduce:animate-none"
         />
         <p className="mono absolute inset-x-0 bottom-5 z-[1] m-0 animate-fade text-center text-paper [animation-delay:1s] motion-reduce:animate-none">
-          GJØVIK · NORWAY — MMXXVI
+          © MMXXVI AAEN STUDIOS
         </p>
       </section>
 
       <section
-        className={`relative overflow-hidden px-6 pb-[120px] pt-[150px] ${reveal}`}
+        className={`relative overflow-hidden px-6 pb-[190px] pt-[150px] ${reveal}`}
         data-reveal
         id="statement"
       >
@@ -129,16 +147,16 @@ export default function Home() {
         />
         <div className="relative mx-auto max-w-[1240px]">
           <h2 className="m-0 font-serif text-[clamp(40px,6.6vw,98px)] font-normal leading-[1.05] tracking-[.005em]">
-            Angels are{" "}
+            A software studio in Gjøvik, <em className="italic text-red">Norway</em>.
+            <br />
+            Software that lives on{" "}
             <span className="bg-[url('/assets/gen-clouds-engraving.jpg')] bg-cover bg-clip-text text-transparent [background-position:50%_62%] [filter:grayscale(1)_contrast(1.3)]">
-              messengers
+              your machine
             </span>
             .
-            <br />
-            <em className="italic text-red">This one carries a name.</em>
           </h2>
           <span className="mono mt-[34px] block text-faint">
-            ANGELUS NUNTIUS · THE ANGEL IS A MESSAGE
+            OPEN SOURCE DESKTOP TOOLS · LOCAL-FIRST SOFTWARE
           </span>
         </div>
       </section>
@@ -167,7 +185,7 @@ export default function Home() {
           天使
         </p>
         <p className="mono absolute bottom-6 left-[26px] m-0 text-paper mix-blend-difference max-[760px]:bottom-auto max-[760px]:left-5 max-[760px]:top-[88px]">
-          SAME LIGHT · BOTH HALVES
+          KERN · GALDR — OPEN SOURCE DESKTOP TOOLS
         </p>
       </section>
 
@@ -191,16 +209,16 @@ export default function Home() {
           />
         </div>
         <h3 className="m-0 mb-5 max-w-[20ch] font-serif text-[clamp(32px,4.6vw,58px)] font-normal leading-[1.04]">
-          Every circle is a halo.
+          Open source, and offline by default.
         </h3>
         <p className="m-0 mb-4 max-w-[56ch] text-dim">
-          Every halo is a signal. Nothing here sits in a frame — the light is the layout, the
-          silence is the margin, and the messenger is the medium.
+          kern and galdr are open source — read the code, open issues, fork them. Both are native
+          desktop apps for Windows, macOS and Linux.
         </p>
         <p className="m-0 mb-4 max-w-[56ch] text-dim">
-          Wings, rings and weather. Drawn once, carried far.
+          yomion runs in the browser and keeps your progress on your device. Syncing is optional.
         </p>
-        <span className="mono mt-[30px] block text-faint">WINGS · HALO · ORB</span>
+        <span className="mono mt-[30px] block text-faint">OPEN SOURCE · LOCAL-FIRST</span>
       </section>
 
       <section
@@ -236,9 +254,11 @@ export default function Home() {
           <ellipse cx="450" cy="150" rx="420" ry="118" strokeWidth="1" opacity=".5" />
         </svg>
         <p className="absolute bottom-[54px] left-1/2 m-0 w-[min(560px,86vw)] -translate-x-1/2 font-light text-dim">
-          The name is cut at the fold — wings inside the top half, ink outline in the bottom.
+          One studio, three works — designed, built and shipped in-house.
         </p>
-        <p className="mono absolute bottom-[18px] right-[26px] m-0 text-faint">AAEN · THE MESSENGER</p>
+        <p className="mono absolute bottom-[18px] right-[26px] m-0 text-faint">
+          OPEN SOURCE DESKTOP TOOLS · ONE PRODUCT
+        </p>
       </section>
 
       <figure
@@ -279,10 +299,10 @@ export default function Home() {
           className="pointer-events-none absolute left-1/2 top-[56px] aspect-square w-[calc(min(720px,82vw)+72px)] -translate-x-1/2 animate-orbit rounded-full border border-white/10 before:absolute before:-top-[3px] before:left-1/2 before:-ml-[3.5px] before:h-[7px] before:w-[7px] before:rounded-full before:bg-red before:content-[''] motion-reduce:animate-none"
         />
         <p className="mono pointer-events-none absolute left-1/2 top-[calc(92px+min(720px,82vw)/2)] z-[2] m-0 -translate-x-1/2 -translate-y-1/2 -rotate-[13deg] whitespace-nowrap border-y border-white/45 px-[30px] py-[10px] text-[12px] tracking-[.42em] text-paper mix-blend-difference max-[760px]:px-[18px] max-[760px]:py-2 max-[760px]:text-[10px] max-[760px]:tracking-[.28em]">
-          TRANSMISSION 01 · ANGELUS NUNTIUS
+          KERN — OPEN SOURCE SERVER MANAGER
         </p>
         <p className="mono absolute inset-x-0 top-[30px] z-[1] m-0 text-[#948f84]">
-          AND SOMETHING WATCHES BACK
+          FEATURED WORK
         </p>
       </section>
 
@@ -297,7 +317,7 @@ export default function Home() {
         >
           使者
         </span>
-        <span className="mono mt-[30px] block text-faint">SHISHA · THE CARRIER OF THE WORD</span>
+        <span className="mono mt-[30px] block text-faint">KERN · GALDR · YOMION</span>
       </section>
 
       <section
@@ -308,7 +328,7 @@ export default function Home() {
         <div className="mx-auto max-w-[1240px] text-center">
           <span className="mono block text-faint">THE WORKS</span>
           <h2 className="mx-auto m-0 mt-5 max-w-[14ch] font-serif text-[clamp(36px,5vw,72px)] font-normal leading-[1.06]">
-            Three works, <em className="italic text-red">carried far</em>.
+            Three works, <em className="italic text-red">shipped and kept</em>.
           </h2>
         </div>
 
@@ -442,9 +462,55 @@ export default function Home() {
             ELLIOT@AAENZ.NO · GJØVIK · NORWAY
           </span>
         </div>
-        <p className="mono absolute inset-x-0 bottom-5 z-[1] m-0 text-center text-[#8f8b82]">
-          AAEN STUDIOS — MMXXVI
-        </p>
+      </footer>
+
+      <footer className="relative border-t border-white/10 bg-ink px-6 py-8 text-paper">
+        <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-x-10 gap-y-4">
+          <span className="mono text-[#8f8b82]">AAEN STUDIOS · GJØVIK, NORWAY · © MMXXVI</span>
+          <nav className="mono flex flex-wrap gap-x-6 gap-y-2">
+            <a className="text-[#cfcbc2] no-underline transition-colors hover:text-red" href="#works">
+              WORKS
+            </a>
+            <a
+              className="text-[#cfcbc2] no-underline transition-colors hover:text-red"
+              href="https://kern.aaenz.no"
+              rel="noreferrer"
+              target="_blank"
+            >
+              KERN
+            </a>
+            <a
+              className="text-[#cfcbc2] no-underline transition-colors hover:text-red"
+              href="https://github.com/aaen-studios/galdr"
+              rel="noreferrer"
+              target="_blank"
+            >
+              GALDR
+            </a>
+            <a
+              className="text-[#cfcbc2] no-underline transition-colors hover:text-red"
+              href="https://yomion.com"
+              rel="noreferrer"
+              target="_blank"
+            >
+              YOMION
+            </a>
+            <a
+              className="text-[#cfcbc2] no-underline transition-colors hover:text-red"
+              href="https://github.com/aaen-studios"
+              rel="noreferrer"
+              target="_blank"
+            >
+              GITHUB
+            </a>
+            <a
+              className="text-[#cfcbc2] no-underline transition-colors hover:text-red"
+              href="mailto:elliot@aaenz.no"
+            >
+              CONTACT
+            </a>
+          </nav>
+        </div>
       </footer>
     </>
   );

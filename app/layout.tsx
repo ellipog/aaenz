@@ -2,8 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "aaen",
-  description: "A message between human and machine.",
+  title: "aaen studios — software from Gjøvik, Norway",
+  description:
+    "Independent software studio in Gjøvik, Norway. kern and galdr are open source desktop tools; yomion is a Japanese-learning app.",
   icons: {
     icon: "/favicon.svg",
   },
