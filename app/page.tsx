@@ -272,28 +272,6 @@ export default function Home() {
       </figure>
 
       <section
-        className={`relative z-[2] overflow-clip bg-ink px-6 pb-[52px] pt-[92px] text-center [overflow-clip-margin:140px] ${reveal}`}
-        data-reveal
-        id="lens"
-      >
-        <img
-          alt="A pale giant above the clouds"
-          className="mx-auto -mb-[90px] block aspect-square w-[min(720px,82vw)] animate-lens rounded-full object-cover shadow-[0_0_0_1px_var(--color-red),0_0_0_6px_rgba(16,16,16,.06)] [filter:grayscale(1)_contrast(1.12)] motion-reduce:animate-none"
-          src="/assets/gen-colossus-clouds.jpg"
-        />
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-[56px] aspect-square w-[calc(min(720px,82vw)+72px)] -translate-x-1/2 animate-orbit rounded-full border border-white/10 before:absolute before:-top-[3px] before:left-1/2 before:-ml-[3.5px] before:h-[7px] before:w-[7px] before:rounded-full before:bg-red before:content-[''] motion-reduce:animate-none"
-        />
-        <p className="mono pointer-events-none absolute left-1/2 top-[calc(92px+min(720px,82vw)/2)] z-[2] m-0 -translate-x-1/2 -translate-y-1/2 -rotate-[13deg] whitespace-nowrap border-y border-white/45 px-[30px] py-[10px] text-[12px] tracking-[.42em] text-paper mix-blend-difference max-[760px]:px-[18px] max-[760px]:py-2 max-[760px]:text-[10px] max-[760px]:tracking-[.28em]">
-          KERN — OPEN SOURCE SERVER MANAGER
-        </p>
-        <p className="mono absolute inset-x-0 top-[30px] z-[1] m-0 text-[#948f84]">
-          FEATURED WORK
-        </p>
-      </section>
-
-      <section
         className={`relative -mt-[150px] overflow-hidden bg-paper px-6 pb-7 pt-[130px] text-center ${reveal}`}
         data-reveal
         id="glyph"
