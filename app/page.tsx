@@ -1,3 +1,4 @@
+import Downloads from "@/components/downloads";
 import Reveal from "@/components/reveal";
 
 const works = [
@@ -371,6 +372,79 @@ export default function Home() {
         </div>
       </section>
 
+      <section
+        className={`relative bg-paper px-6 pb-[120px] pt-[110px] text-center ${reveal}`}
+        data-reveal
+        id="elsewhere"
+      >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-[170px] left-1/2 h-[170px] w-px bg-[linear-gradient(transparent,var(--color-red))]"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute left-1/2 top-[6px] h-[7px] w-[7px] -translate-x-1/2 rounded-full bg-red"
+        />
+        <span className="mono block text-faint">ELSEWHERE</span>
+        <h2 className="m-0 mt-5 font-serif text-[clamp(36px,5vw,72px)] font-normal leading-[1.06]">
+          One studio,
+          <br />
+          <em className="italic text-red">two names</em>.
+        </h2>
+        <p className="mx-auto m-0 mt-6 max-w-[56ch] text-dim">
+          Under the names ellipog and stellar, the same hands build for Minecraft — technical
+          core mods, multi-loader libraries, data-driven gameplay systems and modpack tools,
+          on Fabric and NeoForge.
+        </p>
+        <div className="mt-10 flex flex-col items-center gap-4">
+          <a
+            className="group relative z-[1] block"
+            href="https://ellipog.dev"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span
+              className={`block bg-clip-text bg-[url('/assets/gen-sphere-ring.jpg')] font-serif text-[clamp(64px,12vw,160px)] font-light leading-none tracking-[.01em] text-transparent [background-size:500%_auto] [background-position:49%_48%] [filter:grayscale(1)_contrast(1.6)_brightness(.82)] transition-[filter] duration-500 group-hover:[filter:grayscale(1)_contrast(1.6)_brightness(.82)_invert(1)] ${parallax}`}
+            >
+              ellipog
+            </span>
+          </a>
+          <a
+            className="group relative z-[1] flex flex-col items-center gap-2"
+            href="https://discord.gg/uy9QFaQWR7"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img alt="" className="w-[96px]" src="/assets/stellar-mark.png" />
+            <span className="block font-serif text-[clamp(40px,7vw,96px)] font-light leading-none tracking-[.08em] text-transparent [-webkit-text-stroke:1px_var(--color-ink)] group-hover:[-webkit-text-stroke-color:var(--color-red)]">
+              stellar
+            </span>
+          </a>
+        </div>
+        <div className="mt-6 flex min-h-[17px] items-center justify-center">
+          <Downloads />
+        </div>
+        <p className="mono mt-6 text-faint">
+          <a
+            className="transition-colors hover:text-red"
+            href="https://modrinth.com/user/Ellipog"
+            rel="noreferrer"
+            target="_blank"
+          >
+            MODRINTH ↗
+          </a>{" "}
+          ·{" "}
+          <a
+            className="transition-colors hover:text-red"
+            href="https://www.curseforge.com/members/ellipog/projects"
+            rel="noreferrer"
+            target="_blank"
+          >
+            CURSEFORGE ↗
+          </a>
+        </p>
+      </section>
+
       <footer
         className={`relative grid min-h-[82vh] place-items-center overflow-hidden bg-ink text-paper ${reveal}`}
         data-reveal
@@ -440,6 +514,14 @@ export default function Home() {
               target="_blank"
             >
               YOMION
+            </a>
+            <a
+              className="text-[#cfcbc2] no-underline transition-colors hover:text-red"
+              href="https://ellipog.dev"
+              rel="noreferrer"
+              target="_blank"
+            >
+              ELLIPOG
             </a>
             <a
               className="text-[#cfcbc2] no-underline transition-colors hover:text-red"

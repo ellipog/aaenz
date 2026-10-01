@@ -37,7 +37,7 @@ Hard rules for any new plate:
 | `gen-cable-descent.jpg` | descent on a cable, almost all black | close backdrop, kern name fill |
 | `gen-beam-city.jpg` | cross of light over hairline city | slats band (masked into slats) |
 | `gen-octagon-ring.jpg` | black disc of concentric octagonal rings | hero lens rim, shapes disc |
-| `gen-sphere-ring.jpg` | black orb, one thin ring | shapes circle |
+| `gen-sphere-ring.jpg` | black orb, one thin ring | shapes circle · ellipog name fill (elsewhere) |
 | `gen-colossus-clouds.jpg` | pale faceless giant above clouds | FEATURED WORK circle |
 | `gen-winged-right-a.jpg` | winged figure, ink | mirror band, doubled and reflected |
 | `gen-wings-close.jpg` | feather close-up | AAEN fill in the knock |
@@ -102,8 +102,9 @@ English, lowercase studio, factual, unhurried. Sentence-case headlines with one 
 7. **lens** — FEATURED WORK; the colossus circle with its red hairline, orbiting satellite and askew sash KERN — OPEN SOURCE SERVER MANAGER.
 8. **glyph** — 使者 filled with the procession plate; caption KERN · GALDR · YOMION.
 9. **works** — "Three works, *shipped and kept*."; the orbit registry: ticks, satellite, red spokes, outline glyphs, image-filled names kern / galdr / yomion, ink disc at the centre.
-10. **word** — cable-descent darkness; "send word" and ELLIOT@AAENZ.NO; the red seal 使者.
-11. **close** — the bar: AAEN STUDIOS · © MMXXVI + nav.
+10. **elsewhere** — paper; the red satellite comes down the thread from the works dial; "One studio, *two names*."; ellipog image-filled with the orb-and-ring; beneath it the Stellar lockup — the brand's own star-and-beams mark over `stellar` in outline; live Modrinth + CurseForge download count; MODRINTH · CURSEFORGE micro-links.
+11. **word** — cable-descent darkness; "send word" and ELLIOT@AAENZ.NO; the red seal 使者.
+12. **close** — the bar: AAEN STUDIOS · © MMXXVI + nav.
 
 ## Do / Don't
 
