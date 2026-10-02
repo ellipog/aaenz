@@ -104,7 +104,7 @@ English, lowercase studio, factual, unhurried. Sentence-case headlines with one 
 9. **works** — "Three works, *shipped and kept*."; the orbit registry: ticks, satellite, red spokes, outline glyphs, image-filled names kern / galdr / yomion, ink disc at the centre.
 10. **elsewhere** — paper; the red satellite comes down the thread from the works dial; "One studio, *two names*."; ellipog image-filled with the orb-and-ring; beneath it the Stellar lockup — the brand's own star-and-beams mark over `stellar` in outline; live Modrinth + CurseForge download count; MODRINTH · CURSEFORGE micro-links.
 11. **word** — cable-descent darkness; "send word" and ELLIOT@AAENZ.NO; the red seal 使者.
-12. **close** — the bar: AAEN STUDIOS · © MMXXVI + nav.
+12. **close** — the bar: AAEN STUDIOS · © MMXXVI + nav, with the founder credit ELLIOT STRAND AAEN — FOUNDER & LEAD ENGINEER in the left column.
 
 ## Do / Don't
 

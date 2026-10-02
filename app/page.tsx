@@ -486,7 +486,10 @@ export default function Home() {
 
       <footer className="relative border-t border-white/10 bg-ink px-6 py-8 text-paper">
         <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-x-10 gap-y-4">
-          <span className="mono text-[#8f8b82]">AAEN STUDIOS · © MMXXVI</span>
+          <div className="flex flex-col gap-y-1.5">
+            <span className="mono text-[#8f8b82]">AAEN STUDIOS · © MMXXVI</span>
+            <span className="mono text-[#cfcbc2]">ELLIOT STRAND AAEN — FOUNDER &amp; LEAD ENGINEER</span>
+          </div>
           <nav className="mono flex flex-wrap gap-x-6 gap-y-2">
             <a className="text-[#cfcbc2] no-underline transition-colors hover:text-red" href="#works">
               WORKS
