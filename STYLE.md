@@ -67,7 +67,7 @@ Never: red body copy, red backgrounds, red logos at scale, more than a few red m
 - **Cormorant Garamond** — display. Lowercase wordmark `aaen` with wide tracking; headlines in sentence case; giant display type may be image-filled (window onto a plate) or reduced to a 1px outline.
 - **Inter** — body and UI. 15px / 1.65, `dim` for secondary paragraphs.
 - **JetBrains Mono** — the micro-type system: 11px, `.16em` tracking, uppercase. Captions, labels, nav, metadata, always anchored at edges and corners, separators `·` and `—`.
-- **Zen Old Mincho** — kanji only, generously tracked, set vertically at plate edges (天使, 光).
+- **Hina Mincho** — kanji only, generously tracked, set vertically at plate edges (天使, 光). One weight, drawn light: the seals read as brushed or stamped rather than typeset, and the plates show through them.
 
 Type never competes with the image. A headline either sits in empty paper or melts into the plate (image-filled text: "your machine", AAEN, 使者, the product names). No other fonts, no bold display, no sans headings.
 
