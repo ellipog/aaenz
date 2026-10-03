@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import Downloads from "@/components/downloads";
 import Reveal from "@/components/reveal";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const works = [
   {
@@ -34,8 +39,8 @@ const stationLayout = [
   "md:absolute md:left-1/2 md:top-full md:mt-10 md:w-[min(52vw,480px)] md:-translate-x-1/2 md:text-center",
 ];
 
-const reveal =
-  "opacity-0 translate-y-7 transition-[opacity,transform] duration-[1100ms] ease-[cubic-bezier(.22,.61,.36,1)] [&.in]:opacity-100 [&.in]:translate-y-0 motion-reduce:opacity-100 motion-reduce:translate-y-0 motion-reduce:transition-none";
+// The hidden start state lives in `globals.css`, armed only when scripts can run.
+const reveal = "reveal";
 
 const parallax =
   "supports-[animation-timeline:view()]:[animation-timeline:view()] supports-[animation-timeline:view()]:motion-reduce:[animation:none]";
@@ -105,6 +110,7 @@ export default function Home() {
             />
             <h1 className="relative z-[1] -mt-28 animate-rise font-serif text-[clamp(96px,22vw,300px)] font-light leading-[.9] tracking-[.06em] text-paper [animation-delay:.32s] motion-reduce:animate-none">
               aaen
+              <span className="sr-only"> studios</span>
             </h1>
             <p className="mono relative z-[1] mt-[20px] animate-rise text-paper [animation-delay:.5s] motion-reduce:animate-none">
               SOFTWARE STUDIO
@@ -143,6 +149,10 @@ export default function Home() {
             </span>
             .
           </h2>
+          <p className="m-0 mt-8 max-w-[46ch] text-dim">
+            aaen studios is an independent software studio. Its three works — kern, galdr and
+            yomion — are built and kept in-house by Elliot Strand Aaen.
+          </p>
           <span className="mono mt-[34px] block text-faint">
             OPEN SOURCE DESKTOP TOOLS · LOCAL-FIRST SOFTWARE
           </span>

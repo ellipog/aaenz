@@ -1,10 +1,29 @@
 import type { Metadata, Viewport } from "next";
+import SiteSchema from "@/components/site-schema";
 import "./globals.css";
 
+const title = "aaen studios — open source tools and products";
+const description =
+  "aaen studios is an independent software studio by Elliot Strand Aaen — maker of kern and galdr, open source desktop tools, and yomion, a local-first Japanese-learning app.";
+
 export const metadata: Metadata = {
-  title: "aaen studios — open source tools and products",
-  description:
-    "Independent software studio. kern and galdr are open source desktop tools; yomion is a Japanese-learning app.",
+  metadataBase: new URL("https://aaenz.no"),
+  title,
+  description,
+  applicationName: "aaen studios",
+  openGraph: {
+    type: "website",
+    siteName: "aaen studios",
+    locale: "en",
+    url: "https://aaenz.no/",
+    title,
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 
   /*
    * The tab icon: the studio's own mark, one file per ground, resolved before first paint.
@@ -57,6 +76,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/*
+         * The class below arms the reveal animation in `globals.css`. Without scripting —
+         * crawlers, readers with JS off — it never lands, and every band stays visible.
+         */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -64,7 +88,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <SiteSchema />
+        {children}
+      </body>
     </html>
   );
 }

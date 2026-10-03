@@ -40,3 +40,10 @@ next-env.d.ts
 
 # brainstorming companion mockups
 /.superpowers/
+
+# local specimen bench — deliberately not public, never shipped
+/app/type-lab/
+/public/fonts-lab/
+
+# agent workspace
+/.zcode/
