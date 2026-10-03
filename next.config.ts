@@ -8,6 +8,18 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: import.meta.dirname,
   },
+  // One origin, one page: www answers on its own otherwise, and two live hosts
+  // for the same markup split the signals the canonical is meant to merge.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.aaenz.no" }],
+        destination: "https://aaenz.no/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
