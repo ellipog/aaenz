@@ -134,21 +134,17 @@ export default function Home() {
         />
         <div className="relative mx-auto max-w-[1240px]">
           <h2 className="m-0 font-serif text-[clamp(40px,6.6vw,98px)] font-normal leading-[1.05] tracking-[.005em]">
-            A software <em className="italic text-red">studio</em>.
+            Built to be <em className="italic text-red">stood on</em>.
             <br />
-            Tools that live on{" "}
-            <span className="bg-[url('/assets/gen-clouds-engraving.jpg')] bg-cover bg-clip-text text-transparent [background-position:50%_62%] [filter:grayscale(1)_contrast(1.3)]">
-              your machine
-            </span>
-            .
+            Foundations for play, tools for work.
           </h2>
           <p className="m-0 mt-8 max-w-[46ch] text-dim">
-            aaen studios is an independent software studio. Its infrastructure — Armature and
-            Tenet — plus kern and galdr for desktop, are built and kept in-house by Elliot
-            Strand Aaen.
+            aaen studios is an independent software studio. Armature and Tenet are its
+            foundations, kern and galdr its tools — all designed, built and kept in-house by
+            Elliot Strand Aaen.
           </p>
           <span className="mono mt-[34px] block text-faint">
-            OPEN SOURCE DESKTOP TOOLS · LOCAL-FIRST SOFTWARE
+            OPEN SOURCE · OFFLINE BY DEFAULT
           </span>
         </div>
       </section>
@@ -302,7 +298,7 @@ export default function Home() {
         />
         <span className="mono block text-faint">MINECRAFT</span>
         <h2 className="m-0 mt-5 font-serif text-[clamp(36px,5vw,72px)] font-normal leading-[1.06]">
-          Foundations, <em className="italic text-red">not addons</em>.
+          The <em className="italic text-red">load-bearing</em> parts.
         </h2>
         <p className="mx-auto m-0 mt-6 max-w-[56ch] text-dim">
           Two systems from the same hands — a runtime everything stands on, and an engine that
@@ -485,35 +481,46 @@ export default function Home() {
       >
         <img
           alt=""
-          className={`absolute inset-0 h-full w-full object-cover opacity-85 [filter:grayscale(1)_contrast(1.1)] [object-position:50%_20%] max-[760px]:[object-position:50%_50%] supports-[animation-timeline:view()]:animate-para-c ${parallax}`}
+          className={`absolute inset-0 h-full w-full object-cover opacity-70 [filter:grayscale(1)_contrast(1.1)] [object-position:42%_20%] max-[760px]:[object-position:50%_50%] supports-[animation-timeline:view()]:animate-para-c ${parallax}`}
           src="/assets/gen-cable-descent.jpg"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(16,16,16,.05)_12%,rgba(16,16,16,.62)_40%,rgba(16,16,16,.62)_64%,rgba(16,16,16,.28)_84%)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(16,16,16,.05)_12%,rgba(16,16,16,.72)_40%,rgba(16,16,16,.72)_64%,rgba(16,16,16,.28)_84%)]"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[min(760px,94vw)] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,rgba(16,16,16,.8),transparent)]"
         />
         <span className="jp absolute right-9 top-9 z-[2] grid h-[76px] w-[76px] -rotate-3 place-items-center border border-red text-[27px] tracking-[.1em] text-red max-[760px]:right-[22px] max-[760px]:top-[22px] max-[760px]:h-[60px] max-[760px]:w-[60px] max-[760px]:text-[21px]">
           使者
         </span>
         <div className={`relative z-[1] px-6 py-20 text-center ${reveal}`} data-reveal>
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-1/2 aspect-[2.3] w-[min(560px,84vw)] -translate-x-1/2 -translate-y-[58%] rounded-full border border-white/25"
-          />
-          <img
-            alt=""
-            className="mx-auto mb-9 w-16 opacity-95 mix-blend-difference"
-            src="/assets/logo-mark-light.png"
-          />
+          <span className="mx-auto mb-9 grid h-24 w-24 place-items-center rounded-full bg-ink shadow-[0_0_0_1px_var(--color-red)]">
+            <img alt="" className="w-12 opacity-95" src="/assets/logo-mark-light.png" />
+          </span>
+          <span className="relative inline-block px-12 py-8">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -inset-x-10 inset-y-0 rounded-full border border-white/25"
+            />
+            <a
+              className="relative font-serif text-[clamp(56px,10vw,150px)] font-light italic leading-none no-underline transition-colors hover:text-red"
+              href="mailto:elliot@aaenz.no"
+            >
+              send word
+            </a>
+          </span>
           <a
-            className="font-serif text-[clamp(56px,10vw,150px)] font-light italic leading-none no-underline hover:text-red hover:underline hover:decoration-1 hover:underline-offset-[.14em]"
+            className="mono mt-[30px] block text-[#cfcbc2] no-underline transition-colors hover:text-red"
             href="mailto:elliot@aaenz.no"
           >
-            send word
-          </a>
-          <span className="mono mt-[30px] block text-[#cfcbc2]">
             ELLIOT@AAENZ.NO
-          </span>
+          </a>
+          <p className="mx-auto m-0 mt-5 max-w-[44ch] font-light text-[#cfcbc2]">
+            Open for projects, collaborations and commissions — or just a good word about
+            anything.
+          </p>
         </div>
       </footer>
 
