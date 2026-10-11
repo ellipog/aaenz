@@ -4,7 +4,7 @@ import "./globals.css";
 
 const title = "aaen studios — open source tools and products";
 const description =
-  "Aaen Studios is an independent software studio by Elliot — Armature and Tenet for Minecraft on Fabric and NeoForge, plus kern and galdr, open source desktop tools, and yomion, a local-first Japanese-learning app.";
+  "Aaen Studios is an independent software studio — Armature and Tenet for Minecraft on Fabric and NeoForge, plus kern and galdr, open source desktop tools, and yomion, a local-first Japanese-learning app.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aaenz.no"),
