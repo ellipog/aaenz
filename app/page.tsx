@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Downloads from "@/components/downloads";
 import Reveal from "@/components/reveal";
 
 export const metadata: Metadata = {
@@ -23,20 +22,11 @@ const works = [
     href: "https://github.com/aaen-studios/galdr",
     fill: "bg-[url('/assets/gen-clouds-engraving.jpg'),linear-gradient(#999,#999)] bg-[size:220%_auto,100%_100%] bg-[position:24%_42%,0_0] [background-blend-mode:multiply]",
   },
-  {
-    glyph: "読",
-    name: "yomion",
-    desc: "A Japanese-learning app — typing trainer, FSRS flashcard engine, kanji path, and an AI conversation partner. Local-first, with cloud sync when you want it.",
-    meta: "PRODUCT · WEB · LOCAL-FIRST",
-    href: "https://yomion.com",
-    fill: "bg-[url('/assets/gen-flock-diagonal.jpg')] bg-[size:100%_auto] bg-[position:50%_46%]",
-  },
 ];
 
 const stationLayout = [
   "md:absolute md:right-full md:top-1/2 md:-mr-[22px] md:w-[min(22vw,320px)] md:-translate-y-1/2 md:text-right",
   "md:absolute md:left-full md:top-1/2 md:-ml-[22px] md:w-[min(22vw,320px)] md:-translate-y-1/2",
-  "md:absolute md:left-1/2 md:top-full md:mt-10 md:w-[min(52vw,480px)] md:-translate-x-1/2 md:text-center",
 ];
 
 // The hidden start state lives in `globals.css`, armed only when scripts can run.
@@ -63,6 +53,9 @@ export default function Home() {
             aaen
           </a>
           <nav className="mono flex gap-x-5">
+            <a className="no-underline transition-opacity hover:opacity-50" href="/minecraft">
+              MINECRAFT
+            </a>
             <a className="no-underline transition-opacity hover:opacity-50" href="#works">
               WORKS
             </a>
@@ -150,8 +143,9 @@ export default function Home() {
             .
           </h2>
           <p className="m-0 mt-8 max-w-[46ch] text-dim">
-            aaen studios is an independent software studio. Its three works — kern, galdr and
-            yomion — are built and kept in-house by Elliot Strand Aaen.
+            aaen studios is an independent software studio. Its infrastructure — Armature and
+            Tenet — plus kern and galdr for desktop, are built and kept in-house by Elliot
+            Strand Aaen.
           </p>
           <span className="mono mt-[34px] block text-faint">
             OPEN SOURCE DESKTOP TOOLS · LOCAL-FIRST SOFTWARE
@@ -213,9 +207,6 @@ export default function Home() {
           kern and galdr are open source — read the code, open issues, fork them. Both are native
           desktop apps for Windows, macOS and Linux.
         </p>
-        <p className="m-0 mb-4 max-w-[56ch] text-dim">
-          yomion runs in the browser and keeps your progress on your device. Syncing is optional.
-        </p>
         <span className="mono mt-[30px] block text-faint">OPEN SOURCE · LOCAL-FIRST</span>
       </section>
 
@@ -252,10 +243,10 @@ export default function Home() {
           <ellipse cx="450" cy="150" rx="420" ry="118" strokeWidth="1" opacity=".5" />
         </svg>
         <p className="absolute bottom-[54px] left-1/2 m-0 w-[min(560px,86vw)] -translate-x-1/2 font-light text-dim">
-          One studio, three works — designed, built and shipped in-house.
+          One studio, two crafts — designed, built and shipped in-house.
         </p>
         <p className="mono absolute bottom-[18px] right-[26px] m-0 text-faint">
-          OPEN SOURCE DESKTOP TOOLS · ONE PRODUCT
+          OPEN SOURCE · DESKTOP + MINECRAFT
         </p>
       </section>
 
@@ -293,7 +284,102 @@ export default function Home() {
         >
           使者
         </span>
-        <span className="mono mt-[30px] block text-faint">KERN · GALDR · YOMION</span>
+        <span className="mono mt-[30px] block text-faint">KERN · GALDR</span>
+      </section>
+
+      <section
+        className={`relative bg-paper px-6 pb-[120px] pt-[110px] text-center ${reveal}`}
+        data-reveal
+        id="minecraft"
+      >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-[170px] left-1/2 h-[170px] w-px bg-[linear-gradient(transparent,var(--color-red))]"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute left-1/2 top-[6px] h-[7px] w-[7px] -translate-x-1/2 rounded-full bg-red"
+        />
+        <span className="mono block text-faint">MINECRAFT</span>
+        <h2 className="m-0 mt-5 font-serif text-[clamp(36px,5vw,72px)] font-normal leading-[1.06]">
+          Foundations, <em className="italic text-red">not addons</em>.
+        </h2>
+        <p className="mx-auto m-0 mt-6 max-w-[56ch] text-dim">
+          Two systems from the same hands — a runtime everything stands on, and an engine that
+          decides what counts as done.
+        </p>
+        <div className="relative mx-auto mt-14 max-w-[1100px]">
+          <div className="relative -mx-6 overflow-hidden">
+            <img
+              alt=""
+              className={`h-[320px] w-full object-cover [filter:grayscale(1)_contrast(1.1)] supports-[animation-timeline:view()]:animate-para-c ${parallax}`}
+              src="/assets/gen-clouds-engraving.jpg"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,var(--color-paper))]"
+            />
+            <span className="mono absolute bottom-4 left-1/2 -translate-x-1/2 text-paper mix-blend-difference">
+              A CAUSEWAY · TWO MONUMENTS
+            </span>
+          </div>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-0 h-full w-px bg-[linear-gradient(var(--color-red),transparent_70%)] max-md:hidden"
+          />
+
+          <a className="group relative z-[1] -mt-10 block no-underline" href="/minecraft">
+            <span className="flex items-center gap-3">
+              <span className="mono text-faint">01 · RUNTIME</span>
+              <span className="jp grid h-[44px] w-[44px] -rotate-3 place-items-center border border-red text-[20px] text-red">
+                基
+              </span>
+            </span>
+            <span className="mt-1 block font-serif text-[clamp(72px,15vw,210px)] font-light leading-[.9] text-ink transition-colors group-hover:text-red">
+              armature
+            </span>
+            <span className="mt-4 block max-w-[52ch] text-[14px] leading-snug text-dim">
+              A loader seam with strict contracts — ordered events, typed networking, teams
+              resolved by precedence.
+            </span>
+          </a>
+
+          <a
+            className="group relative z-[1] mt-20 block text-right no-underline max-md:text-left"
+            href="/minecraft"
+          >
+            <span className="flex items-center justify-end gap-3 max-md:justify-start">
+              <span className="mono text-faint">02 · ENGINE</span>
+              <span className="jp grid h-[44px] w-[44px] rotate-2 place-items-center border border-red text-[20px] text-red">
+                律
+              </span>
+            </span>
+            <span className="mt-1 block font-serif text-[clamp(72px,15vw,210px)] font-light leading-[.9] text-ink transition-colors group-hover:text-red">
+              tenet
+            </span>
+            <span className="ml-auto mt-4 block max-w-[52ch] text-[14px] leading-snug text-dim max-md:ml-0">
+              A declarative quest engine — validated to file and line, the server as sole
+              arbiter.
+            </span>
+          </a>
+        </div>
+        <p className="mono mt-8 text-faint">
+          <a
+            className="transition-colors hover:text-red"
+            href="/minecraft"
+          >
+            FULL PAGE →
+          </a>{" "}
+          ·{" "}
+          <a
+            className="transition-colors hover:text-red"
+            href="https://ellipog.dev"
+            rel="noreferrer"
+            target="_blank"
+          >
+            ELLIPOG.DEV ↗
+          </a>
+        </p>
       </section>
 
       <section
@@ -302,9 +388,9 @@ export default function Home() {
         id="works"
       >
         <div className="mx-auto max-w-[1240px] text-center">
-          <span className="mono block text-faint">THE WORKS</span>
+          <span className="mono block text-faint">DESKTOP</span>
           <h2 className="mx-auto m-0 mt-5 max-w-[14ch] font-serif text-[clamp(36px,5vw,72px)] font-normal leading-[1.06]">
-            Three works, <em className="italic text-red">shipped and kept</em>.
+            Two tools, <em className="italic text-red">shipped and kept</em>.
           </h2>
         </div>
 
@@ -331,12 +417,11 @@ export default function Home() {
           </div>
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 max-md:hidden">
             <span className="absolute left-1/2 top-1/2 h-px w-1/2 origin-left rotate-0 bg-red/30" />
-            <span className="absolute left-1/2 top-1/2 h-px w-1/2 origin-left rotate-90 bg-red/30" />
             <span className="absolute left-1/2 top-1/2 h-px w-1/2 origin-left rotate-180 bg-red/30" />
             {works.map((w, i) => (
               <span
                 key={w.name}
-                className={`jp absolute -translate-x-1/2 -translate-y-1/2 select-none text-[72px] leading-none text-transparent [-webkit-text-stroke:1px_rgba(16,16,16,.28)] ${["left-[25%] top-1/2", "left-[75%] top-1/2", "left-1/2 top-[75%]"][i]}`}
+                className={`jp absolute -translate-x-1/2 -translate-y-1/2 select-none text-[72px] leading-none text-transparent [-webkit-text-stroke:1px_rgba(16,16,16,.28)] ${["left-[25%] top-1/2", "left-[75%] top-1/2"][i]}`}
               >
                 {w.glyph}
               </span>
@@ -345,7 +430,6 @@ export default function Home() {
           <div aria-hidden="true" className="pointer-events-none absolute inset-0">
             <span className="absolute left-0 top-1/2 h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-red max-md:hidden" />
             <span className="absolute right-0 top-1/2 h-[7px] w-[7px] translate-x-1/2 -translate-y-1/2 rounded-full bg-red max-md:hidden" />
-            <span className="absolute bottom-0 left-1/2 h-[7px] w-[7px] -translate-x-1/2 translate-y-1/2 rounded-full bg-red max-md:hidden" />
           </div>
 
           <div className="relative z-[1] grid h-[72px] w-[72px] place-items-center rounded-full bg-ink shadow-[0_0_0_1px_var(--color-red),0_0_0_8px_rgba(16,16,16,.05)] max-md:order-first md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
@@ -380,78 +464,17 @@ export default function Home() {
             GITHUB.COM/AAEN-STUDIOS ↗
           </a>
         </div>
-      </section>
-
-      <section
-        className={`relative bg-paper px-6 pb-[120px] pt-[110px] text-center ${reveal}`}
-        data-reveal
-        id="elsewhere"
-      >
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-[170px] left-1/2 h-[170px] w-px bg-[linear-gradient(transparent,var(--color-red))]"
-        />
-        <span
-          aria-hidden="true"
-          className="absolute left-1/2 top-[6px] h-[7px] w-[7px] -translate-x-1/2 rounded-full bg-red"
-        />
-        <span className="mono block text-faint">ELSEWHERE</span>
-        <h2 className="m-0 mt-5 font-serif text-[clamp(36px,5vw,72px)] font-normal leading-[1.06]">
-          One studio,
-          <br />
-          <em className="italic text-red">two names</em>.
-        </h2>
-        <p className="mx-auto m-0 mt-6 max-w-[56ch] text-dim">
-          Under the names ellipog and stellar, the same hands build for Minecraft — technical
-          core mods, multi-loader libraries, data-driven gameplay systems and modpack tools,
-          on Fabric and NeoForge.
-        </p>
-        <div className="mt-10 flex flex-col items-center gap-4">
-          <a
-            className="group relative z-[1] block"
-            href="https://ellipog.dev"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span
-              className={`block bg-clip-text bg-[url('/assets/gen-sphere-ring.jpg')] font-serif text-[clamp(64px,12vw,160px)] font-light leading-none tracking-[.01em] text-transparent [background-size:500%_auto] [background-position:49%_48%] [filter:grayscale(1)_contrast(1.6)_brightness(.82)] transition-[filter] duration-500 group-hover:[filter:grayscale(1)_contrast(1.6)_brightness(.82)_invert(1)] ${parallax}`}
-            >
-              ellipog
-            </span>
-          </a>
-          <a
-            className="group relative z-[1] flex flex-col items-center gap-2"
-            href="https://discord.gg/uy9QFaQWR7"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <img alt="" className="w-[96px]" src="/assets/stellar-mark.png" />
-            <span className="block font-serif text-[clamp(40px,7vw,96px)] font-light leading-none tracking-[.08em] text-transparent [-webkit-text-stroke:1px_var(--color-ink)] group-hover:[-webkit-text-stroke-color:var(--color-red)]">
-              stellar
-            </span>
-          </a>
-        </div>
-        <div className="mt-6 flex min-h-[17px] items-center justify-center">
-          <Downloads />
-        </div>
-        <p className="mono mt-6 text-faint">
+        <p className="mono mx-auto mt-10 max-w-[1240px] text-center text-faint">
+          ALSO —{" "}
           <a
             className="transition-colors hover:text-red"
-            href="https://modrinth.com/user/Ellipog"
+            href="https://yomion.com"
             rel="noreferrer"
             target="_blank"
           >
-            MODRINTH ↗
-          </a>{" "}
-          ·{" "}
-          <a
-            className="transition-colors hover:text-red"
-            href="https://www.curseforge.com/members/ellipog/projects"
-            rel="noreferrer"
-            target="_blank"
-          >
-            CURSEFORGE ↗
+            YOMION ↗
           </a>
+          , A QUIET WEB EXPERIMENT
         </p>
       </section>
 
@@ -501,6 +524,9 @@ export default function Home() {
             <span className="mono text-[#cfcbc2]">ELLIOT STRAND AAEN — FOUNDER &amp; LEAD ENGINEER</span>
           </div>
           <nav className="mono flex flex-wrap gap-x-6 gap-y-2">
+            <a className="text-[#cfcbc2] no-underline transition-colors hover:text-red" href="/minecraft">
+              MINECRAFT
+            </a>
             <a className="text-[#cfcbc2] no-underline transition-colors hover:text-red" href="#works">
               WORKS
             </a>
@@ -527,14 +553,6 @@ export default function Home() {
               target="_blank"
             >
               YOMION
-            </a>
-            <a
-              className="text-[#cfcbc2] no-underline transition-colors hover:text-red"
-              href="https://ellipog.dev"
-              rel="noreferrer"
-              target="_blank"
-            >
-              ELLIPOG
             </a>
             <a
               className="text-[#cfcbc2] no-underline transition-colors hover:text-red"

@@ -4,7 +4,7 @@ import "./globals.css";
 
 const title = "aaen studios — open source tools and products";
 const description =
-  "aaen studios is an independent software studio by Elliot Strand Aaen — maker of kern and galdr, open source desktop tools, and yomion, a local-first Japanese-learning app.";
+  "Aaen Studios is an independent software studio by Elliot Strand Aaen — Armature and Tenet for Minecraft on Fabric and NeoForge, plus kern and galdr, open source desktop tools, and yomion, a local-first Japanese-learning app.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aaenz.no"),
@@ -74,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/*
          * The class below arms the reveal animation in `globals.css`. Without scripting —

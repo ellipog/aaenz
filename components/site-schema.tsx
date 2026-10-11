@@ -29,6 +29,8 @@ const schema = {
         "https://ellipog.dev",
         "https://modrinth.com/user/Ellipog",
         "https://www.curseforge.com/members/ellipog/projects",
+        "https://github.com/ellipog/armature",
+        "https://github.com/ellipog/tenet",
       ],
       url: "https://aaenz.no/",
     },
