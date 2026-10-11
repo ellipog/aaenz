@@ -141,7 +141,7 @@ export default function Home() {
           <p className="m-0 mt-8 max-w-[46ch] text-dim">
             aaen studios is an independent software studio. Armature and Tenet are its
             foundations, kern and galdr its tools — all designed, built and kept in-house by
-            Elliot Strand Aaen.
+            Elliot.
           </p>
           <span className="mono mt-[34px] block text-faint">
             OPEN SOURCE · OFFLINE BY DEFAULT

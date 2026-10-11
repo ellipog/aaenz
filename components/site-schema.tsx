@@ -38,7 +38,7 @@ const schema = {
       "@id": "https://aaenz.no/#elliot",
       "@type": "Person",
       jobTitle: "Founder & Lead Engineer",
-      name: "Elliot Strand Aaen",
+      name: "Elliot",
       sameAs: [
         "https://github.com/Ellipog",
         "https://www.linkedin.com/in/elliot-strand-aaen",
