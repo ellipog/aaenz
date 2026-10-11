@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import WordPanel from "@/components/word-panel";
 import Reveal from "@/components/reveal";
+
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "elliot@aaenz.no";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -67,7 +70,7 @@ export default function Home() {
             >
               GITHUB
             </a>
-            <a className="no-underline transition-opacity hover:opacity-50" href="mailto:elliot@aaenz.no">
+            <a className="no-underline transition-opacity hover:opacity-50" href={`mailto:${contactEmail}`}>
               CONTACT
             </a>
           </nav>
@@ -498,23 +501,12 @@ export default function Home() {
           <span className="mx-auto mb-9 grid h-24 w-24 place-items-center rounded-full bg-ink shadow-[0_0_0_1px_var(--color-red)]">
             <img alt="" className="w-12 opacity-95" src="/assets/logo-mark-light.png" />
           </span>
-          <span className="relative inline-block px-12 py-8">
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute -inset-x-10 inset-y-0 rounded-full border border-white/25"
-            />
-            <a
-              className="relative font-serif text-[clamp(56px,10vw,150px)] font-light italic leading-none no-underline transition-colors hover:text-red"
-              href="mailto:elliot@aaenz.no"
-            >
-              send word
-            </a>
-          </span>
+          <WordPanel />
           <a
             className="mono mt-[30px] block text-[#cfcbc2] no-underline transition-colors hover:text-red"
-            href="mailto:elliot@aaenz.no"
+            href={`mailto:${contactEmail}`}
           >
-            ELLIOT@AAENZ.NO
+            {contactEmail.toUpperCase()}
           </a>
           <p className="mx-auto m-0 mt-5 max-w-[44ch] font-light text-[#cfcbc2]">
             Open for projects, collaborations and commissions — or just a good word about
@@ -570,7 +562,7 @@ export default function Home() {
             </a>
             <a
               className="text-[#cfcbc2] no-underline transition-colors hover:text-red"
-              href="mailto:elliot@aaenz.no"
+              href={`mailto:${contactEmail}`}
             >
               CONTACT
             </a>
