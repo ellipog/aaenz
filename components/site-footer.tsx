@@ -3,7 +3,7 @@ const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "elliot@aaenz.no";
 const ticker = ["KERN", "GALDR", "ARMATURE", "TENET", "YOMION", "SEND WORD"];
 
 /*
- * The close: a next-episode card, a ticker of every work carried along a wave,
+ * The close: what ships next, a ticker of every work carried along a wave,
  * then the credit line.
  */
 export default function SiteFooter({ home = true }: { home?: boolean }) {
@@ -13,8 +13,7 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
   return (
     <footer className="relative bg-void">
       <div className="mx-auto max-w-[1240px] px-5 pb-14 pt-20 sm:px-7">
-        <p className="mono text-faint">NEXT EPISODE</p>
-        <p className="mincho mt-4 text-[clamp(40px,6vw,84px)] leading-[1]">
+        <p className="mincho text-[clamp(40px,6vw,84px)] leading-[1]">
           Whatever ships <span className="text-red">next</span>.
         </p>
         <p className="mono mt-4 pl-[2.4em] text-dim">BUILT HERE, KEPT HERE.</p>

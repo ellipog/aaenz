@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Plate from "@/components/ascii/plate";
 import Decode from "@/components/decode";
 import Downloads from "@/components/downloads";
-import Episode from "@/components/episode";
 import Leaders from "@/components/leaders";
 import Reveal from "@/components/reveal";
 import SiteFooter from "@/components/site-footer";
@@ -107,7 +106,7 @@ export default function Minecraft() {
       <Reveal />
       <SiteHeader home={false} />
 
-      {/* 第六話 — a block world in cross-section, every block its kanji */}
+      {/* a block world in cross-section, every block its kanji */}
       <section className="relative h-[100svh] min-h-[600px] overflow-hidden" id="top">
         <Plate
           cell={16}
@@ -124,8 +123,7 @@ export default function Minecraft() {
         />
         <div className="pointer-events-none absolute inset-x-0 top-[84px] px-5 sm:px-7 md:left-[4%] md:top-[11%]">
           <div className="max-w-[860px] bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.94)_64%,rgba(5,5,5,0))] px-6 py-10 sm:px-12 sm:py-14">
-            <p className="mincho m-0 text-[14px] tracking-[.3em] text-red">第六話</p>
-            <p className="mono m-0 mt-1 text-faint">EPISODE:06 〜 MINECRAFT</p>
+            <p className="mono m-0 text-faint">MINECRAFT</p>
             <h1 className="mincho m-0 mt-6 text-[clamp(42px,6vw,88px)] leading-[.95]">
               The <span className="whitespace-nowrap text-red">load-bearing</span>
               <br />
@@ -166,10 +164,9 @@ export default function Minecraft() {
         </div>
       </section>
 
-      {/* 06.01 — armature, the stratum */}
+      {/* armature, the stratum */}
       <section className="reveal relative px-5 py-28 sm:px-7" data-reveal id="armature">
         <div className="mx-auto max-w-[1240px]">
-          <Episode code="06.01" n="基" tone="text-red" />
           <p className="mono m-0 mt-14 text-faint">01 〜 RUNTIME</p>
           <h2 className="mincho m-0 mt-4 text-[clamp(64px,10vw,156px)] leading-[.86]">armature</h2>
           <div className="mt-6 md:ml-[38%]">
@@ -255,10 +252,9 @@ export default function Minecraft() {
         </p>
       </section>
 
-      {/* 06.02 — tenet, the law of what counts as done */}
+      {/* tenet, the law of what counts as done */}
       <section className="reveal relative px-5 py-28 sm:px-7" data-reveal id="tenet">
         <div className="mx-auto max-w-[1240px]">
-          <Episode code="06.02" n="律" tone="text-red" />
           <p className="mono m-0 mt-14 text-right text-faint">02 〜 ENGINE</p>
           <h2 className="mincho m-0 mt-4 text-right text-[clamp(64px,10vw,156px)] leading-[.86]">tenet</h2>
           <div className="mt-6 md:mr-[38%] md:text-right">

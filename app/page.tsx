@@ -3,8 +3,6 @@ import Plate from "@/components/ascii/plate";
 import ColdOpen from "@/components/cold-open";
 import Decode from "@/components/decode";
 import Downloads from "@/components/downloads";
-import Episode from "@/components/episode";
-import EpisodeRail from "@/components/episode-rail";
 import Leaders from "@/components/leaders";
 import { Sync } from "@/components/readout";
 import Reveal from "@/components/reveal";
@@ -72,9 +70,8 @@ export default function Home() {
       <ColdOpen />
       <Reveal />
       <SiteHeader />
-      <EpisodeRail />
 
-      {/* 第壱話 — the studio, awakening: aaen cut out of wings of light */}
+      {/* the studio, awakening: aaen cut out of wings of light */}
       <section className="relative h-[100svh] min-h-[560px] overflow-hidden bg-void" id="top">
         <Plate
           cell={14}
@@ -94,11 +91,6 @@ export default function Home() {
             Software studio
           </p>
         </div>
-        <div className="pointer-events-none absolute bottom-6 left-5 sm:left-7">
-          <p className="mincho m-0 text-[13px] tracking-[.3em] text-red">第壱話</p>
-          <p className="mincho m-0 mt-1 text-[clamp(22px,2.6vw,34px)] leading-none">The studio, awakens</p>
-          <p className="mono m-0 mt-2 text-faint">EPISODE:01</p>
-        </div>
         <div className="mono pointer-events-none absolute bottom-6 right-5 text-right sm:right-7 max-sm:hidden">
           <span className="block text-bone">
             SYNC <Sync />
@@ -111,10 +103,9 @@ export default function Home() {
         />
       </section>
 
-      {/* 第弐話 — the statement as a title card */}
+      {/* the statement as a title card */}
       <section className="reveal relative px-5 pb-28 pt-28 sm:px-7" data-reveal id="statement">
         <div className="mx-auto max-w-[1240px]">
-          <Episode code="02" n="第弐話" />
           <h2 className="sr-only">Built to be stood on. Foundations for play, tools for work.</h2>
           <div aria-hidden="true" className="mt-16">
             <p className="mincho m-0 text-[clamp(56px,11vw,170px)] leading-[.95]">
@@ -149,10 +140,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 第参話 — the barrier: open source, offline by default */}
+      {/* the barrier: open source, offline by default */}
       <section className="reveal relative px-5 py-28 sm:px-7" data-reveal id="barrier">
         <div className="mx-auto max-w-[1240px]">
-          <Episode code="03" n="第参話" />
           <div className="mt-14 grid items-center gap-12 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
             <div className="relative">
               <Plate
@@ -185,10 +175,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 第四話 — the two desktop tools, a vortex and a river running into each other */}
+      {/* the two desktop tools, a vortex and a river running into each other */}
       <section className="reveal relative pt-28" data-reveal id="works">
         <div className="mx-auto max-w-[1240px] px-5 sm:px-7">
-          <Episode code="04" n="第四話" />
           <h2 className="mincho m-0 mt-14 text-[clamp(36px,5vw,72px)] leading-[1.04]">
             Two tools,
             <br />
@@ -234,7 +223,7 @@ export default function Home() {
         </p>
       </section>
 
-      {/* 第伍話 — a cross of light over the city */}
+      {/* a cross of light over the city */}
       <section className="relative h-[88vh] min-h-[540px] overflow-hidden" id="light">
         <Plate
           cell={13}
@@ -243,10 +232,6 @@ export default function Home() {
           kind="rays"
           label="A cross of light over a city whose buildings are drawn in kanji"
         />
-        <div className="pointer-events-none absolute right-5 top-[88px] bg-void/80 px-3 py-2 text-right sm:right-7">
-          <p className="mincho m-0 text-[14px] tracking-[.3em]">第伍話</p>
-          <p className="mono m-0 mt-1 text-faint">EPISODE:05</p>
-        </div>
         <div className="pointer-events-none absolute inset-x-5 top-[22%] sm:inset-x-auto sm:right-[6%] sm:top-[30%]">
           <div className="bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.94)_62%,rgba(5,5,5,0))] px-10 py-12 sm:max-w-[520px]">
             <h2 className="mincho m-0 text-[clamp(26px,3.4vw,46px)] leading-tight">
@@ -260,10 +245,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 第六話 — Armature and Tenet, floating over a block world */}
+      {/* Armature and Tenet, floating over a block world */}
       <section className="reveal relative pt-28" data-reveal id="minecraft">
         <div className="mx-auto max-w-[1240px] px-5 sm:px-7">
-          <Episode code="06" n="第六話" />
           <p className="mono m-0 mt-14 text-faint">MINECRAFT</p>
           <h2 className="mincho m-0 mt-5 text-[clamp(52px,8vw,124px)] leading-[.95]">
             The <span className="whitespace-nowrap text-red">load-bearing</span>
@@ -342,10 +326,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 第七話 — yomion, a globe of language */}
+      {/* yomion, a globe of language */}
       <section className="reveal relative px-5 py-28 sm:px-7" data-reveal id="yomion">
         <div className="mx-auto max-w-[1240px]">
-          <Episode code="07" n="第七話" />
           <div className="mt-14 grid items-center gap-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
             <Plate
               cell={13}
@@ -377,7 +360,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 第八話 — the messenger: send word */}
+      {/* the messenger: send word */}
       <section className="relative min-h-[100svh] overflow-hidden" id="word">
         <Plate
           cell={14}
@@ -391,10 +374,6 @@ export default function Home() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,5,.96)_0%,rgba(5,5,5,.86)_38%,rgba(5,5,5,.2)_62%,transparent_80%)] max-md:bg-[linear-gradient(180deg,rgba(5,5,5,.2),rgba(5,5,5,.88)_30%,rgba(5,5,5,.88)_75%,rgba(5,5,5,.3))]"
         />
-        <div className="pointer-events-none absolute left-5 top-[88px] z-[2] sm:left-7">
-          <p className="mincho m-0 text-[14px] tracking-[.3em]">第八話</p>
-          <p className="mono m-0 mt-1 text-faint">EPISODE:08</p>
-        </div>
         <div className="relative z-[1] flex min-h-[100svh] items-center px-5 py-28 sm:px-7 md:pl-[8%]">
           <div className="max-w-[640px]">
             <div>

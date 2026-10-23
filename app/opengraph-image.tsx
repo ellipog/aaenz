@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 /*
- * The share card, drawn at build as an episode title card: void ground, the wordmark
+ * The share card, drawn at build as a title card: void ground, the wordmark
  * in heavy Mincho, a small character plate of light rays at the right.
  *
  * Satori (behind `next/og`) needs TTF/OTF data. JetBrains Mono is the static TTF kept
@@ -13,7 +13,7 @@ import { ImageResponse } from "next/og";
  * still builds, Latin-only, rather than breaking the build.
  */
 
-export const alt = "aaen studios — 第壱話, the studio awakens";
+export const alt = "aaen studios — software studio";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -63,7 +63,7 @@ function rayPlate(): { ch: string; a: number; red?: boolean }[][] {
 }
 
 const plate = rayPlate();
-const jpText = `aen第壱話核詠基律読${plate.flat().map((c) => c.ch).join("")}`;
+const jpText = `aen核詠基律読${plate.flat().map((c) => c.ch).join("")}`;
 
 async function loadNoto(weight: number): Promise<ArrayBuffer | null> {
   try {
@@ -107,9 +107,7 @@ export default async function Image() {
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", paddingLeft: 84, width: 700 }}>
           <div style={{ alignItems: "center", display: "flex", gap: 14 }}>
             <div style={{ backgroundColor: RED, display: "flex", height: 12, width: 12 }} />
-            <span style={{ color: jp ? RED : FAINT, fontFamily: display, fontSize: jp ? 26 : 18, letterSpacing: jp ? 8 : 5 }}>
-              {jp ? "第壱話" : "EPISODE:01"}
-            </span>
+            <span style={{ color: FAINT, fontSize: 18, letterSpacing: 5 }}>AAEN STUDIOS</span>
           </div>
           <div style={{ display: "flex", fontFamily: display, fontSize: 250, fontWeight: 900, letterSpacing: 4, lineHeight: 1, marginTop: 6 }}>
             aaen

@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 /*
- * The cold open: before the first plate, a run of episode title cards in the
- * old broadcast manner — the episode number, the L-shaped title, then each work's
- * seal, one per beat — and the hand-over to the hero, which only then decodes.
+ * The cold open: before the first plate, a run of title cards in the old
+ * broadcast manner — the L-shaped title, then each work's glyph, one per beat —
+ * and the hand-over to the hero, which only then decodes.
  *
  * Shown once per session, on the home page, from the top. The decision is made
  * before first paint by the head script in the root layout (`html.go` = skip),
@@ -21,8 +21,9 @@ const SEALS: [string, string, boolean][] = [
   ["読", "YOMION", false],
 ];
 
-// phase start times, ms: 0 broadcast · 1 episode · 2 title · 3–7 seals · 8 hand-over
-const BEATS = [0, 450, 1250, 2550, 2870, 3190, 3510, 3830, 4150];
+// phase start times, ms: 0 broadcast · 1 title · 2–6 the works · 7 hand-over
+const BEATS = [0, 600, 1900, 2220, 2540, 2860, 3180, 3500];
+const END = BEATS.length - 1;
 const OUT = 520;
 
 export default function ColdOpen() {
@@ -52,14 +53,14 @@ export default function ColdOpen() {
       root.classList.add("go");
       root.style.overflow = "";
       window.dispatchEvent(new Event("aaen:go"));
-      setPhase(8);
+      setPhase(END);
       timers.push(window.setTimeout(() => setGone(true), OUT));
     };
 
     BEATS.forEach((at, p) => {
-      if (p > 0 && p < 8) timers.push(window.setTimeout(() => setPhase(p), at));
+      if (p > 0 && p < END) timers.push(window.setTimeout(() => setPhase(p), at));
     });
-    timers.push(window.setTimeout(finish, BEATS[8]));
+    timers.push(window.setTimeout(finish, BEATS[END]));
 
     const skip = () => finish();
     const events = ["keydown", "pointerdown", "wheel", "touchstart"] as const;
@@ -72,12 +73,12 @@ export default function ColdOpen() {
   }, []);
 
   if (gone) return null;
-  const seal = phase >= 3 && phase <= 7 ? SEALS[phase - 3] : null;
+  const seal = phase >= 2 && phase < END ? SEALS[phase - 2] : null;
 
   return (
     <div
       aria-hidden="true"
-      className={`coldopen fixed inset-0 z-[100] bg-void transition-opacity ease-out ${phase === 8 ? "pointer-events-none opacity-0" : "opacity-100"}`}
+      className={`coldopen fixed inset-0 z-[100] bg-void transition-opacity ease-out ${phase === END ? "pointer-events-none opacity-0" : "opacity-100"}`}
       style={{ transitionDuration: `${OUT}ms`, display: live ? "block" : undefined }}
     >
       {phase === 0 ? (
@@ -90,15 +91,6 @@ export default function ColdOpen() {
       ) : null}
 
       {phase === 1 ? (
-        <div className="absolute inset-0 grid place-items-center text-center">
-          <div>
-            <p className="mincho m-0 text-[clamp(64px,13vw,200px)] leading-none">第壱話</p>
-            <p className="mono m-0 mt-6 text-faint">EPISODE:01</p>
-          </div>
-        </div>
-      ) : null}
-
-      {phase === 2 ? (
         <div className="absolute inset-[8vh_7vw]">
           <p className="mincho m-0 text-[clamp(72px,15vw,240px)] leading-[.9]">The studio,</p>
           <p className="mincho absolute bottom-0 right-0 m-0 text-[clamp(72px,15vw,240px)] leading-[.9] text-red">
@@ -118,7 +110,7 @@ export default function ColdOpen() {
         </div>
       ) : null}
 
-      {phase < 8 ? (
+      {phase < END ? (
         <p className="mono absolute bottom-8 right-7 m-0 text-faint">SKIP ▸▸</p>
       ) : null}
     </div>

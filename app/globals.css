@@ -32,24 +32,6 @@
 }
 
 /*
- * A wave rule — a run of 〜 with a signal travelling along it. The glyphs are
- * the line; the gradient is the current.
- */
-@utility signal {
-  background-image: linear-gradient(
-    90deg,
-    var(--color-faint) 0 42%,
-    var(--color-red) 50%,
-    var(--color-faint) 58% 100%
-  );
-  background-size: 300% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: signal 5.5s linear infinite;
-}
-
-/*
  * Plates have no frames: their edges feather into the void instead. `fade-y`
  * for full-bleed bands, `fade-soft` for a plate set among text.
  */
@@ -79,17 +61,6 @@
   transform: none;
 }
 
-/* An episode rule draws its katakana line in from the left as its band arrives. */
-.js .reveal .signal {
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 1400ms cubic-bezier(0.22, 0.61, 0.36, 1) 250ms;
-}
-
-.js .reveal.in .signal {
-  transform: none;
-}
-
 /*
  * The cold open is in the server HTML so it covers the very first paint, but only
  * shows when the head script has not already decided to skip it (`html.go`).
@@ -109,12 +80,6 @@
     transition: none;
   }
 
-  .js .reveal .signal {
-    transform: none;
-    transition: none;
-  }
-
-  .signal,
   .animate-blink,
   .animate-marquee,
   .animate-cue {
@@ -160,16 +125,6 @@
 @keyframes blink {
   50% {
     opacity: 0;
-  }
-}
-
-@keyframes signal {
-  from {
-    background-position: 100% 0;
-  }
-
-  to {
-    background-position: 0% 0;
   }
 }
 
