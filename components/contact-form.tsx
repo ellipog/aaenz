@@ -7,7 +7,56 @@ type Fields = { name?: string; email?: string; message?: string };
 const replyFrom = (process.env.NEXT_PUBLIC_CONTACT_EMAIL || "elliot@aaenz.no").toUpperCase();
 
 const input =
-  "w-full rounded-none border-b bg-transparent px-1 py-3 text-center font-body text-[15px] leading-relaxed text-paper placeholder:text-[#8f8b82]/70 outline-none transition-colors";
+  "w-full rounded-none border-b border-line bg-transparent px-1 py-2.5 font-mono text-[14px] leading-relaxed text-bone placeholder:text-faint outline-none transition-colors focus:border-red";
+
+const label = "mono flex items-center gap-2 text-faint";
+
+const DEFAULT_FAIL = "The word didn’t go through — write directly instead.";
+
+const pause = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/*
+ * The council: three seats deliberate over every word sent. They sit for as long
+ * as the request takes (never less than a beat), then vote together — 承認 when
+ * the mail went out, 否決 when it did not.
+ */
+function Council({ verdict }: { verdict: "ok" | "ng" | null }) {
+  const word = verdict === null ? "…" : verdict === "ok" ? "YES" : "NO";
+  return (
+    <div className="mt-7" role="status">
+      <p className="mono m-0 flex justify-between gap-4 text-dim">
+        <span>DELIBERATION</span>
+        <span className={verdict === "ng" ? "text-red" : verdict === "ok" ? "text-bone" : "text-faint"}>
+          {verdict === null ? "THREE SEATS" : verdict === "ok" ? "UNANIMOUS ・ APPROVED" : "REJECTED"}
+        </span>
+      </p>
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        {["I", "II", "III"].map((seat, i) => (
+          <div
+            className={`grid h-[68px] place-items-center text-center transition-colors duration-300 ${
+              verdict === null ? "bg-bone/10 text-bone" : verdict === "ok" ? "bg-bone text-void" : "bg-red text-bone"
+            }`}
+            key={seat}
+            style={{
+              clipPath: "polygon(22% 0, 78% 0, 100% 50%, 78% 100%, 22% 100%, 0 50%)",
+              transitionDelay: verdict ? `${i * 220}ms` : "0ms",
+            }}
+          >
+            <span>
+              <span className="mincho block text-[15px] leading-none">{seat}</span>
+              <span
+                className={`mincho mt-1.5 block text-[11px] leading-none ${verdict === null ? "animate-blink" : ""}`}
+                style={{ animationDelay: `${i * 0.27}s` }}
+              >
+                {word}
+              </span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ContactForm({
   embedded = false,
@@ -22,6 +71,7 @@ export default function ContactForm({
   const [company, setCompany] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Fields>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [verdict, setVerdict] = useState<"ok" | "ng" | null>(null);
   const [notice, setNotice] = useState("");
   const nameRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
@@ -49,11 +99,11 @@ export default function ContactForm({
   if (status === "sent") {
     return (
       <div className={embedded ? "py-4 text-center" : "mx-auto mt-12 max-w-[520px] text-center"}>
-        <span aria-hidden="true" className="mx-auto block h-[7px] w-[7px] rounded-full bg-red" />
-        <p className="mt-5 font-light text-[#cfcbc2]">
-          Word received — I reply from the address below.
+        <p aria-hidden="true" className="mincho m-0 text-[clamp(44px,6vw,64px)] leading-none text-red">
+          Received.
         </p>
-        <span className="mono mt-3 block text-[#8f8b82]">SENT · TALK SOON</span>
+        <p className="mt-5 text-dim">Word received — I reply from the address below.</p>
+        <span className="mono mt-3 block text-dim">TALK SOON</span>
       </div>
     );
   }
@@ -62,38 +112,47 @@ export default function ContactForm({
     e.preventDefault();
     if (status === "sending") return;
     setStatus("sending");
+    setVerdict(null);
     setFieldErrors({});
     setNotice("");
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message, company }),
-      });
-      const data = (await res.json()) as { ok?: boolean; error?: string; fields?: Fields };
-      if (res.ok && data.ok) {
-        setStatus("sent");
-        return;
+    async function send(): Promise<{ ok: boolean; error?: string; fields?: Fields }> {
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message, company }),
+        });
+        const data = (await res.json()) as { ok?: boolean; error?: string; fields?: Fields };
+        return { ok: res.ok && Boolean(data.ok), error: data.error, fields: data.fields };
+      } catch {
+        return { ok: false };
       }
-      setStatus("error");
-      setFieldErrors(data.fields ?? {});
-      setNotice(data.error ?? "The word didn’t go through — write directly instead.");
-    } catch {
-      setStatus("error");
-      setNotice("The word didn’t go through — write directly instead.");
     }
+
+    const [result] = await Promise.all([send(), pause(still ? 0 : 1400)]);
+    setVerdict(result.ok ? "ok" : "ng");
+    await pause(still ? 0 : 1300);
+    if (result.ok) {
+      setStatus("sent");
+      return;
+    }
+    setStatus("error");
+    setVerdict(null);
+    setFieldErrors(result.fields ?? {});
+    setNotice(result.error ?? DEFAULT_FAIL);
   }
 
   return (
     <form
       onSubmit={onSubmit}
-      className={embedded ? "w-full text-center" : "mx-auto mt-12 w-full max-w-[520px] text-left"}
+      className={embedded ? "w-full text-left" : "mx-auto mt-12 w-full max-w-[520px] text-left"}
       noValidate={false}
     >
       <div>
-        <label className="mono block text-center text-[#8f8b82]" htmlFor="word-name">
-          NAME
+        <label className={label} htmlFor="word-name">
+          <span className="text-red">＞</span> NAME
         </label>
         <input
           id="word-name"
@@ -108,16 +167,16 @@ export default function ContactForm({
           onChange={(e) => setName(e.target.value)}
           placeholder="Your name"
           aria-invalid={Boolean(fieldErrors.name)}
-          className={`${input} mt-3 border-white/25 placeholder:text-[#8f8b82]/70 focus:border-white/70 ${fieldErrors.name ? "border-red" : ""}`}
+          className={`${input} mt-1 ${fieldErrors.name ? "border-red" : ""}`}
         />
         {fieldErrors.name ? (
-          <span className="mono mt-2 block text-center text-[#cfcbc2]">{fieldErrors.name}</span>
+          <span className="mono mt-2 block text-red">{fieldErrors.name}</span>
         ) : null}
       </div>
 
-      <div className="mt-7">
-        <label className="mono block text-center text-[#8f8b82]" htmlFor="word-email">
-          EMAIL
+      <div className="mt-6">
+        <label className={label} htmlFor="word-email">
+          <span className="text-red">＞</span> EMAIL
         </label>
         <input
           id="word-email"
@@ -130,16 +189,16 @@ export default function ContactForm({
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
           aria-invalid={Boolean(fieldErrors.email)}
-          className={`${input} mt-3 border-white/25 placeholder:text-[#8f8b82]/70 focus:border-white/70 ${fieldErrors.email ? "border-red" : ""}`}
+          className={`${input} mt-1 ${fieldErrors.email ? "border-red" : ""}`}
         />
         {fieldErrors.email ? (
-          <span className="mono mt-2 block text-center text-[#cfcbc2]">{fieldErrors.email}</span>
+          <span className="mono mt-2 block text-red">{fieldErrors.email}</span>
         ) : null}
       </div>
 
-      <div className="mt-7">
-        <label className="mono block text-center text-[#8f8b82]" htmlFor="word-message">
-          WORD
+      <div className="mt-6">
+        <label className={label} htmlFor="word-message">
+          <span className="text-red">＞</span> WORD
         </label>
         <textarea
           id="word-message"
@@ -156,10 +215,10 @@ export default function ContactForm({
           }}
           placeholder="A project, a collaboration, or just a good word…"
           aria-invalid={Boolean(fieldErrors.message)}
-          className={`${input} mt-3 resize-none overflow-hidden border-white/25 placeholder:text-[#8f8b82]/70 focus:border-white/70 ${fieldErrors.message ? "border-red" : ""}`}
+          className={`${input} mt-1 resize-none overflow-hidden ${fieldErrors.message ? "border-red" : ""}`}
         />
         {fieldErrors.message ? (
-          <span className="mono mt-2 block text-center text-[#cfcbc2]">{fieldErrors.message}</span>
+          <span className="mono mt-2 block text-red">{fieldErrors.message}</span>
         ) : null}
       </div>
 
@@ -178,20 +237,22 @@ export default function ContactForm({
       </div>
 
       {notice && status === "error" ? (
-        <p className="mono mt-6 text-center text-[#cfcbc2]" role="alert">
+        <p className="mono mt-6 text-red" role="alert">
           {notice}
         </p>
       ) : null}
 
-      <div className="mt-8 text-center">
+      {status === "sending" ? <Council verdict={verdict} /> : null}
+
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+        <span className="mono text-faint">REPLIES FROM {replyFrom}</span>
         <button
           type="submit"
           disabled={status === "sending"}
-          className="mono inline-block cursor-pointer rounded-none border border-white/25 bg-transparent px-10 py-4 text-paper transition-colors hover:border-red hover:text-red disabled:cursor-wait disabled:opacity-50"
+          className="mono inline-block cursor-pointer rounded-none bg-[radial-gradient(ellipse_closest-side,rgba(227,39,29,.22),transparent)] px-7 py-3 text-bone transition-colors hover:text-red disabled:cursor-wait disabled:opacity-50"
         >
           {status === "sending" ? "SENDING…" : "SEND →"}
         </button>
-        <span className="mono mt-4 block text-[#8f8b82]">REPLIES FROM {replyFrom}</span>
       </div>
     </form>
   );

@@ -1,137 +1,109 @@
 # aaen studios — visual language
 
-The permanent reference for how aaen studios looks, what holds it together, and how to keep it intact when extending. Calibrated 14 Sep 2026 from seven live captures of aaenz.no (top → close) and the plates in `public/assets/`.
-
-The sheet that generates the plates is `prompts.md`. This file explains what that system is doing and the rules around it. Read both before making anything.
+The reference for how aaen studios looks and how to extend it without breaking it. Rewritten 23 Oct 2026 for the character-plate site: the pictures are drawn in Japanese characters, the words are English, the page is broadcast like an old anime episode, and it flows.
 
 ## First principle
 
-The images are the single most important thing pulling the style together. They carry all of the contrast, scale and mood; the interface is a gallery wall — paper, hairlines, micro-type and one red thread — that frames the plates and then gets out of the way. When in doubt: protect the image, do not decorate over it.
+Every image on the page is drawn in characters. Kanji carry meaning and mass, katakana strokes (ー ｜ ノ ヽ) carry line, and the wave strokes (〜 ︴) carry flow. The art is *semantic*: a wall of stone is 石, a cloud is 雲, a word is 言, light is 光. The characters fill the picture and also say what it shows.
 
-## The plates
+**Japanese lives in the plates, not the type.** Everything you read is English. Japanese appears in the type only as a few accents:
 
-One rendering language across every image: black ink on warm paper `#f3f1ec` — screentone halftone, engraving crosshatch, fine vertical hatching, dense grain, extreme black-and-white contrast. No colour anywhere except the one sanctioned red plate.
+- the episode numbers (第壱話 to 第八話)
+- the small red product glyphs (核 kern, 詠 galdr, 基 Armature, 律 Tenet, 読 yomion)
+- the legend that keys the quest graph's glyphs
+- the cold open's kanji flashes
+- the kana that flicker while a headline decodes
+- one line for yomion, because it is the Japanese-learning app
 
-The subjects form a fixed mythology of scale:
-
-- **Wings and winged figures** — wings made of light beams (`gen-winged-beams`), mirrored wing crops (`gen-winged-right-a`), feather close-ups (`gen-wings-close`), formations of winged silhouettes (`gen-flock-diagonal`).
-- **Light as architecture** — beams, ladders, causeways and cables: diagonal light bands with processions walking them (`gen-clouds-engraving`), a cross of light above a hairline city (`gen-beam-city`), a lone descent on a cable in near-total darkness (`gen-cable-descent`).
-- **Tiny humans against monumental geometry** — processions on the diagonal bands, silhouettes on the cable, a city drawn as hairlines. The scale gap is the drama.
-- **Celestial geometry** — orbs, rings, halos, orbits: a black orb with one thin ring (`gen-sphere-ring`), concentric octagonal "barrier" rings (`gen-octagon-ring`), a pale faceless giant above engraved seas of cloud (`gen-colossus-clouds`).
-- **Faceless figures** — backs turned, blank heads, no eyes, no expression. Never a recognisable character.
-- **Messenger marks** — the kanji 天使, 光, 使者, 核, 詠, 読 used as stamps and monuments, never as decoration to be translated.
-
-Hard rules for any new plate:
-
-- Monochrome. Grayscale + contrast only; red is a separate exception, drawn in stamp ink, not added to plates.
-- Evangelion's *language* only — scale, fog, geometry, wings, crosses, monoliths. Never its characters, faces, names or unit designs.
-- No text, letters, signature, logo, watermark or frame inside the artwork. Plates bleed to their edges.
-- One style spine per batch, word for word from `prompts.md`. Never paraphrase it — the set drifts.
-
-### Plate inventory and where each one lives
-
-| plate | subject | used for |
-| --- | --- | --- |
-| `gen-winged-beams.jpg` | figure whose wings are beams, pin-stripe night | hero backdrop |
-| `gen-clouds-engraving.jpg` | engraved cloud sea, light causeways, tiny processions | statement capsule, "your machine" fill, galdr name fill, 使者 fill |
-| `gen-cable-descent.jpg` | descent on a cable, almost all black | close backdrop, kern name fill |
-| `gen-beam-city.jpg` | cross of light over hairline city | slats band (masked into slats) |
-| `gen-octagon-ring.jpg` | black disc of concentric octagonal rings | hero lens rim, shapes disc |
-| `gen-sphere-ring.jpg` | black orb, one thin ring | shapes circle · ellipog name fill (elsewhere) |
-| `gen-colossus-clouds.jpg` | pale faceless giant above clouds | FEATURED WORK circle |
-| `gen-winged-right-a.jpg` | winged figure, ink | mirror band, doubled and reflected |
-| `gen-wings-close.jpg` | feather close-up | AAEN fill in the knock |
-| `gen-flock-diagonal.jpg` | winged formation | yomion name fill |
-| `gen-void-figure`, `gen-screentone-sky`, `gen-ink-water`, `gen-winged-right-b`, `gen-cube-city-a/b`, `gen-field-fall`, `gen-monolith-city` | same family | reserve |
-| `gen-red-ring.jpg` | the one-red-ring plate | the single sanctioned colour exception |
-| `gen-winged-water.jpg` | retired | do not put it back on the page |
+The interface around the plates is a broadcast: an episode run, title cards in heavy Mincho, micro-type readouts, and a red signal. Nothing sits in a box. Plates feather into the void, lists drift on a wave, and rules ripple.
 
 ## Colour
 
-Exact tokens (from `app/globals.css`):
+Tokens live in `app/globals.css`. These are the only colours:
 
-- paper `#f3f1ec` · paper2 `#e9e6df` · ink `#101010` · dim `#55534d` · faint `#8b8880` · line `#d4d0c7`
-- red `#b31212`
+- void `#050505` (ground) · coal `#0c0b0a` (rare inset) · line `#262420` (rare hairline)
+- bone `#ece7db` (ink) · dim `#a39d90` (secondary copy) · faint `#67625a` (micro-type)
+- red `#e3271d` (signal)
 
-Red is a thread, a stamp and a signal — never a coat of paint. Where it is allowed:
-
-- one italic word or clause per headline ("*studio*", "*shipped and kept*")
-- 1px hairlines and gradients — the thread that runs between bands and along the knock seam
-- small marks: the satellite on an orbit, station dots, the octagon disc's hairline ring, the slats tick, the seal 使者
-- `::selection`
-
-Never: red body copy, red backgrounds, red logos at scale, more than a few red marks per viewport.
+Red is the signal, never a coat of paint. Use it for one word in a headline, a product glyph, the travelling current in a wave rule, the red 人 in a plate, a live cursor ■, a verdict. A plate keeps red to a few cells. **No orange or amber anywhere**, and no other hues.
 
 ## Type
 
-- **Cormorant Garamond** — display. Lowercase wordmark `aaen` with wide tracking; headlines in sentence case; giant display type may be image-filled (window onto a plate) or reduced to a 1px outline.
-- **Inter** — body and UI. 15px / 1.65, `dim` for secondary paragraphs.
-- **JetBrains Mono** — the micro-type system: 11px, `.16em` tracking, uppercase. Captions, labels, nav, metadata, always anchored at edges and corners, separators `·` and `—`.
-- **Hina Mincho** — kanji only, generously tracked, set vertically at plate edges (天使, 光). One weight, drawn light: the seals read as brushed or stamped rather than typeset, and the plates show through them.
+- **Noto Serif JP**: the voice. `mincho` (weight 900) for English title cards and product names, and for the few kanji accents. Weight 400 for a quieter line set under a headline.
+- **JetBrains Mono**: the micro-type system (`mono`): 11px, `.16em` tracking, uppercase. Labels, readouts, nav, captions. Body copy is mono 13px in `dim`.
+- English display type is set in the same Mincho and is sometimes squeezed horizontally (`scale-x-[.82]`, uppercase), as on a title card.
 
-Type never competes with the image. A headline either sits in empty paper or melts into the plate (image-filled text: "your machine", AAEN, 使者, the product names). No other fonts, no bold display, no sans headings.
+No other fonts. The share card fetches a Noto Serif JP subset at build time and falls back to Latin-only.
 
-## Geometry and devices
+## The engine
 
-1. **The lens** — a thin outlined ellipse/eye shapes the two big wordmarks (`aaen`, `send word`); reused as the double ellipse in the knock and the outlined ellipse in the close.
-2. **Circles as apertures** — plates seen through circles: the colossus, the orb, the octagon disc.
-3. **The red thread** — 1px red hairlines that physically run between bands and continue across seams (statement → mirror, the knock seam, the slats tick) as if one thread is passed through the whole page.
-4. **Seam games** — paper and ink bands alternate, and forms cut across the seams: the knock's AAEN split by the boundary, the colossus circle crossing onto paper, the hero lens rim floating on the plate.
-5. **Image-filled type** — text as a window cut into a plate, drifting slowly inside its letters.
-6. **Scale play** — 11px labels against 300px letterforms; processions no larger than grains of rice against gods.
-7. **Micro-marks** — seals, satellites, outline glyphs (核 / 詠 / 読), the halo-A mark.
+`components/ascii/` draws every plate on a canvas.
 
-## Motion
+- `engine.ts` draws a square cell grid, where a full-width kanji fills one cell. It keeps a glyph atlas per ink and stamps glyphs with drawImage. One shared RAF loop drives every plate, and plates pause off-screen and re-lay-out on resize. It also provides the scan or centre reveal decode, the pointer lens (bright cells near the cursor turn red), the click ripple (a program can opt out), tap events for programs, and a still frame under reduced motion.
+- `programs.ts` holds the plates. A program lists its glyphs and returns a frame function `(t) => void` that writes glyph, alpha and ink per cell through `api.put`.
+- `plate.tsx` is the client wrapper that server components use: `<Plate kind="world" … />`.
 
-Entry: `rise` (1.1s) and `fade` (1.8s). Ambient: hero drift, view-timeline parallax (`paraA–D`), orbit (26s), lens pulse (20s), the cue line, fill drift inside image-filled type, and the ±14° dial. Everything is slow and continuous — paper drifting, never bouncing UI. All of it cancels under `prefers-reduced-motion`.
+Glyph specs look like `"900:光"` (weight prefix, default 400). Two stroke sets are always available, both taking a direction with y pointing down. `lineGlyph(api, θ)` draws with ー ｜ ノ ヽ, for light, letters and architecture. `flowGlyph(api, θ)` draws with 〜 ︴ ノ ヽ, for anything that runs like water: ripples, currents, streams, curves.
 
-The whole page is printed: a fixed `grain.svg` overlay in multiply sits on top of everything, and blend modes (`difference`, `multiply`) keep marks legible over plates.
+Under every page runs `current`, a fixed, faint field of wave strokes behind the content (mounted in `app/layout.tsx`). Its wakes travel with the scroll, so the spaces between bands flow too. This is why `<body>` has no background: the void is set on `<html>`.
+
+### Plate inventory
+
+| program | draws | used on |
+| --- | --- | --- |
+| `hero` | `aaen` cut out of wings of light, sampled from `gen-winged-beams.jpg`; dissolves on scroll | home 第壱話 |
+| `current` | the faint sitewide stream of wave strokes, carried by the scroll | behind every page |
+| `octagon` | wavering ripple rings round a red 人, thinning out at the rim, warped by the pointer | home 第参話 |
+| `vortex` | kern: a fleet of 機 orbiting one 核 on winding spiral currents | home 第四話 |
+| `river` | galdr: churning raw media (音 映 像 声) through a column of 詠唱, out as clean even waves | home 第四話 |
+| `kanji` | one big kanji drawn in smaller semantic kanji (無 in 無空虚) | 404 |
+| `rays` | a cross of light over a city of 目田口日 | home 第伍話 |
+| `world` | a block world in cross-section (草 土 石 炭 鉄 金 玉 紅 盤 水 木 葉); still ground, flowing water, marbled rock, wisps of cloud, a walking red 人; click to mine | home 第六話, /minecraft hero |
+| `strata` | four flowing bands: 草 mods, red 基 Armature, 土 loaders, 盤 bedrock | /minecraft Armature |
+| `quests` | a breathing quest graph of 【章】【任】【条】【報】【墓】 on S-curves, with a completion front | /minecraft Tenet |
+| `clouds` | a sea of cloud crossed by causeways and processions of 人 | /minecraft, between the two |
+| `orb` | a turning globe of 読語字言文書音声, ringed in kana | home 第七話 |
+| `stream` | words streaming from a red 人 on a curling current, each leaving a wake of strokes | home 第八話 |
+
+`public/assets/gen-*.jpg` are the source plates the subjects come from (see `prompts.md`). Only `gen-winged-beams.jpg` is sampled live. The rest are reference for subjects and mood.
+
+## Flow
+
+These are the rules from the redesign:
+
+- **No stamps.** No rotated, bordered seals of red kanji. A product glyph is plain red Mincho type.
+- **No boxed grids.** No `gap-px` tile grids, ruled tables, bordered cards, unit-file frames, hazard tape, hex fields or scanlines.
+- **Plates have no frames.** Feather their edges with `fade-y` (full-bleed bands) or `fade-soft` (a plate set among text). Text over a plate sits on a radial void glow, `bg-[radial-gradient(ellipse_closest-side,…)]`, not a box.
+- **Rules are waves.** The episode rule is a run of 〜 with a red signal travelling along it. Separators in micro-type are `〜`, and the footer ticker rides a wave. Flowing plates draw with the wave strokes, not ー and ｜.
+- **Bands run into each other.** Full-bleed plates overlap (the kern vortex runs into the galdr river) and feather out, so no band starts or stops on a hard line.
+- **Say it once.** Don't add a caption or label a plate already says: no file headers, status lines or corner tags.
+- **Lists drift.** Rows step in (`Leaders`) or sit on a sine wave (`drift(i)` on the Minecraft page). Paired blocks stagger (the second work drops lower, party modes fall in a diagonal).
+- **Motion is current, not jitter.** Things swell, ripple, drift and stream. Don't scroll a character grid sideways in jumps.
+
+## Broadcast devices
+
+- **Episodes**: every band is numbered 第壱話 to 第八話, with `EPISODE:0n` at the far end of its wave rule. The episode rail on the right tracks them.
+- **Cold open**: on the home page's first visit each session, a broadcast line, 第壱話, the L-shaped title card *The studio, / awakens.*, then full-screen kanji flashes 核 詠 基 律 読, before handing over to the hero. Any key, click, wheel or touch skips it.
+- **Title cards**: heavy Mincho English set big and split across the page, with one red turn, such as *Built to be / stood on.*
+- **Decode**: headlines resolve out of scrambling kana (`Decode`). Latin text scrambles through half-width kana, so the line keeps its width.
+- **Readouts**: clock, sync percentage, live download count with rolling digits.
+- **The council**: the contact form's three seats (I II III) deliberate, then vote APPROVED or REJECTED.
+- **Next episode**: the footer's *Whatever ships next.*
 
 ## Voice
 
-English, lowercase studio, factual, unhurried. Sentence-case headlines with one italic turn; micro-lines in caps with `·`; the call to action is "send word", not "get in touch". No exclamation, no marketing voice. No geography — the site names no city or country.
+English, lowercase studio, factual and unhurried. Headlines are short and quotable, such as *The load-bearing parts.* or *One layer everything stands on.* Micro-lines are in caps, joined by 〜 or ・. The call to action is "send word". No exclamation marks, no marketing voice, no geography, and no Japanese copy in the type beyond the accents above.
 
-## The run, top to close
+Eva's *language* only: episodes, title cards, warnings, councils, faceless figures and monumental scale. Never its characters, faces, names or unit designs.
 
-1. **top** — winged-beams night; 天使 and the halo-A; `aaen` inside the octagon lens; SOFTWARE STUDIO; cue line; © MMXXVI.
-2. **statement** — paper; "A software *studio*. / Tools that live on *your machine*."; clouds capsule floating top right; strap line; the red thread starts.
-3. **mirror** — one wing, doubled and reflected; red hairline down the fold; vertical 天使; caption KERN · GALDR — OPEN SOURCE DESKTOP TOOLS.
-4. **shapes** — text flows around two circles (orb with ink ring; octagon disc with red ring); "Open source, and offline by default."
-5. **knock** — seam at the middle; AAEN image-filled above, outline below; double ellipse; "One studio, three works — designed, built and shipped in-house."
-6. **slats** — the cross of light seen through a slat mask; 光; a short red tick at the base.
-7. **lens** — FEATURED WORK; the colossus circle with its red hairline, orbiting satellite and askew sash KERN — OPEN SOURCE SERVER MANAGER.
-8. **glyph** — 使者 filled with the procession plate; caption KERN · GALDR · YOMION.
-9. **works** — "Three works, *shipped and kept*."; the orbit registry: ticks, satellite, red spokes, outline glyphs, image-filled names kern / galdr / yomion, ink disc at the centre.
-10. **elsewhere** — paper; the red satellite comes down the thread from the works dial; "One studio, *two names*."; ellipog image-filled with the orb-and-ring; beneath it the Stellar lockup — the brand's own star-and-beams mark over `stellar` in outline; live Modrinth + CurseForge download count; MODRINTH · CURSEFORGE micro-links.
-11. **word** — cable-descent darkness; "send word" and ELLIOT@AAENZ.NO; the red seal 使者.
-12. **close** — the bar: AAEN STUDIOS · © MMXXVI + nav, with the founder credit ELLIOT STRAND AAEN — FOUNDER & LEAD ENGINEER in the left column.
+## The run
 
-## Do / Don't
-
-Do:
-
-- Keep every plate monochrome; let it bleed; let it be the loudest thing on screen.
-- Frame plates with hairlines, circles, lenses; anchor one micro-caption at an edge.
-- Ration red to stamps, threads and single words.
-- Keep figures faceless, scale play extreme, type quiet.
-- Keep the grain, the paper, the slow motion.
-
-Don't:
-
-- No colour imagery, no saturated fills, no other reds.
-- No Evangelion characters, faces, or copied designs — language only.
-- No borders or frames around plates, no rounded cards, no drop shadows, no gloss.
-- No new display fonts, no bold display, no red body text.
-- No paraphrase of the style spine when generating plates — it lives in `prompts.md`.
-- No new motifs outside the family (wings, light, orbits, seals, processions, clouds, monoliths, cables).
+- **/**: 第壱話 hero (aaen in wings of light) · 第弐話 *Built to be stood on.* · 第参話 the barrier, open source and offline · 第四話 two tools: the kern vortex running into the galdr river · 第伍話 the cross of light, *One studio, two crafts.* · 第六話 *The load-bearing parts.*: Armature and Tenet floating over the block world, plus downloads · 第七話 yomion · 第八話 send word, the stream · footer.
+- **/minecraft**: block-world hero *The load-bearing parts.* · released as ellipog 〜 stellar, plus downloads · Armature: strata plate, the contracts in seven articles, specs · causeway band · Tenet: quest graph, *18 tasks ask, 10 rewards pay, 6 conditions gate.*, the laws, the three party modes, specs · back links.
+- **404**: 無 drawn in 無空虚, *Nothing here.*, the council's verdicts.
 
 ## Extending
 
-- **New plate** — add a block to `prompts.md`, reuse the spine word for word, keep the aspect discipline, generate a whole batch in one sitting.
-- **New section** — alternate paper/ink, give the plate a frame device (lens, circle, full bleed), one micro-caption, one red mark; if red must increase somewhere, take it from somewhere else.
-- **Anything else (product UI, docs, decks)** — same four fonts, same palette, plates as imagery, micro-type as chrome. The language is the company; the site is its first proof.
-
-## Provenance
-
-- Captures: seven, 14 Sep 2026, `Pictures\Screenshots\Screenshot 2026-09-14 1627*.png`.
-- Plates: `public/assets/`. Tokens and motion: `app/globals.css`. Composition: `app/page.tsx`. Generation: `prompts.md`.
+- **New plate**: add a program to `programs.ts` and register it in `programs`. Pick glyphs that *mean* the thing they draw. Use bone for mass, dim for dust, and red for one figure or a front. Make something flow. Pre-warm any simulation so the reduced-motion still frame isn't empty.
+- **New band**: give it an episode number and a wave rule. Use one title card, a plate that feathers out, micro-type that drifts, and one red signal.
+- **Never**: orange, stamps, boxed grids, hazard tape, scanlines, rounded cards, drop shadows, new fonts, labels that repeat the plate, Japanese copy in the type, or characters picked for texture alone.
