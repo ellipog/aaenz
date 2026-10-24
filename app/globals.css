@@ -13,7 +13,6 @@
   --font-mono: "JetBrains Mono", "Noto Serif JP", ui-monospace, monospace;
 
   --animate-blink: blink 1.06s steps(1) infinite;
-  --animate-marquee: marquee 70s linear infinite;
   --animate-cue: cue 2.8s ease-in-out infinite;
 }
 
@@ -61,18 +60,6 @@
   transform: none;
 }
 
-/*
- * The cold open is in the server HTML so it covers the very first paint, but only
- * shows when the head script has not already decided to skip it (`html.go`).
- */
-.coldopen {
-  display: none;
-}
-
-.js:not(.go) .coldopen {
-  display: block;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .js .reveal {
     opacity: 1;
@@ -81,7 +68,6 @@
   }
 
   .animate-blink,
-  .animate-marquee,
   .animate-cue {
     animation: none;
   }
@@ -125,18 +111,6 @@
 @keyframes blink {
   50% {
     opacity: 0;
-  }
-}
-
-@keyframes grow {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
   }
 }
 

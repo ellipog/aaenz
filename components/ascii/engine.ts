@@ -318,8 +318,6 @@ export interface EngineConfig {
   interactive: boolean;
   /** Draw the octagonal ring on click (programs that use taps themselves turn it off). */
   ripple?: boolean;
-  /** Hold the decode until the cold open hands over (`html.go` / the `aaen:go` event). */
-  hold?: boolean;
 }
 
 /* ------------------------------------------------------------ scheduler --- */
@@ -366,7 +364,6 @@ export class Engine {
   private readonly pointer = { x: -99, y: -99, on: false };
   private ripples: { x: number; y: number; t: number }[] = [];
   private readonly taps: { x: number; y: number }[] = [];
-  private held: boolean;
   private ro: ResizeObserver;
   private io: IntersectionObserver;
   private resizeTimer = 0;
@@ -380,8 +377,6 @@ export class Engine {
   ) {
     this.ctx = canvas.getContext("2d")!;
     this.specs = [...new Set([...program.glyphs(opts), ...KATA, ...LINES])];
-    this.held = !!cfg.hold && !document.documentElement.classList.contains("go");
-    if (this.held) window.addEventListener("aaen:go", this.onGo, { once: true });
     this.ro = new ResizeObserver(() => {
       clearTimeout(this.resizeTimer);
       this.resizeTimer = window.setTimeout(() => this.layout(), this.api ? 160 : 0);
@@ -391,7 +386,7 @@ export class Engine {
       ([entry]) => {
         this.visible = entry.isIntersecting;
         if (this.visible) {
-          if (this.revealAt < 0 && this.api && !this.held) this.revealAt = this.now();
+          if (this.revealAt < 0 && this.api) this.revealAt = this.now();
           if (!this.still) wake(this);
           else this.renderStill();
         } else live.delete(this);
@@ -415,13 +410,7 @@ export class Engine {
     this.host.removeEventListener("pointermove", this.onMove);
     this.host.removeEventListener("pointerleave", this.onLeave);
     this.host.removeEventListener("pointerdown", this.onDown);
-    window.removeEventListener("aaen:go", this.onGo);
   }
-
-  private onGo = () => {
-    this.held = false;
-    if (this.visible && this.api && this.revealAt < 0) this.revealAt = this.now();
-  };
 
   private now() {
     return (performance.now() - this.t0) / 1000;
@@ -553,7 +542,7 @@ export class Engine {
 
     this.api = api;
     this.frameFn = frame;
-    if (this.visible && this.revealAt < 0 && !this.held) this.revealAt = this.now();
+    if (this.visible && this.revealAt < 0) this.revealAt = this.now();
     if (this.still) this.renderStill();
     else if (this.visible) {
       this.last = 0;

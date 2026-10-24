@@ -5,7 +5,7 @@ import "./globals.css";
 
 const title = "aaen studios — open source tools and products";
 const description =
-  "Aaen Studios is an independent software studio — Armature and Tenet for Minecraft on Fabric and NeoForge, plus kern and galdr, open source desktop tools, and yomion, a local-first Japanese-learning app.";
+  "Aaen Studios is an independent software studio — Stellar, a suite of Minecraft mods for Fabric and NeoForge, plus kern and galdr, open source desktop tools, and yomion, a local-first Japanese-learning app.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aaenz.no"),
@@ -59,12 +59,8 @@ export const viewport: Viewport = {
   themeColor: "#050505",
 };
 
-/*
- * Runs before first paint. `js` arms the reveal animation; `go` means the cold open
- * is skipped — already seen this session, motion reduced, a deep link, or not the
- * home page — so the hero decodes at once instead of waiting for the hand-over.
- */
-const HEAD_SCRIPT = `(function(){var d=document.documentElement;d.classList.add('js');try{if(sessionStorage.getItem('aaen-intro')||matchMedia('(prefers-reduced-motion: reduce)').matches||location.hash||location.pathname!=='/')d.classList.add('go')}catch(e){d.classList.add('go')}})()`;
+// Runs before first paint: `js` arms the reveal animation, so readers without scripting see every band.
+const HEAD_SCRIPT = `document.documentElement.classList.add('js')`;
 
 export default function RootLayout({
   children,

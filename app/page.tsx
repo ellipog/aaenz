@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Plate from "@/components/ascii/plate";
-import ColdOpen from "@/components/cold-open";
 import Decode from "@/components/decode";
 import Downloads from "@/components/downloads";
 import Leaders from "@/components/leaders";
@@ -9,6 +8,7 @@ import Reveal from "@/components/reveal";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import WordPanel from "@/components/word-panel";
+import { elsewhere, suite } from "@/lib/mods";
 
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "elliot@aaenz.no";
 
@@ -42,32 +42,9 @@ const works = [
   },
 ] as const;
 
-const monuments = [
-  {
-    jp: "基",
-    label: "01 〜 RUNTIME",
-    name: "armature",
-    desc: "A loader seam with strict contracts — ordered events, typed networking, teams resolved by precedence.",
-    meta: "FABRIC + NEOFORGE 〜 JAVA 21 〜 MIT",
-    href: "/minecraft#armature",
-    // where it floats over the world plate: down in the stone, and up in the sky
-    place: "md:bottom-[9%] md:left-[4%]",
-  },
-  {
-    jp: "律",
-    label: "02 〜 ENGINE",
-    name: "tenet",
-    desc: "A declarative quest engine — validated to file and line, the server as sole arbiter.",
-    meta: "REQUIRES ARMATURE 〜 JSON AUTHORING 〜 MIT",
-    href: "/minecraft#tenet",
-    place: "md:right-[4%] md:top-[8%] md:text-right",
-  },
-];
-
 export default function Home() {
   return (
     <>
-      <ColdOpen />
       <Reveal />
       <SiteHeader />
 
@@ -77,7 +54,6 @@ export default function Home() {
           cell={14}
           cellSm={7}
           className="absolute inset-0"
-          hold
           kind="hero"
           label="The word aaen cut out of a figure's wings of light, all drawn in kanji"
         />
@@ -125,12 +101,12 @@ export default function Home() {
             </div>
             <div>
               <p className="m-0 max-w-[52ch] text-dim">
-                aaen studios is an independent software studio. Armature and Tenet are its
-                foundations, kern and galdr its tools — all designed, built and kept in-house.
+                aaen studios is an independent software studio. Stellar is its foundation for
+                Minecraft, kern and galdr its tools — all designed, built and kept in-house.
               </p>
               <Leaders
                 rows={[
-                  ["FOUNDATIONS", "ARMATURE ・ TENET"],
+                  ["FOUNDATION", "STELLAR"],
                   ["TOOLS", "KERN ・ GALDR"],
                   ["POLICY", "OPEN SOURCE"],
                 ]}
@@ -203,7 +179,8 @@ export default function Home() {
               <span className="mono text-faint">
                 <span className="mincho mr-2 text-[13px] text-red">{w.glyph}</span>0{i + 1} 〜 OPEN SOURCE 〜 DESKTOP
               </span>
-              <span className="mincho mt-3 block text-[clamp(64px,8vw,128px)] leading-[.9] transition-colors group-hover:text-red">
+              {/* room under the name for a descender: the g of galdr */}
+              <span className="mincho mt-3 block pb-[.2em] text-[clamp(64px,8vw,128px)] leading-[.9] transition-colors group-hover:text-red">
                 {w.name}
               </span>
               <span className="mt-4 block text-dim">{w.desc}</span>
@@ -245,7 +222,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Armature and Tenet, floating over a block world */}
+      {/* the Minecraft work, one suite floating over a block world; every mod lives on /minecraft */}
       <section className="reveal relative pt-28" data-reveal id="minecraft">
         <div className="mx-auto max-w-[1240px] px-5 sm:px-7">
           <p className="mono m-0 mt-14 text-faint">MINECRAFT</p>
@@ -255,8 +232,7 @@ export default function Home() {
             <span className="pl-[1.2em]">parts.</span>
           </h2>
           <p className="m-0 mt-5 max-w-[50ch] pl-[3em] text-dim max-sm:pl-0">
-            Two systems from the same hands — a runtime everything stands on, and an engine that decides
-            what counts as done.
+            Mods for Minecraft, released as ellipog, under one suite that other mods and packs are built on.
           </p>
         </div>
 
@@ -270,58 +246,41 @@ export default function Home() {
               label="A block world in cross-section, every block drawn as its kanji, one red figure walking the surface"
               ripple={false}
             />
-            <p className="mono pointer-events-none absolute bottom-[10%] right-5 m-0 text-bone sm:right-7 max-md:hidden">
+            <p className="mono pointer-events-none absolute bottom-[10%] left-5 m-0 text-bone sm:left-7 max-md:hidden">
               CLICK TO MINE <span className="animate-blink text-red">■</span>
             </p>
           </div>
-          <div className="grid gap-14 px-5 pt-4 sm:px-7 md:contents">
-            {monuments.map((m) => (
-              <a
-                className={`group block max-w-[460px] no-underline md:absolute md:bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.92)_60%,rgba(5,5,5,0))] md:px-12 md:py-12 ${m.place}`}
-                href={m.href}
-                key={m.name}
-              >
-                <span className="mono text-faint">
-                  <span className="mincho mr-2 text-[13px] text-red">{m.jp}</span>
-                  {m.label}
-                </span>
-                <span className="mincho mt-3 block text-[clamp(56px,6.4vw,100px)] leading-[.9] transition-colors group-hover:text-red">
-                  {m.name}
-                </span>
-                <span className="mt-4 block text-dim">{m.desc}</span>
-                <span className="mono mt-4 block text-faint">{m.meta}</span>
-                <span className="mono mt-2 block text-bone transition-colors group-hover:text-red">
-                  READ ON →
-                </span>
-              </a>
-            ))}
-          </div>
+          <a
+            className="group block max-w-[480px] px-5 pt-4 no-underline sm:px-7 md:absolute md:right-[4%] md:top-[6%] md:bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.92)_60%,rgba(5,5,5,0))] md:px-14 md:py-14 md:text-right"
+            href="/minecraft#stellar"
+          >
+            <span className="mono text-faint">
+              <span className="mincho mr-2 text-[13px] text-red">星</span>THE DEVELOPER SUITE
+            </span>
+            <span className="mincho mt-3 block text-[clamp(60px,7vw,112px)] leading-[.9] transition-colors group-hover:text-red">
+              stellar
+            </span>
+            <span className="mt-4 block text-dim">
+              Libraries and engines for people who make mods and packs, on Fabric and NeoForge.
+            </span>
+            <span className="mono mt-4 block text-faint">JAVA 25 〜 OPEN SOURCE 〜 MIT</span>
+            <span className="mono mt-2 block text-bone transition-colors group-hover:text-red">
+              {suite.map((m) => m.name.toUpperCase()).join(" 〜 ")} →
+            </span>
+          </a>
         </div>
 
         <div className="mx-auto flex max-w-[1240px] flex-wrap items-end justify-between gap-8 px-5 py-16 sm:px-7">
           <Downloads />
           <p className="mono m-0 text-faint">
-            <a className="text-bone transition-colors hover:text-red" href="/minecraft">
-              FULL PAGE →
-            </a>{" "}
-            〜{" "}
-            <a
-              className="transition-colors hover:text-red"
-              href="https://ellipog.dev"
-              rel="noreferrer"
-              target="_blank"
-            >
-              ELLIPOG.DEV ↗
-            </a>{" "}
-            〜{" "}
-            <a
-              className="transition-colors hover:text-red"
-              href="https://modrinth.com/user/Ellipog"
-              rel="noreferrer"
-              target="_blank"
-            >
-              MODRINTH ↗
-            </a>
+            {elsewhere.map(([label, href], i) => (
+              <span key={label}>
+                {i > 0 ? " 〜 " : null}
+                <a className="transition-colors hover:text-red" href={href} rel="noreferrer" target="_blank">
+                  {label} ↗
+                </a>
+              </span>
+            ))}
           </p>
         </div>
       </section>

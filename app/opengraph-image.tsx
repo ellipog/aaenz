@@ -1,162 +1,93 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { DESCENT, HIDDEN, PATHS, SPHERES } from "@/components/ascii/tree-shape";
+import { C, type Cell, Grid, OG_SIZE, glyphsOf, ogFonts, stroke } from "@/lib/og";
 
 /*
- * The share card, drawn at build as a title card: void ground, the wordmark
- * in heavy Mincho, a small character plate of light rays at the right.
- *
- * Satori (behind `next/og`) needs TTF/OTF data. JetBrains Mono is the static TTF kept
- * in `app/fonts/` with its OFL licence. Noto Serif JP is far too large to keep whole,
- * so the build asks Google Fonts for a subset holding exactly the characters drawn
- * here (a non-browser request is answered with TTF). If that request fails the card
- * still builds, Latin-only, rather than breaking the build.
+ * The share card, drawn at build as a title card: the wordmark in heavy Mincho
+ * on the left, and on the right the footer's picture caught at its height — the
+ * Tree of Life in characters, the red bolt run down it, the cross of light
+ * standing up the middle pillar, one small red figure on the horizon.
  */
 
 export const alt = "aaen studios — software studio";
-export const size = { width: 1200, height: 630 };
+export const size = OG_SIZE;
 export const contentType = "image/png";
 
-const VOID = "#050505";
-const BONE = "#ece7db";
-const DIM = "#a39d90";
-const FAINT = "#67625a";
-const RED = "#e3271d";
+const COLS = 21;
+const ROWS = 23;
 
-// The plate: rays fanning up from one point, each cell the stroke that follows it.
-const COLS = 15;
-const ROWS = 13;
-function rayPlate(): { ch: string; a: number; red?: boolean }[][] {
-  const ox = 7;
-  const oy = 11.5;
-  const rows = [];
+function treePlate(): Cell[][] {
+  const grid: Cell[][] = Array.from({ length: ROWS }, () => Array<Cell>(COLS).fill(null));
+  const set = (x: number, y: number, c: Cell) => {
+    if (x >= 0 && y >= 0 && x < COLS && y < ROWS) grid[y][x] = c;
+  };
+  const th = 19;
+  const tw = th * 0.56;
+  const cx = 10;
+  const at = (u: number, v: number) => ({ x: Math.round(cx + (u - 0.5) * tw), y: Math.round(1 + v * th) });
+  const spheres = SPHERES.map((s) => at(s.u, s.v));
+  const horizon = spheres[9].y + 1;
+  const line = (a: { x: number; y: number }, b: { x: number; y: number }, c: (ch: string) => Cell) => {
+    const n = Math.max(Math.abs(b.x - a.x), Math.abs(b.y - a.y));
+    const ch = stroke(b.x - a.x, b.y - a.y);
+    for (let k = 1; k < n; k++) set(Math.round(a.x + ((b.x - a.x) * k) / n), Math.round(a.y + ((b.y - a.y) * k) / n), c(ch));
+  };
+
+  // a faint sea under the horizon, and dust in the sky
   for (let y = 0; y < ROWS; y++) {
-    const row = [];
     for (let x = 0; x < COLS; x++) {
-      const dx = x - ox;
-      const dy = y - oy;
-      const d = Math.hypot(dx, dy);
-      if (x === ox && y === 12) {
-        row.push({ ch: "人", a: 1, red: true });
-        continue;
-      }
-      if (dy > 0.5) {
-        row.push({ ch: "ー", a: 0.35 });
-        continue;
-      }
-      const th = Math.atan2(dy, dx);
-      const k = Math.round(((th + Math.PI) / Math.PI) * 18);
-      const on = k % 3 !== 1;
-      if (d < 2.2) row.push({ ch: "光", a: 1 });
-      else if (!on) row.push({ ch: "・", a: 0.18 });
-      else {
-        let a = th % Math.PI;
-        if (a < 0) a += Math.PI;
-        const o = Math.PI / 8;
-        const ch = a < o || a >= 7 * o ? "ー" : a < 3 * o ? "ヽ" : a < 5 * o ? "｜" : "ノ";
-        row.push({ ch: d < 5 && k % 3 === 0 ? "翼" : ch, a: Math.max(0.25, 1 - d / 15) });
-      }
+      if (y > horizon) set(x, y, (x * 7 + y * 3) % 4 ? { ch: "〜", a: 0.22 } : null);
+      else if ((x * 13 + y * 29) % 23 === 0) set(x, y, { ch: "・", a: 0.25 });
     }
-    rows.push(row);
   }
-  return rows;
+  // the cross of light: up the middle pillar and across at the hidden sphere
+  const bar = at(HIDDEN.u, HIDDEN.v).y;
+  for (let y = 0; y <= horizon - 1; y++) set(cx, y, { ch: "光", a: 0.85 });
+  for (let x = 0; x < COLS; x++) if (x !== cx) set(x, bar, { ch: "光", a: Math.max(0.3, 0.85 - Math.abs(x - cx) * 0.05) });
+  // its reflection in the water
+  for (let y = horizon + 1; y < ROWS; y++) set(cx, y, { ch: "〜", a: 0.7 });
+  // the paths
+  for (const [a, b] of PATHS) line(spheres[a], spheres[b], (ch) => ({ ch, a: 0.4 }));
+  // the bolt, crown to kingdom
+  for (let h = 0; h + 1 < DESCENT.length; h++) line(spheres[DESCENT[h]], spheres[DESCENT[h + 1]], (ch) => ({ ch, a: 1, red: true }));
+  // the spheres, each its kanji
+  SPHERES.forEach((s, n) => set(spheres[n].x, spheres[n].y, { ch: s.glyph, a: 1, red: n === 9 }));
+  // and one of us on the horizon
+  set(2, horizon, { ch: "人", a: 1, red: true });
+  return grid;
 }
 
-const plate = rayPlate();
-const jpText = `aen核詠基律読${plate.flat().map((c) => c.ch).join("")}`;
-
-async function loadNoto(weight: number): Promise<ArrayBuffer | null> {
-  try {
-    const css = await (
-      await fetch(
-        `https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@${weight}&text=${encodeURIComponent(
-          [...new Set(jpText)].join(""),
-        )}`,
-      )
-    ).text();
-    const src = css.match(/src: url\((.+?)\) format\('(opentype|truetype)'\)/);
-    if (!src) return null;
-    const res = await fetch(src[1]);
-    return res.ok ? await res.arrayBuffer() : null;
-  } catch {
-    return null;
-  }
-}
+const plate = treePlate();
 
 export default async function Image() {
-  const [mono, mincho] = await Promise.all([
-    readFile(join(process.cwd(), "app/fonts/JetBrainsMono.ttf")),
-    loadNoto(900),
-  ]);
-  const jp = mincho !== null;
-  const display = jp ? "Noto Serif JP" : "JetBrains Mono";
+  const { jp, display, fonts } = await ogFonts(`aen核詠星読${glyphsOf(plate)}`);
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          backgroundColor: VOID,
-          color: BONE,
-          display: "flex",
-          fontFamily: "JetBrains Mono",
-          height: "100%",
-          position: "relative",
-          width: "100%",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", paddingLeft: 84, width: 700 }}>
+      <div style={{ backgroundColor: C.void, color: C.bone, display: "flex", fontFamily: "JetBrains Mono", height: "100%", position: "relative", width: "100%" }}>
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", paddingLeft: 84, width: 680 }}>
           <div style={{ alignItems: "center", display: "flex", gap: 14 }}>
-            <div style={{ backgroundColor: RED, display: "flex", height: 12, width: 12 }} />
-            <span style={{ color: FAINT, fontSize: 18, letterSpacing: 5 }}>AAEN STUDIOS</span>
+            <div style={{ backgroundColor: C.red, display: "flex", height: 12, width: 12 }} />
+            <span style={{ color: C.faint, fontSize: 18, letterSpacing: 5 }}>AAEN STUDIOS</span>
           </div>
-          <div style={{ display: "flex", fontFamily: display, fontSize: 250, fontWeight: 900, letterSpacing: 4, lineHeight: 1, marginTop: 6 }}>
+          <div style={{ display: "flex", fontFamily: display, fontSize: 240, fontWeight: 900, letterSpacing: 4, lineHeight: 1, marginTop: 6 }}>
             aaen
           </div>
-          <div style={{ color: DIM, display: "flex", fontSize: 18, letterSpacing: 7, marginTop: 18 }}>
+          <div style={{ color: C.dim, display: "flex", fontSize: 18, letterSpacing: 7, marginTop: 18 }}>
             SOFTWARE STUDIO · AAENZ.NO
           </div>
-          <div style={{ backgroundColor: RED, display: "flex", height: 1, marginTop: 30, width: 140 }} />
-          <div style={{ color: FAINT, display: "flex", fontFamily: display, fontSize: 17, gap: 18, letterSpacing: 3, marginTop: 26 }}>
-            {jp ? "核 KERN · 詠 GALDR · 基 ARMATURE · 律 TENET · 読 YOMION" : "KERN · GALDR · ARMATURE · TENET · YOMION"}
+          <div style={{ backgroundColor: C.red, display: "flex", height: 1, marginTop: 30, width: 140 }} />
+          <div style={{ color: C.faint, display: "flex", fontFamily: display, fontSize: 17, gap: 18, letterSpacing: 3, marginTop: 26 }}>
+            {jp ? "核 KERN · 詠 GALDR · 星 STELLAR · 読 YOMION" : "KERN · GALDR · STELLAR · YOMION"}
           </div>
         </div>
-
         {jp ? (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              fontFamily: display,
-              fontSize: 26,
-              lineHeight: 1,
-              position: "absolute",
-              right: 96,
-              top: 150,
-            }}
-          >
-            {plate.map((row, y) => (
-              <div key={y} style={{ display: "flex" }}>
-                {row.map((c, x) => (
-                  <span
-                    key={x}
-                    style={{ color: c.red ? RED : BONE, display: "flex", height: 28, justifyContent: "center", opacity: c.a, width: 26 }}
-                  >
-                    {c.ch}
-                  </span>
-                ))}
-              </div>
-            ))}
+          <div style={{ display: "flex", position: "absolute", right: 64, top: 39 }}>
+            <Grid font={display} grid={plate} size={24} />
           </div>
         ) : null}
-
       </div>
     ),
-    {
-      ...size,
-      fonts: [
-        { data: mono, name: "JetBrains Mono", style: "normal", weight: 400 },
-        ...(mincho ? [{ data: mincho, name: "Noto Serif JP", style: "normal" as const, weight: 900 as const }] : []),
-      ],
-    },
+    { ...size, fonts },
   );
 }

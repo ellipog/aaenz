@@ -18,7 +18,6 @@ export default function Plate({
   reveal = "scan",
   interactive = true,
   ripple = true,
-  hold = false,
   label,
   className = "",
 }: {
@@ -30,7 +29,6 @@ export default function Plate({
   reveal?: "scan" | "center" | "none";
   interactive?: boolean;
   ripple?: boolean;
-  hold?: boolean;
   label?: string;
   className?: string;
 }) {
@@ -47,10 +45,10 @@ export default function Plate({
       canvas.current,
       programs[kind] as Program<Record<string, unknown>>,
       JSON.parse(key),
-      { cell, cellSm, fps, reveal, interactive, ripple, hold },
+      { cell, cellSm, fps, reveal, interactive, ripple },
     );
     return () => engine.destroy();
-  }, [kind, key, cell, cellSm, fps, reveal, interactive, ripple, hold]);
+  }, [kind, key, cell, cellSm, fps, reveal, interactive, ripple]);
 
   return (
     <div

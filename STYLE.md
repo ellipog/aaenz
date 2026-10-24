@@ -1,6 +1,6 @@
 # aaen studios — visual language
 
-The reference for how aaen studios looks and how to extend it without breaking it. Rewritten 23 Oct 2026 for the character-plate site: the pictures are drawn in Japanese characters, the words are English, and the page flows from top to bottom with no chapters.
+The reference for how aaen studios looks and how to extend it without breaking it. Rewritten 23 Oct 2026 for the character-plate site, revised 24 Oct: the pictures are drawn in Japanese characters, the words are English, and the page flows from top to bottom with no chapters.
 
 ## First principle
 
@@ -8,9 +8,9 @@ Every image on the page is drawn in characters. Kanji carry meaning and mass, ka
 
 **Japanese lives in the plates, not the type.** Everything you read is English. Japanese appears in the type only as a few accents:
 
-- the small red product glyphs (核 kern, 詠 galdr, 基 Armature, 律 Tenet, 読 yomion)
-- the legend that keys the quest graph's glyphs
-- the cold open's kanji flashes
+- the small red product glyphs (核 kern, 詠 galdr, 星 Stellar, 基 Armature, 律 Tenet, 読 yomion)
+- the legend that keys the quest graph's glyphs, and the strata's layer kanji
+- the sphere kanji beside the footer's links on a phone
 - the kana that flicker while a headline decodes
 - one line for yomion, because it is the Japanese-learning app
 
@@ -57,10 +57,12 @@ Under every page runs `current`, a fixed, faint field of wave strokes behind the
 | `river` | galdr: churning raw media (音 映 像 声) through a column of 詠唱, out as clean even waves | home works |
 | `kanji` | one big kanji drawn in smaller semantic kanji (無 in 無空虚) | 404 |
 | `rays` | a cross of light over a city of 目田口日 | home light |
-| `world` | a block world in cross-section (草 土 石 炭 鉄 金 玉 紅 盤 水 木 葉); still ground, flowing water, marbled rock, wisps of cloud, a walking red 人; click to mine | home Minecraft, /minecraft hero |
+| `world` | a block world in cross-section (草 土 石 炭 鉄 金 玉 紅 雪 砂 盤 水 木 葉 花). A new world grows on each page load and keeps through re-layouts. A red 人 lives in it: it wanders, rests, hops, swims, fells trees, digs shafts and climbs out on 梯 ladders, plants 苗 that grow, bridges with 板 and 礫, builds lookouts. Water flows, day turns to night, a click mines | home Minecraft, /minecraft hero |
+| `stars` | Stellar: a constellation of 星 on flowing lines, light running star to star, a river of dust behind, one red star | /minecraft Stellar |
 | `strata` | four flowing bands: 草 mods, red 基 Armature, 土 loaders, 盤 bedrock | /minecraft Armature |
 | `quests` | a breathing quest graph of 【章】【任】【条】【報】【墓】 on S-curves, with a completion front | /minecraft Tenet |
-| `clouds` | a sea of cloud crossed by causeways and processions of 人 | /minecraft, between the two |
+| `clouds` | a sea of cloud crossed by causeways and processions of 人 | /minecraft, between two parts |
+| `tree` | the Tree of Life: ten sphere kanji (冠 知 理 慈 厳 美 勝 栄 基 国) and twenty-two paths over a dark sea; red lightning runs down it and a cross of light erupts up the middle pillar | the footer, every page |
 | `orb` | a turning globe of 読語字言文書音声, ringed in kana | home yomion |
 | `stream` | words streaming from a red 人 on a curling current, each leaving a wake of strokes | home send word |
 
@@ -74,35 +76,36 @@ These are the rules from the redesign:
 - **No boxed grids.** No `gap-px` tile grids, ruled tables, bordered cards, unit-file frames, hazard tape, hex fields or scanlines.
 - **Plates have no frames.** Feather their edges with `fade-y` (full-bleed bands) or `fade-soft` (a plate set among text). Text over a plate sits on a radial void glow, `bg-[radial-gradient(ellipse_closest-side,…)]`, not a box.
 - **No chapters.** No episode numbers, section rules, index rails or "next episode" cards. The page is one continuous run.
-- **Waves, not lines.** Separators in micro-type are `〜`, and the footer ticker rides a wave. Flowing plates draw with the wave strokes, not ー and ｜.
+- **Waves, not lines.** Separators in micro-type are `〜`. Flowing plates draw with the wave strokes, not ー and ｜.
 - **Bands run into each other.** Full-bleed plates overlap (the kern vortex runs into the galdr river) and feather out, so no band starts or stops on a hard line.
 - **Say it once.** Don't add a caption or label a plate already says: no file headers, status lines or corner tags.
-- **Lists drift.** Rows step in (`Leaders`) or sit on a sine wave (`drift(i)` on the Minecraft page). Paired blocks stagger (the second work drops lower, party modes fall in a diagonal).
+- **Lists drift.** Rows step in (`Leaders`). Paired blocks stagger (the second work drops lower, Tenet answers Armature from the other side).
+- **Words sit on the picture.** Where a plate has a shape, the type is laid onto it from the same numbers: the footer's links hang beside the Tree's spheres (`components/ascii/tree-shape.ts` is shared by the plate and the footer).
 - **Motion is current, not jitter.** Things swell, ripple, drift and stream. Don't scroll a character grid sideways in jumps.
 
 ## Devices
 
-- **Cold open**: on the home page's first visit each session, a broadcast line, the L-shaped title card *The studio, / awakens.*, then full-screen kanji flashes 核 詠 基 律 読, before handing over to the hero. Any key, click, wheel or touch skips it.
 - **Title cards**: heavy Mincho English set big and split across the page, with one red turn, such as *Built to be / stood on.*
 - **Decode**: headlines resolve out of scrambling kana (`Decode`). Latin text scrambles through half-width kana, so the line keeps its width.
 - **Readouts**: clock, sync percentage, live download count with rolling digits.
 - **The council**: the contact form's three seats (I II III) deliberate, then vote APPROVED or REJECTED.
-- **The close**: the footer's *Whatever ships next.*
+- **The close**: the footer's *Whatever ships next.* set against the Tree of Life, each link on the sphere whose meaning fits it: foundation → Minecraft, wisdom → yomion, mercy → contact, the crown → back to the top. There is no intro animation: the page opens straight on the hero.
 
 ## Voice
 
 English, lowercase studio, factual and unhurried. Headlines are short and quotable, such as *The load-bearing parts.* or *One layer everything stands on.* Micro-lines are in caps, joined by 〜 or ・. The call to action is "send word". No exclamation marks, no marketing voice, no geography, and no Japanese copy in the type beyond the accents above.
 
-Eva's *language* only: title cards, warnings, councils, faceless figures and monumental scale. Never its characters, faces, names or unit designs.
+Eva's *language* only: title cards, warnings, councils, the Tree of Life, crosses of light, faceless figures and monumental scale. Never its characters, faces, names, logos or unit designs.
 
 ## The run
 
-- **/**: hero, aaen in wings of light · *Built to be stood on.* · the barrier, open source and offline · two tools: the kern vortex running into the galdr river · the cross of light, *One studio, two crafts.* · *The load-bearing parts.*: Armature and Tenet floating over the block world, plus downloads · yomion · send word, the stream · footer.
-- **/minecraft**: block-world hero *The load-bearing parts.* · released as ellipog 〜 stellar, plus downloads · Armature: strata plate, the contracts in seven articles, specs · causeway band · Tenet: quest graph, *18 tasks ask, 10 rewards pay, 6 conditions gate.*, the laws, the three party modes, specs · back links.
+- **/**: hero, aaen in wings of light · *Built to be stood on.* · the barrier, open source and offline · two tools: the kern vortex running into the galdr river · the cross of light, *One studio, two crafts.* · *The load-bearing parts.*: one card for the Stellar suite floating over the block world, plus downloads · yomion · send word, the stream · footer.
+- **/minecraft**: block-world hero *The load-bearing parts.* · released as ellipog, plus downloads · the Stellar constellation · one band per part of the suite (Armature with its strata, a causeway band, Tenet with its quest graph): name, the line that decodes, a general description, specs and links · footer.
+- **The Minecraft work grows.** Parts of the suite live in `lib/mods.ts`; add one there and /minecraft gives it a band. The home page only ever points at the suite. Keep the copy general and leave out counts (tasks, rewards, articles), which change with every release.
 - **404**: 無 drawn in 無空虚, *Nothing here.*, the council's verdicts.
 
 ## Extending
 
 - **New plate**: add a program to `programs.ts` and register it in `programs`. Pick glyphs that *mean* the thing they draw. Use bone for mass, dim for dust, and red for one figure or a front. Make something flow. Pre-warm any simulation so the reduced-motion still frame isn't empty.
 - **New band**: no number, no divider. Use one title card, a plate that feathers out into its neighbours, micro-type that drifts, and one red signal.
-- **Never**: orange, stamps, chapters or episode numbers, boxed grids, hazard tape, scanlines, rounded cards, drop shadows, new fonts, labels that repeat the plate, Japanese copy in the type, or characters picked for texture alone.
+- **Never**: orange, stamps, chapters or episode numbers, intro animations, boxed grids, hazard tape, scanlines, rounded cards, drop shadows, new fonts, labels that repeat the plate, Japanese copy in the type, counts that go stale, or characters picked for texture alone.
