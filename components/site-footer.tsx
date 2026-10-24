@@ -1,56 +1,95 @@
 import Plate from "@/components/ascii/plate";
-import { SPHERES, SPHERE_R, TREE_H, TREE_TOP, TREE_W, TREE_X } from "@/components/ascii/tree-shape";
+import { HORIZON, LIES, SHORE, STREAK } from "@/components/ascii/shore-shape";
 
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "elliot@aaenz.no";
 
 /*
- * The close is a picture: the Tree of Life, drawn in characters, with the
- * footer written onto it. Each link hangs beside the sphere whose meaning it
- * fits — the foundation leads to the Minecraft work, wisdom to the language
- * app, mercy to the inbox — and the crown leads back to the top. The picture's
- * height is a custom property, so the links land on spheres the plate draws
- * from the same numbers. On a phone the tree stands alone and the links fall in
- * below it.
+ * The close is the shore after everything: a sky of stars with a red streak
+ * down it, two colossi hung over a red sea, and a white strand where one of us
+ * lies at the end of a line of footprints. The plate draws the characters; the
+ * light under them — the crimson haze, the sea's glow, the white of the sand —
+ * is laid here from the same horizon and waterline, so the page ends in white.
+ * The footer is written on the sand in black, its links lying in two drifts
+ * like tide lines. On a phone the beach runs on below the picture and the
+ * links are written there.
  */
 export default function SiteFooter({ home = true }: { home?: boolean }) {
   const base = home ? "" : "/";
-  // one per sphere, crown to kingdom
-  const links: [label: string, href: string][] = [
-    ["↑ TOP", "#top"],
-    ["YOMION", "https://yomion.com"],
-    ["GITHUB", "https://github.com/aaen-studios"],
-    ["CONTACT", `mailto:${contactEmail}`],
-    ["KERN", "https://kern.aaenz.no"],
-    ["WORKS", `${base}#works`],
-    ["GALDR", "https://github.com/aaen-studios/galdr"],
-    ["ELLIPOG.DEV", "https://ellipog.dev"],
-    ["MINECRAFT", "/minecraft"],
-    ["AAENZ.NO", "/"],
+  const links: [glyph: string, label: string, href: string][] = [
+    ["天", "↑ TOP", "#top"],
+    ["作", "WORKS", `${base}#works`],
+    ["核", "KERN", "https://kern.aaenz.no"],
+    ["詠", "GALDR", "https://github.com/aaen-studios/galdr"],
+    ["読", "YOMION", "https://yomion.com"],
+    ["星", "MINECRAFT", "/minecraft"],
+    ["典", "ELLIPOG.DEV", "https://ellipog.dev"],
+    ["源", "GITHUB", "https://github.com/aaen-studios"],
+    ["文", "CONTACT", `mailto:${contactEmail}`],
+    ["家", "AAENZ.NO", "/"],
   ];
   const out = (href: string) => (href.startsWith("http") ? { rel: "noreferrer", target: "_blank" } : {});
-  const r = TREE_H * SPHERE_R;
+  const hz = HORIZON * 100;
+  const sh = SHORE * 100;
+  const sand = (f: number) => `${(sh + (100 - sh) * f).toFixed(2)}%`;
+  const light = [
+    `radial-gradient(ellipse 34% 9% at 61% ${hz}%, rgba(236,231,219,.13), transparent 70%)`,
+    `linear-gradient(to bottom, transparent ${hz - 22}%, rgba(227,39,29,.05) ${hz - 10}%, rgba(227,39,29,.15) ${hz - 0.6}%, rgba(227,39,29,.32) ${hz + 0.2}%, rgba(227,39,29,.2) ${sh - 0.8}%, #c9c2b6 ${sh + 0.6}%, var(--color-bone) ${sh + 10}%)`,
+    // under it all the night closes over the page's current
+    "linear-gradient(to bottom, transparent, var(--color-void) 9%)",
+  ].join(", ");
+  // the streak's bloom, a soft wedge behind the characters, and the figure on the sand
+  const bloom = (k: "wide" | "tall") => {
+    const [x0, y0, x1, y1] = STREAK[k].map((v) => v * 100);
+    return `${x0 - 1.8},${y0} ${x0 + 1.8},${y0} ${x1},${y1}`;
+  };
+  const lies = (k: "wide" | "tall") => ({ left: `${LIES[k][0] * 100}%`, top: sand(LIES[k][1]) });
+
+  const credits = (
+    <>
+      <span className="mono text-void/50">AAEN STUDIOS ・ © MMXXVI</span>
+      <span className="mono text-balance text-void/75">ELLIOT STRAND AAEN — FOUNDER &amp; LEAD ENGINEER</span>
+    </>
+  );
 
   return (
     <footer className="relative overflow-hidden">
-      <p className="mincho m-0 px-5 pt-20 text-[clamp(44px,8vw,96px)] leading-[.95] sm:px-7 xl:hidden">
-        Whatever
-        <br />
-        <span className="pl-[1.2em]">
-          ships <span className="text-red">next</span>.
-        </span>
-      </p>
-
-      <div className="relative mt-4 aspect-[1/1.2] w-full [--h:min(calc(100svh-110px),60vw)] md:mt-0 md:aspect-auto md:h-[var(--h)]">
+      <div className="relative h-[min(176vw,860px)] lg:h-[clamp(640px,54vw,calc(100svh-24px))]">
+        <div aria-hidden className="absolute inset-0" style={{ backgroundImage: light }} />
+        {(["wide", "tall"] as const).map((k) => (
+          <svg
+            aria-hidden
+            className={`absolute inset-0 h-full w-full blur-[18px] [mask-image:linear-gradient(to_bottom,transparent_4%,#000_18%)] ${k === "wide" ? "hidden lg:block" : "lg:hidden"}`}
+            key={k}
+            preserveAspectRatio="none"
+            viewBox="0 0 100 100"
+          >
+            <polygon fill="rgba(227,39,29,.42)" points={bloom(k)} />
+          </svg>
+        ))}
         <Plate
-          cell={14}
-          cellSm={9}
-          className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,#000_4%,#000_93%,transparent)]"
+          cell={10}
+          cellSm={7}
+          className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,#000_7%,#000_86%,transparent)] lg:[mask-image:linear-gradient(to_bottom,transparent,#000_7%)]"
           fps={30}
-          kind="tree"
-          label="The Tree of Life drawn in characters, ten spheres and their paths over a dark sea; red lightning runs down it and a cross of light erupts from the horizon"
+          kind="shore"
+          label="A shore drawn in characters: a night sky of stars with a red streak falling down it, two colossi with their arms outstretched hanging over a red sea, a glint on the horizon, and a white beach where a small red figure lies at the end of a line of footprints"
         />
 
-        <p className="mincho pointer-events-none absolute bottom-[24%] left-[5%] m-0 hidden text-[clamp(56px,6.2vw,112px)] leading-[.95] xl:block">
+        {(["wide", "tall"] as const).map((k) => (
+          <span
+            aria-hidden
+            className={`mincho pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 -rotate-90 text-[clamp(20px,1.9vw,30px)] leading-none text-red ${k === "wide" ? "hidden lg:block" : "lg:hidden"}`}
+            key={k}
+            style={lies(k)}
+          >
+            大
+          </span>
+        ))}
+
+        <p
+          className="mincho pointer-events-none absolute left-[5%] m-0 text-[clamp(38px,10.5vw,60px)] leading-[.95] text-void lg:text-[clamp(52px,4.8vw,92px)]"
+          style={{ top: sand(0.31) }}
+        >
           Whatever
           <br />
           <span className="pl-[1.2em]">
@@ -58,51 +97,38 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
           </span>
         </p>
 
-        <ul className="m-0 hidden list-none p-0 md:block">
-          {SPHERES.map((s, i) => {
-            const [label, href] = links[i];
-            const left = s.u === 0;
-            const side = left ? -1 : 1;
-            const x = `calc(${TREE_X * 100}% + var(--h) * ${(TREE_H * TREE_W * (s.u - 0.5) + side * r * 1.7).toFixed(4)})`;
-            const y = `calc(var(--h) * ${(TREE_TOP + TREE_H * s.v).toFixed(4)})`;
+        <ul className="absolute right-[3.5%] m-0 hidden h-[15%] w-[53%] list-none p-0 lg:block" style={{ top: sand(0.3) }}>
+          {links.map(([glyph, label, href], i) => {
+            const row = i < 5 ? 0 : 1;
+            const c = i % 5;
+            const left = c * 19 + row * 8;
+            const top = row * 55 + 12 + 12 * Math.sin(c * 0.9 + row * 1.8 + 0.3);
             return (
-              <li
-                className={`absolute -translate-y-1/2 ${left ? "-translate-x-full text-right" : ""}`}
-                key={label}
-                style={{ left: x, top: y }}
-              >
-                <a
-                  className="group block whitespace-nowrap bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.92)_55%,rgba(5,5,5,0))] px-5 py-2 no-underline"
-                  href={href}
-                  {...out(href)}
-                >
-                  <span className="mono block text-bone transition-colors group-hover:text-red">{label}</span>
-                  <span className="mono block text-[10px] text-faint">{s.means}</span>
+              <li className="absolute" key={label} style={{ left: `${left}%`, top: `${top.toFixed(1)}%` }}>
+                <a className="group flex items-baseline gap-2 whitespace-nowrap py-1 no-underline" href={href} {...out(href)}>
+                  <span className="mincho text-[13px] text-red">{glyph}</span>
+                  <span className="mono text-void transition-colors group-hover:text-red">{label}</span>
                 </a>
               </li>
             );
           })}
         </ul>
+
+        <div className="absolute inset-x-[5%] bottom-[3.5%] hidden items-baseline justify-between lg:flex">{credits}</div>
       </div>
 
-      <div className="mx-auto max-w-[1240px] px-5 pb-10 sm:px-7">
-        <ul className="m-0 flex list-none flex-wrap gap-x-7 gap-y-4 p-0 md:hidden">
-          {SPHERES.map((s, i) => {
-            const [label, href] = links[i];
-            return (
-              <li key={label}>
-                <a className="mono text-dim no-underline transition-colors hover:text-red" href={href} {...out(href)}>
-                  <span className="mincho mr-1.5 text-[12px] text-red">{s.glyph}</span>
-                  {label}
-                </a>
-              </li>
-            );
-          })}
+      <div className="bg-bone px-5 pb-10 sm:px-7 lg:hidden">
+        <ul className="m-0 flex list-none flex-wrap gap-x-7 gap-y-4 p-0">
+          {links.map(([glyph, label, href]) => (
+            <li key={label}>
+              <a className="mono text-void no-underline transition-colors hover:text-red" href={href} {...out(href)}>
+                <span className="mincho mr-1.5 text-[12px] text-red">{glyph}</span>
+                {label}
+              </a>
+            </li>
+          ))}
         </ul>
-        <div className="mt-12 flex flex-col gap-x-10 gap-y-1.5 md:mt-2 md:flex-row md:items-baseline md:justify-between">
-          <span className="mono text-faint">AAEN STUDIOS ・ © MMXXVI</span>
-          <span className="mono text-dim">ELLIOT STRAND AAEN — FOUNDER &amp; LEAD ENGINEER</span>
-        </div>
+        <div className="mt-12 flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between">{credits}</div>
       </div>
     </footer>
   );

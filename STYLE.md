@@ -10,7 +10,7 @@ Every image on the page is drawn in characters. Kanji carry meaning and mass, ka
 
 - the small red product glyphs (核 kern, 詠 galdr, 星 Stellar, 基 Armature, 律 Tenet, 読 yomion)
 - the legend that keys the quest graph's glyphs, and the strata's layer kanji
-- the sphere kanji beside the footer's links on a phone
+- the small red glyph beside each of the footer's links
 - the kana that flicker while a headline decodes
 - one line for yomion, because it is the Japanese-learning app
 
@@ -25,6 +25,8 @@ Tokens live in `app/globals.css`. These are the only colours:
 - red `#e3271d` (signal)
 
 Red is the signal, never a coat of paint. Use it for one word in a headline, a product glyph, a 〜 separator, the red 人 in a plate, a live cursor ■, a verdict. A plate keeps red to a few cells. **No orange or amber anywhere**, and no other hues.
+
+The page ends in white. The footer's beach is the one place the ground turns bone, and its words are set in void there. A plate that draws on that light ground uses the fourth ink, `INK.VOID`; everywhere else plates keep to bone, red and dim.
 
 ## Type
 
@@ -62,7 +64,7 @@ Under every page runs `current`, a fixed, faint field of wave strokes behind the
 | `strata` | four flowing bands: 草 mods, red 基 Armature, 土 loaders, 盤 bedrock | /minecraft Armature |
 | `quests` | a breathing quest graph of 【章】【任】【条】【報】【墓】 on S-curves, with a completion front | /minecraft Tenet |
 | `clouds` | a sea of cloud crossed by causeways and processions of 人 | /minecraft, between two parts |
-| `tree` | the Tree of Life: ten sphere kanji (冠 知 理 慈 厳 美 勝 栄 基 国) and twenty-two paths over a dark sea; red lightning runs down it and a cross of light erupts up the middle pillar | the footer, every page |
+| `shore` | the shore after everything: stars and a red streak falling down the sky, two faceless colossi crucified on nothing over a red sea (pale kanji flesh shaded from the softened silhouette, undersides lit red, shedding salt, a red light climbing them), a glint flaring on the horizon with a road of light under it, a ruin at the edge, then the white strand — swash running up and sliding back, wind combing the sand, footprints up out of the water | the footer, every page |
 | `orb` | a turning globe of 読語字言文書音声, ringed in kana | home yomion |
 | `stream` | words streaming from a red 人 on a curling current, each leaving a wake of strokes | home send word |
 
@@ -80,7 +82,7 @@ These are the rules from the redesign:
 - **Bands run into each other.** Full-bleed plates overlap (the kern vortex runs into the galdr river) and feather out, so no band starts or stops on a hard line.
 - **Say it once.** Don't add a caption or label a plate already says: no file headers, status lines or corner tags.
 - **Lists drift.** Rows step in (`Leaders`). Paired blocks stagger (the second work drops lower, Tenet answers Armature from the other side).
-- **Words sit on the picture.** Where a plate has a shape, the type is laid onto it from the same numbers: the footer's links hang beside the Tree's spheres (`components/ascii/tree-shape.ts` is shared by the plate and the footer).
+- **Words sit on the picture.** Where a plate has a shape, the type is laid onto it from the same numbers: the footer's light (haze, sea glow, the streak's bloom, the white sand) and its words are placed from the horizon, waterline, streak and figure in `components/ascii/shore-shape.ts`, which the plate and the share card draw from too.
 - **Motion is current, not jitter.** Things swell, ripple, drift and stream. Don't scroll a character grid sideways in jumps.
 
 ## Devices
@@ -89,13 +91,13 @@ These are the rules from the redesign:
 - **Decode**: headlines resolve out of scrambling kana (`Decode`). Latin text scrambles through half-width kana, so the line keeps its width.
 - **Readouts**: clock, sync percentage, live download count with rolling digits.
 - **The council**: the contact form's three seats (I II III) deliberate, then vote APPROVED or REJECTED.
-- **The close**: the footer's *Whatever ships next.* set against the Tree of Life, each link on the sphere whose meaning fits it: foundation → Minecraft, wisdom → yomion, mercy → contact, the crown → back to the top. There is no intro animation: the page opens straight on the hero.
+- **The close**: the footer is the shore. *Whatever ships next.* is written in black on the white sand, the links lie beside it in two drifts like tide lines, each with its red glyph, and a red 大 lies where the footprints stop. The share card is the same shore, caught still, with the wordmark on the sand. There is no intro animation: the page opens straight on the hero.
 
 ## Voice
 
 English, lowercase studio, factual and unhurried. Headlines are short and quotable, such as *The load-bearing parts.* or *One layer everything stands on.* Micro-lines are in caps, joined by 〜 or ・. The call to action is "send word". No exclamation marks, no marketing voice, no geography, and no Japanese copy in the type beyond the accents above.
 
-Eva's *language* only: title cards, warnings, councils, the Tree of Life, crosses of light, faceless figures and monumental scale. Never its characters, faces, names, logos or unit designs.
+Eva's *language* only: title cards, warnings, councils, barrier rings, crosses of light, the red sea and the white shore after the end, faceless colossi and monumental scale. Never its characters, faces, names, logos or unit designs.
 
 ## The run
 

@@ -15,7 +15,7 @@ import { join } from "node:path";
 export const OG_SIZE = { width: 1200, height: 630 };
 export const C = { void: "#050505", bone: "#ece7db", dim: "#a39d90", faint: "#67625a", red: "#e3271d" };
 
-export type Cell = { ch: string; a: number; red?: boolean } | null;
+export type Cell = { ch: string; a: number; red?: boolean; dark?: boolean } | null;
 
 export async function ogFonts(text: string) {
   const mono = await readFile(join(process.cwd(), "app/fonts/JetBrainsMono.ttf"));
@@ -64,7 +64,7 @@ export function Grid({ grid, size, font }: { grid: Cell[][]; size: number; font:
             <span
               key={x}
               style={{
-                color: c?.red ? C.red : C.bone,
+                color: c?.red ? C.red : c?.dark ? C.void : C.bone,
                 display: "flex",
                 height: size,
                 justifyContent: "center",

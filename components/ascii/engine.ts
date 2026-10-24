@@ -10,13 +10,14 @@
  * keeps a full-screen plate (8–10k cells) well inside a frame budget.
  */
 
-export type Spec = string; // "光" or "900:光" — weight prefix optional
+export type Spec = string; // "光", "900:光" or "900:人@90" — weight prefix and turn (degrees) optional
 
 export const FAMILY = '"Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif';
 
-// Three inks only: bone for everything, red for the signal, a grey for the field.
-export const INK = { BONE: 0, RED: 1, DIM: 2 } as const;
-const PALETTE = ["#ece7db", "#e3271d", "#8c877b"];
+// Four inks only: bone for everything, red for the signal, a grey for the field, and void for
+// the rare plate that draws on light ground.
+export const INK = { BONE: 0, RED: 1, DIM: 2, VOID: 3 } as const;
+const PALETTE = ["#ece7db", "#e3271d", "#8c877b", "#050505"];
 
 export const KATA = Array.from(
   "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン",
@@ -225,9 +226,11 @@ export function rasterize(
 
 /* ---------------------------------------------------------------- atlas --- */
 
-function parse(spec: Spec): [string, number] {
-  const i = spec.indexOf(":");
-  return i > 0 ? [spec.slice(i + 1), Number(spec.slice(0, i))] : [spec, 400];
+function parse(spec: Spec): [string, number, number] {
+  const turn = /@(-?\d+)$/.exec(spec);
+  const body = turn ? spec.slice(0, turn.index) : spec;
+  const i = body.indexOf(":");
+  return [i > 0 ? body.slice(i + 1) : body, i > 0 ? Number(body.slice(0, i)) : 400, turn ? Number(turn[1]) : 0];
 }
 
 class Atlas {
@@ -247,11 +250,19 @@ class Atlas {
     ctx.textBaseline = "middle";
     specs.forEach((s, i) => {
       this.index.set(s, i);
-      const [ch, w] = parse(s);
+      const [ch, w, turn] = parse(s);
       ctx.font = `${w} ${Math.round(px * 0.9)}px ${FAMILY}`;
       PALETTE.forEach((col, row) => {
         ctx.fillStyle = col;
-        ctx.fillText(ch, i * px + px / 2, row * px + px * 0.53);
+        if (!turn) {
+          ctx.fillText(ch, i * px + px / 2, row * px + px * 0.53);
+          return;
+        }
+        ctx.save();
+        ctx.translate(i * px + px / 2, row * px + px / 2);
+        ctx.rotate((turn * Math.PI) / 180);
+        ctx.fillText(ch, 0, px * 0.03);
+        ctx.restore();
       });
     });
     const data = ctx.getImageData(0, 0, n * px, px).data;

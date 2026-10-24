@@ -22,7 +22,7 @@ import {
   type Program,
   type Spec,
 } from "./engine";
-import { DESCENT, HIDDEN, PATHS, SPHERES, SPHERE_R, TREE_H, TREE_TOP, TREE_W, TREE_X } from "./tree-shape";
+import { type Colossus, HORIZON, LIES, SHORE, STREAK, colossusField } from "./shore-shape";
 
 function strokes(api: Api) {
   return { h: api.g(LINE.h), v: api.g(LINE.v), up: api.g(LINE.up), down: api.g(LINE.down) };
@@ -1847,250 +1847,393 @@ export const stars: Program = {
   },
 };
 
-/* ---------------------------------------------------------- 樹 tree ------ */
+/* ---------------------------------------------------------- 渚 shore ----- */
+
+const ruinGlyphs: Spec[] = ["口", "目", "田"];
+const colossusRamp: Spec[] = ["・", "二", "工", "白", "肉", "身", "骨"];
 
 /*
- * The close: the Tree of Life, monumental, standing on a dark sea. Ten
- * spheres, each the kanji of what it means, joined by twenty-two paths, with
- * light rising slowly up the paths from the kingdom to the crown. Then the
- * descent: a red bolt zigzags down the tree, crown to kingdom, lighting each
- * sphere as it strikes, and where it meets the horizon a cross of light erupts
- * up the middle pillar and across, a ring racing out over the water, until the
- * cross comes apart into dust. One small red figure stands on the horizon for
- * scale. The page clock drives the cycle, so the footer can read it too.
+ * The close: the shore after everything. A night sky thick with stars and a
+ * red streak bleeding down it; two colossi hung on nothing, arms out, dark
+ * against the stars and lit red from the sea beneath, shedding salt; a band of
+ * red sea, its swell rolling in under a glint that flares on the horizon, a
+ * ruin at the edge of the world; then the white strand, the swash running up
+ * it and sliding back, wind combing the sand, and lying where a line of
+ * footprints out of the water stops, one of us. The sand is drawn in void ink:
+ * the footer lays the white under it.
  */
-export const TREE_CYCLE = 14;
-
-export const tree: Program = {
+export const shore: Program = {
   glyphs: () => [
-    ...SPHERES.map((s) => `900:${s.glyph}`), "光", "900:光", "・", "丶", "900:人",
+    "・", "丶", "星", "十", "900:十", "一", "水", "900:ー",
+    ...ruinGlyphs, ...colossusRamp,
     `900:${LINE.h}`, `900:${LINE.v}`, `900:${LINE.up}`, `900:${LINE.down}`,
   ],
   create(api) {
     const { cols, rows } = api;
-    const G = { light: api.g("光"), core: api.g("900:光"), dot: api.g("・"), mote: api.g("丶"), me: api.g("900:人") };
-    // lightning is drawn in the heavy strokes
-    const heavy = (theta: number) => api.g(`900:${lineChar(theta)}`);
-    const level = flowGlyph(api, 0);
     const portrait = cols < rows;
-    const th = rows * TREE_H;
-    const tw = th * TREE_W;
-    const cx = cols * (portrait ? 0.5 : TREE_X);
-    const top = rows * TREE_TOP;
-    const R = Math.max(1.6, th * SPHERE_R);
-    const at = (u: number, v: number) => ({ x: cx + (u - 0.5) * tw, y: top + v * th });
-    const spheres = SPHERES.map((s) => ({ ...at(s.u, s.v), glyph: api.g(`900:${s.glyph}`) }));
-    const hidden = at(HIDDEN.u, HIDDEN.v);
-    const horizon = Math.min(rows - 3, Math.round(spheres[9].y + R + 1.5));
-    const beamX = Math.floor(cx);
-    const barY = Math.round(hidden.y);
-
-    // each sphere's rim, cell by cell, with the stroke of its tangent
-    const rim = (s: { x: number; y: number }, r: number) => {
-      const cells: { x: number; y: number; g: number }[] = [];
-      for (let y = Math.floor(s.y - r - 1); y <= s.y + r + 1; y++) {
-        for (let x = Math.floor(s.x - r - 1); x <= s.x + r + 1; x++) {
-          const a = Math.atan2(y + 0.5 - s.y, x + 0.5 - s.x);
-          if (Math.abs(Math.hypot(x + 0.5 - s.x, y + 0.5 - s.y) - r) < 0.5) cells.push({ x, y, g: flowGlyph(api, a + Math.PI / 2) });
-        }
-      }
-      return cells;
+    const hz = Math.round(rows * HORIZON);
+    const sh = rows * SHORE;
+    const beach = rows - sh;
+    const G = {
+      dot: api.g("・"), mote: api.g("丶"), star: api.g("星"), cross: api.g("十"), glint: api.g("900:十"),
+      flat: api.g("一"), water: api.g("水"), line: api.g("900:ー"),
     };
-    const rims = spheres.map((s) => rim(s, R));
-    const hiddenRim = rim(hidden, R * 0.9).filter((_, n) => n % 2 === 0);
+    const wave = flowGlyph(api, 0);
+    const ray = strokes(api);
+    const heavy = (theta: number) => api.g(`900:${lineChar(theta)}`);
+    const mass = api.ramp(colossusRamp);
+    const ruinG = ruinGlyphs.map((s) => api.g(s));
 
-    // the paths, bowed a little; `s` runs from the lower sphere up, the way the light climbs
-    const paths = PATHS.map(([a, b], n) => {
-      const A = spheres[a];
-      const B = spheres[b];
-      const len = Math.hypot(B.x - A.x, B.y - A.y);
-      const ux = (B.x - A.x) / len;
-      const uy = (B.y - A.y) / len;
-      const bow = (n % 2 ? 1 : -1) * len * 0.035;
-      const qx = (A.x + B.x) / 2 - uy * bow;
-      const qy = (A.y + B.y) / 2 + ux * bow;
-      const cells: { x: number; y: number; s: number; g: number }[] = [];
-      const seen = new Set<number>();
-      const steps = Math.ceil(len * 2.5);
-      for (let j = 0; j <= steps; j++) {
-        const s = j / steps;
-        const v = 1 - s;
-        const px = v * v * A.x + 2 * v * s * qx + s * s * B.x;
-        const py = v * v * A.y + 2 * v * s * qy + s * s * B.y;
-        if (Math.hypot(px - A.x, py - A.y) < R + 0.8 || Math.hypot(px - B.x, py - B.y) < R + 0.8) continue;
-        const x = Math.floor(px);
-        const y = Math.floor(py);
-        if (x < 0 || y < 0 || x >= cols || y >= rows || seen.has(y * cols + x)) continue;
-        seen.add(y * cols + x);
-        const dx = 2 * v * (qx - A.x) + 2 * s * (B.x - qx);
-        const dy = 2 * v * (qy - A.y) + 2 * s * (B.y - qy);
-        cells.push({ x, y, s: A.y >= B.y ? s : 1 - s, g: flowGlyph(api, Math.atan2(dy, dx)) });
-      }
-      return { cells, phase: hash(n, 31) };
-    });
-
-    // the bolt for each hop of the descent, jagged afresh every cycle
-    const HOP = 0.3;
-    const START = 0.5;
-    const STRIKE = START + (DESCENT.length - 1) * HOP;
-    let bolts: { x: number; y: number; s: number; g: number; fork?: boolean }[][] = [];
-    let boltCycle = -1;
-    const forge = (cycle: number) => {
-      bolts = DESCENT.slice(0, -1).map((a, h) => {
-        const A = spheres[a];
-        const B = spheres[DESCENT[h + 1]];
-        const len = Math.hypot(B.x - A.x, B.y - A.y);
-        const ux = (B.x - A.x) / len;
-        const uy = (B.y - A.y) / len;
-        const pts: [number, number][] = [];
-        const M = 6;
-        for (let j = 0; j <= M; j++) {
-          const s = j / M;
-          const kick = j === 0 || j === M ? 0 : (hash(cycle, h * 10 + j, 41) - 0.5) * len * 0.22;
-          pts.push([A.x + ux * (R + (len - 2 * R) * s) - uy * kick, A.y + uy * (R + (len - 2 * R) * s) + ux * kick]);
-        }
-        const cells: { x: number; y: number; s: number; g: number; fork?: boolean }[] = [];
-        for (let j = 0; j < M; j++) {
-          const [x1, y1] = pts[j];
-          const [x2, y2] = pts[j + 1];
-          const l = Math.hypot(x2 - x1, y2 - y1);
-          const a = Math.atan2(y2 - y1, x2 - x1);
-          const g = heavy(a);
-          for (let q = 0; q <= l; q += 0.5) {
-            cells.push({ x: Math.floor(x1 + ((x2 - x1) * q) / l), y: Math.floor(y1 + ((y2 - y1) * q) / l), s: (j + q / l) / M, g });
-          }
-          // now and then a fork splits off and dies out
-          if (j > 0 && hash(cycle, h * 10 + j, 43) > 0.55) {
-            const fa = a + (hash(cycle, h * 10 + j, 44) > 0.5 ? 0.9 : -0.9);
-            const fl = 2 + Math.floor(hash(cycle, h * 10 + j, 45) * 4);
-            for (let q = 1; q <= fl; q++) {
-              cells.push({ x: Math.floor(x1 + Math.cos(fa) * q), y: Math.floor(y1 + Math.sin(fa) * q), s: j / M, g: lineGlyph(api, fa), fork: true });
-            }
-          }
-        }
-        return cells;
-      });
-    };
-
-    return (t) => {
-      const now = performance.now() / 1000;
-      const cycle = Math.floor(now / TREE_CYCLE);
-      const tau = now - cycle * TREE_CYCLE;
-      if (cycle !== boltCycle) {
-        forge(cycle);
-        boltCycle = cycle;
-      }
-      const flick = Math.floor(t * 20);
-      // the cross: up for a breath, held, then coming apart
-      const since = tau - STRIKE;
-      const cross = since < 0 ? 0 : since < 2 ? 1 : Math.max(0, 1 - (since - 2) / 3);
-      const rise = since < 0 ? 0 : smooth(0, 0.45, since);
-      const reach = since < 0 ? 0 : smooth(0.2, 0.75, since);
-
-      // the sky, brightening at the strike, and the sea under it
+    // the colossi, drawn as silhouettes and read back cell by cell
+    // the near one stands knee-deep in the sea, the far one hangs just over it
+    const hA = Math.min(hz * 0.9, cols * (portrait ? 0.62 : 0.42));
+    const hB = hA * 0.55;
+    const colossi: (Colossus & { seed: number })[] = [
+      { x: cols * (portrait ? 0.36 : 0.27), y: hz + hA * 0.06 - hA, h: hA, lean: 0.05, broken: false, seed: 1 },
+      { x: cols * (portrait ? 0.82 : 0.8), y: hz + 0.5 - hB, h: hB, lean: -0.24, broken: true, seed: 2 },
+    ];
+    const glintX = Math.round(cols * (portrait ? 0.62 : 0.6));
+    // a box blur over a cell field, so a silhouette has a slope to read a surface from
+    const soften = (src: Float32Array, r: number) => {
+      const tmp = new Float32Array(src.length);
+      const out = new Float32Array(src.length);
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-          if (y > horizon) {
-            const d = (y - horizon) / Math.max(1, rows - horizon);
-            const s = fbm(x * 0.05 - t * 0.08, y * 0.6 + t * 0.12, 3);
-            if (s > 0.56) api.put(x, y, flowGlyph(api, (s - 0.56) * 3), (s - 0.56) * 1.6 * (0.5 + 0.5 * d), INK.DIM);
+          let sum = 0;
+          for (let d = -r; d <= r; d++) sum += src[y * cols + Math.min(cols - 1, Math.max(0, x + d))];
+          tmp[y * cols + x] = sum / (2 * r + 1);
+        }
+      }
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          let sum = 0;
+          for (let d = -r; d <= r; d++) sum += tmp[Math.min(rows - 1, Math.max(0, y + d)) * cols + x];
+          out[y * cols + x] = sum / (2 * r + 1);
+        }
+      }
+      return out;
+    };
+    const shapes = colossi.map((c) => {
+      // the light on each comes up off the sea, from the glint's side
+      const lx = (glintX - c.x) / cols;
+      const LX = lx / Math.hypot(lx, 0.9);
+      const LY = 0.9 / Math.hypot(lx, 0.9);
+      const cov = colossusField(cols, rows, c);
+      const soft = soften(soften(cov, 2), 1);
+      const at = (a: Float32Array, x: number, y: number) => (x < 0 || y < 0 || x >= cols || y >= rows ? 0 : a[y * cols + x]);
+      const cells: { x: number; y: number; g: number; a: number; ink: number; lit: number; edge: boolean; v: number }[] = [];
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const cv = at(cov, x, y);
+          if (cv < 0.08) continue;
+          const v = (y - c.y) / c.h;
+          const ex = at(cov, x + 1, y) - at(cov, x - 1, y);
+          const ey = at(cov, x, y + 1) - at(cov, x, y - 1);
+          const el = Math.hypot(ex, ey);
+          if (cv < 0.55 && el > 0.1) {
+            // the outline, stroked along its run
+            const lit = (-ex * LX - ey * LY) / el;
+            cells.push({ x, y, g: lineGlyph(api, Math.atan2(ey, ex) + Math.PI / 2), a: 0, ink: INK.DIM, lit, edge: true, v });
             continue;
           }
-          if (hash(x, y, 9) < 0.01) {
-            const tw2 = 0.5 + 0.5 * Math.sin(t * 0.8 + hash(x, y, 4) * 30);
-            api.put(x, y, G.dot, (0.05 + 0.12 * tw2) * (1 + cross * 2), INK.DIM);
+          // inside, the surface turned towards the light as far as the softened silhouette can tell,
+          // set in kanji from the faintest to the fullest; only the deepest shadow drops to strokes
+          const sx = at(soft, x + 1, y) - at(soft, x - 1, y);
+          const sy = at(soft, x, y + 1) - at(soft, x, y - 1);
+          const sl = Math.hypot(sx, sy);
+          const turn = smooth(0, 0.16, sl);
+          const facing = sl > 1e-4 ? ((-sx * LX - sy * LY) / sl) * turn : 0;
+          const under = sl > 1e-4 ? (-sy / sl) * turn : 0;
+          const b = clamp(0.42 + 0.5 * facing + 0.3 * (fbm(x * 0.35, y * 0.35, 2) - 0.5));
+          const g =
+            b > 0.2 || sl < 0.03
+              ? mass[Math.min(mass.length - 1, Math.round(b * (mass.length - 1)))]
+              : lineGlyph(api, Math.atan2(sy, sx) + Math.PI / 2);
+          const ink = b > 0.62 && under > 0.3 ? INK.RED : b > 0.55 ? INK.BONE : INK.DIM;
+          cells.push({ x, y, g, a: 0.2 + 0.55 * b, ink, lit: 0, edge: false, v });
+        }
+      }
+      return { ...c, cov, cells, edges: cells.filter((e) => e.edge && e.y < hz - 1) };
+    });
+    const behind = (x: number, y: number) => shapes.some((s) => s.cov[y * cols + x] > 0.05);
+
+    // the stars: thick overhead, thinning into the haze, a faint river of them on a slant
+    const sky: number[] = [];
+    for (let y = 0; y < hz - 1; y++) {
+      const lift = 1 - y / hz;
+      for (let x = 0; x < cols; x++) {
+        if (behind(x, y)) continue;
+        const across = y / hz - 0.95 + (x / cols) * 0.85 + (fbm(x * 0.06, y * 0.06, 3) - 0.5) * 0.4;
+        const band = Math.exp(-across * across * 22);
+        if (hash(x, y, 1) > 0.01 + 0.07 * lift * lift + 0.1 * band) continue;
+        const k = hash(x, y, 2);
+        const g = k < 0.62 ? G.dot : k < 0.9 ? G.mote : k < 0.975 ? G.star : G.cross;
+        sky.push(x, y, g, (0.18 + 0.5 * hash(x, y, 3)) * (0.35 + 0.65 * lift), 0.4 + hash(x, y, 4) * 1.8, hash(x, y, 5) * 40);
+      }
+    }
+
+    // the red streak, falling down the sky out of frame, thick at the top and thinning to a point
+    const [s0x, s0y, s2x, s2y] = STREAK[portrait ? "tall" : "wide"];
+    const curve = (s: number) => ({
+      x: cols * (s0x + (s2x - s0x) * s),
+      y: rows * (s0y + (s2y - s0y) * s),
+      dx: cols * (s2x - s0x),
+      dy: rows * (s2y - s0y),
+    });
+    const streakAt = new Map<number, { s: number; d: number; g: number }>();
+    for (let j = 0; j <= 360; j++) {
+      const s = j / 360;
+      const p = curve(s);
+      const l = Math.hypot(p.dx, p.dy);
+      const nx = -p.dy / l;
+      const ny = p.dx / l;
+      const theta = Math.atan2(p.dy, p.dx);
+      const w = 0.35 + 2.1 * Math.pow(1 - s, 0.9);
+      for (let o = -w - 1.5; o <= w + 1.5; o += 0.4) {
+        const x = Math.floor(p.x + nx * o);
+        const y = Math.floor(p.y + ny * o);
+        if (x < 0 || y < 0 || x >= cols || y >= hz) continue;
+        const i = y * cols + x;
+        const d = Math.abs(o) / w;
+        const prev = streakAt.get(i);
+        if (!prev || d < prev.d) streakAt.set(i, { s, d, g: d < 0.5 ? heavy(theta) : lineGlyph(api, theta) });
+      }
+    }
+    const streak = [...streakAt].map(([i, c]) => ({ x: i % cols, y: Math.floor(i / cols), ...c }));
+
+    // a ruin at the edge of the world, broken off unevenly
+    const ruins: { x: number; y: number; g: number; a: number }[] = [];
+    const scale = hz / 26;
+    const towers = portrait
+      ? [[0.03, 2, 4], [0.075, 2, 7], [0.12, 1, 3]]
+      : [[0.02, 2, 4], [0.045, 3, 8], [0.08, 1, 5], [0.1, 2, 3]];
+    towers.forEach(([fx, w, h], n) => {
+      const x0 = Math.round(cols * fx);
+      for (let dx = 0; dx < w; dx++) {
+        const top = Math.max(1, Math.round(h * scale * (0.55 + 0.45 * hash(n, dx, 81))));
+        for (let k = 0; k < top; k++) {
+          ruins.push({ x: x0 + dx, y: hz - 1 - k, g: ruinG[Math.floor(hash(n, dx * 9 + k, 82) * ruinG.length)], a: 0.16 + 0.14 * hash(n, k, 83) });
+        }
+      }
+    });
+    const beacon = { x: Math.round(cols * towers[1][0]), y: hz - 1 - Math.max(1, Math.round(towers[1][2] * scale * 0.55)) - 1 };
+
+    // the footprints that come up out of the water to where one of us lies (the footer sets the figure in type)
+    const [lx, ly] = LIES[portrait ? "tall" : "wide"];
+    const me = { x: Math.round(cols * lx), y: Math.round(sh + beach * ly) };
+    const prints: { x: number; y: number }[] = [];
+    {
+      const P0 = { x: me.x + (portrait ? -7 : 13), y: sh + 0.6 };
+      const P1 = { x: me.x + (portrait ? -8 : 4), y: (sh + me.y) / 2 + 1 };
+      const P2 = { x: me.x + 2.5, y: me.y };
+      const seen = new Set<number>();
+      for (let j = 0, side = 1; j <= 40; j++, side = -side) {
+        const s = j / 40;
+        const u = 1 - s;
+        const x = u * u * P0.x + 2 * u * s * P1.x + s * s * P2.x;
+        const y = u * u * P0.y + 2 * u * s * P1.y + s * s * P2.y + side * 0.3;
+        const k = Math.round(y) * cols + Math.round(x);
+        if (seen.has(k) || s > 0.94) continue;
+        seen.add(k);
+        prints.push({ x: Math.round(x), y: Math.round(y) });
+      }
+    }
+
+    const edge = new Float32Array(cols);
+    const reach = new Float32Array(cols);
+    const damp = new Float32Array(cols);
+    const SWASH = 7;
+
+    return (t) => {
+      const flick = Math.floor(t * 12);
+
+      // the stars, each breathing at its own rate
+      for (let k = 0; k < sky.length; k += 6) {
+        const tw = 0.5 + 0.5 * Math.sin(t * sky[k + 4] + sky[k + 5]);
+        api.put(sky[k], sky[k + 1], sky[k + 2], sky[k + 3] * (0.45 + 0.55 * tw), tw > 0.92 && sky[k + 2] === G.cross ? INK.BONE : INK.DIM);
+      }
+
+      // now and then a star falls
+      const fall = Math.floor(t / 9.5);
+      const fa = t - fall * 9.5;
+      if (fa < 0.9 && fall > 0) {
+        const left = hash(fall, 73) > 0.5;
+        const theta = left ? Math.PI - 0.5 : 0.5;
+        const x0 = cols * (0.12 + 0.76 * hash(fall, 71));
+        const y0 = hz * (0.04 + 0.3 * hash(fall, 72));
+        const head = fa * 30;
+        const fade = 1 - fa / 0.9;
+        for (let q = 0; q < 11; q++) {
+          const d = head - q;
+          if (d < 0) break;
+          const x = Math.round(x0 + Math.cos(theta) * d);
+          const y = Math.round(y0 + Math.sin(theta) * d);
+          if (y >= hz - 2 || x < 0 || x >= cols || behind(x, y)) continue;
+          api.put(x, y, q === 0 ? G.cross : lineGlyph(api, theta), (q === 0 ? 1 : 0.7 * (1 - q / 11)) * fade, q < 3 ? INK.BONE : INK.DIM);
+        }
+      }
+
+      // the streak: pulses of light running down it, the edges guttering
+      for (const c of streak) {
+        const pulse = Math.pow(Math.max(0, Math.sin(c.s * 13 - t * 1.9)), 2);
+        const tip = smooth(1, 0.8, c.s);
+        if (c.d < 0.5) api.put(c.x, c.y, c.g, (0.72 + 0.28 * pulse) * tip, INK.RED);
+        else if (c.d < 1) {
+          if (hash(c.x, c.y, flick) < 0.85) api.put(c.x, c.y, c.g, (0.32 + 0.45 * pulse) * tip, INK.RED);
+        } else if (hash(c.x, c.y, flick) > 0.62) api.put(c.x, c.y, G.dot, (0.12 + 0.25 * pulse) * tip * (1.6 - c.d * 0.5), INK.RED);
+      }
+      // and drops of it shaken loose, falling
+      for (let k = 0; k < 16; k++) {
+        const life = 3.6;
+        const tt = t + hash(k, 61) * life;
+        const age = tt % life;
+        const gen = Math.floor(tt / life);
+        const p = curve(0.3 + 0.7 * hash(k, gen, 62));
+        const x = p.x + (hash(k, gen, 63) - 0.5) * 3 + age * 0.7;
+        const y = p.y + age * 0.8 + age * age * 0.5;
+        if (y < hz - 1) api.put(x, y, G.dot, (1 - age / life) * 0.75, INK.RED);
+      }
+
+      // the colossi: dark against the stars, their undersides lit red, a red light climbing them now and then
+      const breathe = 0.85 + 0.15 * Math.sin(t * 0.6);
+      for (const C of shapes) {
+        const climb = ((t + C.seed * 5.3) % 13) / 7;
+        const at = 1 - climb;
+        for (const c of C.cells) {
+          const tide = climb <= 1 ? Math.max(0, 1 - Math.abs(at - c.v) / 0.07) : 0;
+          if (!c.edge) {
+            api.put(c.x, c.y, c.g, Math.min(1, c.a + 0.4 * tide), tide > 0.35 ? INK.RED : c.ink);
+            continue;
           }
+          // red from the sea beneath, a cold rim of starlight on what faces up
+          const lit = Math.max(0, c.lit) * breathe;
+          const cold = Math.max(0, -c.lit);
+          api.put(
+            c.x,
+            c.y,
+            c.g,
+            Math.min(1, 0.3 + 0.62 * lit + 0.3 * cold + 0.6 * tide),
+            tide > 0.3 || lit > 0.6 ? INK.RED : lit > 0.12 || cold > 0.45 ? INK.BONE : INK.DIM,
+          );
+        }
+        // salt, shed off their edges and drifting down into the haze
+        for (let k = 0; k < Math.round(C.edges.length * 0.06); k++) {
+          const life = 5.5;
+          const tt = t + hash(k, C.seed, 51) * life;
+          const age = tt % life;
+          const gen = Math.floor(tt / life);
+          const e = C.edges[Math.floor(hash(k, gen, C.seed) * C.edges.length)];
+          const x = e.x + age * (hash(k, gen, 53) - 0.3) * 0.9;
+          const y = e.y + 0.5 + age * age * 0.32;
+          if (y < hz - 1) api.put(x, y, age < 0.8 ? G.mote : G.dot, (1 - age / life) * 0.6, INK.BONE);
         }
       }
 
-      // the cross, behind the tree
-      if (cross > 0) {
-        const topY = Math.round(horizon - horizon * rise);
-        const half = cols * 0.4 * reach;
-        const beam = (x: number, y: number, off: number) => {
-          if (hash(x, y, 77) > cross * 1.25) return; // coming apart, cell by cell
-          if (spheres.some((s) => Math.hypot(x + 0.5 - s.x, y + 0.5 - s.y) < R + 0.6)) return; // the spheres stay clear
-          const shimmer = 0.85 + 0.15 * Math.sin(t * 30 + x + y);
-          if (off === 0) api.put(x, y, G.core, cross * shimmer, INK.BONE);
-          else if (off === 1) api.put(x, y, G.light, 0.7 * cross * shimmer, INK.BONE);
-          else if (hash(x, y, flick) > 0.45) api.put(x, y, G.dot, 0.35 * cross * (1 - off / 5), INK.BONE);
-        };
-        for (let y = topY; y < horizon; y++) for (let o = -4; o <= 4; o++) beam(beamX + o, y, Math.abs(o));
-        for (let x = Math.round(cx - half); x <= cx + half; x++) for (let o = -3; o <= 3; o++) if (Math.abs(x - beamX) > 4) beam(x, barY + o, Math.abs(o));
-        // its reflection, wavering down into the water
-        for (let y = horizon + 1; y < rows; y++) {
-          const d = (y - horizon) / Math.max(1, rows - horizon);
-          const x = Math.round(beamX + Math.sin(y * 0.9 + t * 3) * (0.5 + d * 2));
-          api.put(x, y, level, cross * 0.85 * (1 - d * 0.7), INK.BONE);
+      // the ruin, one light still burning in it
+      for (const r of ruins) api.put(r.x, r.y, r.g, r.a, INK.DIM);
+      if (Math.sin(t * 1.3) > 0.3) api.put(beacon.x, beacon.y, G.dot, 0.9, INK.RED);
+
+      // haze along the horizon, in the gaps
+      for (let y = hz - 9; y < hz; y++) {
+        const near = 1 - (hz - y) / 9;
+        for (let x = 0; x < cols; x++) {
+          if (api.glyph[y * cols + x] >= 0) continue;
+          const m = fbm(x * 0.05 - t * 0.04, y * 0.35 + t * 0.02, 3);
+          if (m > 0.52 - near * 0.12) api.put(x, y, wave, (m - 0.38) * 0.55 * near, INK.RED);
         }
-        // the ring racing out across the sea
-        for (const lag of [0, 0.35]) {
-          const age = since - lag;
-          if (age <= 0 || age > 2.6) continue;
-          const r = age * cols * 0.22;
-          for (let q = 0; q <= 40; q++) {
-            const a = (q / 40) * Math.PI;
-            const x = Math.round(beamX + Math.cos(a) * r);
-            const y = Math.round(horizon + 1 + Math.sin(a) * r * 0.07);
-            if (x >= 0 && x < cols && y < rows) api.put(x, y, level, 0.8 * (1 - age / 2.6), INK.BONE);
+      }
+
+      // how far up the sand the swash has run, column by column
+      for (let x = 0; x < cols; x++) {
+        const tl = t + 1.3 * Math.sin(x * 0.045) + 0.6 * Math.sin(x * 0.11 + 2);
+        const gen = Math.floor(tl / SWASH);
+        const ph = tl / SWASH - gen;
+        const far = beach * 0.15 * (0.4 + 0.6 * fbm(x * 0.08, gen * 3.7, 2));
+        const run = ph < 0.3 ? 1 - (1 - ph / 0.3) ** 2 : (1 - (ph - 0.3) / 0.7) ** 1.5;
+        edge[x] = sh + 0.3 + far * run;
+        reach[x] = sh + 0.3 + far;
+        damp[x] = ph < 0.3 ? 0 : 1 - (ph - 0.3) / 0.7;
+      }
+
+      // the red sea: swell lines rolling in, crowding together towards the horizon
+      const sway = Math.sin(t * 0.7);
+      for (let x = 0; x < cols; x++) {
+        for (let y = hz; y <= edge[x] && y < rows; y++) {
+          if (y === hz) {
+            api.put(x, y, G.line, 0.9, INK.RED);
+            continue;
           }
-        }
-      }
-
-      // the paths: light climbing slowly from the kingdom to the crown, all of them flashing at the strike
-      for (const p of paths) {
-        const head = (t * 0.11 + p.phase) % 1;
-        for (const c of p.cells) {
-          const glow = Math.max(0, 1 - Math.abs(c.s - head) / 0.12);
-          const a = Math.min(1, 0.16 + 0.6 * glow + 0.55 * cross);
-          api.put(c.x, c.y, c.g, a, glow > 0.4 || cross > 0.5 ? INK.BONE : INK.DIM);
-        }
-      }
-      for (const c of hiddenRim) api.put(c.x, c.y, G.dot, 0.22 + 0.4 * cross, INK.DIM);
-
-      // the descent: each hop drawn as it happens, its trace left to fade
-      bolts.forEach((cells, h) => {
-        const from = START + h * HOP;
-        const q = (tau - from) / HOP;
-        if (q < 0) return;
-        const fade = q <= 1 ? 1 : Math.max(0, 1 - (q - 1) * HOP / 0.6);
-        if (fade <= 0) return;
-        for (const c of cells) {
-          if (c.s > q) continue;
-          const head = q <= 1 && q - c.s < 0.2;
-          const on = head || hash(c.x, c.y, flick) > 0.25;
-          if (on) api.put(c.x, c.y, c.g, (c.fork ? 0.6 : head ? 1 : 0.9) * (head ? 1 : fade), INK.RED);
-        }
-      });
-
-      // the spheres, each lit as the bolt reaches it
-      spheres.forEach((s, n) => {
-        const struck = START + DESCENT.indexOf(n) * HOP;
-        const age = tau - struck;
-        const glow = age < 0 ? 0 : Math.exp(-age * 1.1);
-        const hot = age >= 0 && age < 0.55;
-        const lit = Math.max(glow, cross * 0.7);
-        for (const c of rims[n]) {
-          api.put(c.x, c.y, c.g, 0.4 + 0.6 * lit, hot ? INK.RED : lit > 0.3 ? INK.BONE : INK.DIM);
-        }
-        // struck, it bursts: rays thrown out all round, falling back as it cools
-        if (age >= 0 && age < 0.9) {
-          const reachOut = R + 1 + (1 - glow) * 4;
-          for (let q = 0; q < 12; q++) {
-            const a = (q / 12) * Math.PI * 2 + n;
-            for (let d = R + 1; d <= reachOut; d++) {
-              api.put(Math.floor(s.x + Math.cos(a) * d), Math.floor(s.y + Math.sin(a) * d), lineGlyph(api, a), glow * 0.9, hot ? INK.RED : INK.BONE);
+          const D = 10 / (y - hz + 0.7);
+          const n = fbm(x * 0.06 + D * 0.2, y * 0.45 - t * 0.12, 2) - 0.5;
+          const swell = 0.5 + 0.5 * Math.sin(D * 2.3 + t * 1.25 + n * 5);
+          let a = swell > 0.78 ? 0.92 : swell > 0.42 ? 0.62 : 0.36;
+          let g = swell > 0.78 ? wave : swell > 0.42 ? G.flat : hash(x, y, 7) < 0.15 ? G.water : G.dot;
+          // the colossi stand dark in it, wavering
+          for (const C of shapes) {
+            const rx = Math.round(x + Math.sin(y * 1.7 + t * 2.4) * 0.6);
+            const ry = Math.round(hz - 1 - (y - hz) * 1.7);
+            if (ry >= 0 && rx >= 0 && rx < cols && C.cov[ry * cols + rx] > 0.25) a *= 0.3;
+          }
+          // a road of light down from the glint
+          const off = Math.abs(x - glintX - sway * (y - hz) * 0.3);
+          if (off < 0.6 + (y - hz) * 0.45 && hash(x, y, flick) > 0.4) {
+            api.put(x, y, G.flat, 0.5 + 0.4 * hash(x, y, flick + 1), INK.BONE);
+            continue;
+          }
+          if (y >= sh) {
+            // over the sand the water is a thin film, its leading edge a line of wet
+            if (y >= Math.floor(edge[x])) {
+              api.put(x, y, wave, 0.55, INK.VOID);
+              continue;
             }
+            a = 0.42 + 0.35 * swell;
+            g = swell > 0.5 ? wave : G.flat;
           }
+          api.put(x, y, g, a, INK.RED);
         }
-        api.put(Math.floor(s.x), Math.floor(s.y), s.glyph, 0.78 + 0.22 * lit, hot ? INK.RED : INK.BONE);
-      });
+      }
 
-      // and on the horizon, for scale, one of us
-      api.put(Math.floor(cx - tw * 0.95), horizon, G.me, 1, INK.RED);
+      // the glint on the horizon, flaring
+      const flare = 0.3 + 0.7 * Math.pow(0.5 + 0.5 * Math.sin(t * 0.75), 5);
+      const L = 2 + Math.round(13 * flare);
+      for (let k = 1; k <= L; k++) {
+        const a = (1 - k / (L + 1)) * (0.45 + 0.55 * flare);
+        api.put(glintX - k, hz, ray.h, a, INK.BONE);
+        api.put(glintX + k, hz, ray.h, a, INK.BONE);
+      }
+      const V = 1 + Math.round(3 * flare);
+      for (let k = 1; k <= V; k++) {
+        const a = (1 - k / (V + 1)) * (0.4 + 0.6 * flare);
+        api.put(glintX, hz - k, ray.v, a, INK.BONE);
+        api.put(glintX, hz + k, ray.v, a * 0.8, INK.BONE);
+      }
+      if (flare > 0.55) {
+        for (const [dx, dy, g] of [[-1, -1, ray.down], [1, 1, ray.down], [1, -1, ray.up], [-1, 1, ray.up]] as const) {
+          api.put(glintX + dx, hz + dy, g, (flare - 0.45) * 1.2, INK.BONE);
+        }
+      }
+      api.put(glintX, hz, G.glint, 1, INK.BONE);
+
+      // the sand: ripples the wind combed into it, grains running on the wind, damp where the water was
+      for (let x = 0; x < cols; x++) {
+        for (let y = Math.max(Math.floor(edge[x]) + 1, Math.ceil(sh)); y < rows; y++) {
+          if (y <= reach[x] && damp[x] > 0) {
+            if (hash(x, y, 91) < 0.55) api.put(x, y, G.dot, 0.2 * damp[x], INK.VOID);
+            continue;
+          }
+          const rip = Math.sin((y - sh) * 1.2 + Math.sin(x * 0.07) * 2.2 + fbm(x * 0.03, y * 0.12, 2) * 4);
+          if (rip > 0.95 && hash(x, y, 93) < 0.6) {
+            api.put(x, y, wave, 0.06 + 0.05 * hash(x, y, 94), INK.VOID);
+            continue;
+          }
+          const drift = fbm(x * 0.09 - t * 0.55, y * 0.6 + t * 0.04, 2);
+          if (drift > 0.64 && hash(x, y, flick) > 0.45) api.put(x, y, G.dot, (drift - 0.58) * 0.45, INK.VOID);
+        }
+      }
+      for (const p of prints) if (p.y > edge[p.x]) api.put(p.x, p.y, G.dot, 0.5, INK.VOID);
     };
   },
 };
 
-export const programs = { hero, octagon, orb, rays, stream, vortex, river, current, clouds, kanji, world, strata, quests, stars, tree };
+export const programs = { hero, octagon, orb, rays, stream, vortex, river, current, clouds, kanji, world, strata, quests, stars, shore };
 export type ProgramName = keyof typeof programs;
