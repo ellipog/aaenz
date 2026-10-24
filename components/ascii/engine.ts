@@ -570,7 +570,10 @@ export class Engine {
   tick(now: number) {
     if (!this.visible || !this.api || !this.frameFn || this.destroyed) return;
     if (document.hidden) return;
-    if (now - this.last < 1000 / this.cfg.fps - 2) return;
+    // under the pointer (or while a ring is opening) the plate keeps the display's pace,
+    // so the lens stays on the cursor; otherwise it draws at its own rate
+    const fps = this.pointer.on || this.ripples.length ? 1000 : this.cfg.fps;
+    if (now - this.last < 1000 / fps - 2) return;
     this.last = now;
     this.render(this.now());
   }

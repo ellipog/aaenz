@@ -60,6 +60,12 @@
   transform: none;
 }
 
+/* The cursor draws itself everywhere, fields included (components/cursor.tsx). */
+html.cursor,
+html.cursor * {
+  cursor: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js .reveal {
     opacity: 1;

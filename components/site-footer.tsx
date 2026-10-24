@@ -53,7 +53,7 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
 
   return (
     <footer className="relative overflow-hidden">
-      <div className="relative h-[min(176vw,860px)] lg:h-[clamp(640px,54vw,calc(100svh-24px))]">
+      <div className="relative h-[min(176vw,860px)] lg:h-[clamp(640px,54vw,calc(100svh-24px))]" data-shore>
         <div aria-hidden className="absolute inset-0" style={{ backgroundImage: light }} />
         {(["wide", "tall"] as const).map((k) => (
           <svg
@@ -117,7 +117,7 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
         <div className="absolute inset-x-[5%] bottom-[3.5%] hidden items-baseline justify-between lg:flex">{credits}</div>
       </div>
 
-      <div className="bg-bone px-5 pb-10 sm:px-7 lg:hidden">
+      <div className="bg-bone px-5 pb-10 sm:px-7 lg:hidden" data-ground="light">
         <ul className="m-0 flex list-none flex-wrap gap-x-7 gap-y-4 p-0">
           {links.map(([glyph, label, href]) => (
             <li key={label}>

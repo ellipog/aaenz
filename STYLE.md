@@ -40,8 +40,8 @@ No other fonts. The share card fetches a Noto Serif JP subset at build time and 
 
 `components/ascii/` draws every plate on a canvas.
 
-- `engine.ts` draws a square cell grid, where a full-width kanji fills one cell. It keeps a glyph atlas per ink and stamps glyphs with drawImage. One shared RAF loop drives every plate, and plates pause off-screen and re-lay-out on resize. It also provides the scan or centre reveal decode, the pointer lens (bright cells near the cursor turn red), the click ripple (a program can opt out), tap events for programs, and a still frame under reduced motion.
-- `programs.ts` holds the plates. A program lists its glyphs and returns a frame function `(t) => void` that writes glyph, alpha and ink per cell through `api.put`.
+- `engine.ts` draws a square cell grid, where a full-width kanji fills one cell. It keeps a glyph atlas per ink and stamps glyphs with drawImage. One shared RAF loop drives every plate, and plates pause off-screen and re-lay-out on resize. It also provides the scan or centre reveal decode, the pointer lens (bright cells near the cursor turn red), the click ripple (a program can opt out), tap events for programs, and a still frame under reduced motion. A plate draws at its own `fps` until the pointer is over it; then it keeps the display's pace, so the lens stays on the cursor.
+- `programs.ts` holds the plates. A program lists its glyphs and returns a frame function `(t) => void` that writes glyph, alpha and ink per cell through `api.put`. The block world is big enough to live in its own file, `world.ts`, and is registered there with the rest.
 - `plate.tsx` is the client wrapper that server components use: `<Plate kind="world" … />`.
 
 Glyph specs look like `"900:光"` (weight prefix, default 400). Two stroke sets are always available, both taking a direction with y pointing down. `lineGlyph(api, θ)` draws with ー ｜ ノ ヽ, for light, letters and architecture. `flowGlyph(api, θ)` draws with 〜 ︴ ノ ヽ, for anything that runs like water: ripples, currents, streams, curves.
@@ -59,7 +59,7 @@ Under every page runs `current`, a fixed, faint field of wave strokes behind the
 | `river` | galdr: churning raw media (音 映 像 声) through a column of 詠唱, out as clean even waves | home works |
 | `kanji` | one big kanji drawn in smaller semantic kanji (無 in 無空虚) | 404 |
 | `rays` | a cross of light over a city of 目田口日 | home light |
-| `world` | a block world in cross-section (草 土 石 炭 鉄 金 玉 紅 雪 砂 盤 水 木 葉 花). A new world grows on each page load and keeps through re-layouts. A red 人 lives in it: it wanders, rests, hops, swims, fells trees, digs shafts and climbs out on 梯 ladders, plants 苗 that grow, bridges with 板 and 礫, builds lookouts. Water flows, day turns to night, a click mines | home Minecraft, /minecraft hero |
+| `world` | a block world in cross-section (草 土 石 炭 鉄 金 玉 紅 雪 砂 盤 水 木 葉 花), in `world.ts`. A new world grows on each page load and keeps through re-layouts. A red 人 lives in it and plans: it weighs wood, stone, food and a roof before dark, and finds its way with A* through the blocks, cutting tunnels, setting 梯 ladders up shafts and bridging drops. It fells trees and plants them back, builds a house of 板 and 瓦 with a 戸, a 窓, a 灯 and a 箱, tills 田 for 麦, fishes, follows ore down lighting the way with 灯, goes home at dusk and sleeps (or digs in), fights 鬼 and 爆 at night, and waves when the pointer comes near. What it has in mind shows over its head. Round it: 羊 grazing, 魚 jumping, a flock of ヘ, rain and storms, fire through the canopy, lava setting to 黒, lamplight in the dark. A click mines (the 人 comes for the drop); a click on open sky calls lightning | home Minecraft, /minecraft hero |
 | `stars` | Stellar: a constellation of 星 on flowing lines, light running star to star, a river of dust behind, one red star | /minecraft Stellar |
 | `strata` | four flowing bands: 草 mods, red 基 Armature, 土 loaders, 盤 bedrock | /minecraft Armature |
 | `quests` | a breathing quest graph of 【章】【任】【条】【報】【墓】 on S-curves, with a completion front | /minecraft Tenet |
@@ -90,6 +90,7 @@ These are the rules from the redesign:
 - **Title cards**: heavy Mincho English set big and split across the page, with one red turn, such as *Built to be / stood on.*
 - **Decode**: headlines resolve out of scrambling kana (`Decode`). Latin text scrambles through half-width kana, so the line keeps its width.
 - **Readouts**: clock, sync percentage, live download count with rolling digits.
+- **The cursor** (`components/cursor.tsx`): drawn in characters over everything. A red ■ at the point, a ring of eight 〜 on a spring that stretches with speed, swells red and leans toward anything pressable, and lines up into an I-beam over fields. A press opens an octagonal ring with a few kana. No trail. It reads raw pointer updates and leads by a frame, so it keeps the display's pace. Touch and reduced motion keep the system cursor; on the white sand it inks in void.
 - **The council**: the contact form's three seats (I II III) deliberate, then vote APPROVED or REJECTED.
 - **The close**: the footer is the shore. *Whatever ships next.* is written in black on the white sand, the links lie beside it in two drifts like tide lines, each with its red glyph, and a red 大 lies where the footprints stop. The share card is the same shore, caught still, with the wordmark on the sand. There is no intro animation: the page opens straight on the hero.
 

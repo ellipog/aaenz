@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Plate from "@/components/ascii/plate";
+import Cursor from "@/components/cursor";
 import SiteSchema from "@/components/site-schema";
 import "./globals.css";
 
@@ -99,6 +100,8 @@ export default function RootLayout({
           aria-hidden="true"
           className="pointer-events-none fixed -inset-[10%] z-[91] bg-[url('/grain.svg')] bg-[size:240px_240px] opacity-70 mix-blend-screen"
         />
+        {/* the cursor, drawn in characters above the broadcast */}
+        <Cursor />
       </body>
     </html>
   );

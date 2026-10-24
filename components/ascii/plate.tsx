@@ -56,6 +56,7 @@ export default function Plate({
       aria-hidden={label ? undefined : true}
       aria-label={label}
       className={`${position} overflow-hidden ${className}`}
+      data-cursor={interactive ? "plate" : undefined}
       role={label ? "img" : undefined}
     >
       <canvas ref={canvas} className="absolute inset-0 block h-full w-full" />
