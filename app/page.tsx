@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { preload } from "react-dom";
 import Plate from "@/components/ascii/plate";
 import Decode from "@/components/decode";
 import Downloads from "@/components/downloads";
@@ -43,6 +44,8 @@ const works = [
 ] as const;
 
 export default function Home() {
+  // the hero samples this before it can draw, so fetch it with the page rather than after the scripts
+  preload("/assets/gen-winged-beams-plate.jpg", { as: "image", fetchPriority: "high" });
   return (
     <>
       <Reveal />

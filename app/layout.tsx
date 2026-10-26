@@ -85,20 +85,31 @@ export default function RootLayout({
       </head>
       <body>
         <SiteSchema />
-        {/* the current: a faint stream under every page, carried along by the scroll */}
-        <Plate cell={18} cellSm={14} className="pointer-events-none fixed inset-0 -z-10" fps={24} interactive={false} kind="current" reveal="none" />
+        {/* the current: a faint stream under every page, carried along by the scroll (a little taller than
+            the window, so the part of a row it is carried by never shows an edge) */}
+        <Plate
+          cell={18}
+          cellSm={14}
+          className="pointer-events-none fixed inset-x-0 -inset-y-6 -z-10"
+          fps={24}
+          interactive={false}
+          kind="current"
+          reveal="none"
+        />
         {children}
         {/*
          * The broadcast: a vignette and film grain over everything, so the whole page
-         * reads as one transmission rather than a stack of panels.
+         * reads as one transmission rather than a stack of panels. One still layer, no
+         * blend mode: the grain is white at the strength of each speck (what screening
+         * its grey over the page came to), so the compositor never re-blends the page.
          */}
         <div
           aria-hidden="true"
-          className="pointer-events-none fixed inset-0 z-[90] bg-[radial-gradient(120%_90%_at_50%_45%,transparent_55%,rgba(0,0,0,.55))]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed -inset-[10%] z-[91] bg-[url('/grain.svg')] bg-[size:240px_240px] opacity-70 mix-blend-screen"
+          className="pointer-events-none fixed inset-0 z-[90]"
+          style={{
+            backgroundImage: "url('/grain.svg'), radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(0,0,0,.55))",
+            backgroundSize: "240px 240px, auto",
+          }}
         />
         {/* the cursor, drawn in characters above the broadcast */}
         <Cursor />

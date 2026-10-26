@@ -16,6 +16,11 @@ import { SHORE } from "./ascii/shore-shape";
  * arrive, draws on every frame the screen shows, and leads the pointer by the
  * frame still to come, so it sits under the hand rather than a frame behind.
  *
+ * And it costs the page almost nothing, so that pace holds at 240Hz: every glyph
+ * is cut once into a sprite (per ink) and stamped with a turn and a scale, rather
+ * than set as type every frame, and the canvas is only as big as what it draws,
+ * carried across the screen by the compositor instead of repainting the screen.
+ *
  * Fine pointers only: touch, and anyone who asks for reduced motion, keep the
  * system cursor.
  */
@@ -53,8 +58,17 @@ interface Ring {
   ink: Rgb;
 }
 
+interface Stamp {
+  ch: string;
+  x: number;
+  y: number;
+  size: number;
+  rot: number;
+  ink: Rgb;
+  a: number;
+}
+
 const mix = (a: Rgb, b: Rgb, t: number): Rgb => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
-const rgba = (c: Rgb, a: number) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a.toFixed(3)})`;
 const kana = () => KATA[Math.floor(Math.random() * KATA.length)];
 const TAU = Math.PI * 2;
 // where each of the ring's eight waves goes in the I-beam: x, y and turn
@@ -63,6 +77,60 @@ const BEAM: [number, number, number][] = [
   [0, -8, Math.PI / 2], [0, -3, Math.PI / 2], [0, 2, Math.PI / 2], [0, 7, Math.PI / 2],
   [-5, 14, 0], [5, 14, 0],
 ];
+
+// sprites are cut at this size (css px), with room round the glyph; nothing the cursor draws is larger
+const FONT = 16;
+const BOX = 24;
+// the canvas, at rest: room for the ring and the point; it grows for a press or a fast throw
+const REST = 160;
+
+/** Glyphs cut once in white, then once per ink they are asked for. */
+function cutter(dpr: number) {
+  const D = Math.ceil(BOX * dpr);
+  const white = new Map<string, HTMLCanvasElement>();
+  const inked = new Map<string, HTMLCanvasElement>();
+  const blank = () => {
+    const c = document.createElement("canvas");
+    c.width = c.height = D;
+    return c;
+  };
+  const cut = (ch: string) => {
+    let c = white.get(ch);
+    if (!c) {
+      c = blank();
+      const g = c.getContext("2d")!;
+      g.font = `400 ${FONT * dpr}px ${FAMILY}`;
+      g.textAlign = "center";
+      g.textBaseline = "middle";
+      g.fillStyle = "#fff";
+      g.fillText(ch, D / 2, D / 2);
+      white.set(ch, c);
+    }
+    return c;
+  };
+  return {
+    D,
+    get(ch: string, ink: Rgb) {
+      // inks in between (the ring easing to red, or to void on the sand) share a sprite per step of 4
+      const r = Math.min(255, (ink[0] + 2) & ~3);
+      const g = Math.min(255, (ink[1] + 2) & ~3);
+      const b = Math.min(255, (ink[2] + 2) & ~3);
+      const key = `${ch}${r},${g},${b}`;
+      let c = inked.get(key);
+      if (!c) {
+        if (inked.size > 320) inked.clear();
+        c = blank();
+        const x = c.getContext("2d")!;
+        x.drawImage(cut(ch), 0, 0);
+        x.globalCompositeOperation = "source-in";
+        x.fillStyle = `rgb(${r},${g},${b})`;
+        x.fillRect(0, 0, D, D);
+        inked.set(key, c);
+      }
+      return c;
+    },
+  };
+}
 
 export default function Cursor() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -74,22 +142,39 @@ export default function Cursor() {
     const ctx = canvas.getContext("2d")!;
     const root = document.documentElement;
     root.classList.add("cursor");
-    loadFonts(["〜", ...KATA]);
 
-    let W = 0;
-    let H = 0;
+    let dpr = 1;
+    let sprites = cutter(1);
+    // the canvas's size and where its corner sits on the screen, in css px
+    let cw = 0;
+    let ch = 0;
+    let ox = 0;
+    let oy = 0;
+    let roomy = 0; // since when the canvas has been far bigger than it needs
+    const fit = (w: number, h: number) => {
+      cw = w;
+      ch = h;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+    };
     const size = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = window.innerWidth;
-      H = window.innerHeight;
-      canvas.width = Math.round(W * dpr);
-      canvas.height = Math.round(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const d = Math.min(window.devicePixelRatio || 1, 3);
+      if (d !== dpr || !cw) {
+        dpr = d;
+        sprites = cutter(dpr);
+        fit(REST, REST);
+      }
     };
     size();
+    // until the fonts are in, the sprites are cut from a fallback face; cut them again once they are
+    loadFonts(["〜", ...KATA]).then(() => {
+      sprites = cutter(dpr);
+    });
 
     // where the pointer is, the last few places it was (to lead it by a frame), and the ring chasing it
-    const p = { x: W / 2, y: H / 2, seen: false, in: false, down: false };
+    const p = { x: window.innerWidth / 2, y: window.innerHeight / 2, seen: false, in: false, down: false };
     const recent: { t: number; x: number; y: number }[] = [];
     let frameGap = 1000 / 60;
     const ring = { x: p.x, y: p.y, vx: 0, vy: 0, r: 15, spin: 0 };
@@ -101,6 +186,7 @@ export default function Cursor() {
     let typing = 0;
     let mode: Mode = "idle";
     let target: Element | null = null;
+    let rescan = false; // the page moved under a still pointer: look again at what it is over
     const motes: Mote[] = [];
     const rings: Ring[] = [];
 
@@ -149,18 +235,33 @@ export default function Cursor() {
 
     /* -- drawing -------------------------------------------------------------- */
 
-    const glyph = (ch: string, x: number, y: number, px: number, rot: number, fill: string) => {
-      ctx.font = `400 ${px.toFixed(1)}px ${FAMILY}`;
-      ctx.fillStyle = fill;
-      if (!rot) {
-        ctx.fillText(ch, x, y);
-        return;
-      }
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(rot);
-      ctx.fillText(ch, 0, 0);
-      ctx.restore();
+    // this frame's glyphs, gathered first so the canvas can be fitted round them before
+    // anything is drawn; the objects are kept and reused, frame to frame
+    const stamps: Stamp[] = [];
+    let count = 0;
+    let x0 = 0;
+    let y0 = 0;
+    let x1 = 0;
+    let y1 = 0;
+    const reach = (x: number, y: number, e: number) => {
+      if (x - e < x0) x0 = x - e;
+      if (y - e < y0) y0 = y - e;
+      if (x + e > x1) x1 = x + e;
+      if (y + e > y1) y1 = y + e;
+    };
+    const stamp = (glyph: string, x: number, y: number, px: number, rot: number, ink: Rgb, a: number) => {
+      if (a < 0.004) return;
+      const s = stamps[count] ?? (stamps[count] = { ch: "", x: 0, y: 0, size: 0, rot: 0, ink: BONE, a: 0 });
+      s.ch = glyph;
+      s.x = x;
+      s.y = y;
+      s.size = px;
+      s.rot = rot;
+      s.ink = ink;
+      s.a = a;
+      count++;
+      // the sprite's box, turned any way
+      reach(x, y, px * 1.1);
     };
 
     // the pointer a frame from now: its velocity over the last few samples, carried
@@ -172,14 +273,14 @@ export default function Cursor() {
       if (!a || a === b || now - b.t > 40) return [p.x, p.y];
       const span = Math.max(4, b.t - a.t);
       const ahead = now - b.t + frameGap;
-      let ox = ((b.x - a.x) / span) * ahead;
-      let oy = ((b.y - a.y) / span) * ahead;
-      const d = Math.hypot(ox, oy);
+      let lx = ((b.x - a.x) / span) * ahead;
+      let ly = ((b.y - a.y) / span) * ahead;
+      const d = Math.hypot(lx, ly);
       if (d > 28) {
-        ox *= 28 / d;
-        oy *= 28 / d;
+        lx *= 28 / d;
+        ly *= 28 / d;
       }
-      return [p.x + ox, p.y + oy];
+      return [p.x + lx, p.y + ly];
     };
 
     let raf = 0;
@@ -189,6 +290,10 @@ export default function Cursor() {
       // the screen's own pace, learned from the gaps between frames
       if (last && now - last < 60) frameGap += (now - last - frameGap) * 0.1;
       last = now;
+      if (rescan) {
+        rescan = false;
+        classify(document.elementFromPoint(p.x, p.y));
+      }
       const [hx, hy] = lead(performance.now());
 
       shown += ((p.in ? 1 : 0) - shown) * (1 - Math.exp(-dt * 10));
@@ -225,9 +330,9 @@ export default function Cursor() {
       const speed = Math.hypot(ring.vx, ring.vy);
       ring.spin += dt * (0.5 + hover * 1.9 + Math.min(4, speed / 400));
 
-      ctx.clearRect(0, 0, W, H);
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+      count = 0;
+      x0 = y0 = Infinity;
+      x1 = y1 = -Infinity;
 
       // kana thrown off by a press
       for (let i = motes.length - 1; i >= 0; i--) {
@@ -246,7 +351,7 @@ export default function Cursor() {
         // kana flicker through the syllabary before they settle on one
         if (m.kana && f < 0.45 && Math.random() < 0.5) m.ch = kana();
         const a = Math.pow(1 - f, 1.4) * (m.ink === RED ? 1 : 0.85);
-        glyph(m.ch, m.x, m.y, m.size * (1 - f * 0.25), 0, rgba(m.ink, a * Math.max(shown, 0.4)));
+        stamp(m.ch, m.x, m.y, m.size * (1 - f * 0.25), 0, m.ink, a * Math.max(shown, 0.4));
       }
 
       // barrier rings opening from a press
@@ -269,12 +374,17 @@ export default function Cursor() {
             const a = (k / n) * Math.PI * 2;
             // an octagon, not a circle: the radius bulges to meet its corners
             const oct = Math.cos(Math.PI / 8) / Math.cos(((a % (Math.PI / 4)) - Math.PI / 8));
-            glyph("〜", rg.x + Math.cos(a) * rad * oct, rg.y + Math.sin(a) * rad * oct, 12, a + Math.PI / 2, rgba(ink, (1 - f) * alpha));
+            stamp("〜", rg.x + Math.cos(a) * rad * oct, rg.y + Math.sin(a) * rad * oct, 12, a + Math.PI / 2, ink, (1 - f) * alpha);
           }
         }
       }
 
       const vis = shown;
+      // the point: a red ■, drawing in over something to press so it doesn't sit on the
+      // words, and standing up into a caret over a field
+      const s = 5 - hover * 2 - (p.down ? 1 : 0);
+      const pw = s + (2 - s) * typing;
+      const ph = s + (15 - s) * typing;
       if (vis > 0.01) {
         const base = mix(BONE, VOID, ground);
         const ink = mix(base, RED, hover);
@@ -303,23 +413,58 @@ export default function Cursor() {
             const turn = ((((br - rot) % TAU) + TAU * 1.5) % TAU) - Math.PI;
             rot += turn * t;
           }
-          glyph("〜", x, y, 12 + hover * 3 - typing * 2, rot, rgba(ink, ringA));
+          stamp("〜", x, y, 12 + hover * 3 - typing * 2, rot, ink, ringA);
         }
-        // the point: a red ■, drawing in over something to press so it doesn't sit on the
-        // words, and standing up into a caret over a field
-        const s = 5 - hover * 2 - (p.down ? 1 : 0);
-        const w = s + (2 - s) * typing;
-        const h = s + (15 - s) * typing;
-        ctx.fillStyle = rgba(RED, vis);
-        ctx.fillRect(hx - w / 2, hy - h / 2, w, h);
+        reach(hx, hy, Math.max(pw, ph) / 2 + 1);
       }
+
+      // fit the canvas round this frame's glyphs: grow it when they need more room, give the
+      // room back once they've stayed small a while, and set its corner on a whole device pixel
+      if (count || vis > 0.01) {
+        const w = x1 - x0;
+        const h = y1 - y0;
+        if (w > cw || h > ch) {
+          fit(Math.max(cw, Math.ceil((w + 32) / 64) * 64), Math.max(ch, Math.ceil((h + 32) / 64) * 64));
+          roomy = 0;
+        } else if (cw > REST && w < REST - 16 && h < REST - 16) {
+          if (!roomy) roomy = now;
+          else if (now - roomy > 1500) {
+            fit(REST, REST);
+            roomy = 0;
+          }
+        } else roomy = 0;
+        ox = Math.floor(((x0 + x1) / 2 - cw / 2) * dpr) / dpr;
+        oy = Math.floor(((y0 + y1) / 2 - ch / 2) * dpr) / dpr;
+        canvas.style.transform = `translate3d(${ox}px,${oy}px,0)`;
+      }
+
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const { D } = sprites;
+      for (let i = 0; i < count; i++) {
+        const st = stamps[i];
+        const k = st.size / FONT;
+        const c = Math.cos(st.rot) * k;
+        const sn = Math.sin(st.rot) * k;
+        ctx.globalAlpha = st.a > 1 ? 1 : st.a;
+        ctx.setTransform(c, sn, -sn, c, (st.x - ox) * dpr, (st.y - oy) * dpr);
+        ctx.drawImage(sprites.get(st.ch, st.ink), -D / 2, -D / 2);
+      }
+      if (vis > 0.01) {
+        ctx.globalAlpha = vis;
+        ctx.setTransform(dpr, 0, 0, dpr, -ox * dpr, -oy * dpr);
+        ctx.fillStyle = "rgb(227,39,29)";
+        ctx.fillRect(hx - pw / 2, hy - ph / 2, pw, ph);
+      }
+      ctx.globalAlpha = 1;
 
       const settling = Math.abs(ring.x - tx) + Math.abs(ring.y - ty) > 0.3 || speed > 1;
       if (shown > 0.01 || motes.length || rings.length || settling) raf = requestAnimationFrame(frame);
       else {
         raf = 0;
         last = 0;
-        ctx.clearRect(0, 0, W, H);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     };
     const kick = () => {
@@ -376,10 +521,10 @@ export default function Cursor() {
       p.down = false;
       kick();
     };
-    // scrolling moves the page under a still pointer
+    // scrolling moves the page under a still pointer; what it is over is looked at again on the next frame
     const onScroll = () => {
       if (!p.seen) return;
-      classify(document.elementFromPoint(p.x, p.y));
+      rescan = true;
       kick();
     };
     const onResize = () => {
@@ -410,5 +555,12 @@ export default function Cursor() {
     };
   }, []);
 
-  return <canvas aria-hidden="true" className="pointer-events-none fixed inset-0 z-[95] h-full w-full" ref={ref} />;
+  return (
+    <canvas
+      aria-hidden="true"
+      className="pointer-events-none fixed left-0 top-0 z-[95] will-change-transform [contain:strict]"
+      ref={ref}
+      style={{ width: REST, height: REST }}
+    />
+  );
 }

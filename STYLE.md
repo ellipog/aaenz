@@ -40,7 +40,7 @@ No other fonts. The share card fetches a Noto Serif JP subset at build time and 
 
 `components/ascii/` draws every plate on a canvas.
 
-- `engine.ts` draws a square cell grid, where a full-width kanji fills one cell. It keeps a glyph atlas per ink and stamps glyphs with drawImage. One shared RAF loop drives every plate, and plates pause off-screen and re-lay-out on resize. It also provides the scan or centre reveal decode, the pointer lens (bright cells near the cursor turn red), the click ripple (a program can opt out), tap events for programs, and a still frame under reduced motion. A plate draws at its own `fps` until the pointer is over it; then it keeps the display's pace, so the lens stays on the cursor.
+- `engine.ts` draws a square cell grid, where a full-width kanji fills one cell. It cuts the glyphs into an atlas once, and the GPU (WebGL2) draws a whole plate in one call, inking each cell in the shader. A small pool of GL canvases moves between the plates near the screen. Without WebGL2 it falls back to stamping glyphs from an atlas per ink with drawImage. One shared loop drives every plate. It gives each frame a budget, slows the plates down when a machine can't keep up, and sleeps between frames when nothing is moving. Plates are laid out shortly before they scroll into view, pause off-screen and re-lay-out on resize. It also provides the scan or centre reveal decode, the pointer lens (bright cells near the cursor turn red), the click ripple (a program can opt out), tap events for programs, and a still frame under reduced motion. A plate draws at its own `fps`. While the pointer is over it, only the lens and ripple rows are redrawn at the display's pace, so the lens stays on the cursor.
 - `programs.ts` holds the plates. A program lists its glyphs and returns a frame function `(t) => void` that writes glyph, alpha and ink per cell through `api.put`. The block world is big enough to live in its own file, `world.ts`, and is registered there with the rest.
 - `plate.tsx` is the client wrapper that server components use: `<Plate kind="world" … />`.
 
@@ -52,7 +52,7 @@ Under every page runs `current`, a fixed, faint field of wave strokes behind the
 
 | program | draws | used on |
 | --- | --- | --- |
-| `hero` | `aaen` cut out of wings of light, sampled from `gen-winged-beams.jpg`; dissolves on scroll | home hero |
+| `hero` | `aaen` cut out of wings of light, sampled from `gen-winged-beams-plate.jpg`; dissolves on scroll | home hero |
 | `current` | the faint sitewide stream of wave strokes, carried by the scroll | behind every page |
 | `octagon` | wavering ripple rings round a red 人, thinning out at the rim, warped by the pointer | home barrier |
 | `vortex` | kern: a fleet of 機 orbiting one 核 on winding spiral currents | home works |
@@ -68,7 +68,7 @@ Under every page runs `current`, a fixed, faint field of wave strokes behind the
 | `orb` | a turning globe of 読語字言文書音声, ringed in kana | home yomion |
 | `stream` | words streaming from a red 人 on a curling current, each leaving a wake of strokes | home send word |
 
-`public/assets/gen-*.jpg` are the source plates the subjects come from (see `prompts.md`). Only `gen-winged-beams.jpg` is sampled live. The rest are reference for subjects and mood.
+`public/assets/gen-*.jpg` are the source plates the subjects come from (see `prompts.md`). Only `gen-winged-beams.jpg` is sampled live, through `gen-winged-beams-plate.jpg`: a greyscale copy at exactly half size, which is what the browser's own downscale reads at plate sizes, so the hero comes out the same from under a fifth of the bytes. If the source changes, cut the copy again the same way (halve with a box filter, then greyscale). The rest are reference for subjects and mood.
 
 ## Flow
 
@@ -90,7 +90,7 @@ These are the rules from the redesign:
 - **Title cards**: heavy Mincho English set big and split across the page, with one red turn, such as *Built to be / stood on.*
 - **Decode**: headlines resolve out of scrambling kana (`Decode`). Latin text scrambles through half-width kana, so the line keeps its width.
 - **Readouts**: clock, sync percentage, live download count with rolling digits.
-- **The cursor** (`components/cursor.tsx`): drawn in characters over everything. A red ■ at the point, a ring of eight 〜 on a spring that stretches with speed, swells red and leans toward anything pressable, and lines up into an I-beam over fields. A press opens an octagonal ring with a few kana. No trail. It reads raw pointer updates and leads by a frame, so it keeps the display's pace. Touch and reduced motion keep the system cursor; on the white sand it inks in void.
+- **The cursor** (`components/cursor.tsx`): drawn in characters over everything. A red ■ at the point, a ring of eight 〜 on a spring that stretches with speed, swells red and leans toward anything pressable, and lines up into an I-beam over fields. A press opens an octagonal ring with a few kana. No trail. It reads raw pointer updates and leads by a frame, so it keeps the display's pace, up to 240 Hz. Glyphs are stamped from cached sprites onto a small canvas that only covers the cursor and moves on the compositor. Touch and reduced motion keep the system cursor; on the white sand it inks in void.
 - **The council**: the contact form's three seats (I II III) deliberate, then vote APPROVED or REJECTED.
 - **The close**: the footer is the shore. *Whatever ships next.* is written in black on the white sand, the links lie beside it in two drifts like tide lines, each with its red glyph, and a red 大 lies where the footprints stop. The share card is the same shore, caught still, with the wordmark on the sand. There is no intro animation: the page opens straight on the hero.
 

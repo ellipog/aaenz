@@ -6,8 +6,9 @@ import { programs, type ProgramName } from "./programs";
 
 /*
  * A character plate. Server components pass the program by name (functions do not
- * cross the boundary) and the engine takes over the canvas on mount. Plates are
- * decorative unless given a `label`, in which case they read as one image.
+ * cross the boundary) and the engine takes over on mount, setting its own canvas
+ * in the host. Plates are decorative unless given a `label`, in which case they
+ * read as one image.
  */
 export default function Plate({
   kind,
@@ -33,20 +34,20 @@ export default function Plate({
   className?: string;
 }) {
   const host = useRef<HTMLDivElement>(null);
-  const canvas = useRef<HTMLCanvasElement>(null);
   const key = JSON.stringify(options ?? {});
   // The canvas is absolutely placed, so the host needs a position — unless one is passed in.
   const position = /\b(absolute|fixed)\b/.test(className) ? "" : "relative";
 
   useEffect(() => {
-    if (!host.current || !canvas.current) return;
-    const engine = new Engine(
-      host.current,
-      canvas.current,
-      programs[kind] as Program<Record<string, unknown>>,
-      JSON.parse(key),
-      { cell, cellSm, fps, reveal, interactive, ripple },
-    );
+    if (!host.current) return;
+    const engine = new Engine(host.current, programs[kind] as Program<Record<string, unknown>>, JSON.parse(key), {
+      cell,
+      cellSm,
+      fps,
+      reveal,
+      interactive,
+      ripple,
+    });
     return () => engine.destroy();
   }, [kind, key, cell, cellSm, fps, reveal, interactive, ripple]);
 
@@ -58,8 +59,6 @@ export default function Plate({
       className={`${position} overflow-hidden ${className}`}
       data-cursor={interactive ? "plate" : undefined}
       role={label ? "img" : undefined}
-    >
-      <canvas ref={canvas} className="absolute inset-0 block h-full w-full" />
-    </div>
+    />
   );
 }

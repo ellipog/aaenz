@@ -13,6 +13,7 @@ import {
   fbm,
   hash,
   lineChar,
+  lineIndex,
   loadFonts,
   loadImage,
   rasterize,
@@ -29,18 +30,36 @@ function strokes(api: Api) {
   return { h: api.g(LINE.h), v: api.g(LINE.v), up: api.g(LINE.up), down: api.g(LINE.down) };
 }
 
+// the atlas indices of both stroke sets, in lineIndex order, for the plate drawing now: looked up once
+// per plate rather than once a cell, since a frame asks for thousands of them
+let strokeApi: Api | null = null;
+let strokeSet = new Int16Array(8);
+
+function strokeIndices(api: Api) {
+  if (api !== strokeApi) {
+    strokeApi = api;
+    strokeSet = Int16Array.from([LINE.h, LINE.down, LINE.v, LINE.up, FLOW.h, FLOW.down, FLOW.v, FLOW.up], (s) => api.g(s));
+  }
+  return strokeSet;
+}
+
 function lineGlyph(api: Api, theta: number) {
-  return api.g(lineChar(theta));
+  return strokeIndices(api)[lineIndex(theta)];
 }
 
 /** The wave stroke for a direction: 〜 and ︴ where `lineGlyph` would draw ー and ｜. */
 function flowGlyph(api: Api, theta: number) {
-  return api.g(lineChar(theta, FLOW));
+  return strokeIndices(api)[4 + lineIndex(theta)];
 }
 
 /* ------------------------------------------------------------ 天使 hero --- */
 
 const heroRamp: Spec[] = ["丶", "・", "一", "ニ", "白", "天", "羽", "翼", "光", "900:光"];
+
+// gen-winged-beams.jpg at a fifth of the weight: luminance only, and exactly half size (a 2×2
+// box), which is the first mip level the browser would cut from the original when it shrinks it
+// onto the grid, so the cells read almost exactly as they did (the home page preloads this path)
+const HERO_PLATE = "/assets/gen-winged-beams-plate.jpg";
 
 /*
  * The winged-beams plate, sampled: beams resolve to katakana strokes along their
@@ -53,7 +72,7 @@ export const hero: Program<{ word?: string }> = {
     const { cols, rows } = api;
     const word = o.word ?? "aaen";
     const [img] = await Promise.all([
-      loadImage("/assets/gen-winged-beams.jpg"),
+      loadImage(HERO_PLATE),
       loadFonts(Array.from(word).map((c) => `900:${c}`)),
     ]);
     const narrow = cols < rows;
@@ -198,12 +217,15 @@ export const octagon: Program = {
       Math.hypot(dx, dy) +
       Math.sin(Math.atan2(dy, dx) * 5 + t * 0.9) * 1.3 +
       (fbm(dx * 0.1 + 3, dy * 0.1 + t * 0.15, 2) - 0.5) * 4;
+    // the field at every cell this frame, so a cell's tangent can be read off its neighbours
+    const F = new Float32Array(cols * rows);
+    const at = (x: number, y: number) => F[Math.min(rows - 1, Math.max(0, y)) * cols + Math.min(cols - 1, Math.max(0, x))];
     // the stroke of the ring's tangent, jittered a little per cell so the four stroke
     // sectors blend into each other instead of reading as the sides of an octagon
-    const tangent = (dx: number, dy: number, t: number) =>
+    const tangent = (x: number, y: number, dx: number, dy: number) =>
       flowGlyph(
         api,
-        Math.atan2(field(dx, dy + 0.5, t) - field(dx, dy - 0.5, t), field(dx + 0.5, dy, t) - field(dx - 0.5, dy, t)) +
+        Math.atan2(at(x, y + 1) - at(x, y - 1), at(x + 1, y) - at(x - 1, y)) +
           Math.PI / 2 +
           (hash(Math.floor(dx * 2), Math.floor(dy * 2), 7) - 0.5) * 0.9,
       );
@@ -216,11 +238,14 @@ export const octagon: Program = {
       const s2 = (R * 0.32) ** 2;
       const pull = sp * 2.2;
       for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) F[y * cols + x] = field(x + 0.5 - cx, y + 0.5 - cy, t);
+      }
+      for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
           const i = y * cols + x;
           const dx = x + 0.5 - cx;
           const dy = y + 0.5 - cy;
-          let d = field(dx, dy, t);
+          let d = F[i];
           if (P.on) {
             const px = x + 0.5 - P.x;
             const py = y + 0.5 - P.y;
@@ -241,7 +266,7 @@ export const octagon: Program = {
           if (d > inner) {
             const k = (((d - inner - phase) % sp) + sp) % sp;
             if (k < 1) {
-              glyph[i] = tangent(dx, dy, t);
+              glyph[i] = tangent(x, y, dx, dy);
               alpha[i] = (0.4 + 0.6 * boost) * rim;
               ink[i] = INK.BONE;
             } else if (hash(x, y, 3) > 0.55) {
@@ -747,10 +772,13 @@ export const river: Program<{ gate?: number }> = {
  * The current under the whole site: a fixed, faint field of strokes that run
  * down the page in slow meanders. Its water belongs to the page, not the
  * window — scroll, and the wakes travel up with the content, as if read through
- * water. Drawn dim and sparse, so it is felt more than seen.
+ * water. Drawn dim and sparse, so it is felt more than seen. While the page
+ * scrolls it keeps the display's pace, and what is left over of a row the canvas
+ * carries itself, so the strokes move with the words to the pixel.
  */
 export const current: Program = {
   glyphs: () => ["・"],
+  scroll: true,
   create(api) {
     const { cols, rows } = api;
     const N = cols * rows;
@@ -768,7 +796,7 @@ export const current: Program = {
       life[k] = 4 + hash(seed, k, 3) * 6;
     };
     for (let k = 0; k < n; k++) spawn(k);
-    const cellPx = () => window.innerHeight / rows;
+    const cellPx = () => api.cell;
     let scrolled = window.scrollY / cellPx();
     let carry = 0;
     let last = 0;
@@ -799,8 +827,9 @@ export const current: Program = {
         px[k] += Math.cos(a) * 3.2 * dt;
         py[k] += Math.sin(a) * 3.2 * dt;
         life[k] -= dt;
+        // the wake grid trails the page by the carry still to come, so a stroke lands where its row is
         const x = Math.floor(px[k]);
-        const y = Math.floor(py[k]);
+        const y = Math.floor(py[k] + carry);
         if (life[k] <= 0 || x < 0 || y < 0 || x >= cols || y >= rows) {
           spawn(k);
           continue;
@@ -819,6 +848,8 @@ export const current: Program = {
       const shift = now - scrolled;
       scrolled = now;
       step(t + 5, dt, shift);
+      // and the canvas carries that last part of a row
+      api.nudge(-carry * api.cell);
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
           const i = y * cols + x;
@@ -1517,6 +1548,14 @@ export const shore: Program = {
     const damp = new Float32Array(cols);
     const SWASH = 7;
 
+    // the ripples the wind combed into the sand stay where they are, so they are worked out once
+    const combed = new Float32Array(cols * rows);
+    for (let y = Math.ceil(sh); y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        combed[y * cols + x] = Math.sin((y - sh) * 1.2 + Math.sin(x * 0.07) * 2.2 + fbm(x * 0.03, y * 0.12, 2) * 4);
+      }
+    }
+
     return (t) => {
       const flick = Math.floor(t * 12);
 
@@ -1694,8 +1733,7 @@ export const shore: Program = {
             if (hash(x, y, 91) < 0.55) api.put(x, y, G.dot, 0.2 * damp[x], INK.VOID);
             continue;
           }
-          const rip = Math.sin((y - sh) * 1.2 + Math.sin(x * 0.07) * 2.2 + fbm(x * 0.03, y * 0.12, 2) * 4);
-          if (rip > 0.95 && hash(x, y, 93) < 0.6) {
+          if (combed[y * cols + x] > 0.95 && hash(x, y, 93) < 0.6) {
             api.put(x, y, wave, 0.06 + 0.05 * hash(x, y, 94), INK.VOID);
             continue;
           }
