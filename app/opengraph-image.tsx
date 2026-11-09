@@ -96,14 +96,14 @@ function shorePlate(): Cell[][] {
 }
 
 const plate = shorePlate();
-const products = [["核", "KERN"], ["詠", "GALDR"], ["星", "STELLAR"], ["読", "YOMION"]] as const;
+const products = [["算", "CALX"], ["晶", "CALCITE"], ["星", "STELLAR"]] as const;
 const hzPx = TOP + Math.round(ROWS * HORIZON) * CELL;
 const shPx = TOP + ROWS * SHORE * CELL;
 const [lx, ly] = LIES.wide;
 const mePx = { x: COLS * lx * CELL + CELL / 2, y: TOP + (ROWS * SHORE + ROWS * (1 - SHORE) * ly) * CELL + CELL / 2 };
 
 export default async function Image() {
-  const { jp, display, fonts } = await ogFonts(`aen核詠星読大${glyphsOf(plate)}`);
+  const { jp, display, fonts } = await ogFonts(`aen算晶星大${glyphsOf(plate)}`);
 
   return new ImageResponse(
     (

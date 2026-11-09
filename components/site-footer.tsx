@@ -18,10 +18,10 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
   const links: [glyph: string, label: string, href: string][] = [
     ["天", "↑ TOP", "#top"],
     ["作", "WORKS", `${base}#works`],
-    ["核", "KERN", "https://kern.aaenz.no"],
-    ["詠", "GALDR", "https://github.com/aaen-studios/galdr"],
-    ["読", "YOMION", "https://yomion.com"],
+    ["算", "CALX", "https://calxlang.com"],
+    ["晶", "CALCITE", "https://calcitemc.com"],
     ["星", "MINECRAFT", "/minecraft"],
+    ["又", "ALSO", `${base}#also`],
     ["典", "ELLIPOG.DEV", "https://ellipog.dev"],
     ["源", "GITHUB", "https://github.com/aaen-studios"],
     ["文", "CONTACT", `mailto:${contactEmail}`],

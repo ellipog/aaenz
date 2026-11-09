@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import Plate from "@/components/ascii/plate";
 import Cursor from "@/components/cursor";
+import ScrollRail from "@/components/scroll-rail";
 import SiteSchema from "@/components/site-schema";
 import "./globals.css";
 
-const title = "aaen studios — open source tools and products";
+const title = "aaen studios — Calx, Calcite and Stellar";
 const description =
-  "Aaen Studios is an independent software studio — Stellar, a suite of Minecraft mods for Fabric and NeoForge, plus kern and galdr, open source desktop tools, and yomion, a local-first Japanese-learning app.";
+  "Aaen Studios is an independent software studio — Calx, a compiled language that is memory-safe without a garbage collector and exact to the bit; Calcite, a Minecraft server written from scratch in it; and Stellar, a suite of Minecraft mods for Fabric and NeoForge. Also kern, galdr and yomion.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aaenz.no"),
@@ -97,6 +98,8 @@ export default function RootLayout({
           reveal="none"
         />
         {children}
+        {/* the scrollbar, drawn as a column of wave strokes */}
+        <ScrollRail />
         {/*
          * The broadcast: a vignette and film grain over everything, so the whole page
          * reads as one transmission rather than a stack of panels. One still layer, no

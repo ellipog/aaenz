@@ -20,16 +20,3 @@ export function Clock() {
 
   return <span className="tabular-nums">{now ?? "--:--:--"}</span>;
 }
-
-/* A sync readout that never quite settles. */
-export function Sync() {
-  const [v, setV] = useState(99.7);
-
-  useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setV(99.2 + Math.random() * 0.8), 900);
-    return () => clearInterval(id);
-  }, []);
-
-  return <span className="tabular-nums">{v.toFixed(1)}%</span>;
-}

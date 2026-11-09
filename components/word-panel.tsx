@@ -29,9 +29,6 @@ export default function WordPanel() {
       >
         <div className="min-h-0 overflow-hidden">
           <div className="mt-6 w-[min(88vw,520px)] bg-[radial-gradient(ellipse_at_30%_40%,rgba(5,5,5,.96)_60%,rgba(5,5,5,.7))]">
-            <p className="mono m-0 px-1 pt-3 text-faint">
-              TRANSMISSION <span className="text-dim">〜 CH.08</span>
-            </p>
             <div className="px-1 py-5">
               <ContactForm embedded focusSignal={open} />
             </div>

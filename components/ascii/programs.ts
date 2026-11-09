@@ -631,18 +631,19 @@ export const stream: Program<{ x?: number; y?: number }> = {
  * keeps its own orbit, the inner ones quicker, trailing a wake of the strokes
  * of its own path. One of them is red.
  */
-export const vortex: Program<{ x?: number; y?: number }> = {
+export const vortex: Program<{ x?: number; y?: number; r?: number }> = {
   glyphs: () => ["900:核", "機", "・"],
   create(api, o) {
     const { cols, rows } = api;
     const core = api.g("900:核");
     const unit = api.g("機");
     const dot = api.g("・");
-    // on a narrow screen the text sits below, so the core rises to the middle-top
+    // on a narrow screen the text sits below, so the core rises to the middle-top, unless placed outright
     const narrow = cols < 50;
-    const cx = cols * (narrow ? 0.5 : o.x ?? 0.66);
-    const cy = rows * (narrow ? 0.34 : o.y ?? 0.5);
-    const R = Math.min(cols * (narrow ? 0.62 : 0.48), rows * 0.62);
+    const cx = cols * (o.x ?? (narrow ? 0.5 : 0.66));
+    const cy = rows * (o.y ?? (narrow ? 0.34 : 0.5));
+    // `r` sizes the vortex to the plate's short side, for a small plate with its words set below it
+    const R = o.r ? Math.min(cols, rows) * o.r : Math.min(cols * (narrow ? 0.62 : 0.48), rows * 0.62);
     const ARMS = 3;
     const B = 1.5; // how tightly the arms wind
     const fleet = Array.from({ length: 9 }, (_, k) => ({
@@ -761,6 +762,363 @@ export const river: Program<{ gate?: number }> = {
         else y = Math.round(w.lane * S + wave(x, t));
         const raw = x < gx;
         api.put(x, y, media[w.g], raw ? 0.55 : 1, w.red && !raw ? INK.RED : raw ? INK.DIM : INK.BONE);
+      }
+    };
+  },
+};
+
+/* ------------------------------------------------------ 算 spindle ------ */
+
+/*
+ * Calx: a spindle of threads. One stream of expressions, 式, comes in from the
+ * left and is dealt across the lanes of a `parallel for`: the lanes bulge apart,
+ * run side by side carrying their share of the work, 算, and pinch back into one
+ * stream that leaves as answers, 解. The spindle breathes through its thread
+ * counts — one lane splits in two, two into four, out to as many as the plate
+ * holds and back — and the answers coming out never change. Every few seconds,
+ * and on a click, a red front crosses every lane at once, and they all reach the
+ * join together. (Calx is Latin for a limestone pebble; calculus, the small one
+ * counted with, is where 算 comes in.)
+ */
+export const spindle: Program<{ x0?: number; x1?: number }> = {
+  glyphs: () => ["式", "算", "解", "900:解", "・"],
+  create(api, o) {
+    const { cols, rows } = api;
+    const expr = api.g("式");
+    const work = api.g("算");
+    const answer = api.g("解");
+    const join = api.g("900:解");
+    const dot = api.g("・");
+    // on a narrow screen the words sit below, so the spindle spans the width up top
+    const narrow = cols < 50;
+    const x0 = Math.floor(cols * (narrow ? 0.1 : o.x0 ?? 0.4));
+    const x1 = Math.ceil(cols * (narrow ? 0.9 : o.x1 ?? 0.9));
+    const cy = Math.round(rows * (narrow ? 0.25 : 0.5));
+    const H = rows * (narrow ? 0.16 : 0.34); // half the spindle at its widest
+    const span = x1 - x0;
+    // as many doublings as keep the lanes clear of each other at the widest
+    const L = Math.max(1, Math.min(4, Math.floor(Math.log2((2 * H) / 2.4))));
+    const V = 6; // cells a second, the same on every lane
+    const GAP = 8; // between the pieces of work on one lane
+    const GAP_IN = 5;
+    const GAP_OUT = 6;
+    const P = 3.6; // seconds one thread count lasts, its split included
+    const VF = 16; // how fast a front crosses
+
+    // 0 at the fork and the join, 1 along the middle where the lanes run side by side
+    const bulge = (x: number) => {
+      const u = (x - x0) / span;
+      return smooth(0, 0.32, u) * (1 - smooth(0.68, 1, u));
+    };
+    // the thread count as a level, 2^level lanes: held, then split (or merged), up to L and back down
+    const level = (t: number) => {
+      const s = t / P;
+      const k = Math.floor(s);
+      const pos = k % (2 * L);
+      const from = pos < L ? pos : 2 * L - pos;
+      const to = pos < L ? pos + 1 : 2 * L - pos - 1;
+      return from + (to - from) * smooth(0.6, 1, s - k);
+    };
+    // where lane k of 2^l sits across the spindle, from -1 to 1
+    const at = (k: number, l: number) => ((k + 0.5) / (1 << l)) * 2 - 1;
+    const sway = (x: number, t: number) => Math.sin(x * 0.13 - t * 1.3) * 0.7 * bulge(x);
+
+    const fronts: number[] = [];
+    let nextFront = 2.5;
+    // the breath starts partway up, so a still frame shows the spindle full
+    const shift = (L - 1) * P;
+
+    return (t) => {
+      while (api.taps.length) {
+        api.taps.shift();
+        fronts.push(t);
+      }
+      if (t >= nextFront) {
+        fronts.push(t);
+        nextFront = t + 7;
+      }
+      const heads: number[] = [];
+      for (let i = fronts.length - 1; i >= 0; i--) {
+        const x = (t - fronts[i]) * VF - 2;
+        if (x > cols + 6) fronts.splice(i, 1);
+        else heads.push(x);
+      }
+      // how close behind a front a column is: 1 on its head, falling off over five cells
+      const hot = (x: number) => {
+        let h = 0;
+        for (const fx of heads) {
+          const d = fx - x;
+          if (d >= 0 && d < 5) h = Math.max(h, 1 - d / 5);
+        }
+        return h;
+      };
+      const stroke = (x: number, y: number, theta: number, a: number) => {
+        const h = hot(x);
+        if (h > 0.78) api.put(x, y, flowGlyph(api, theta), 1, INK.RED);
+        else api.put(x, y, flowGlyph(api, theta), Math.min(1, a + 0.55 * h), INK.BONE);
+      };
+
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) if (hash(x, y, 51) > 0.988) api.put(x, y, dot, 0.08, INK.DIM);
+      }
+
+      // one stream in, one stream out
+      for (let x = 0; x < cols; x++) {
+        if (x > x0 && x < x1) continue;
+        stroke(x, cy, 0, 0.2 + 0.3 * (0.5 + 0.5 * Math.sin(x * 0.3 - t * 3)));
+      }
+      for (let x = (V * t) % GAP_IN; x < x0 - 1; x += GAP_IN) api.put(x, cy, expr, 0.75, INK.BONE);
+      for (let x = x1 + 2 + ((V * t) % GAP_OUT); x < cols; x += GAP_OUT) api.put(x, cy, answer, 0.9, INK.BONE);
+
+      // every lane the plate holds, faint: the cores the loop isn't using yet
+      for (let k = 0; k < 1 << L; k++) {
+        const y = (x: number) => cy + H * at(k, L) * bulge(x) + sway(x, t);
+        for (let x = x0; x <= x1; x++) api.put(x, y(x), flowGlyph(api, Math.atan2(y(x + 0.5) - y(x - 0.5), 1)), 0.13, INK.DIM);
+      }
+
+      // the lanes
+      const lam = level(t + shift);
+      const lo = Math.floor(lam + 1e-4);
+      const f = lam - lo;
+      const hi = f > 1e-3 ? Math.min(L, lo + 1) : lo;
+      const n = 1 << hi;
+      for (let k = 0; k < n; k++) {
+        const pk = k >> (hi - lo); // its lane at the level below: itself while a count holds
+        const off = at(pk, lo) + (at(k, hi) - at(pk, lo)) * (hi > lo ? f : 0);
+        const y = (x: number) => cy + H * off * bulge(x) + sway(x, t);
+        for (let x = x0; x <= x1; x++) {
+          const swell = 0.5 + 0.5 * Math.sin(x * 0.27 - t * 4 + k * 0.9);
+          stroke(x, y(x), Math.atan2(y(x + 0.5) - y(x - 0.5), 1), 0.14 + 0.3 * swell);
+        }
+        // the lane's share of the work, phased by k / n: a lane splitting keeps its pieces and the
+        // new one fades its own in between them
+        const born = hi > lo && k & 1 ? f : 1;
+        for (let x = x0 + ((V * t + (GAP * k) / n) % GAP); x < x1; x += GAP) {
+          const a = smooth(0.15, 0.6, bulge(x)) * born;
+          if (a > 0.04) api.put(x, y(x), work, 0.9 * a, INK.BONE);
+        }
+      }
+
+      // the join, lit red as a front comes through it
+      const arrived = heads.some((fx) => fx >= x1 && fx < x1 + 4);
+      api.put(x1, cy, join, 1, arrived ? INK.RED : INK.BONE);
+    };
+  },
+};
+
+/* ----------------------------------------------------- 晶 frontier ------ */
+
+/*
+ * Calcite: a world seen from above, made as it's flown over. A red 人 flies fast
+ * and two more walk; the server keeps every chunk within their view loaded. New
+ * ground decodes out of the void a chunk at a time, nearest first, so it grows
+ * out round each of them and runs ahead along the edge they fly into. Ground
+ * already made comes back whole from disk. Behind them chunks unload, dim, and
+ * fade if no one comes back; come back and the seed gives the same ground,
+ * block for block. Every loaded chunk ticks on one beat, the regions in
+ * lockstep, and where two players' views meet their regions run together. A
+ * click sends the red one there.
+ */
+export const frontier: Program = {
+  glyphs: () => ["砂", "草", "木", "森", "丘", "山", "900:山", "雪", "家", "900:人", "人", "・"],
+  create(api) {
+    const { cols, rows } = api;
+    const narrow = cols < 50;
+    const G = {
+      sand: api.g("砂"),
+      grass: api.g("草"),
+      tree: api.g("木"),
+      wood: api.g("森"),
+      hill: api.g("丘"),
+      peak: api.g("山"),
+      crag: api.g("900:山"),
+      snow: api.g("雪"),
+      home: api.g("家"),
+      flier: api.g("900:人"),
+      walker: api.g("人"),
+      dot: api.g("・"),
+    };
+    const kana = KATA.map((k) => api.g(k));
+
+    // the seed's world, made once: what each cell is, how strongly it's inked, and which way water runs
+    const SEA = 0;
+    const RIVER = 1;
+    const LAND = 2;
+    const N = cols * rows;
+    const kind = new Uint8Array(N);
+    const base = new Int16Array(N);
+    const tone = new Float32Array(N);
+    const flow = new Float32Array(N);
+    const height = (x: number, y: number) => fbm(x * 0.05 + 7.3, y * 0.05 - 7.3, 4);
+    const course = (x: number, y: number) => fbm(x * 0.028 + 91, y * 0.028 + 37, 3);
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const i = y * cols + x;
+        const h = height(x, y);
+        const r = course(x, y);
+        // about a fifth sea, half lowland, and the high ground inked up to snow on the few peaks
+        if (h < 0.37) {
+          kind[i] = SEA;
+          tone[i] = 0.14 + 0.22 * smooth(0.25, 0.37, h);
+        } else if (Math.abs(r - 0.5) < 0.009 && h > 0.4 && h < 0.56) {
+          // a river runs through the lowland along a contour of its own noise
+          kind[i] = RIVER;
+          flow[i] = Math.atan2(course(x, y + 0.5) - course(x, y - 0.5), course(x + 0.5, y) - course(x - 0.5, y)) + Math.PI / 2;
+          tone[i] = 0.34;
+        } else {
+          kind[i] = LAND;
+          const m = fbm(x * 0.09 + 40, y * 0.09 + 17, 3);
+          let g: number = G.grass;
+          let a = 0.3;
+          if (h < 0.4) [g, a] = [G.sand, 0.36];
+          else if (h < 0.6) {
+            if (m > 0.6) [g, a] = [G.wood, 0.58];
+            else if (m > 0.53) [g, a] = [G.tree, 0.48];
+            else if (hash(x, y, 61) > 0.993) [g, a] = [G.home, 0.85];
+            else if (hash(x, y, 62) < 0.45) [g, a] = [G.dot, 0.2];
+          } else if (h < 0.655) [g, a] = hash(x, y, 63) < 0.35 ? [G.dot, 0.2] : [G.hill, 0.4];
+          else if (h < 0.7) [g, a] = [G.peak, 0.6];
+          else if (h < 0.74) [g, a] = [G.crag, 0.8];
+          else [g, a] = [G.snow, 0.9];
+          base[i] = g;
+          tone[i] = a;
+        }
+      }
+    }
+
+    // chunks, C cells square: when each was made (-1: never, or forgotten) and last had a player in view
+    const C = 2;
+    const CX = Math.ceil(cols / C);
+    const CY = Math.ceil(rows / C);
+    const made = new Float32Array(CX * CY).fill(-1);
+    const seen = new Float32Array(CX * CY).fill(-1e9);
+    const VIEW = narrow ? 6 : 8; // view distance, in chunks
+    const DECODE = 0.45; // how long new ground takes to resolve
+    const FORGET = 26; // how long unloaded ground stays drawn
+    const RATE = 150; // chunks a second each player's region can make
+    // the chunks in view, nearest first
+    const ring: [number, number][] = [];
+    for (let dy = -VIEW; dy <= VIEW; dy++) {
+      for (let dx = -VIEW; dx <= VIEW; dx++) if (dx * dx + dy * dy <= VIEW * VIEW) ring.push([dx, dy]);
+    }
+    ring.sort((a, b) => a[0] * a[0] + a[1] * a[1] - (b[0] * b[0] + b[1] * b[1]));
+
+    type Player = { k: number; x: number; y: number; vx: number; vy: number; tx: number; ty: number; speed: number; budget: number; picks: number };
+    const players: Player[] = Array.from({ length: narrow ? 2 : 3 }, (_, k) => ({
+      k,
+      x: cols * (0.15 + 0.45 * hash(k, 71)),
+      y: rows * (narrow ? 0.15 + 0.4 * hash(k, 72) : 0.35 + 0.45 * hash(k, 72)),
+      vx: 0,
+      vy: 0,
+      tx: 0,
+      ty: 0,
+      speed: k === 0 ? 13 : 3.5 + 2 * hash(k, 73),
+      budget: 0,
+      picks: 0,
+    }));
+    // the next place to head for: the red one keeps to the side the words leave open, and all of them
+    // keep off the top, where this band runs under the one above
+    const pick = (p: Player) => {
+      p.picks++;
+      const [ax, bx] = p.k === 0 && !narrow ? [0.05, 0.6] : [0.05, 0.95];
+      const [ay, by] = narrow ? [0.12, 0.58] : [0.3, 0.86];
+      p.tx = cols * (ax + (bx - ax) * hash(p.k, p.picks, 81));
+      p.ty = rows * (ay + (by - ay) * hash(p.k, p.picks, 82));
+    };
+    players.forEach(pick);
+
+    let now = 0;
+    const step = (dt: number) => {
+      now += dt;
+      for (const p of players) {
+        const dx = p.tx - p.x;
+        const dy = p.ty - p.y;
+        const d = Math.hypot(dx, dy) || 1;
+        if (d < 2) pick(p);
+        // the heading eases round to the target rather than turning on the spot
+        const ease = Math.min(1, dt * (p.k === 0 ? 1.8 : 1.2));
+        p.vx += ((dx / d) * p.speed - p.vx) * ease;
+        p.vy += ((dy / d) * p.speed - p.vy) * ease;
+        p.x = clamp(p.x + p.vx * dt, 0, cols - 1);
+        p.y = clamp(p.y + p.vy * dt, 0, rows - 1);
+        // load what's in view, and make what's never been made while this tick's budget lasts
+        p.budget = Math.min(p.budget + RATE * dt, RATE * 0.25);
+        const pcx = Math.floor(p.x / C);
+        const pcy = Math.floor(p.y / C);
+        for (const [ox, oy] of ring) {
+          const cx = pcx + ox;
+          const cy = pcy + oy;
+          if (cx < 0 || cy < 0 || cx >= CX || cy >= CY) continue;
+          const c = cy * CX + cx;
+          if (made[c] < 0) {
+            if (p.budget < 1) continue;
+            p.budget--;
+            made[c] = now;
+          }
+          seen[c] = now;
+        }
+      }
+      for (let c = 0; c < made.length; c++) if (made[c] >= 0 && now - seen[c] > FORGET) made[c] = -1;
+    };
+    // fly a while first, so even a still frame has ground and wakes
+    for (let k = 0; k < 150; k++) step(1 / 30);
+
+    let last = 0;
+    return (t) => {
+      const dt = Math.min(0.1, Math.max(0, t - last));
+      last = t;
+      while (api.taps.length) {
+        const tap = api.taps.shift()!;
+        players[0].tx = clamp(tap.x, 1, cols - 2);
+        players[0].ty = clamp(tap.y, 1, rows - 2);
+      }
+      step(dt);
+      // every loaded chunk ticks on the same beat
+      const beat = Math.exp(-(now % 1.25) / 0.1);
+      const flick = Math.floor(now * 20);
+
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const c = Math.floor(y / C) * CX + Math.floor(x / C);
+          if (made[c] < 0) {
+            if (hash(x, y, 77) > 0.99) api.put(x, y, G.dot, 0.07, INK.DIM);
+            continue;
+          }
+          const age = now - made[c];
+          // new ground resolving: kana first, cells landing one by one
+          if (age < DECODE && hash(x, y, flick) > age / DECODE) {
+            api.put(x, y, kana[Math.floor(hash(x, y, flick + 7) * kana.length)], 0.5 + 0.4 * (1 - age / DECODE), INK.BONE);
+            continue;
+          }
+          const i = y * cols + x;
+          const loaded = now - seen[c] < 0.05;
+          // unloaded ground is on disk: dim, fading out
+          const k = loaded ? 1 + 0.45 * beat : 0.34 * (1 - smooth(FORGET * 0.4, FORGET, now - seen[c]));
+          const ink = loaded ? INK.BONE : INK.DIM;
+          if (kind[i] === SEA) {
+            if (hash(x, y, 79) < 0.4) continue;
+            // the sea swells: mostly 〜, turning to ノ and ヽ only on the crests
+            api.put(x, y, flowGlyph(api, Math.sin(x * 0.35 + y * 0.6 - now * 1.1) * 0.44), Math.min(1, tone[i] * k), ink);
+          } else if (kind[i] === RIVER) {
+            api.put(x, y, flowGlyph(api, flow[i]), Math.min(1, tone[i] * k), ink);
+          } else {
+            api.put(x, y, base[i], Math.min(1, tone[i] * k), ink);
+          }
+        }
+      }
+
+      // the players, each trailing the wake of its heading
+      for (const p of players) {
+        const v = Math.hypot(p.vx, p.vy);
+        if (v > 0.5) {
+          const ux = p.vx / v;
+          const uy = p.vy / v;
+          const len = p.k === 0 ? 7 : 3;
+          for (let j = 1; j <= len; j++) {
+            api.put(p.x - ux * j, p.y - uy * j, flowGlyph(api, Math.atan2(uy, ux)), 0.75 * (1 - j / (len + 1)), p.k === 0 ? INK.BONE : INK.DIM);
+          }
+        }
+        api.put(p.x, p.y, p.k === 0 ? G.flier : G.walker, 1, p.k === 0 ? INK.RED : INK.BONE);
       }
     };
   },
@@ -1746,5 +2104,5 @@ export const shore: Program = {
   },
 };
 
-export const programs = { hero, octagon, orb, rays, stream, vortex, river, current, clouds, kanji, world, strata, quests, stars, shore };
+export const programs = { hero, octagon, orb, rays, stream, vortex, river, spindle, frontier, current, clouds, kanji, world, strata, quests, stars, shore };
 export type ProgramName = keyof typeof programs;

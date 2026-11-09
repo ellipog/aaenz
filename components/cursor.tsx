@@ -1,209 +1,150 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { FAMILY, KATA, loadFonts } from "./ascii/engine";
 import { SHORE } from "./ascii/shore-shape";
 
 /*
- * The cursor is drawn in characters too. A red ■ marks the point; round it a
- * ring of 〜 strokes trails on a spring, stretching with the speed it is
- * dragged at, and swells red over anything that can be pressed, leaning toward
- * it. Over a field you type in, the waves line up into an I-beam. A press
- * opens a barrier ring and throws off a few kana. On the white sand of the
- * shore the ink turns to void.
+ * The cursor: a red ■ at the point, and four hairline corners standing round it
+ * as a small reticle. Over a link or a control the corners leave the point and
+ * lock onto what it will press, framing the words themselves (not the padding
+ * round them) in red; along a row of links they glide from one to the next, and
+ * a press snaps them in. A link too big to frame, like a whole card, locks onto
+ * the part of it nearest the pointer instead. The corners reach a little: with
+ * the pointer over empty ground or a plate, a link whose words are within a few
+ * pixels is locked onto all the same, and a press there goes to it (and not to
+ * the plate), so nobody has to land on the letters. Over a plate the reticle opens a
+ * little; over a field it folds away and the point stands up into a caret. On
+ * the white sand the ink turns to void.
  *
- * The point keeps the display's own pace: it reads raw pointer updates as they
- * arrive, draws on every frame the screen shows, and leads the pointer by the
- * frame still to come, so it sits under the hand rather than a frame behind.
+ * The point never moves on its own: it sits exactly where the pointer is, read
+ * from raw updates and set on whole device pixels, so it doesn't swim or shimmer.
+ * The corners ride along with whatever they hang on (the point, or the element
+ * they're locked to, through any scrolling) and springs only change their shape,
+ * so they never trail behind either.
  *
- * And it costs the page almost nothing, so that pace holds at 240Hz: every glyph
- * is cut once into a sprite (per ink) and stamped with a turn and a scale, rather
- * than set as type every frame, and the canvas is only as big as what it draws,
- * carried across the screen by the compositor instead of repainting the screen.
- *
- * Fine pointers only: touch, and anyone who asks for reduced motion, keep the
- * system cursor.
+ * All DOM: five small elements moved by transform on the compositor. Fine
+ * pointers only: touch, and anyone who asks for reduced motion, keep the system
+ * cursor.
  */
 
-type Rgb = [number, number, number];
-const BONE: Rgb = [236, 231, 219];
-const RED: Rgb = [227, 39, 29];
-const DIM: Rgb = [140, 135, 123];
-const VOID: Rgb = [5, 5, 5];
-
 const PRESSABLE =
-  'a[href], button:not(:disabled), [role="button"], summary, label, select, input[type="submit"], input[type="button"], input[type="checkbox"], input[type="radio"]';
+  'a[href], button:not(:disabled), [role="button"], summary, label, select, input[type="submit"], input[type="button"], input[type="checkbox"], input[type="radio"], [data-rail]';
 const TYPABLE = 'input, textarea, [contenteditable="true"]';
+const BONE = "#ece7db";
+const RED = "#e3271d";
+const VOID = "#050505";
+
+const ARM = 7; // each corner's arms, px
+const PAD = 6; // between the corners and what they frame
+const LOCK_W = 460; // the largest box the corners will frame
+const LOCK_H = 200;
+const REACH = 18; // how far from a link's words the corners still reach for it, px
+const LET_GO = 28; // and how far they follow it out before letting go
+const CORNERS = ["tl", "tr", "bl", "br"] as const;
 
 type Mode = "idle" | "press" | "text" | "plate";
+type Box = { l: number; t: number; r: number; b: number };
+type Spring = { x: number; y: number; vx: number; vy: number };
 
-interface Mote {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  age: number;
-  life: number;
-  ch: string;
-  kana: boolean;
-  ink: Rgb;
-  size: number;
-  seed: number;
-}
-
-interface Ring {
-  x: number;
-  y: number;
-  age: number;
-  ink: Rgb;
-}
-
-interface Stamp {
-  ch: string;
-  x: number;
-  y: number;
-  size: number;
-  rot: number;
-  ink: Rgb;
-  a: number;
-}
-
-const mix = (a: Rgb, b: Rgb, t: number): Rgb => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
-const kana = () => KATA[Math.floor(Math.random() * KATA.length)];
-const TAU = Math.PI * 2;
-// where each of the ring's eight waves goes in the I-beam: x, y and turn
-const BEAM: [number, number, number][] = [
-  [-5, -14, 0], [5, -14, 0],
-  [0, -8, Math.PI / 2], [0, -3, Math.PI / 2], [0, 2, Math.PI / 2], [0, 7, Math.PI / 2],
-  [-5, 14, 0], [5, 14, 0],
-];
-
-// sprites are cut at this size (css px), with room round the glyph; nothing the cursor draws is larger
-const FONT = 16;
-const BOX = 24;
-// the canvas, at rest: room for the ring and the point; it grows for a press or a fast throw
-const REST = 160;
-
-/** Glyphs cut once in white, then once per ink they are asked for. */
-function cutter(dpr: number) {
-  const D = Math.ceil(BOX * dpr);
-  const white = new Map<string, HTMLCanvasElement>();
-  const inked = new Map<string, HTMLCanvasElement>();
-  const blank = () => {
-    const c = document.createElement("canvas");
-    c.width = c.height = D;
-    return c;
-  };
-  const cut = (ch: string) => {
-    let c = white.get(ch);
-    if (!c) {
-      c = blank();
-      const g = c.getContext("2d")!;
-      g.font = `400 ${FONT * dpr}px ${FAMILY}`;
-      g.textAlign = "center";
-      g.textBaseline = "middle";
-      g.fillStyle = "#fff";
-      g.fillText(ch, D / 2, D / 2);
-      white.set(ch, c);
-    }
-    return c;
-  };
-  return {
-    D,
-    get(ch: string, ink: Rgb) {
-      // inks in between (the ring easing to red, or to void on the sand) share a sprite per step of 4
-      const r = Math.min(255, (ink[0] + 2) & ~3);
-      const g = Math.min(255, (ink[1] + 2) & ~3);
-      const b = Math.min(255, (ink[2] + 2) & ~3);
-      const key = `${ch}${r},${g},${b}`;
-      let c = inked.get(key);
-      if (!c) {
-        if (inked.size > 320) inked.clear();
-        c = blank();
-        const x = c.getContext("2d")!;
-        x.drawImage(cut(ch), 0, 0);
-        x.globalCompositeOperation = "source-in";
-        x.fillStyle = `rgb(${r},${g},${b})`;
-        x.fillRect(0, 0, D, D);
-        inked.set(key, c);
+/* What a reader sees of an element: its text, set tight, or its own box when it has none or is a control. */
+function inkBox(el: Element): Box | null {
+  const r = el.getBoundingClientRect();
+  if (r.width < 1 && r.height < 1) return null;
+  if (el.matches("button, input, select, textarea, label, [data-rail]")) return { l: r.left, t: r.top, r: r.right, b: r.bottom };
+  let box: Box | null = null;
+  const range = document.createRange();
+  const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+    if (!n.textContent?.trim()) continue;
+    range.selectNodeContents(n);
+    for (const q of range.getClientRects()) {
+      if (q.width < 1 || q.height < 1) continue;
+      if (!box) box = { l: q.left, t: q.top, r: q.right, b: q.bottom };
+      else {
+        box.l = Math.min(box.l, q.left);
+        box.t = Math.min(box.t, q.top);
+        box.r = Math.max(box.r, q.right);
+        box.b = Math.max(box.b, q.bottom);
       }
-      return c;
-    },
-  };
+    }
+  }
+  return box ?? { l: r.left, t: r.top, r: r.right, b: r.bottom };
+}
+
+const fits = (b: Box | null): b is Box => !!b && b.r - b.l <= LOCK_W && b.b - b.t <= LOCK_H;
+
+// how far a point is from a box, 0 inside it
+const gap = (x: number, y: number, b: Box) => Math.hypot(Math.max(b.l - x, 0, x - b.r), Math.max(b.t - y, 0, y - b.b));
+
+const ease = (v: number, to: number, rate: number, dt: number) => v + (to - v) * (1 - Math.exp(-dt * rate));
+
+// firm and just under critical damping, stepped finely so a slow frame can't throw it
+function spring(s: Spring, gx: number, gy: number, dt: number) {
+  const k = 900;
+  const d = 2 * Math.sqrt(k) * 0.86;
+  for (let i = 0, n = Math.ceil(dt / (1 / 240)); i < n; i++) {
+    const h = dt / n;
+    s.vx += ((gx - s.x) * k - s.vx * d) * h;
+    s.vy += ((gy - s.y) * k - s.vy * d) * h;
+    s.x += s.vx * h;
+    s.y += s.vy * h;
+  }
+  return Math.abs(gx - s.x) + Math.abs(gy - s.y) > 0.1 || Math.abs(s.vx) + Math.abs(s.vy) > 1;
 }
 
 export default function Cursor() {
-  const ref = useRef<HTMLCanvasElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
+    const host = ref.current;
+    if (!host) return;
     if (!matchMedia("(pointer: fine)").matches || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const ctx = canvas.getContext("2d")!;
+    const [point, ...corners] = Array.from(host.children) as HTMLElement[];
     const root = document.documentElement;
     root.classList.add("cursor");
 
-    let dpr = 1;
-    let sprites = cutter(1);
-    // the canvas's size and where its corner sits on the screen, in css px
-    let cw = 0;
-    let ch = 0;
-    let ox = 0;
-    let oy = 0;
-    let roomy = 0; // since when the canvas has been far bigger than it needs
-    const fit = (w: number, h: number) => {
-      cw = w;
-      ch = h;
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-    };
-    const size = () => {
-      const d = Math.min(window.devicePixelRatio || 1, 3);
-      if (d !== dpr || !cw) {
-        dpr = d;
-        sprites = cutter(dpr);
-        fit(REST, REST);
-      }
-    };
-    size();
-    // until the fonts are in, the sprites are cut from a fallback face; cut them again once they are
-    loadFonts(["〜", ...KATA]).then(() => {
-      sprites = cutter(dpr);
-    });
-
-    // where the pointer is, the last few places it was (to lead it by a frame), and the ring chasing it
-    const p = { x: window.innerWidth / 2, y: window.innerHeight / 2, seen: false, in: false, down: false };
-    const recent: { t: number; x: number; y: number }[] = [];
-    let frameGap = 1000 / 60;
-    const ring = { x: p.x, y: p.y, vx: 0, vy: 0, r: 15, spin: 0 };
-    let shown = 0; // the whole cursor fades in and out with the pointer
-    let hover = 0; // 0 → 1 over something pressable
-    let ground = 0; // 0 on the void, 1 on the white sand
-    let groundTarget = 0;
-    let plate = 0; // over a plate that answers the pointer
-    let typing = 0;
+    // the pointer, and what it is over
+    const p = { x: window.innerWidth / 2, y: window.innerHeight / 2, in: false, seen: false };
     let mode: Mode = "idle";
-    let target: Element | null = null;
-    let rescan = false; // the page moved under a still pointer: look again at what it is over
-    const motes: Mote[] = [];
-    const rings: Ring[] = [];
+    let target: Element | null = null; // the pressable element under the pointer
+    let under: Element | null = null; // the element under the pointer
+    let sand = false;
+    let rescan = false;
 
-    const inkHere = (): Rgb => (ground > 0.5 ? VOID : BONE);
+    // a pressable within reach when the pointer is over nothing of its own, and the one in play either way
+    let near: Element | null = null;
+    let active: Element | null = null;
+    // what the corners hang on: an element (with its framed box, relative to its own) or, when null, the point
+    let lock: Element | null = null;
+    let rel: Box = { l: 0, t: 0, r: 0, b: 0 };
+    const picked = { x: Number.NaN, y: Number.NaN, under: null as Element | null };
+    let downAt: { x: number; y: number } | null = null;
+    let held: Element | null | undefined; // what they hung on last frame
+    const was = { x: 0, y: 0 }; // where that was
+
+    const c: Spring[] = CORNERS.map(() => ({ x: 0, y: 0, vx: 0, vy: 0 }));
+    let placed = false;
+    let shown = 0;
+    let typing = 0;
+    let plate = 0;
+    let press = 0;
+    let ink = "";
+    let raf = 0;
+    let last = 0;
+    let dpr = 0;
 
     const classify = (el: Element | null) => {
+      under = el;
       target = null;
-      let onSand = false;
+      sand = false;
       if (el) {
         const shore = el.closest("[data-shore]");
         if (shore) {
           const r = shore.getBoundingClientRect();
-          onSand = (p.y - r.top) / r.height > SHORE + 0.015;
+          sand = (p.y - r.top) / r.height > SHORE + 0.015;
         }
-        if (el.closest('[data-ground="light"]')) onSand = true;
+        if (el.closest('[data-ground="light"]')) sand = true;
       }
-      groundTarget = onSand ? 1 : 0;
       if (!el) mode = "idle";
       else if (el.closest(TYPABLE) && !el.closest(PRESSABLE)) mode = "text";
       else if ((target = el.closest(PRESSABLE))) mode = "press";
@@ -211,261 +152,179 @@ export default function Cursor() {
       else mode = "idle";
     };
 
-    const burst = () => {
-      rings.push({ x: p.x, y: p.y, age: 0, ink: mode === "press" ? RED : inkHere() });
-      if (rings.length > 4) rings.shift();
-      for (let k = 0; k < 7; k++) {
-        const a = (k / 7) * Math.PI * 2 + Math.random() * 0.5;
-        const v = 70 + Math.random() * 90;
-        motes.push({
-          x: p.x,
-          y: p.y,
-          vx: Math.cos(a) * v,
-          vy: Math.sin(a) * v,
-          age: 0,
-          life: 0.45 + Math.random() * 0.3,
-          ch: kana(),
-          kana: true,
-          ink: k % 3 === 0 ? RED : inkHere(),
-          size: 10 + Math.random() * 3,
-          seed: Math.random() * 100,
-        });
+    // a link or button whose words are within reach of the pointer: hit tests on two rings round it, so
+    // anything covering a link hides it from these just as it would from a click
+    const reach = () => {
+      let best: Element | null = null;
+      let bestD = Infinity;
+      const seen = new Set<Element>();
+      const consider = (t: Element | null | undefined, limit: number) => {
+        if (!t || seen.has(t) || t.matches("[data-rail]")) return;
+        seen.add(t);
+        const box = inkBox(t);
+        if (!fits(box)) return;
+        const d = gap(p.x, p.y, box);
+        if (d <= limit && d < bestD) {
+          best = t;
+          bestD = d;
+        }
+      };
+      // the one already held is let go a little further out than it was reached for
+      if (near?.isConnected) consider(near, LET_GO);
+      for (const r of [REACH / 2, REACH]) {
+        for (let k = 0; k < 12; k++) {
+          const a = (k / 12) * Math.PI * 2;
+          consider(document.elementFromPoint(p.x + Math.cos(a) * r, p.y + Math.sin(a) * r)?.closest(PRESSABLE), REACH);
+        }
+      }
+      return best as Element | null;
+    };
+
+    // what the corners lock onto: the outermost part, from the pressable down to the pointer, small
+    // enough to frame; or, with the pointer out in a big card's margin, the part of the card nearest it
+    const pick = () => {
+      picked.x = p.x;
+      picked.y = p.y;
+      picked.under = under;
+      near = mode === "idle" || mode === "plate" ? reach() : null;
+      active = mode === "press" ? target : near;
+      lock = null;
+      if (!active || active.matches("[data-rail]")) return;
+      let box: Box | null = null;
+      const chain: Element[] = [];
+      for (let el: Element | null = mode === "press" ? under : active; el; el = el.parentElement) {
+        chain.push(el);
+        if (el === active) break;
+      }
+      for (let i = chain.length - 1; i >= 0 && !lock; i--) {
+        const b = inkBox(chain[i]);
+        if (fits(b)) {
+          lock = chain[i];
+          box = b;
+        }
+      }
+      if (!lock) {
+        let bestD = Infinity;
+        for (const el of active.querySelectorAll("*")) {
+          if (getComputedStyle(el).display !== "block") continue;
+          const b = inkBox(el);
+          if (!fits(b)) continue;
+          const d = gap(p.x, p.y, b);
+          if (d < bestD) {
+            lock = el;
+            box = b;
+            bestD = d;
+          }
+        }
+      }
+      if (lock && box) {
+        const r = lock.getBoundingClientRect();
+        rel = { l: box.l - r.left, t: box.t - r.top, r: box.r - r.left, b: box.b - r.top };
       }
     };
 
-    /* -- drawing -------------------------------------------------------------- */
-
-    // this frame's glyphs, gathered first so the canvas can be fitted round them before
-    // anything is drawn; the objects are kept and reused, frame to frame
-    const stamps: Stamp[] = [];
-    let count = 0;
-    let x0 = 0;
-    let y0 = 0;
-    let x1 = 0;
-    let y1 = 0;
-    const reach = (x: number, y: number, e: number) => {
-      if (x - e < x0) x0 = x - e;
-      if (y - e < y0) y0 = y - e;
-      if (x + e > x1) x1 = x + e;
-      if (y + e > y1) y1 = y + e;
-    };
-    const stamp = (glyph: string, x: number, y: number, px: number, rot: number, ink: Rgb, a: number) => {
-      if (a < 0.004) return;
-      const s = stamps[count] ?? (stamps[count] = { ch: "", x: 0, y: 0, size: 0, rot: 0, ink: BONE, a: 0 });
-      s.ch = glyph;
-      s.x = x;
-      s.y = y;
-      s.size = px;
-      s.rot = rot;
-      s.ink = ink;
-      s.a = a;
-      count++;
-      // the sprite's box, turned any way
-      reach(x, y, px * 1.1);
-    };
-
-    // the pointer a frame from now: its velocity over the last few samples, carried
-    // forward by the frame still to be shown, and never further than a short reach
-    const lead = (now: number) => {
-      while (recent.length > 2 && now - recent[0].t > 48) recent.shift();
-      const a = recent[0];
-      const b = recent[recent.length - 1];
-      if (!a || a === b || now - b.t > 40) return [p.x, p.y];
-      const span = Math.max(4, b.t - a.t);
-      const ahead = now - b.t + frameGap;
-      let lx = ((b.x - a.x) / span) * ahead;
-      let ly = ((b.y - a.y) / span) * ahead;
-      const d = Math.hypot(lx, ly);
-      if (d > 28) {
-        lx *= 28 / d;
-        ly *= 28 / d;
-      }
-      return [p.x + lx, p.y + ly];
-    };
-
-    let raf = 0;
-    let last = 0;
     const frame = (now: number) => {
+      raf = 0;
       const dt = Math.min(0.05, last ? (now - last) / 1000 : 1 / 60);
-      // the screen's own pace, learned from the gaps between frames
-      if (last && now - last < 60) frameGap += (now - last - frameGap) * 0.1;
       last = now;
+      const d = Math.min(window.devicePixelRatio || 1, 4);
+      if (d !== dpr) {
+        dpr = d;
+        // hairlines on whole device pixels: crisp at any scale
+        const bw = `${Math.max(1, Math.round(1.5 * dpr)) / dpr}px`;
+        for (const el of corners) el.style.borderWidth = bw;
+      }
+      const snap = (v: number) => Math.round(v * dpr) / dpr;
+      let looked = false;
       if (rescan) {
         rescan = false;
+        looked = true;
         classify(document.elementFromPoint(p.x, p.y));
       }
-      const [hx, hy] = lead(performance.now());
+      // look again for what to lock onto once the pointer has moved a pixel, or the page under it
+      if (looked || under !== picked.under || Math.abs(p.x - picked.x) + Math.abs(p.y - picked.y) >= 1) pick();
+      const pressing = !!active;
 
-      shown += ((p.in ? 1 : 0) - shown) * (1 - Math.exp(-dt * 10));
-      hover += ((mode === "press" ? 1 : 0) - hover) * (1 - Math.exp(-dt * 14));
-      plate += ((mode === "plate" ? 1 : 0) - plate) * (1 - Math.exp(-dt * 8));
-      typing += ((mode === "text" ? 1 : 0) - typing) * (1 - Math.exp(-dt * 14));
-      ground += (groundTarget - ground) * (1 - Math.exp(-dt * 10));
+      shown = ease(shown, p.in ? 1 : 0, 12, dt);
+      typing = ease(typing, mode === "text" ? 1 : 0, 16, dt);
+      plate = ease(plate, mode === "plate" ? 1 : 0, 10, dt);
+      press *= Math.exp(-dt * 7);
 
-      // the ring leans toward whatever it is over, if that is small enough to aim at
-      let tx = hx;
-      let ty = hy;
-      let R = 15 + plate * 7;
-      if (target && mode === "press") {
-        const r = target.getBoundingClientRect();
-        if (r.width < 320 && r.height < 140) {
-          tx += (r.left + r.width / 2 - hx) * 0.28;
-          ty += (r.top + r.height / 2 - hy) * 0.28;
-        }
-        R = 27;
+      // the frame the corners hang in this frame
+      let box: Box | null = null;
+      if (lock && pressing) {
+        const r = lock.getBoundingClientRect();
+        box = { l: r.left + rel.l, t: r.top + rel.t, r: r.left + rel.r, b: r.top + rel.b };
       }
-      if (p.down) R *= 0.62;
-
-      // a spring, a little loose, stepped finely so a slow frame can't throw it
-      const k = 520;
-      const damp = 2 * Math.sqrt(k) * 0.72;
-      for (let s = 0, n = Math.ceil(dt / (1 / 240)); s < n; s++) {
-        const h = dt / n;
-        ring.vx += ((tx - ring.x) * k - ring.vx * damp) * h;
-        ring.vy += ((ty - ring.y) * k - ring.vy * damp) * h;
-        ring.x += ring.vx * h;
-        ring.y += ring.vy * h;
+      const hang = box ? lock : null;
+      const ax = box ? box.l : p.x;
+      const ay = box ? box.t : p.y;
+      // carry the corners with what they hang on, so they never trail it; a change of hold glides on the springs
+      if (placed && hang === held) {
+        const dx = ax - was.x;
+        const dy = ay - was.y;
+        if (dx || dy) for (const k of c) (k.x += dx), (k.y += dy);
       }
-      ring.r += (R - ring.r) * (1 - Math.exp(-dt * 12));
-      const speed = Math.hypot(ring.vx, ring.vy);
-      ring.spin += dt * (0.5 + hover * 1.9 + Math.min(4, speed / 400));
+      held = hang;
+      was.x = ax;
+      was.y = ay;
 
-      count = 0;
-      x0 = y0 = Infinity;
-      x1 = y1 = -Infinity;
-
-      // kana thrown off by a press
-      for (let i = motes.length - 1; i >= 0; i--) {
-        const m = motes[i];
-        m.age += dt;
-        if (m.age >= m.life) {
-          motes.splice(i, 1);
-          continue;
-        }
-        const f = m.age / m.life;
-        const curl = Math.sin(m.seed + m.age * 5) * 14;
-        m.x += (m.vx + curl * 0.6) * dt;
-        m.y += (m.vy + curl * 0.3) * dt;
-        m.vx *= Math.exp(-dt * 2.4);
-        m.vy *= Math.exp(-dt * 2.4);
-        // kana flicker through the syllabary before they settle on one
-        if (m.kana && f < 0.45 && Math.random() < 0.5) m.ch = kana();
-        const a = Math.pow(1 - f, 1.4) * (m.ink === RED ? 1 : 0.85);
-        stamp(m.ch, m.x, m.y, m.size * (1 - f * 0.25), 0, m.ink, a * Math.max(shown, 0.4));
+      let goals: [number, number][];
+      if (box) {
+        const pad = PAD - press * 3;
+        goals = [
+          [box.l - pad, box.t - pad],
+          [box.r + pad, box.t - pad],
+          [box.l - pad, box.b + pad],
+          [box.r + pad, box.b + pad],
+        ];
+      } else {
+        const s = (pressing ? 14 : 9 + plate * 5) * (1 - press * 0.35) * (1 - 0.8 * typing);
+        goals = [
+          [p.x - s, p.y - s],
+          [p.x + s, p.y - s],
+          [p.x - s, p.y + s],
+          [p.x + s, p.y + s],
+        ];
+      }
+      if (!placed && p.seen) {
+        c.forEach((k, i) => {
+          k.x = goals[i][0];
+          k.y = goals[i][1];
+        });
+        placed = true;
       }
 
-      // barrier rings opening from a press
-      for (let i = rings.length - 1; i >= 0; i--) {
-        const rg = rings[i];
-        rg.age += dt;
-        const life = 0.7;
-        if (rg.age >= life) {
-          rings.splice(i, 1);
-          continue;
-        }
-        const f = rg.age / life;
-        const ease = 1 - Math.pow(1 - f, 3);
-        for (const [rad, ink, alpha] of [
-          [8 + ease * 64, rg.ink, 1],
-          [4 + ease * 46, DIM, 0.6],
-        ] as const) {
-          const n = 16;
-          for (let k = 0; k < n; k++) {
-            const a = (k / n) * Math.PI * 2;
-            // an octagon, not a circle: the radius bulges to meet its corners
-            const oct = Math.cos(Math.PI / 8) / Math.cos(((a % (Math.PI / 4)) - Math.PI / 8));
-            stamp("〜", rg.x + Math.cos(a) * rad * oct, rg.y + Math.sin(a) * rad * oct, 12, a + Math.PI / 2, ink, (1 - f) * alpha);
-          }
-        }
+      let moving = false;
+      for (let i = 0; i < 4; i++) {
+        if (spring(c[i], goals[i][0], goals[i][1], dt)) moving = true;
+        const ox = i % 2 ? -ARM : 0;
+        const oy = i > 1 ? -ARM : 0;
+        corners[i].style.transform = `translate3d(${snap(c[i].x + ox)}px,${snap(c[i].y + oy)}px,0)`;
       }
 
-      const vis = shown;
-      // the point: a red ■, drawing in over something to press so it doesn't sit on the
-      // words, and standing up into a caret over a field
-      const s = 5 - hover * 2 - (p.down ? 1 : 0);
-      const pw = s + (2 - s) * typing;
-      const ph = s + (15 - s) * typing;
-      if (vis > 0.01) {
-        const base = mix(BONE, VOID, ground);
-        const ink = mix(base, RED, hover);
-        // the ring: eight waves on an octagon, stretched along the way it is moving; over
-        // a field to type in they line up into an I-beam, two serifs and a wavering stem
-        const ux = speed > 1 ? ring.vx / speed : 1;
-        const uy = speed > 1 ? ring.vy / speed : 0;
-        const stretch = 1 + Math.min(0.7, speed / 1400) * (1 - typing);
-        const squash = 1 / Math.sqrt(stretch);
-        const ringA = (0.68 + 0.32 * hover - 0.18 * plate + 0.2 * typing) * vis;
-        for (let k = 0; k < 8; k++) {
-          const a = ring.spin + (k / 8) * Math.PI * 2;
-          const cx = Math.cos(a) * ring.r;
-          const cy = Math.sin(a) * ring.r;
-          const along = cx * ux + cy * uy;
-          const across = -cx * uy + cy * ux;
-          let x = ring.x + ux * along * stretch - uy * across * squash;
-          let y = ring.y + uy * along * stretch + ux * across * squash;
-          let rot = a + Math.PI / 2;
-          if (typing > 0.001) {
-            const [bx, by, br] = BEAM[k];
-            const t = typing * typing * (3 - 2 * typing);
-            x += (hx + bx - x) * t;
-            y += (hy + by - y) * t;
-            // turn the short way round to the beam's angle
-            const turn = ((((br - rot) % TAU) + TAU * 1.5) % TAU) - Math.PI;
-            rot += turn * t;
-          }
-          stamp("〜", x, y, 12 + hover * 3 - typing * 2, rot, ink, ringA);
-        }
-        reach(hx, hy, Math.max(pw, ph) / 2 + 1);
-      }
+      const want = pressing ? RED : sand ? VOID : BONE;
+      if (want !== ink) host.style.color = ink = want;
+      const cornerA = (shown * (1 - typing) * (pressing ? 1 : 0.7)).toFixed(3);
+      for (const el of corners) el.style.opacity = cornerA;
 
-      // fit the canvas round this frame's glyphs: grow it when they need more room, give the
-      // room back once they've stayed small a while, and set its corner on a whole device pixel
-      if (count || vis > 0.01) {
-        const w = x1 - x0;
-        const h = y1 - y0;
-        if (w > cw || h > ch) {
-          fit(Math.max(cw, Math.ceil((w + 32) / 64) * 64), Math.max(ch, Math.ceil((h + 32) / 64) * 64));
-          roomy = 0;
-        } else if (cw > REST && w < REST - 16 && h < REST - 16) {
-          if (!roomy) roomy = now;
-          else if (now - roomy > 1500) {
-            fit(REST, REST);
-            roomy = 0;
-          }
-        } else roomy = 0;
-        ox = Math.floor(((x0 + x1) / 2 - cw / 2) * dpr) / dpr;
-        oy = Math.floor(((y0 + y1) / 2 - ch / 2) * dpr) / dpr;
-        canvas.style.transform = `translate3d(${ox}px,${oy}px,0)`;
-      }
+      // the point, on whole device pixels: a red square, drawn in to a dot while the corners frame
+      // something (so it doesn't sit on the words), a caret over a field, a flash of ink on a press
+      const size = snap(box ? 3 : pressing ? 4 : 5);
+      const w = snap(size + (2 - size) * typing);
+      const h = snap(size + (16 - size) * typing);
+      point.style.width = `${w}px`;
+      point.style.height = `${h}px`;
+      point.style.transform = `translate3d(${snap(p.x - w / 2)}px,${snap(p.y - h / 2)}px,0)`;
+      point.style.opacity = shown.toFixed(3);
+      point.style.background = press > 0.55 ? (sand ? VOID : BONE) : RED;
 
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const { D } = sprites;
-      for (let i = 0; i < count; i++) {
-        const st = stamps[i];
-        const k = st.size / FONT;
-        const c = Math.cos(st.rot) * k;
-        const sn = Math.sin(st.rot) * k;
-        ctx.globalAlpha = st.a > 1 ? 1 : st.a;
-        ctx.setTransform(c, sn, -sn, c, (st.x - ox) * dpr, (st.y - oy) * dpr);
-        ctx.drawImage(sprites.get(st.ch, st.ink), -D / 2, -D / 2);
-      }
-      if (vis > 0.01) {
-        ctx.globalAlpha = vis;
-        ctx.setTransform(dpr, 0, 0, dpr, -ox * dpr, -oy * dpr);
-        ctx.fillStyle = "rgb(227,39,29)";
-        ctx.fillRect(hx - pw / 2, hy - ph / 2, pw, ph);
-      }
-      ctx.globalAlpha = 1;
-
-      const settling = Math.abs(ring.x - tx) + Math.abs(ring.y - ty) > 0.3 || speed > 1;
-      if (shown > 0.01 || motes.length || rings.length || settling) raf = requestAnimationFrame(frame);
-      else {
-        raf = 0;
-        last = 0;
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
+      const settling =
+        Math.abs(shown - (p.in ? 1 : 0)) > 0.004 ||
+        Math.abs(typing - (mode === "text" ? 1 : 0)) > 0.004 ||
+        Math.abs(plate - (mode === "plate" ? 1 : 0)) > 0.004;
+      if (moving || settling || press > 0.01) raf = requestAnimationFrame(frame);
+      else last = 0;
     };
     const kick = () => {
       if (!raf) raf = requestAnimationFrame(frame);
@@ -473,42 +332,61 @@ export default function Cursor() {
 
     /* -- input ---------------------------------------------------------------- */
 
-    const at = (x: number, y: number, t: number) => {
-      if (!p.seen) {
-        // first sight: the ring starts where the pointer is, not flying in from the middle
-        ring.x = x;
-        ring.y = y;
-        p.seen = true;
-      }
+    const at = (x: number, y: number) => {
       p.x = x;
       p.y = y;
       p.in = true;
-      recent.push({ t, x, y });
-      if (recent.length > 24) recent.shift();
+      p.seen = true;
       kick();
     };
     // raw updates arrive as fast as the hardware reports, ahead of the frame-aligned move
     const raw = "onpointerrawupdate" in window;
     const onRaw = (e: PointerEvent) => {
-      if (e.pointerType !== "touch") at(e.clientX, e.clientY, e.timeStamp);
+      if (e.pointerType !== "touch") at(e.clientX, e.clientY);
     };
     const onMove = (e: PointerEvent) => {
       if (e.pointerType === "touch") return;
-      if (!raw) {
-        const all = e.getCoalescedEvents?.() ?? [];
-        for (const c of all.length ? all : [e]) at(c.clientX, c.clientY, c.timeStamp);
-      }
+      if (!raw) at(e.clientX, e.clientY);
       classify(e.target as Element | null);
+      kick();
+    };
+    // a link within reach is what the press is for: a plate under the pointer doesn't also take it
+    // (no ripple, no mining), so the click can go to the link alone
+    const reaching = (e: { target: EventTarget | null }) => {
+      const t = near;
+      if (!t?.isConnected || mode === "press" || mode === "text") return null;
+      const hit = e.target as Element | null;
+      if (hit && (t.contains(hit) || hit.closest(`${PRESSABLE}, ${TYPABLE}`))) return null;
+      return t;
     };
     const onDown = (e: PointerEvent) => {
       if (e.pointerType === "touch") return;
-      p.down = true;
-      burst();
+      downAt = { x: e.clientX, y: e.clientY };
+      press = 1;
+      if (reaching(e)) e.stopPropagation();
       kick();
     };
-    const onUp = () => {
-      p.down = false;
-      kick();
+    // a click that lands near a link rather than on it goes to the link the corners are holding, so
+    // what the cursor shows is what a click does; a drag (selecting text) is left alone
+    const onClick = (e: MouseEvent) => {
+      const t = reaching(e);
+      if (!t || e.button !== 0) return;
+      if (!downAt || Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) > 6) return;
+      e.preventDefault();
+      e.stopPropagation();
+      t.dispatchEvent(
+        new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+          clientX: e.clientX,
+          clientY: e.clientY,
+          ctrlKey: e.ctrlKey,
+          metaKey: e.metaKey,
+          shiftKey: e.shiftKey,
+          altKey: e.altKey,
+        }),
+      );
     };
     const onOut = (e: PointerEvent) => {
       if (!e.relatedTarget) {
@@ -518,49 +396,54 @@ export default function Cursor() {
     };
     const onBlur = () => {
       p.in = false;
-      p.down = false;
       kick();
     };
-    // scrolling moves the page under a still pointer; what it is over is looked at again on the next frame
+    // scrolling moves the page under a still pointer: look again at what it's over on the next frame
     const onScroll = () => {
       if (!p.seen) return;
       rescan = true;
       kick();
     };
-    const onResize = () => {
-      size();
-      kick();
-    };
 
     if (raw) window.addEventListener("pointerrawupdate" as "pointermove", onRaw, { passive: true });
     window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("pointerdown", onDown, { passive: true });
-    window.addEventListener("pointerup", onUp, { passive: true });
+    // capture, so a press near a link is seen (and kept from a plate) before anything under it
+    window.addEventListener("pointerdown", onDown, { capture: true, passive: true });
+    window.addEventListener("click", onClick, true);
     document.addEventListener("pointerout", onOut);
     window.addEventListener("blur", onBlur);
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", kick);
 
     return () => {
       cancelAnimationFrame(raf);
       root.classList.remove("cursor");
       window.removeEventListener("pointerrawupdate" as "pointermove", onRaw);
       window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerdown", onDown);
-      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointerdown", onDown, true);
+      window.removeEventListener("click", onClick, true);
       document.removeEventListener("pointerout", onOut);
       window.removeEventListener("blur", onBlur);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", kick);
     };
   }, []);
 
   return (
-    <canvas
-      aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-[95] will-change-transform [contain:strict]"
-      ref={ref}
-      style={{ width: REST, height: REST }}
-    />
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[95] text-bone [contain:strict] [transition:color_.15s]" ref={ref}>
+      <span className="absolute left-0 top-0 opacity-0 will-change-transform" />
+      {CORNERS.map((k) => (
+        <span
+          className="absolute left-0 top-0 h-[7px] w-[7px] border-[1.5px] border-solid opacity-0 will-change-transform"
+          key={k}
+          style={{
+            borderLeftColor: k[1] === "l" ? "currentColor" : "transparent",
+            borderRightColor: k[1] === "r" ? "currentColor" : "transparent",
+            borderTopColor: k[0] === "t" ? "currentColor" : "transparent",
+            borderBottomColor: k[0] === "b" ? "currentColor" : "transparent",
+          }}
+        />
+      ))}
+    </div>
   );
 }

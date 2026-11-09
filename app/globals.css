@@ -66,6 +66,14 @@ html.cursor * {
   cursor: none !important;
 }
 
+/* The page scrolls as ever, but the browser's bar is gone: the wave rail stands in for it (components/scroll-rail.tsx). */
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js .reveal {
     opacity: 1;

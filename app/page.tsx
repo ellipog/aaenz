@@ -3,8 +3,8 @@ import { preload } from "react-dom";
 import Plate from "@/components/ascii/plate";
 import Decode from "@/components/decode";
 import Downloads from "@/components/downloads";
+import Glyph from "@/components/glyph";
 import Leaders from "@/components/leaders";
-import { Sync } from "@/components/readout";
 import Reveal from "@/components/reveal";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
@@ -17,29 +17,79 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-/* The two tools, each drawn as its own current: kern a vortex round its core, galdr a river made clean. */
+/*
+ * The two works, one standing on the other: Calx, the language, drawn as a spindle of threads that
+ * gives the same answer at every count; Calcite, the server written in it, as a world made chunk by
+ * chunk under the players flying over it. The spindle runs into the world.
+ */
 const works = [
+  {
+    glyph: "算",
+    name: "calx",
+    kind: "spindle",
+    desc: (
+      <>
+        A compiled language: memory-safe without a garbage collector, strict by default, and exact to
+        the bit on every platform. <span className="text-bone">parallel for</span> spreads a loop over
+        every core and gives the same answer as one thread, and on the tick loop it runs faster than Rust.
+      </>
+    ),
+    href: "https://calxlang.com",
+    host: "CALXLANG.COM",
+    label:
+      "One stream of work split across a spindle of parallel lanes, doubling and halving, then joined back into one unchanging stream of answers",
+    place: "md:left-[5%]",
+  },
+  {
+    glyph: "晶",
+    name: "calcite",
+    kind: "frontier",
+    desc: (
+      <>
+        A Minecraft Java Edition server written from scratch in Calx. Worldgen matches vanilla block for
+        block, checked bit for bit by an oracle rig, and regions tick on every core in lockstep, so the
+        thread count never changes what happens.
+      </>
+    ),
+    href: "https://calcitemc.com",
+    host: "CALCITEMC.COM",
+    label:
+      "A world seen from above, sea, sand, forest and mountains decoding chunk by chunk around a red figure flying over it and two others walking, the ground near them bright and ticking together, the ground behind dimming",
+    place: "md:right-[5%] md:text-right",
+  },
+] as const;
+
+/* Smaller things, kept all the same: each on a small plate of its own, stepping down the page. */
+const also = [
   {
     glyph: "核",
     name: "kern",
-    desc: "A desktop server manager. Register any project as a server instance, extend it with plugins, and command the whole fleet from one clean room.",
+    desc: "A desktop server manager. Register any project as an instance, extend it with plugins, and run the fleet from one room.",
     href: "https://kern.aaenz.no",
     host: "KERN.AAENZ.NO",
     kind: "vortex",
-    options: { x: 0.68 },
+    options: { x: 0.5, y: 0.5, r: 0.44 },
     label: "A fleet of server instances in orbit round one core, on winding spiral currents",
-    place: "md:left-[5%]",
   },
   {
     glyph: "詠",
     name: "galdr",
-    desc: "A rune-encrusted GUI around FFmpeg. Raw media in, enchanted media out — convert, compress, transcribe and cut without memorising a single incantation.",
+    desc: "A rune-encrusted GUI around FFmpeg. Convert, compress, transcribe and cut without memorising a single incantation.",
     href: "https://github.com/aaen-studios/galdr",
     host: "GITHUB.COM/AAEN-STUDIOS/GALDR",
     kind: "river",
     options: { gate: 0.3 },
     label: "A churning stream of media passing through an incantation and running out in clean even waves",
-    place: "md:right-[5%] md:text-right",
+  },
+  {
+    glyph: "読",
+    name: "yomion",
+    desc: "A local-first Japanese-learning app — a quiet web experiment.",
+    href: "https://yomion.com",
+    host: "YOMION.COM",
+    kind: "orb",
+    options: {},
+    label: "A turning globe of kanji ringed by orbiting kana, one red star on the ring",
   },
 ] as const;
 
@@ -70,12 +120,6 @@ export default function Home() {
             Software studio
           </p>
         </div>
-        <div className="mono pointer-events-none absolute bottom-6 right-5 text-right sm:right-7 max-sm:hidden">
-          <span className="block text-bone">
-            SYNC <Sync />
-          </span>
-          <span className="mt-1 block text-faint">© MMXXVI AAEN STUDIOS</span>
-        </div>
         <span
           aria-hidden="true"
           className="absolute bottom-[86px] left-1/2 h-[46px] w-px animate-cue bg-gradient-to-b from-bone/90 to-transparent max-sm:hidden"
@@ -85,7 +129,7 @@ export default function Home() {
       {/* the statement as a title card */}
       <section className="reveal relative px-5 pb-28 pt-28 sm:px-7" data-reveal id="statement">
         <div className="mx-auto max-w-[1240px]">
-          <h2 className="sr-only">Built to be stood on. Foundations for play, tools for work.</h2>
+          <h2 className="sr-only">Built to be stood on. Foundations, from the language up.</h2>
           <div aria-hidden="true" className="mt-16">
             <p className="mincho m-0 text-[clamp(56px,11vw,170px)] leading-[.95]">
               <Decode text="Built to be" />
@@ -97,21 +141,23 @@ export default function Home() {
           <div className="mt-20 grid gap-12 md:grid-cols-2">
             <div>
               <p className="mincho m-0 text-[clamp(24px,2.6vw,34px)] font-normal leading-snug">
-                Foundations for play,
+                Foundations,
                 <br />
-                tools for work.
+                from the language up.
               </p>
             </div>
             <div>
               <p className="m-0 max-w-[52ch] text-dim">
-                aaen studios is an independent software studio. Stellar is its foundation for
-                Minecraft, kern and galdr its tools — all designed, built and kept in-house.
+                aaen studios is an independent software studio. Calx is its language, Calcite the
+                Minecraft server written in it, and Stellar the suite that mods and packs are built on —
+                all designed, built and kept in-house.
               </p>
               <Leaders
                 rows={[
+                  ["LANGUAGE", "CALX"],
+                  ["SERVER", "CALCITE"],
                   ["FOUNDATION", "STELLAR"],
-                  ["TOOLS", "KERN ・ GALDR"],
-                  ["POLICY", "OPEN SOURCE"],
+                  ["SOURCE", "IN THE OPEN"],
                 ]}
               />
             </div>
@@ -134,19 +180,20 @@ export default function Home() {
               />
             </div>
             <div>
-              <p className="mono m-0 text-faint">THE BARRIER</p>
-              <h2 className="mincho m-0 mt-5 text-[clamp(34px,4.4vw,62px)] leading-[1.06]">
-                Open source, and <span className="text-red">offline</span> by default.
+              <h2 className="mincho m-0 text-[clamp(34px,4.4vw,62px)] leading-[1.06]">
+                Safe by default, <span className="text-red">exact</span> to the bit.
               </h2>
               <p className="m-0 mt-6 max-w-[52ch] text-dim">
-                kern and galdr are open source — read the code, open issues, fork them. Both are
-                native desktop apps for Windows, macOS and Linux.
+                Calx checks ownership while it compiles, so nothing is collected or counted while it
+                runs, and whatever it can&apos;t check waits behind <span className="text-bone">unsafe</span>.
+                Its numbers give the same bits on every platform, and Calcite answers to vanilla the same
+                way.
               </p>
               <Leaders
                 rows={[
-                  ["OPEN SOURCE", "APPROVED"],
-                  ["LOCAL-FIRST", "APPROVED"],
-                  ["WIN ・ MAC ・ LINUX", "APPROVED"],
+                  ["MEMORY-SAFE ・ NO GC", "APPROVED"],
+                  ["SAME INPUT ・ SAME ANSWER", "APPROVED"],
+                  ["VANILLA ・ BIT FOR BIT", "APPROVED"],
                 ]}
               />
             </div>
@@ -154,37 +201,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* the two desktop tools, a vortex and a river running into each other */}
+      {/* the two works, one standing on the other: the Calx spindle running into the Calcite world */}
       <section className="reveal relative pt-28" data-reveal id="works">
         <div className="mx-auto max-w-[1240px] px-5 sm:px-7">
           <h2 className="mincho m-0 mt-14 text-[clamp(36px,5vw,72px)] leading-[1.04]">
-            Two tools,
+            First the language,
             <br />
-            <span className="text-red">shipped and kept</span>.
+            <span className="text-red">then the world</span>.
           </h2>
         </div>
         {works.map((w, i) => (
           <div className={`relative h-[86vh] min-h-[560px] ${i === 0 ? "mt-2" : "-mt-[16vh]"}`} key={w.name}>
+            {/* both plates take clicks themselves: a front through the lanes, a flight across the world */}
             <Plate
               cell={13}
               cellSm={9}
               className="fade-y absolute inset-0"
               kind={w.kind}
               label={w.label}
-              options={w.options}
+              ripple={false}
             />
             <a
-              className={`group absolute inset-x-5 bottom-[8%] block max-w-[520px] bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.92)_58%,rgba(5,5,5,0))] px-8 py-12 no-underline sm:inset-x-7 md:inset-x-auto md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:px-14 md:py-16 ${w.place}`}
+              className={`group absolute inset-x-5 bottom-[8%] block max-w-[540px] bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.92)_58%,rgba(5,5,5,0))] px-8 py-12 no-underline sm:inset-x-7 md:inset-x-auto md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:px-14 md:py-16 ${w.place}`}
               href={w.href}
               rel="noreferrer"
               target="_blank"
             >
-              <span className="mono text-faint">
-                <span className="mincho mr-2 text-[13px] text-red">{w.glyph}</span>0{i + 1} 〜 OPEN SOURCE 〜 DESKTOP
-              </span>
-              {/* room under the name for a descender: the g of galdr */}
-              <span className="mincho mt-3 block pb-[.2em] text-[clamp(64px,8vw,128px)] leading-[.9] transition-colors group-hover:text-red">
+              <span className="mincho block pb-[.2em] text-[clamp(64px,8vw,128px)] leading-[.9] transition-colors group-hover:text-red">
                 {w.name}
+                <Glyph>{w.glyph}</Glyph>
               </span>
               <span className="mt-4 block text-dim">{w.desc}</span>
               <span className="mono mt-5 block text-bone transition-colors group-hover:text-red">{w.host} ↗</span>
@@ -194,11 +239,20 @@ export default function Home() {
         <p className="mono m-0 -mt-6 pb-4 text-center">
           <a
             className="text-dim transition-colors hover:text-red"
-            href="https://github.com/aaen-studios"
+            href="https://github.com/ellipog/calx"
             rel="noreferrer"
             target="_blank"
           >
-            GITHUB.COM/AAEN-STUDIOS ↗
+            GITHUB.COM/ELLIPOG/CALX ↗
+          </a>
+          <span className="text-red/80"> 〜 </span>
+          <a
+            className="text-dim transition-colors hover:text-red"
+            href="https://github.com/ellipog/calcite"
+            rel="noreferrer"
+            target="_blank"
+          >
+            CALCITE ↗
           </a>
         </p>
       </section>
@@ -215,12 +269,11 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-x-5 top-[22%] sm:inset-x-auto sm:right-[6%] sm:top-[30%]">
           <div className="bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.94)_62%,rgba(5,5,5,0))] px-10 py-12 sm:max-w-[520px]">
             <h2 className="mincho m-0 text-[clamp(26px,3.4vw,46px)] leading-tight">
-              One studio,
+              From the compiler
               <br />
-              <span className="text-red">two crafts</span>.
+              <span className="text-red">to the block</span>.
             </h2>
-            <p className="m-0 mt-4 text-dim">Designed, built and shipped in-house.</p>
-            <p className="mono m-0 mt-4 text-red">DESKTOP ＋ MINECRAFT</p>
+            <p className="m-0 mt-4 text-dim">Every layer designed, built and kept in-house.</p>
           </div>
         </div>
       </section>
@@ -228,8 +281,7 @@ export default function Home() {
       {/* the Minecraft work, one suite floating over a block world; every mod lives on /minecraft */}
       <section className="reveal relative pt-28" data-reveal id="minecraft">
         <div className="mx-auto max-w-[1240px] px-5 sm:px-7">
-          <p className="mono m-0 mt-14 text-faint">MINECRAFT</p>
-          <h2 className="mincho m-0 mt-5 text-[clamp(52px,8vw,124px)] leading-[.95]">
+          <h2 className="mincho m-0 mt-14 text-[clamp(52px,8vw,124px)] leading-[.95]">
             The <span className="whitespace-nowrap text-red">load-bearing</span>
             <br />
             <span className="pl-[1.2em]">parts.</span>
@@ -257,11 +309,9 @@ export default function Home() {
             className="group block max-w-[480px] px-5 pt-4 no-underline sm:px-7 md:absolute md:right-[4%] md:top-[6%] md:bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.92)_60%,rgba(5,5,5,0))] md:px-14 md:py-14 md:text-right"
             href="/minecraft#stellar"
           >
-            <span className="mono text-faint">
-              <span className="mincho mr-2 text-[13px] text-red">星</span>THE DEVELOPER SUITE
-            </span>
-            <span className="mincho mt-3 block text-[clamp(60px,7vw,112px)] leading-[.9] transition-colors group-hover:text-red">
+            <span className="mincho block text-[clamp(60px,7vw,112px)] leading-[.9] transition-colors group-hover:text-red">
               stellar
+              <Glyph>星</Glyph>
             </span>
             <span className="mt-4 block text-dim">
               Libraries and engines for people who make mods and packs, on Fabric and NeoForge.
@@ -288,36 +338,44 @@ export default function Home() {
         </div>
       </section>
 
-      {/* yomion, a globe of language */}
-      <section className="reveal relative px-5 py-28 sm:px-7" data-reveal id="yomion">
+      {/* also: three smaller things, each on a small plate of its own, stepping down the page */}
+      <section className="reveal relative px-5 py-28 sm:px-7" data-reveal id="also">
         <div className="mx-auto max-w-[1240px]">
-          <div className="mt-14 grid items-center gap-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-            <Plate
-              cell={13}
-              cellSm={8}
-              className="aspect-[16/10] w-full"
-              kind="orb"
-              label="A turning globe of kanji ringed by orbiting kana, one red star on the ring"
-              reveal="center"
-            />
-            <div>
-              <p className="mono m-0 text-faint">ALSO</p>
-              <h2 className="mincho m-0 mt-5 text-[clamp(56px,7vw,112px)] leading-none">yomion</h2>
-              <p className="mincho m-0 mt-5 text-[20px] font-normal">
-                <Decode text="読む、覚える、手元で。" />
-              </p>
-              <p className="m-0 mt-5 max-w-[46ch] text-dim">
-                A local-first Japanese-learning app — a quiet web experiment.
-              </p>
-              <a
-                className="mono mt-7 inline-block text-bone no-underline transition-colors hover:text-red"
-                href="https://yomion.com"
-                rel="noreferrer"
-                target="_blank"
-              >
-                YOMION.COM ↗
-              </a>
-            </div>
+          <h2 className="mincho m-0 mt-14 text-[clamp(40px,5.4vw,84px)] leading-[1.02]">
+            Smaller things,
+            <br />
+            <span className="pl-[1.2em]">
+              <span className="text-red">kept</span> all the same.
+            </span>
+          </h2>
+          <div className="mt-16 grid gap-x-10 gap-y-20 md:grid-cols-3">
+            {also.map((a, i) => (
+              <div className={i === 1 ? "md:mt-28" : i === 2 ? "md:mt-56" : undefined} key={a.name}>
+                <Plate
+                  cell={9}
+                  cellSm={8}
+                  className="fade-soft aspect-[4/3] w-full"
+                  kind={a.kind}
+                  label={a.label}
+                  options={a.options}
+                  reveal="center"
+                />
+                <a className="group mt-4 block no-underline" href={a.href} rel="noreferrer" target="_blank">
+                  {/* room under the name for a descender: the g of galdr */}
+                  <span className="mincho block pb-[.2em] text-[clamp(48px,4.6vw,72px)] leading-[.9] transition-colors group-hover:text-red">
+                    {a.name}
+                    <Glyph>{a.glyph}</Glyph>
+                  </span>
+                  {a.name === "yomion" ? (
+                    <span className="mincho mt-1 block text-[18px] font-normal">
+                      <Decode text="読む、覚える、手元で。" />
+                    </span>
+                  ) : null}
+                  <span className="mt-3 block max-w-[42ch] text-dim">{a.desc}</span>
+                  <span className="mono mt-4 block text-bone transition-colors group-hover:text-red">{a.host} ↗</span>
+                </a>
+              </div>
+            ))}
           </div>
         </div>
       </section>

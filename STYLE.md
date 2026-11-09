@@ -8,7 +8,8 @@ Every image on the page is drawn in characters. Kanji carry meaning and mass, ka
 
 **Japanese lives in the plates, not the type.** Everything you read is English. Japanese appears in the type only as a few accents:
 
-- the small red product glyphs (核 kern, 詠 galdr, 星 Stellar, 基 Armature, 律 Tenet, 読 yomion)
+- the small red product glyphs (算 Calx, 晶 Calcite, 星 Stellar, 基 Armature, 律 Tenet, and under ALSO 核 kern, 詠 galdr, 読 yomion). 算 is the count: calx is Latin for a limestone pebble, and calculus the small one counted with. 晶 is crystal, for the mineral.
+- 又 beside ALSO in the footer
 - the legend that keys the quest graph's glyphs, and the strata's layer kanji
 - the small red glyph beside each of the footer's links
 - the kana that flicker while a headline decodes
@@ -55,8 +56,10 @@ Under every page runs `current`, a fixed, faint field of wave strokes behind the
 | `hero` | `aaen` cut out of wings of light, sampled from `gen-winged-beams-plate.jpg`; dissolves on scroll | home hero |
 | `current` | the faint sitewide stream of wave strokes, carried by the scroll | behind every page |
 | `octagon` | wavering ripple rings round a red 人, thinning out at the rim, warped by the pointer | home barrier |
-| `vortex` | kern: a fleet of 機 orbiting one 核 on winding spiral currents | home works |
-| `river` | galdr: churning raw media (音 映 像 声) through a column of 詠唱, out as clean even waves | home works |
+| `spindle` | Calx: one stream of 式 dealt across the lanes of a `parallel for`, carrying 算, pinched back into one stream of 解. The lanes split 1→2→4… out to what the plate holds and merge back, with the idle ones ghosted in dim, and the answers coming out never change. A red front crosses every lane at once every few seconds and on a click, and lights the join | home works |
+| `frontier` | Calcite: a world from above (sea in 〜, 砂 草 木 森 丘 山 雪, rivers, the odd 家), made as it's flown over. A red 人 flies, two more walk; chunks in their view decode out of the void nearest first, reload whole from disk if made before, dim when unloaded and fade if no one returns. Loaded ground ticks on one beat, the regions in lockstep. A click sends the red 人 there | home works |
+| `vortex` | kern: a fleet of 機 orbiting one 核 on winding spiral currents (`x`, `y`, `r` place and size it on a small plate) | home also |
+| `river` | galdr: churning raw media (音 映 像 声) through a column of 詠唱, out as clean even waves | home also |
 | `kanji` | one big kanji drawn in smaller semantic kanji (無 in 無空虚) | 404 |
 | `rays` | a cross of light over a city of 目田口日 | home light |
 | `world` | a block world in cross-section (草 土 石 炭 鉄 金 玉 紅 雪 砂 盤 水 木 葉 花), in `world.ts`. A new world grows on each page load and keeps through re-layouts. A red 人 lives in it and plans: it weighs wood, stone, food and a roof before dark, and finds its way with A* through the blocks, cutting tunnels, setting 梯 ladders up shafts and bridging drops. It fells trees and plants them back, builds a house of 板 and 瓦 with a 戸, a 窓, a 灯 and a 箱, tills 田 for 麦, fishes, follows ore down lighting the way with 灯, goes home at dusk and sleeps (or digs in), fights 鬼 and 爆 at night, and waves when the pointer comes near. What it has in mind shows over its head. Round it: 羊 grazing, 魚 jumping, a flock of ヘ, rain and storms, fire through the canopy, lava setting to 黒, lamplight in the dark. A click mines (the 人 comes for the drop); a click on open sky calls lightning | home Minecraft, /minecraft hero |
@@ -65,7 +68,7 @@ Under every page runs `current`, a fixed, faint field of wave strokes behind the
 | `quests` | a breathing quest graph of 【章】【任】【条】【報】【墓】 on S-curves, with a completion front | /minecraft Tenet |
 | `clouds` | a sea of cloud crossed by causeways and processions of 人 | /minecraft, between two parts |
 | `shore` | the shore after everything: stars and a red streak falling down the sky, two faceless colossi crucified on nothing over a red sea (pale kanji flesh shaded from the softened silhouette, undersides lit red, shedding salt, a red light climbing them), a glint flaring on the horizon with a road of light under it, a ruin at the edge, then the white strand — swash running up and sliding back, wind combing the sand, footprints up out of the water | the footer, every page |
-| `orb` | a turning globe of 読語字言文書音声, ringed in kana | home yomion |
+| `orb` | a turning globe of 読語字言文書音声, ringed in kana | home also |
 | `stream` | words streaming from a red 人 on a curling current, each leaving a wake of strokes | home send word |
 
 `public/assets/gen-*.jpg` are the source plates the subjects come from (see `prompts.md`). Only `gen-winged-beams.jpg` is sampled live, through `gen-winged-beams-plate.jpg`: a greyscale copy at exactly half size, which is what the browser's own downscale reads at plate sizes, so the hero comes out the same from under a fifth of the bytes. If the source changes, cut the copy again the same way (halve with a box filter, then greyscale). The rest are reference for subjects and mood.
@@ -79,7 +82,7 @@ These are the rules from the redesign:
 - **Plates have no frames.** Feather their edges with `fade-y` (full-bleed bands) or `fade-soft` (a plate set among text). Text over a plate sits on a radial void glow, `bg-[radial-gradient(ellipse_closest-side,…)]`, not a box.
 - **No chapters.** No episode numbers, section rules, index rails or "next episode" cards. The page is one continuous run.
 - **Waves, not lines.** Separators in micro-type are `〜`. Flowing plates draw with the wave strokes, not ー and ｜.
-- **Bands run into each other.** Full-bleed plates overlap (the kern vortex runs into the galdr river) and feather out, so no band starts or stops on a hard line.
+- **Bands run into each other.** Full-bleed plates overlap (the Calx spindle runs into the Calcite world) and feather out, so no band starts or stops on a hard line.
 - **Say it once.** Don't add a caption or label a plate already says: no file headers, status lines or corner tags.
 - **Lists drift.** Rows step in (`Leaders`). Paired blocks stagger (the second work drops lower, Tenet answers Armature from the other side).
 - **Words sit on the picture.** Where a plate has a shape, the type is laid onto it from the same numbers: the footer's light (haze, sea glow, the streak's bloom, the white sand) and its words are placed from the horizon, waterline, streak and figure in `components/ascii/shore-shape.ts`, which the plate and the share card draw from too.
@@ -90,7 +93,8 @@ These are the rules from the redesign:
 - **Title cards**: heavy Mincho English set big and split across the page, with one red turn, such as *Built to be / stood on.*
 - **Decode**: headlines resolve out of scrambling kana (`Decode`). Latin text scrambles through half-width kana, so the line keeps its width.
 - **Readouts**: clock, sync percentage, live download count with rolling digits.
-- **The cursor** (`components/cursor.tsx`): drawn in characters over everything. A red ■ at the point, a ring of eight 〜 on a spring that stretches with speed, swells red and leans toward anything pressable, and lines up into an I-beam over fields. A press opens an octagonal ring with a few kana. No trail. It reads raw pointer updates and leads by a frame, so it keeps the display's pace, up to 240 Hz. Glyphs are stamped from cached sprites onto a small canvas that only covers the cursor and moves on the compositor. Touch and reduced motion keep the system cursor; on the white sand it inks in void.
+- **The cursor** (`components/cursor.tsx`): bracket lock. A red ■ at the point, exactly under the pointer (raw updates, no prediction, set on whole device pixels, so it never swims), and four hairline corners standing round it. Over a link or control the corners lock onto what it will press, framing its words tight rather than its padding, red; along a row of links they glide from one to the next, a press snaps them in, and the point draws in to a dot so it doesn't sit on the words. A link too big to frame (a whole card) locks onto the part nearest the pointer. The corners reach: within 18px of a link's words (over empty ground or a plate) the cursor locks onto it and a press goes to the link, not the plate, so nobody has to land on the letters; it lets go at 28px. Over a plate the reticle opens; over a field it folds away into a caret. The corners ride with what they hang on, through scrolling too, and springs only change their shape. Five DOM elements moved by transform. Touch and reduced motion keep the system cursor; on the white sand it inks in void.
+- **The rail** (`components/scroll-rail.tsx`): the scrollbar, drawn as type. A faint meandering column of ︴ down the right edge, the part in view inked red (the same column under a clip, so it slides smoothly). It rises while the page moves or the pointer nears the edge and sinks when still; drag the red, or press the rail to jump. The browser's bar is hidden.
 - **The council**: the contact form's three seats (I II III) deliberate, then vote APPROVED or REJECTED.
 - **The close**: the footer is the shore. *Whatever ships next.* is written in black on the white sand, the links lie beside it in two drifts like tide lines, each with its red glyph, and a red 大 lies where the footprints stop. The share card is the same shore, caught still, with the wordmark on the sand. There is no intro animation: the page opens straight on the hero.
 
@@ -102,7 +106,8 @@ Eva's *language* only: title cards, warnings, councils, barrier rings, crosses o
 
 ## The run
 
-- **/**: hero, aaen in wings of light · *Built to be stood on.* · the barrier, open source and offline · two tools: the kern vortex running into the galdr river · the cross of light, *One studio, two crafts.* · *The load-bearing parts.*: one card for the Stellar suite floating over the block world, plus downloads · yomion · send word, the stream · footer.
+- **/**: hero, aaen in wings of light · *Built to be stood on. Foundations, from the language up.* · the barrier, *Safe by default, exact to the bit.* · *First the language, then the world.*: the Calx spindle running into the Calcite world · the cross of light, *From the compiler to the block.* · *The load-bearing parts.*: one card for the Stellar suite floating over the block world, plus downloads · ALSO, *Smaller things, kept all the same.*: kern, galdr and yomion, each on a small plate, stepping down the page · send word, the stream · footer.
+- **Licences.** Calx is MIT; Calcite is source-available (BSL 1.1, each version MIT after two years). Don't call Calcite open source: the statement says SOURCE 〜 IN THE OPEN.
 - **/minecraft**: block-world hero *The load-bearing parts.* · released as ellipog, plus downloads · the Stellar constellation · one band per part of the suite (Armature with its strata, a causeway band, Tenet with its quest graph): name, the line that decodes, a general description, specs and links · footer.
 - **The Minecraft work grows.** Parts of the suite live in `lib/mods.ts`; add one there and /minecraft gives it a band. The home page only ever points at the suite. Keep the copy general and leave out counts (tasks, rewards, articles), which change with every release.
 - **404**: 無 drawn in 無空虚, *Nothing here.*, the council's verdicts.

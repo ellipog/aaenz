@@ -28,8 +28,7 @@ export default function NotFound() {
               reveal="center"
             />
             <div>
-              <p className="mono m-0 text-red">WARNING ・ 404</p>
-              <h1 className="mincho m-0 mt-6 text-[clamp(48px,6vw,92px)] leading-[1]">
+              <h1 className="mincho m-0 text-[clamp(48px,6vw,92px)] leading-[1]">
                 <Decode text="Nothing" /> <span className="text-red">here</span>.
               </h1>
               <p className="m-0 mt-6 max-w-[46ch] text-dim">

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const JP = Array.from("アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン光翼雲道核詠基律読使者天界");
+const JP = Array.from("アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン光翼雲道核詠基律読算晶使者天界");
 // Latin text decodes through half-width kana: about a letter's width, so the line holds still.
 const HALF = Array.from("ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ");
 

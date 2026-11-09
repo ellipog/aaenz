@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import Plate from "@/components/ascii/plate";
 import Decode from "@/components/decode";
 import Downloads from "@/components/downloads";
+import Glyph from "@/components/glyph";
 import Leaders from "@/components/leaders";
 import Reveal from "@/components/reveal";
 import SiteFooter from "@/components/site-footer";
@@ -102,12 +103,9 @@ function Part({ m, right }: { m: Mod; right: boolean }) {
   return (
     <section className="reveal relative px-5 py-28 sm:px-7" data-reveal id={m.name}>
       <div className="mx-auto max-w-[1240px]">
-        <p className={`mono m-0 mt-14 text-faint ${right ? "text-right" : ""}`}>
-          <span className="mincho mr-2 text-[13px] text-red">{m.glyph}</span>
-          {m.role}
-        </p>
-        <h2 className={`mincho m-0 mt-4 text-[clamp(64px,10vw,156px)] leading-[.86] ${right ? "text-right" : ""}`}>
+        <h2 className={`mincho m-0 mt-14 text-[clamp(64px,10vw,156px)] leading-[.86] ${right ? "text-right" : ""}`}>
           {m.name}
+          <Glyph>{m.glyph}</Glyph>
         </h2>
         <div className={`mt-6 ${right ? "md:mr-[38%] md:text-right" : "md:ml-[38%]"}`}>
           <p className="mincho m-0 text-[clamp(20px,2.2vw,28px)] font-normal leading-snug">
@@ -150,8 +148,7 @@ export default function Minecraft() {
         />
         <div className="pointer-events-none absolute inset-x-0 top-[84px] px-5 sm:px-7 md:left-[4%] md:top-[11%]">
           <div className="max-w-[860px] bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.94)_64%,rgba(5,5,5,0))] px-6 py-10 sm:px-12 sm:py-14">
-            <p className="mono m-0 text-faint">MINECRAFT</p>
-            <h1 className="mincho m-0 mt-6 text-[clamp(42px,6vw,88px)] leading-[.95]">
+            <h1 className="mincho m-0 text-[clamp(42px,6vw,88px)] leading-[.95]">
               The <span className="whitespace-nowrap text-red">load-bearing</span>
               <br />
               <span className="pl-[1.2em]">parts.</span>
@@ -170,8 +167,7 @@ export default function Minecraft() {
       <section className="px-5 pb-10 pt-16 sm:px-7">
         <div className="mx-auto flex max-w-[1240px] flex-wrap items-end justify-between gap-x-16 gap-y-10">
           <div>
-            <p className="mono m-0 text-faint">RELEASED AS</p>
-            <p className="mincho m-0 mt-3 text-[clamp(34px,4.6vw,60px)] leading-none">ellipog</p>
+            <p className="mincho m-0 text-[clamp(34px,4.6vw,60px)] leading-none">ellipog</p>
             <div className="mt-5 pl-[2.4em]">
               <Links links={elsewhere} />
             </div>
@@ -194,10 +190,10 @@ export default function Minecraft() {
         />
         <div className="pointer-events-none absolute bottom-[8%] left-0 px-5 sm:px-7 md:left-[3%]">
           <div className="bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.9)_58%,rgba(5,5,5,0))] px-8 py-12 sm:px-14">
-            <p className="mono m-0 text-faint">
-              <span className="mincho mr-2 text-[13px] text-red">星</span>THE DEVELOPER SUITE
-            </p>
-            <h2 className="mincho m-0 mt-3 text-[clamp(72px,12vw,180px)] leading-[.86]">stellar</h2>
+            <h2 className="mincho m-0 text-[clamp(72px,12vw,180px)] leading-[.86]">
+              stellar
+              <Glyph>星</Glyph>
+            </h2>
             <p className="mono pointer-events-auto m-0 mt-5 pl-[2.4em] text-faint">
               {suite.map((m, i) => (
                 <span key={m.name}>
