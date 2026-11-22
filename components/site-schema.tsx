@@ -35,6 +35,8 @@ const schema = {
         "https://github.com/ellipog/calcite",
         "https://calxlang.com",
         "https://calcitemc.com",
+        "https://github.com/aaen-studios/loom",
+        "https://loom.rip",
       ],
       url: "https://aaenz.no/",
     },

@@ -1124,6 +1124,229 @@ export const frontier: Program = {
   },
 };
 
+/* -------------------------------------------------------- 織 weave ------ */
+
+/*
+ * loom: agents at their looms, each on a loom of its own. The warp hangs from
+ * the top in ︴, and the agent throws its shuttle, 使, across it a pick at a
+ * time, weaving its cloth up from the bottom in 〜 and ︴, each loom in its own
+ * weave and at its own pace. What the agent does on a pick is written into that
+ * row before the shuttle gets there — 読 read, 書 write, 探 search, 見 browse,
+ * 記 note, 試 test — faint until it's done, so the cloth is the record. A risky
+ * action, 消 delete or 送 send, stops the shuttle short and waits in red until
+ * it's allowed, after a beat or at once on a click. A finished cloth fades and
+ * that loom starts on the next.
+ */
+export const weave: Program = {
+  glyphs: () => ["使", "読", "書", "探", "見", "記", "試", "消", "送", "・"],
+  create(api) {
+    const { cols, rows } = api;
+    const shuttle = api.g("使");
+    const safe = ["読", "書", "探", "見", "記", "試"].map((s) => api.g(s));
+    const risky = ["消", "送"].map((s) => api.g(s));
+    const dot = api.g("・");
+    const warpG = flowGlyph(api, Math.PI / 2);
+    const weftG = flowGlyph(api, 0);
+    // on a narrow screen the words sit below, so the looms span the width up top; on a wide one
+    // they stand clear of the words on the left
+    const narrow = cols < 50;
+    const x0 = Math.floor(cols * (narrow ? 0.06 : cols < 96 ? 0.6 : 0.48));
+    const x1 = Math.ceil(cols * (narrow ? 0.94 : 0.95));
+    const top = Math.round(rows * (narrow ? 0.04 : 0.08));
+    const bottom = Math.round(rows * (narrow ? 0.56 : 0.9));
+    const H = bottom - top;
+    const GAP = 2; // between looms: where a shuttle rests between throws
+    const n = Math.max(1, Math.round((x1 - x0 + GAP) / ((narrow ? 9 : 11) + GAP)));
+    const W = Math.max(4, Math.floor((x1 - x0 + GAP) / n) - GAP);
+    const REST = 0.45; // at the selvedge, the beat-up
+    const FADE = 2.6;
+
+    // whether the warp lies over the weft, cell by cell: twill, twill the other way, herringbone, basket
+    const weaves: ((x: number, y: number) => boolean)[] = [
+      (x, y) => ((x + y) & 3) < 2,
+      (x, y) => ((x - y) & 3) < 2,
+      (x, y) => (((x >> 2) & 1 ? x - y : x + y) & 3) < 2,
+      (x, y) => (((x >> 1) + (y >> 1)) & 1) === 0,
+    ];
+    const pickOf = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)];
+
+    type Loom = {
+      x: number;
+      pattern: number;
+      v: number; // the shuttle's speed, cells a second
+      length: number; // rows this cloth runs to
+      woven: number;
+      cloth: Int16Array; // an action woven into a cell, or -1 for the weave itself
+      dir: number;
+      pos: number; // the shuttle, from -1 (resting left) to W (resting right)
+      act: number; // where this pick's action goes, or -1
+      actG: number;
+      ask: boolean; // the action waits to be allowed
+      wait: number;
+      rest: number;
+      beat: number; // since the last row was beaten up
+      fade: number; // counts up once the cloth is finished
+    };
+
+    const begin = (l: Loom) => {
+      l.pattern = Math.floor(Math.random() * weaves.length);
+      l.v = 7 + Math.random() * 7;
+      l.length = Math.round(H * (0.5 + 0.4 * Math.random()));
+      l.woven = 0;
+      l.cloth.fill(-1);
+      l.fade = 0;
+      l.rest = 0.4 + Math.random() * 1.2;
+      l.act = -1;
+      l.ask = false;
+      l.wait = 0;
+    };
+    const pick = (l: Loom) => {
+      l.dir = l.pos >= W ? -1 : 1;
+      l.act = -1;
+      l.ask = false;
+      if (Math.random() < 0.4) {
+        l.act = Math.floor(Math.random() * W);
+        l.ask = Math.random() < 0.15;
+        l.actG = l.ask ? pickOf(risky) : pickOf(safe);
+      }
+    };
+
+    const looms: Loom[] = Array.from({ length: n }, (_, k) => {
+      const l: Loom = {
+        x: x0 + k * (W + GAP),
+        pattern: 0,
+        v: 0,
+        length: 0,
+        woven: 0,
+        cloth: new Int16Array(W * H).fill(-1),
+        dir: 1,
+        pos: Math.random() < 0.5 ? -1 : W,
+        act: -1,
+        actG: -1,
+        ask: false,
+        wait: 0,
+        rest: 0,
+        beat: 9,
+        fade: 0,
+      };
+      begin(l);
+      // already partway through, so the first frame (and a still one) shows the looms at work
+      l.woven = Math.floor(l.length * (0.15 + 0.75 * Math.random()));
+      for (let r = 0; r < l.woven; r++) {
+        if (Math.random() < 0.4) l.cloth[r * W + Math.floor(Math.random() * W)] = pickOf(safe);
+      }
+      return l;
+    });
+
+    const step = (l: Loom, dt: number) => {
+      l.beat += dt;
+      if (l.woven >= l.length) {
+        l.fade += dt;
+        if (l.fade > FADE) begin(l);
+        return;
+      }
+      if (l.rest > 0) {
+        l.rest -= dt;
+        if (l.rest <= 0) pick(l);
+        return;
+      }
+      if (l.wait > 0) {
+        l.wait -= dt;
+        if (l.wait <= 0) l.ask = false;
+        return;
+      }
+      const next = l.pos + l.dir * l.v * dt;
+      // a risky action stops the shuttle a cell short of it
+      const stop = l.act - l.dir;
+      if (l.ask && (l.dir > 0 ? l.pos < stop && next >= stop : l.pos > stop && next <= stop)) {
+        l.pos = stop;
+        l.wait = 1.8 + Math.random() * 1.6;
+        return;
+      }
+      l.pos = next;
+      if (l.dir > 0 ? l.pos >= W : l.pos <= -1) {
+        l.pos = l.dir > 0 ? W : -1;
+        if (l.act >= 0) l.cloth[l.woven * W + l.act] = l.actG;
+        l.act = -1;
+        l.woven++;
+        l.beat = 0;
+        l.rest = REST;
+      }
+    };
+
+    let last = -1;
+    return (t) => {
+      const dt = last < 0 ? 0 : Math.min(0.1, Math.max(0, t - last));
+      last = t;
+      // a click allows every action that's waiting
+      if (api.taps.length) {
+        api.taps.length = 0;
+        for (const l of looms) if (l.wait > 0) l.wait = 1e-6;
+      }
+
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) if (hash(x, y, 61) > 0.988) api.put(x, y, dot, 0.08, INK.DIM);
+      }
+
+      for (const l of looms) {
+        step(l, dt);
+        const fadeA = 1 - smooth(0.4, FADE, l.fade);
+        const fell = bottom - 1 - l.woven; // the row being woven
+        const done = l.woven >= l.length;
+
+        // the warp, fed down from the top, its threads parted into the shed just above the fell;
+        // while a finished cloth fades the warp comes back down through it
+        const reach = done ? bottom : fell;
+        for (let y = top; y < reach; y++) {
+          const shed = done ? 0 : 1 - smooth(1, 6, fell - y);
+          const under = y >= fell ? 1 - fadeA : 1;
+          for (let c = 0; c < W; c += 2) {
+            const up = ((c >> 1) + l.woven) & 1;
+            const feed = 0.75 + 0.25 * Math.sin(y * 0.45 - t * 2.2 + c * 0.7);
+            const a = (0.26 + shed * (up ? 0.3 : -0.12)) * feed * smooth(top - 1, top + 5, y) * under;
+            if (a > 0.03) api.put(l.x + c, y, warpG, a, INK.BONE);
+          }
+        }
+
+        // the cloth, catching the light as it moves across
+        if (fadeA > 0.45) {
+          for (let r = 0; r < l.woven; r++) {
+            const y = bottom - 1 - r;
+            const fresh = r === l.woven - 1 ? 1 - smooth(0, 0.5, l.beat) : 0;
+            for (let c = 0; c < W; c++) {
+              const x = l.x + c;
+              const g = l.cloth[r * W + c];
+              if (g >= 0) {
+                api.put(x, y, g, Math.min(1, 0.85 + fresh) * fadeA, INK.BONE);
+                continue;
+              }
+              const s = Math.sin(x * 0.16 + y * 0.3 - t * 0.9);
+              const sheen = 0.8 + 0.5 * (s > 0 ? s * s * s : 0);
+              const over = weaves[l.pattern](c, r);
+              api.put(x, y, over ? warpG : weftG, Math.min(1, (over ? 0.36 : 0.22) * sheen + 0.4 * fresh) * fadeA, INK.BONE);
+            }
+          }
+        }
+        if (done) continue;
+
+        // this pick: the weft laid behind the shuttle, and its action written in ahead of it
+        const sx = Math.round(l.pos);
+        for (let c = 0; c < W; c++) {
+          const behind = l.rest > 0 ? false : l.dir > 0 ? c < sx : c > sx;
+          if (behind) api.put(l.x + c, fell, weftG, 0.42, INK.BONE);
+        }
+        if (l.act >= 0) {
+          const waiting = l.wait > 0 && l.ask;
+          const passed = l.dir > 0 ? sx > l.act : sx < l.act;
+          if (waiting) api.put(l.x + l.act, fell, l.actG, 0.75 + 0.25 * Math.sin(t * 5), INK.RED);
+          else api.put(l.x + l.act, fell, l.actG, passed ? 0.9 : 0.3, passed ? INK.BONE : INK.DIM);
+        }
+        api.put(l.x + sx, fell, shuttle, 1, INK.BONE);
+      }
+    };
+  },
+};
+
 /* ------------------------------------------------------ 流 current ------ */
 
 /*
@@ -2104,5 +2327,5 @@ export const shore: Program = {
   },
 };
 
-export const programs = { hero, octagon, orb, rays, stream, vortex, river, spindle, frontier, current, clouds, kanji, world, strata, quests, stars, shore };
+export const programs = { hero, octagon, orb, rays, stream, vortex, river, spindle, frontier, weave, current, clouds, kanji, world, strata, quests, stars, shore };
 export type ProgramName = keyof typeof programs;

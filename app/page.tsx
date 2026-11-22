@@ -149,13 +149,14 @@ export default function Home() {
             <div>
               <p className="m-0 max-w-[52ch] text-dim">
                 aaen studios is an independent software studio. Calx is its language, Calcite the
-                Minecraft server written in it, and Stellar the suite that mods and packs are built on —
-                all designed, built and kept in-house.
+                Minecraft server written in it, loom an agent app built on it, and Stellar the suite that
+                mods and packs are built on — all designed, built and kept in-house.
               </p>
               <Leaders
                 rows={[
                   ["LANGUAGE", "CALX"],
                   ["SERVER", "CALCITE"],
+                  ["AGENTS", "LOOM"],
                   ["FOUNDATION", "STELLAR"],
                   ["SOURCE", "IN THE OPEN"],
                 ]}
@@ -236,7 +237,7 @@ export default function Home() {
             </a>
           </div>
         ))}
-        <p className="mono m-0 -mt-6 pb-4 text-center">
+        <p className="mono relative m-0 -mt-6 pb-4 text-center">
           <a
             className="text-dim transition-colors hover:text-red"
             href="https://github.com/ellipog/calx"
@@ -336,6 +337,56 @@ export default function Home() {
             ))}
           </p>
         </div>
+      </section>
+
+      {/* loom: agents at their looms, every row of cloth the record of what one did */}
+      <section className="reveal relative pt-28" data-reveal id="loom">
+        <div className="mx-auto max-w-[1240px] px-5 sm:px-7">
+          <h2 className="mincho m-0 mt-14 text-[clamp(36px,5vw,72px)] leading-[1.04]">
+            Agents,
+            <br />
+            <span className="pl-[1.2em]">
+              on your <span className="text-red">own</span> machines.
+            </span>
+          </h2>
+        </div>
+        <div className="relative mt-2 h-[86vh] min-h-[560px]">
+          <Plate
+            cell={13}
+            cellSm={9}
+            className="fade-y absolute inset-0"
+            kind="weave"
+            label="Looms side by side, drawn in characters: on each a shuttle crosses back and forth weaving cloth up from the bottom, with what its agent did written into the rows, and now and then a shuttle stops at a red action and waits until it is allowed"
+          />
+          <a
+            className="group absolute inset-x-5 bottom-[8%] block max-w-[540px] bg-[radial-gradient(ellipse_closest-side,rgba(5,5,5,.92)_58%,rgba(5,5,5,0))] px-8 py-12 no-underline sm:inset-x-7 md:inset-x-auto md:bottom-auto md:left-[5%] md:top-1/2 md:-translate-y-1/2 md:px-14 md:py-16"
+            href="https://loom.rip"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span className="mincho block pb-[.2em] text-[clamp(64px,8vw,128px)] leading-[.9] transition-colors group-hover:text-red">
+              loom
+              <Glyph>織</Glyph>
+            </span>
+            <span className="mt-4 block text-dim">
+              A self-hostable agent app. Agents run on the agent programs you already use, such as Claude
+              Code, Codex and Gemini CLI, on your own server or on your PC with no server at all. Rules
+              decide what each one may do, and every action is recorded before it happens.
+            </span>
+            <span className="mono mt-5 block text-faint">SERVER IN CALX 〜 OPEN SOURCE 〜 MIT</span>
+            <span className="mono mt-2 block text-bone transition-colors group-hover:text-red">LOOM.RIP ↗</span>
+          </a>
+        </div>
+        <p className="mono relative m-0 -mt-6 pb-4 text-center">
+          <a
+            className="text-dim transition-colors hover:text-red"
+            href="https://github.com/aaen-studios/loom"
+            rel="noreferrer"
+            target="_blank"
+          >
+            GITHUB.COM/AAEN-STUDIOS/LOOM ↗
+          </a>
+        </p>
       </section>
 
       {/* also: three smaller things, each on a small plate of its own, stepping down the page */}

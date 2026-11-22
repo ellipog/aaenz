@@ -8,7 +8,7 @@ Every image on the page is drawn in characters. Kanji carry meaning and mass, ka
 
 **Japanese lives in the plates, not the type.** Everything you read is English. Japanese appears in the type only as a few accents:
 
-- the small red product glyphs (算 Calx, 晶 Calcite, 星 Stellar, 基 Armature, 律 Tenet, and under ALSO 核 kern, 詠 galdr, 読 yomion). 算 is the count: calx is Latin for a limestone pebble, and calculus the small one counted with. 晶 is crystal, for the mineral.
+- the small red product glyphs (算 Calx, 晶 Calcite, 織 loom, 星 Stellar, 基 Armature, 律 Tenet, and under ALSO 核 kern, 詠 galdr, 読 yomion). 算 is the count: calx is Latin for a limestone pebble, and calculus the small one counted with. 晶 is crystal, for the mineral. 織 is to weave.
 - 又 beside ALSO in the footer
 - the legend that keys the quest graph's glyphs, and the strata's layer kanji
 - the small red glyph beside each of the footer's links
@@ -58,6 +58,7 @@ Under every page runs `current`, a fixed, faint field of wave strokes behind the
 | `octagon` | wavering ripple rings round a red 人, thinning out at the rim, warped by the pointer | home barrier |
 | `spindle` | Calx: one stream of 式 dealt across the lanes of a `parallel for`, carrying 算, pinched back into one stream of 解. The lanes split 1→2→4… out to what the plate holds and merge back, with the idle ones ghosted in dim, and the answers coming out never change. A red front crosses every lane at once every few seconds and on a click, and lights the join | home works |
 | `frontier` | Calcite: a world from above (sea in 〜, 砂 草 木 森 丘 山 雪, rivers, the odd 家), made as it's flown over. A red 人 flies, two more walk; chunks in their view decode out of the void nearest first, reload whole from disk if made before, dim when unloaded and fade if no one returns. Loaded ground ticks on one beat, the regions in lockstep. A click sends the red 人 there | home works |
+| `weave` | loom: agents at their looms, side by side. Warp hangs from the top in ︴, and each agent throws its shuttle 使 across a pick at a time, weaving cloth up from the bottom in 〜 and ︴, each loom in its own weave (twill either way, herringbone, basket) and at its own pace. A pick's action (読 書 探 見 記 試) is written into the row before the shuttle reaches it, faint until done, so the cloth is the record. A risky one (消 送) stops the shuttle short and waits in red until allowed, after a beat or at once on a click. A finished cloth fades and the loom starts again | home loom |
 | `vortex` | kern: a fleet of 機 orbiting one 核 on winding spiral currents (`x`, `y`, `r` place and size it on a small plate) | home also |
 | `river` | galdr: churning raw media (音 映 像 声) through a column of 詠唱, out as clean even waves | home also |
 | `kanji` | one big kanji drawn in smaller semantic kanji (無 in 無空虚) | 404 |
@@ -106,8 +107,8 @@ Eva's *language* only: title cards, warnings, councils, barrier rings, crosses o
 
 ## The run
 
-- **/**: hero, aaen in wings of light · *Built to be stood on. Foundations, from the language up.* · the barrier, *Safe by default, exact to the bit.* · *First the language, then the world.*: the Calx spindle running into the Calcite world · the cross of light, *From the compiler to the block.* · *The load-bearing parts.*: one card for the Stellar suite floating over the block world, plus downloads · ALSO, *Smaller things, kept all the same.*: kern, galdr and yomion, each on a small plate, stepping down the page · send word, the stream · footer.
-- **Licences.** Calx is MIT; Calcite is source-available (BSL 1.1, each version MIT after two years). Don't call Calcite open source: the statement says SOURCE 〜 IN THE OPEN.
+- **/**: hero, aaen in wings of light · *Built to be stood on. Foundations, from the language up.* · the barrier, *Safe by default, exact to the bit.* · *First the language, then the world.*: the Calx spindle running into the Calcite world · the cross of light, *From the compiler to the block.* · *The load-bearing parts.*: one card for the Stellar suite floating over the block world, plus downloads · *Agents, on your own machines.*: loom over its looms · ALSO, *Smaller things, kept all the same.*: kern, galdr and yomion, each on a small plate, stepping down the page · send word, the stream · footer.
+- **Licences.** Calx and loom are MIT (loom's name and knot logo aren't covered); Calcite is source-available (BSL 1.1, each version MIT after two years). Don't call Calcite open source: the statement says SOURCE 〜 IN THE OPEN.
 - **/minecraft**: block-world hero *The load-bearing parts.* · released as ellipog, plus downloads · the Stellar constellation · one band per part of the suite (Armature with its strata, a causeway band, Tenet with its quest graph): name, the line that decodes, a general description, specs and links · footer.
 - **The Minecraft work grows.** Parts of the suite live in `lib/mods.ts`; add one there and /minecraft gives it a band. The home page only ever points at the suite. Keep the copy general and leave out counts (tasks, rewards, articles), which change with every release.
 - **404**: 無 drawn in 無空虚, *Nothing here.*, the council's verdicts.

@@ -7,7 +7,7 @@ import "./globals.css";
 
 const title = "aaen studios — Calx, Calcite and Stellar";
 const description =
-  "Aaen Studios is an independent software studio — Calx, a compiled language that is memory-safe without a garbage collector and exact to the bit; Calcite, a Minecraft server written from scratch in it; and Stellar, a suite of Minecraft mods for Fabric and NeoForge. Also kern, galdr and yomion.";
+  "Aaen Studios is an independent software studio — Calx, a compiled language that is memory-safe without a garbage collector and exact to the bit; Calcite, a Minecraft server written from scratch in it; loom, a self-hostable agent app built on it; and Stellar, a suite of Minecraft mods for Fabric and NeoForge. Also kern, galdr and yomion.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aaenz.no"),

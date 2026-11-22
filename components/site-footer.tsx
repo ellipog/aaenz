@@ -20,6 +20,7 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
     ["作", "WORKS", `${base}#works`],
     ["算", "CALX", "https://calxlang.com"],
     ["晶", "CALCITE", "https://calcitemc.com"],
+    ["織", "LOOM", "https://loom.rip"],
     ["星", "MINECRAFT", "/minecraft"],
     ["又", "ALSO", `${base}#also`],
     ["典", "ELLIPOG.DEV", "https://ellipog.dev"],
@@ -99,9 +100,12 @@ export default function SiteFooter({ home = true }: { home?: boolean }) {
 
         <ul className="absolute right-[3.5%] m-0 hidden h-[15%] w-[53%] list-none p-0 lg:block" style={{ top: sand(0.3) }}>
           {links.map(([glyph, label, href], i) => {
-            const row = i < 5 ? 0 : 1;
-            const c = i % 5;
-            const left = c * 19 + row * 8;
+            // two drifts, the first the longer when the count is odd, the second set in by half a step
+            const per = Math.ceil(links.length / 2);
+            const step = 96 / per;
+            const row = i < per ? 0 : 1;
+            const c = i - row * per;
+            const left = c * step + row * (step / 2);
             const top = row * 55 + 12 + 12 * Math.sin(c * 0.9 + row * 1.8 + 0.3);
             return (
               <li className="absolute" key={label} style={{ left: `${left}%`, top: `${top.toFixed(1)}%` }}>
